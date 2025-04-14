@@ -1,0 +1,16 @@
+export const sanitizeError = (error: any) => {
+  if (error?.response?.data?.message) {
+    return error.response.data.message;
+  }
+  return "Something went wrong!";
+};
+
+export const getStaleTimeInMinutes = (minutes: number) => {
+  if (!minutes) return 0;
+  return 1000 * 60 * minutes;
+};
+
+export const humanizeCapital = (word: string) => {
+  if (!word) return "-";
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+};
