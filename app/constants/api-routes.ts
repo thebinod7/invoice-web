@@ -1,3 +1,3 @@
 export const API_ROUTES = {
-    INVOICE: '/app/invoice',
+    GENERATE_INVOICE: '/app/generate-invoice',
 };
