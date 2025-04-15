@@ -6,6 +6,8 @@ import React from 'react'
 import { toast } from 'sonner';
 
 const sample_payload = {
+    companyLogo:'',
+    currency:'USD',
     companyName: "Awesome Company Inc",
     invoiceNumber: "INV-20250413",
     invoiceDate: "2025-04-13",

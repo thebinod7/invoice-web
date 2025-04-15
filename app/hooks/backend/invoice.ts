@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 export const useGetMeQuery = (isLoggedIn: boolean) => {
     return useQuery({
         queryKey: [QUERY_KEYS.USER.ME],
-        queryFn: () => getRequest(`${API_ROUTES.INVOICE}`),
+        queryFn: () => getRequest(`${API_ROUTES.GENERATE_INVOICE}`),
         enabled: isLoggedIn,
         staleTime: getStaleTimeInMinutes(10),
     });
