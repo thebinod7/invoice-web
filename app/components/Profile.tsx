@@ -1,16 +1,14 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
-import { LOGGED_IN_MENU } from "../constants";
-import Link from "next/link";
+import { deleteCookie } from 'cookies-next/client';
+import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import {
   clearLocalStorage,
   getLocalUser,
   LOCAL_KEYS,
-} from "../helpers/local-storage";
-import { deleteCookie } from "cookies-next/client";
-import { set } from "zod";
+} from '../helpers/local-storage';
 
 export default function Profile() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -28,9 +26,9 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -41,7 +39,7 @@ export default function Profile() {
   const handleLogoutClick = () => {
     clearLocalStorage();
     deleteCookie(LOCAL_KEYS.ACCESS_TOKEN);
-    window.location.href = "/";
+    window.location.href = '/';
   };
 
   const handleItemClick = () => setIsDropdownOpen(false);
@@ -55,7 +53,7 @@ export default function Profile() {
         type="button"
         onClick={toggleDropdown}
       >
-        {currentUser ? `👋 ${currentUser.name}` : "👋 Hello Guest"}
+        {currentUser ? `👋 ${currentUser.name}` : '👋 Hello Guest'}
         {currentUser && <ChevronDown size={16} className="ml-2" />}
       </button>
 
@@ -64,23 +62,10 @@ export default function Profile() {
           id="dropdown"
           style={{ zIndex: 1000 }}
           className={`absolute right-8 mt-2 z-100 divide-y bg-slate-100 rounded-lg shadow w-44 ${
-            isDropdownOpen ? "block" : "hidden"
+            isDropdownOpen ? 'block' : 'hidden'
           }`}
         >
           <ul className="py-2 text-sm" aria-labelledby="dropdownDefaultButton">
-            {LOGGED_IN_MENU.map((item, index) => {
-              return (
-                <li key={index}>
-                  <Link
-                    onClick={handleItemClick}
-                    href={item.href}
-                    className="block px-4 py-2 hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
             <li>
               <Link
                 onClick={handleLogoutClick}
