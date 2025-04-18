@@ -11,6 +11,9 @@ import { generateRandomNumber } from '@/app/helpers';
 import { ILineItem } from '@/app/types';
 import TaxCalculator from '../TaxCalculator';
 import DiscountCalculator from '../DiscountCalculator';
+import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
+
+const DEFAULT_CURRENCY = 'USD';
 
 export default function DemoInvoiceGenerator() {
   const [lineItems, setLineItems] = useState<ILineItem[]>([
@@ -23,19 +26,19 @@ export default function DemoInvoiceGenerator() {
   ]);
   const [invoice, setInvoice] = useState({
     companyLogo: '',
-    currency: 'USD',
-    companyName: '',
+    currency: DEFAULT_CURRENCY,
+    billFromName: '',
+    billFromAddress: '',
+    billToName: '',
+    billToAddress: '',
     invoiceNumber: '',
     invoiceDate: new Date().toISOString().slice(0, 10),
     dueDate: new Date().toISOString().slice(0, 10),
-    clientName: '',
-    clientAddress: '',
-    companyEmail: '',
-    companyPhone: '',
+    poNumber: '',
+    paymentTerms: '',
     tax: '',
     discount: '',
     subtotal: 0,
-    grandTotal: 0,
   });
 
   const [logoPreview, setLogoPreview] = useState('');
@@ -68,7 +71,7 @@ export default function DemoInvoiceGenerator() {
   const removeItem = (index: number) => {
     const updatedItems = lineItems.filter((_, i) => i !== index);
     setLineItems(updatedItems);
-    // calculateTotal(updatedItems);
+    calculateSubtotal(updatedItems);
   };
 
   const updateItem = (index: number, field: string, value: string | number) => {
@@ -113,13 +116,56 @@ export default function DemoInvoiceGenerator() {
     console.log('Invoice Data:', invoice);
   };
 
+  const grandTotal = calculateGrandTotal({
+    items: lineItems,
+    tax: parseFloat(invoice.tax) || 0,
+    discount: parseFloat(invoice.discount) || 0,
+  });
+  console.log('Grand Total:', grandTotal);
+
   return (
     <div className="min-h-screen bg-gray-50 py-0 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8">
-            Invoice Generator
-          </h1>
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Currency
+                </label>
+                <select
+                  name="currency"
+                  value={invoice.currency}
+                  onChange={(e) =>
+                    setInvoice({
+                      ...invoice,
+                      currency: e.target.value,
+                    })
+                  }
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {SUPPORTED_CURRENCIES.map((item) => {
+                    return (
+                      <option key={item.value} value={item.value}>
+                        {item.label} ({item.symbol})
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+            <div>
+              <button
+                type="button"
+                onClick={downloadInvoice}
+                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <Download className="h-5 w-5 mr-2" />
+                Download Invoice
+              </button>
+            </div>
+          </div>
+          <div className="border-t border-gray-200 my-4" />
 
           {/* Company Information */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -134,65 +180,54 @@ export default function DemoInvoiceGenerator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Name
+                    Bill From (Name)
                   </label>
                   <input
                     type="text"
-                    name="companyName"
-                    value={invoice.companyName}
+                    name="billFromName"
+                    value={invoice.billFromName}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter company name"
+                    placeholder="Enter name"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Currency
-                  </label>
-                  <select
-                    name="currency"
-                    value={invoice.currency}
-                    onChange={(e) =>
-                      setInvoice({
-                        ...invoice,
-                        currency: e.target.value,
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    {SUPPORTED_CURRENCIES.map((item) => {
-                      return (
-                        <option key={item.value} value={item.value}>
-                          {item.label} ({item.symbol})
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Email
+                    Bill From (Address)
                   </label>
                   <input
-                    type="email"
-                    name="companyEmail"
-                    value={invoice.companyEmail}
+                    type="text"
+                    name="billFromAddress"
+                    value={invoice.billFromAddress}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter company email"
+                    placeholder="Enter address"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Phone
+                    Bill To (Name)
                   </label>
                   <input
-                    type="tel"
-                    name="companyPhone"
-                    value={invoice.companyPhone}
+                    type="text"
+                    name="billToName"
+                    value={invoice.billToName}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter company phone"
+                    placeholder="Enter name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bill To (Address)
+                  </label>
+                  <input
+                    type="text"
+                    name="billToAddress"
+                    value={invoice.billToAddress}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter address"
                   />
                 </div>
               </div>
@@ -240,32 +275,31 @@ export default function DemoInvoiceGenerator() {
             </div>
           </div>
 
-          {/* Client Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Client Name
+                PO Number (optional)
               </label>
               <input
                 type="text"
-                name="clientName"
-                value={invoice.clientName}
+                name="poNumber"
+                value={invoice.poNumber}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter client name"
+                placeholder="Enter PO Number"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Client Address
+                Payment Terms (optional)
               </label>
               <input
                 type="text"
-                name="clientAddress"
-                value={invoice.clientAddress}
+                name="paymentTerms"
+                value={invoice.paymentTerms}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter client address"
+                placeholder="Enter payment terms"
               />
             </div>
           </div>
@@ -411,25 +445,12 @@ export default function DemoInvoiceGenerator() {
                       Balance Due
                     </td>
                     <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                      {formatCurrency(invoice.grandTotal)}
+                      {formatCurrency(grandTotal)}
                     </td>
                   </tr>
                 </tfoot>
               </table>
             </div>
-          </div>
-
-          <div className="border-t border-gray-200 my-10" />
-
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={downloadInvoice}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <Download className="h-5 w-5 mr-2" />
-              Download Invoice
-            </button>
           </div>
         </div>
       </div>

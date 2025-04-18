@@ -28,13 +28,13 @@ export default function DiscountCalculator({
           %
         </span>
       </div>
-      <button
+      {/* <button
         onClick={() => {}}
         className="h-5 w-5 ml-1"
         aria-label="Reset tax rate"
       >
         <RefreshCw className="h-4 w-4" />
-      </button>
+      </button> */}
     </div>
   );
 }
