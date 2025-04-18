@@ -2,16 +2,15 @@
 
 import type React from 'react';
 
-import { SUPPORTED_CURRENCIES } from '@/app/constants';
-import { Download, PlusCircle, Trash } from 'lucide-react';
+import { generateRandomNumber, getCurrencySymbolByName } from '@/app/helpers';
+import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
+import { ILineItem } from '@/app/types';
+import { PlusCircle, Trash } from 'lucide-react';
 import { useState } from 'react';
 import CompanyLogo from '../CompanyLogo';
+import InvoiceHeader from '../InvoiceHeader';
+import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
-import { generateRandomNumber } from '@/app/helpers';
-import { ILineItem } from '@/app/types';
-import TaxCalculator from '../TaxCalculator';
-import DiscountCalculator from '../DiscountCalculator';
-import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -20,7 +19,7 @@ export default function DemoInvoiceGenerator() {
     {
       id: generateRandomNumber(),
       title: '',
-      quantity: '1',
+      quantity: '',
       rate: '',
     },
   ]);
@@ -89,7 +88,8 @@ export default function DemoInvoiceGenerator() {
     let subTotal = 0;
 
     items.forEach((item: any) => {
-      item.total = parseFloat(item.rate) * parseInt(item.quantity);
+      item.total =
+        parseFloat(item.rate || '0') * parseInt(item.quantity || '1');
       subTotal += item.total;
     });
     setInvoice({
@@ -103,13 +103,6 @@ export default function DemoInvoiceGenerator() {
     setInvoice({ ...invoice, [name]: value });
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: invoice.currency,
-    }).format(amount);
-  };
-
   // This would be connected to a real PDF generation library in production
   const downloadInvoice = () => {
     alert('In a real application, this would generate a PDF for download.');
@@ -121,50 +114,19 @@ export default function DemoInvoiceGenerator() {
     tax: parseFloat(invoice.tax) || 0,
     discount: parseFloat(invoice.discount) || 0,
   });
-  console.log('Grand Total:', grandTotal);
+
+  const currencySymbol = getCurrencySymbolByName(invoice.currency);
 
   return (
     <div className="min-h-screen bg-gray-50 py-0 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden p-8">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Currency
-                </label>
-                <select
-                  name="currency"
-                  value={invoice.currency}
-                  onChange={(e) =>
-                    setInvoice({
-                      ...invoice,
-                      currency: e.target.value,
-                    })
-                  }
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {SUPPORTED_CURRENCIES.map((item) => {
-                    return (
-                      <option key={item.value} value={item.value}>
-                        {item.label} ({item.symbol})
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={downloadInvoice}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                <Download className="h-5 w-5 mr-2" />
-                Download Invoice
-              </button>
-            </div>
-          </div>
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden px-8">
+          <InvoiceHeader
+            invoice={invoice}
+            handleInputChange={handleInputChange}
+            handleDownloadClick={downloadInvoice}
+          />
+
           <div className="border-t border-gray-200 my-4" />
 
           {/* Company Information */}
@@ -238,7 +200,7 @@ export default function DemoInvoiceGenerator() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Invoice Number
+                #Invoice Number
               </label>
               <input
                 type="text"
@@ -246,7 +208,7 @@ export default function DemoInvoiceGenerator() {
                 value={invoice.invoiceNumber}
                 onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter invoice number"
+                placeholder="Eg: 1"
               />
             </div>
             <div>
@@ -313,7 +275,7 @@ export default function DemoInvoiceGenerator() {
               <button
                 type="button"
                 onClick={addItem}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
               >
                 <PlusCircle className="h-4 w-4 mr-1" />
                 Add Item
@@ -342,13 +304,12 @@ export default function DemoInvoiceGenerator() {
                       <td width={'5%'} className="px-4 py-4">
                         <input
                           type="number"
-                          value={item.quantity || ''}
+                          value={item.quantity}
                           onChange={(e) =>
                             updateItem(index, 'quantity', e.target.value)
                           }
                           className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                           placeholder="0"
-                          min="0"
                           step="1"
                         />
                       </td>
@@ -372,8 +333,8 @@ export default function DemoInvoiceGenerator() {
                       <td width={'25%'} className="px-6 py-4 text-right">
                         <div className="flex justify-end gap-8 items-center">
                           <p>
-                            <span className="text-xs">{invoice.currency}</span>{' '}
-                            {parseInt(item.quantity) *
+                            <span className="text-xs">{currencySymbol}</span>{' '}
+                            {parseInt(item.quantity || '0') *
                               parseFloat(item.rate || '0')}
                           </p>
                           <Trash
@@ -388,67 +349,12 @@ export default function DemoInvoiceGenerator() {
                   ))}
                 </tbody>
 
-                {/* Footer rows */}
-                <tfoot>
-                  <tr className="bg-gray-50">
-                    <td
-                      colSpan={3}
-                      className="px-6 py-2 text-right text-sm font-medium text-gray-900"
-                    >
-                      Subtotal:
-                    </td>
-                    <td className="px-6 py-2 text-right text-sm font-medium text-gray-900">
-                      {formatCurrency(invoice.subtotal)}
-                    </td>
-                  </tr>
-                  <tr className="bg-gray-50">
-                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
-                      <textarea
-                        className="p-2 rounded-md outline-none border border-gray-300"
-                        rows={2}
-                        placeholder="Any relevant notes or terms"
-                        name="notes"
-                      />
-                    </td>
-                    <td
-                      colSpan={2}
-                      className="px-6 text-right text-sm font-medium text-gray-900"
-                    >
-                      Tax
-                    </td>
-                    <td className="px-6 text-right text-sm font-medium text-gray-900">
-                      <TaxCalculator
-                        taxRate={invoice.tax}
-                        handleTaxInputChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr className="bg-gray-50">
-                    <td
-                      colSpan={3}
-                      className="px-6 text-right text-sm font-medium text-gray-900"
-                    >
-                      Discount
-                    </td>
-                    <td className="px-6 text-right text-sm font-medium text-gray-900">
-                      <DiscountCalculator
-                        discount={invoice.discount}
-                        handleDiscountInputChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr className="bg-gray-50">
-                    <td
-                      colSpan={3}
-                      className="px-6 py-4 text-right text-sm font-medium text-gray-900"
-                    >
-                      Balance Due
-                    </td>
-                    <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                      {formatCurrency(grandTotal)}
-                    </td>
-                  </tr>
-                </tfoot>
+                <TableFooter
+                  invoice={invoice}
+                  grandTotal={grandTotal}
+                  handleInputChange={handleInputChange}
+                  currencySymbol={currencySymbol}
+                />
               </table>
             </div>
           </div>

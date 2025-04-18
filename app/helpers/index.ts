@@ -1,3 +1,5 @@
+import { SUPPORTED_CURRENCIES } from '../constants';
+
 export const sanitizeError = (error: any) => {
   if (error?.response?.data?.message) {
     return error.response.data.message;
@@ -17,4 +19,10 @@ export const humanizeCapital = (word: string) => {
 
 export const generateRandomNumber = () => {
   return Math.floor(100000 + Math.random() * 900000);
+};
+
+export const getCurrencySymbolByName = (currency: string) => {
+  const found = SUPPORTED_CURRENCIES.find((item) => item.value === currency);
+  if (!found) return '$';
+  return found.symbol;
 };
