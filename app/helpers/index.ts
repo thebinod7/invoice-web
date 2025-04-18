@@ -2,7 +2,7 @@ export const sanitizeError = (error: any) => {
   if (error?.response?.data?.message) {
     return error.response.data.message;
   }
-  return "Something went wrong!";
+  return 'Something went wrong!';
 };
 
 export const getStaleTimeInMinutes = (minutes: number) => {
@@ -11,6 +11,10 @@ export const getStaleTimeInMinutes = (minutes: number) => {
 };
 
 export const humanizeCapital = (word: string) => {
-  if (!word) return "-";
+  if (!word) return '-';
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+};
+
+export const generateRandomNumber = () => {
+  return Math.floor(100000 + Math.random() * 900000);
 };

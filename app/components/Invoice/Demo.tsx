@@ -8,14 +8,16 @@ import { useState } from 'react';
 import CompanyLogo from '../CompanyLogo';
 import InvoicePreview from './InvoicePreview';
 import LineItemsTableHead from './LineItemsTableHead';
+import { generateRandomNumber } from '@/app/helpers';
+import { ILineItem } from '@/app/types';
 
 export default function DemoInvoiceGenerator() {
-  const [lineItems, setLineItems] = useState([
+  const [lineItems, setLineItems] = useState<ILineItem[]>([
     {
+      id: generateRandomNumber(),
       title: '',
-      quantity: '',
+      quantity: '1',
       rate: '',
-      amount: 0.0,
     },
   ]);
   const [invoice, setInvoice] = useState({
@@ -29,7 +31,8 @@ export default function DemoInvoiceGenerator() {
     clientAddress: '',
     companyEmail: '',
     companyPhone: '',
-    total: 0,
+    subtotal: 0,
+    grandTotal: 0,
   });
 
   const [logoPreview, setLogoPreview] = useState('');
@@ -50,7 +53,12 @@ export default function DemoInvoiceGenerator() {
   const addItem = () => {
     setLineItems([
       ...lineItems,
-      { title: '', rate: '', quantity: '', amount: 0.0 },
+      {
+        id: generateRandomNumber(),
+        title: '',
+        rate: '',
+        quantity: '1',
+      },
     ]);
   };
 
@@ -61,24 +69,27 @@ export default function DemoInvoiceGenerator() {
   };
 
   const updateItem = (index: number, field: string, value: string | number) => {
-    console.log({ field });
-    console.log({ value });
-    console.log({ index });
-
     const updatedItems = [...lineItems];
     updatedItems[index] = {
       ...updatedItems[index],
       [field]:
         field === 'price' ? Number.parseFloat(value as string) || 0 : value,
-      amount: Number.parseFloat(value as string) || 0,
     };
     setLineItems(updatedItems);
-    // calculateTotal(updatedItems);
+    calculateSubtotal(updatedItems);
   };
 
-  const calculateTotal = (items: { description: string; price: number }[]) => {
-    const total = items.reduce((sum, item) => sum + (item.price || 0), 0);
-    setInvoice((prev) => ({ ...prev, total }));
+  const calculateSubtotal = (items: ILineItem[]) => {
+    let subTotal = 0;
+
+    items.forEach((item: any) => {
+      item.total = parseFloat(item.rate) * parseInt(item.quantity);
+      subTotal += item.total;
+    });
+    setInvoice({
+      ...invoice,
+      subtotal: subTotal,
+    });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -274,13 +285,13 @@ export default function DemoInvoiceGenerator() {
               </button>
             </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
+              <table className="w-full divide-y divide-gray-200">
                 <LineItemsTableHead />
                 <tbody className="bg-white divide-y divide-gray-200">
                   {lineItems.map((item, index) => (
                     <tr key={index}>
-                      {/* First column: 1/2 width */}
-                      <td className="w-2/3 px-2 py-4 whitespace-nowrap">
+                      {/* Title column */}
+                      <td width={'50%'} className="px-2 py-4">
                         <input
                           type="text"
                           value={item.title}
@@ -292,46 +303,43 @@ export default function DemoInvoiceGenerator() {
                         />
                       </td>
 
-                      {/* Second column: 1/6 width */}
-                      <td className="w-1/6 px-4 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <input
-                            type="number"
-                            value={item.quantity || ''}
-                            onChange={(e) =>
-                              updateItem(index, 'quantity', e.target.value)
-                            }
-                            className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="0"
-                            min="0"
-                            step="1"
-                          />
-                        </div>
+                      {/* Quantity column */}
+                      <td width={'5%'} className="px-4 py-4">
+                        <input
+                          type="number"
+                          value={item.quantity || ''}
+                          onChange={(e) =>
+                            updateItem(index, 'quantity', e.target.value)
+                          }
+                          className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="0"
+                          min="0"
+                          step="1"
+                        />
                       </td>
 
-                      {/* Third column: 1/6 width */}
-                      <td className="w-1/4 px-2 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <input
-                            type="number"
-                            value={item.rate || ''}
-                            onChange={(e) =>
-                              updateItem(index, 'rate', e.target.value)
-                            }
-                            className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="0.00"
-                            min="0"
-                            step="0.01"
-                          />
-                        </div>
+                      {/* Rate column */}
+                      <td width={'20%'} className="px-2 py-4">
+                        <input
+                          type="number"
+                          value={item.rate || ''}
+                          onChange={(e) =>
+                            updateItem(index, 'rate', e.target.value)
+                          }
+                          className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="0.00"
+                          min="0"
+                          step="1"
+                        />
                       </td>
 
-                      {/* Fourth column: 1/6 width */}
-                      <td className="w-1/6 px-6 py-4 whitespace-nowrap">
-                        <div className="flex gap-8 items-center">
+                      {/* Amount column */}
+                      <td width={'25%'} className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-8 items-center">
                           <p>
                             <span className="text-xs">{invoice.currency}</span>{' '}
-                            0.00
+                            {parseInt(item.quantity) *
+                              parseFloat(item.rate || '0')}
                           </p>
                           <Trash
                             className="cursor-pointer"
@@ -344,18 +352,41 @@ export default function DemoInvoiceGenerator() {
                     </tr>
                   ))}
                 </tbody>
+
+                {/* Footer rows */}
                 <tfoot>
                   <tr className="bg-gray-50">
                     <td
-                      colSpan={4}
-                      className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right"
+                      colSpan={3}
+                      className="px-6 py-4 text-right text-sm font-medium text-gray-900"
                     >
-                      Total:
+                      Subtotal:
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">
-                      {formatCurrency(invoice.total)}
+                    <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
+                      {formatCurrency(invoice.subtotal)}
                     </td>
-                    <td></td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td
+                      colSpan={3}
+                      className="px-6 py-4 text-right text-sm font-medium text-gray-900"
+                    >
+                      Tax
+                    </td>
+                    <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
+                      {formatCurrency(0)}
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td
+                      colSpan={3}
+                      className="px-6 py-4 text-right text-sm font-medium text-gray-900"
+                    >
+                      Grand Total
+                    </td>
+                    <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
+                      {formatCurrency(invoice.grandTotal)}
+                    </td>
                   </tr>
                 </tfoot>
               </table>
