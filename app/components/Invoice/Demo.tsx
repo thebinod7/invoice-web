@@ -6,10 +6,11 @@ import { SUPPORTED_CURRENCIES } from '@/app/constants';
 import { Download, PlusCircle, Trash } from 'lucide-react';
 import { useState } from 'react';
 import CompanyLogo from '../CompanyLogo';
-import InvoicePreview from './InvoicePreview';
 import LineItemsTableHead from './LineItemsTableHead';
 import { generateRandomNumber } from '@/app/helpers';
 import { ILineItem } from '@/app/types';
+import TaxCalculator from '../TaxCalculator';
+import DiscountCalculator from '../DiscountCalculator';
 
 export default function DemoInvoiceGenerator() {
   const [lineItems, setLineItems] = useState<ILineItem[]>([
@@ -31,6 +32,8 @@ export default function DemoInvoiceGenerator() {
     clientAddress: '',
     companyEmail: '',
     companyPhone: '',
+    tax: '',
+    discount: '',
     subtotal: 0,
     grandTotal: 0,
   });
@@ -109,8 +112,6 @@ export default function DemoInvoiceGenerator() {
     alert('In a real application, this would generate a PDF for download.');
     console.log('Invoice Data:', invoice);
   };
-
-  console.log('LIneItems', lineItems);
 
   return (
     <div className="min-h-screen bg-gray-50 py-0 px-4 sm:px-6 lg:px-8">
@@ -358,23 +359,48 @@ export default function DemoInvoiceGenerator() {
                   <tr className="bg-gray-50">
                     <td
                       colSpan={3}
-                      className="px-6 py-4 text-right text-sm font-medium text-gray-900"
+                      className="px-6 py-2 text-right text-sm font-medium text-gray-900"
                     >
                       Subtotal:
                     </td>
-                    <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
+                    <td className="px-6 py-2 text-right text-sm font-medium text-gray-900">
                       {formatCurrency(invoice.subtotal)}
                     </td>
                   </tr>
                   <tr className="bg-gray-50">
+                    <td className="px-6 py-4 text-sm font-medium text-gray-900">
+                      <textarea
+                        className="p-2 rounded-md outline-none border border-gray-300"
+                        rows={2}
+                        placeholder="Any relevant notes or terms"
+                        name="notes"
+                      />
+                    </td>
                     <td
-                      colSpan={3}
-                      className="px-6 py-4 text-right text-sm font-medium text-gray-900"
+                      colSpan={2}
+                      className="px-6 text-right text-sm font-medium text-gray-900"
                     >
                       Tax
                     </td>
-                    <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
-                      {formatCurrency(0)}
+                    <td className="px-6 text-right text-sm font-medium text-gray-900">
+                      <TaxCalculator
+                        taxRate={invoice.tax}
+                        handleTaxInputChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td
+                      colSpan={3}
+                      className="px-6 text-right text-sm font-medium text-gray-900"
+                    >
+                      Discount
+                    </td>
+                    <td className="px-6 text-right text-sm font-medium text-gray-900">
+                      <DiscountCalculator
+                        discount={invoice.discount}
+                        handleDiscountInputChange={handleInputChange}
+                      />
                     </td>
                   </tr>
                   <tr className="bg-gray-50">
@@ -382,7 +408,7 @@ export default function DemoInvoiceGenerator() {
                       colSpan={3}
                       className="px-6 py-4 text-right text-sm font-medium text-gray-900"
                     >
-                      Grand Total
+                      Balance Due
                     </td>
                     <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
                       {formatCurrency(invoice.grandTotal)}
@@ -393,11 +419,7 @@ export default function DemoInvoiceGenerator() {
             </div>
           </div>
 
-          <InvoicePreview
-            lineItems={lineItems}
-            invoice={invoice}
-            logoPreview={logoPreview}
-          />
+          <div className="border-t border-gray-200 my-10" />
 
           <div className="flex justify-end">
             <button
