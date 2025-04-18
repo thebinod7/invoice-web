@@ -11,6 +11,10 @@ import CompanyLogo from '../CompanyLogo';
 import InvoiceHeader from '../InvoiceHeader';
 import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
+import { useMutation } from '@tanstack/react-query';
+import { postRequest } from '@/app/helpers/request';
+import { API_ROUTES } from '@/app/constants/api-routes';
+import { toast } from 'sonner';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -31,8 +35,8 @@ export default function DemoInvoiceGenerator() {
     billToName: '',
     billToAddress: '',
     invoiceNumber: '',
-    invoiceDate: new Date().toISOString().slice(0, 10),
-    dueDate: new Date().toISOString().slice(0, 10),
+    invoiceDate: '',
+    dueDate: '',
     poNumber: '',
     paymentTerms: '',
     tax: '',
@@ -103,10 +107,43 @@ export default function DemoInvoiceGenerator() {
     setInvoice({ ...invoice, [name]: value });
   };
 
-  // This would be connected to a real PDF generation library in production
+  const generateInvoiceMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(API_ROUTES.GENERATE_INVOICE, payload, {
+        responseType: 'blob',
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Something went wrong!');
+    },
+    onSuccess: (data: any) => {
+      console.log('Data=>', data);
+      const blob = new Blob([data.data], { type: 'application/pdf' });
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'invoice.pdf';
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+      document.body.removeChild(link);
+      return true; // success
+    },
+  });
+
   const downloadInvoice = () => {
-    alert('In a real application, this would generate a PDF for download.');
-    console.log('Invoice Data:', invoice);
+    const dueAmount = calculateGrandTotal({
+      items: lineItems,
+      tax: parseFloat(invoice.tax) || 0,
+      discount: parseFloat(invoice.discount) || 0,
+    });
+    const payload = {
+      ...invoice,
+      invoiceItems: lineItems,
+      subTotal: +invoice.subtotal,
+      dueAmount: dueAmount,
+    };
+    generateInvoiceMutation.mutate(payload);
   };
 
   const grandTotal = calculateGrandTotal({
