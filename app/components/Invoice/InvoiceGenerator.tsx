@@ -1,73 +1,403 @@
 'use client';
-import { API_ROUTES } from '@/app/constants/api-routes';
-import { postRequest } from '@/app/helpers/request';
-import { useMutation } from '@tanstack/react-query';
-import React from 'react'
-import { toast } from 'sonner';
 
-const sample_payload = {
-    companyLogo:'',
-    currency:'USD',
-    companyName: "Awesome Company Inc",
-    invoiceNumber: "INV-20250413",
-    invoiceDate: "2025-04-13",
-    dueDate: "2025-04-13",
-    clientName: "John Doe",
-    clientAddress: "123 Main St",
-    companyEmail: "contact@awesomecompany.com",
-    companyPhone: "+1 (555) 123-4567",
-    items: [
-      {
-        "description": "Website Design",
-        "price": "$1,200.00"
-      },
-      {
-        "description": "Hosting (3 months)",
-        "price": "$150.00"
-      },
-      {
-        "description": "Domain Registration",
-        "price": "$15.00"
-      }
-    ],
-    total: 5500
-  }
+import type React from 'react';
+
+import { API_ROUTES } from '@/app/constants/api-routes';
+import { generateRandomNumber, getCurrencySymbolByName } from '@/app/helpers';
+import { postRequest } from '@/app/helpers/request';
+import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
+import { ILineItem } from '@/app/types';
+import { useMutation } from '@tanstack/react-query';
+import { PlusCircle, Trash } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import CompanyLogo from '../CompanyLogo';
+import InvoiceHeader from '../InvoiceHeader';
+import TableFooter from '../TableFooter';
+import LineItemsTableHead from './LineItemsTableHead';
+
+const DEFAULT_CURRENCY = 'USD';
 
 export default function InvoiceGenerator() {
+  const [lineItems, setLineItems] = useState<ILineItem[]>([
+    {
+      id: generateRandomNumber(),
+      title: '',
+      quantity: '',
+      rate: '',
+    },
+  ]);
+  const [invoice, setInvoice] = useState({
+    companyLogo: '',
+    currency: DEFAULT_CURRENCY,
+    billFromName: '',
+    billFromAddress: '',
+    billToName: '',
+    billToAddress: '',
+    invoiceNumber: '',
+    invoiceDate: '',
+    dueDate: '',
+    poNumber: '',
+    paymentTerms: '',
+    notes: '',
+    tax: '',
+    discount: '',
+    subtotal: 0,
+  });
 
-    const generateInvoiceMutation = useMutation({
-        mutationFn: (payload: any) => {
-          return postRequest(
-            API_ROUTES.GENERATE_INVOICE,
-            payload,
-            { responseType: 'blob' }
-          );
-        },
-        onError: (error) => {
-          toast.error(error.message || "Something went wrong!");
-        },
-        onSuccess: (data:any) => {
-          console.log("Data=>",data)
-          const blob = new Blob([data.data], { type: 'application/pdf' });
-          const blobUrl = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = blobUrl;
-          link.download = 'invoice.pdf';
-          document.body.appendChild(link);
-          link.click();
-          window.URL.revokeObjectURL(link.href);
-          document.body.removeChild(link);
-    
-          return true; // success
-        },
+  const [logoPreview, setLogoPreview] = useState('');
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setLogoPreview(result);
+        setInvoice({ ...invoice, companyLogo: result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const addItem = () => {
+    setLineItems([
+      ...lineItems,
+      {
+        id: generateRandomNumber(),
+        title: '',
+        rate: '',
+        quantity: '1',
+      },
+    ]);
+  };
+
+  const removeItem = (index: number) => {
+    const updatedItems = lineItems.filter((_, i) => i !== index);
+    setLineItems(updatedItems);
+    calculateSubtotal(updatedItems);
+  };
+
+  const updateItem = (index: number, field: string, value: string | number) => {
+    const updatedItems = [...lineItems];
+    updatedItems[index] = {
+      ...updatedItems[index],
+      [field]:
+        field === 'price' ? Number.parseFloat(value as string) || 0 : value,
+    };
+    setLineItems(updatedItems);
+    calculateSubtotal(updatedItems);
+  };
+
+  const calculateSubtotal = (items: ILineItem[]) => {
+    let subTotal = 0;
+
+    items.forEach((item: any) => {
+      item.total =
+        parseFloat(item.rate || '0') * parseInt(item.quantity || '1');
+      subTotal += item.total;
+    });
+    setInvoice({
+      ...invoice,
+      subtotal: subTotal,
+    });
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInvoice({ ...invoice, [name]: value });
+  };
+
+  const generateInvoiceMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(API_ROUTES.GENERATE_INVOICE, payload, {
+        responseType: 'blob',
       });
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Something went wrong!');
+    },
+    onSuccess: (data: any) => {
+      const blob = new Blob([data.data], { type: 'application/pdf' });
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'invoice.pdf';
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(link.href);
+      document.body.removeChild(link);
+      return true; // success
+    },
+  });
 
-      const handleGenerateClick = () => {
-        generateInvoiceMutation.mutate(sample_payload)
-      }
+  const downloadInvoice = () => {
+    const dueAmount = calculateGrandTotal({
+      items: lineItems,
+      tax: parseFloat(invoice.tax) || 0,
+      discount: parseFloat(invoice.discount) || 0,
+    });
+    const payload = {
+      ...invoice,
+      invoiceItems: lineItems,
+      subTotal: +invoice.subtotal,
+      dueAmount: dueAmount,
+      currency: getCurrencySymbolByName(invoice.currency),
+    };
+    generateInvoiceMutation.mutate(payload);
+  };
+
+  const grandTotal = calculateGrandTotal({
+    items: lineItems,
+    tax: parseFloat(invoice.tax) || 0,
+    discount: parseFloat(invoice.discount) || 0,
+  });
+
+  const currencySymbol = getCurrencySymbolByName(invoice.currency);
+
   return (
-    <div className='mt-10'>
-        <button onClick={handleGenerateClick} className='px-20 py-2 text-white bg-slate-700 rounded-md' type='button'> Generate Invoice </button>
+    <div className="min-h-screen bg-gray-50 py-0 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl shadow-lg overflow-hidden px-8">
+          <InvoiceHeader
+            invoice={invoice}
+            handleInputChange={handleInputChange}
+            handleDownloadClick={downloadInvoice}
+          />
+
+          <div className="border-t border-gray-200 my-4" />
+
+          {/* Company Information */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="col-span-1">
+              <CompanyLogo
+                logoPreview={logoPreview}
+                handleLogoChange={handleLogoChange}
+              />
+            </div>
+
+            <div className="col-span-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bill From (Name)
+                  </label>
+                  <input
+                    type="text"
+                    name="billFromName"
+                    value={invoice.billFromName}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bill From (Address)
+                  </label>
+                  <input
+                    type="text"
+                    name="billFromAddress"
+                    value={invoice.billFromAddress}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter address"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bill To (Name)
+                  </label>
+                  <input
+                    type="text"
+                    name="billToName"
+                    value={invoice.billToName}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bill To (Address)
+                  </label>
+                  <input
+                    type="text"
+                    name="billToAddress"
+                    value={invoice.billToAddress}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter address"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Invoice Details */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                #Invoice Number
+              </label>
+              <input
+                type="text"
+                name="invoiceNumber"
+                value={invoice.invoiceNumber}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Eg: 1"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Invoice Date
+              </label>
+              <input
+                type="date"
+                name="invoiceDate"
+                value={invoice.invoiceDate}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Due Date
+              </label>
+              <input
+                type="date"
+                name="dueDate"
+                value={invoice.dueDate}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                PO Number (optional)
+              </label>
+              <input
+                type="text"
+                name="poNumber"
+                value={invoice.poNumber}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter PO Number"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Payment Terms (optional)
+              </label>
+              <input
+                type="text"
+                name="paymentTerms"
+                value={invoice.paymentTerms}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter payment terms"
+              />
+            </div>
+          </div>
+
+          {/* Line Items */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-medium text-gray-700">
+                Invoice Items
+              </h2>
+              <button
+                type="button"
+                onClick={addItem}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+              >
+                <PlusCircle className="h-4 w-4 mr-1" />
+                Add Item
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full divide-y divide-gray-200">
+                <LineItemsTableHead />
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {lineItems.map((item, index) => (
+                    <tr key={index}>
+                      {/* Title column */}
+                      <td width={'50%'} className="px-2 py-4">
+                        <input
+                          type="text"
+                          value={item.title}
+                          onChange={(e) =>
+                            updateItem(index, 'title', e.target.value)
+                          }
+                          className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Item description"
+                        />
+                      </td>
+
+                      {/* Quantity column */}
+                      <td width={'5%'} className="px-4 py-4">
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          onChange={(e) =>
+                            updateItem(index, 'quantity', e.target.value)
+                          }
+                          className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="0"
+                          step="1"
+                        />
+                      </td>
+
+                      {/* Rate column */}
+                      <td width={'20%'} className="px-2 py-4">
+                        <input
+                          type="number"
+                          value={item.rate || ''}
+                          onChange={(e) =>
+                            updateItem(index, 'rate', e.target.value)
+                          }
+                          className="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="0.00"
+                          min="0"
+                          step="1"
+                        />
+                      </td>
+
+                      {/* Amount column */}
+                      <td width={'25%'} className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-8 items-center">
+                          <p>
+                            <span className="text-xs">{currencySymbol}</span>{' '}
+                            {parseInt(item.quantity || '0') *
+                              parseFloat(item.rate || '0')}
+                          </p>
+                          <Trash
+                            className="cursor-pointer"
+                            size={16}
+                            color="red"
+                            onClick={() => removeItem(index)}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+
+                <TableFooter
+                  invoice={invoice}
+                  grandTotal={grandTotal}
+                  handleInputChange={handleInputChange}
+                  currencySymbol={currencySymbol}
+                />
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

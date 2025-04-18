@@ -12,7 +12,9 @@ export const calculateGrandTotal = ({
   discount = 0,
 }: CalculateGrandTotalParams): number => {
   const subtotal = items.reduce((total, item) => {
-    return total + parseFloat(item.rate || '0') * parseInt(item.quantity);
+    return (
+      total + parseFloat(item.rate || '0') * parseInt(item.quantity || '0')
+    );
   }, 0);
 
   const discountAmount = (discount / 100) * subtotal;

@@ -4,7 +4,7 @@ import TaxCalculator from './TaxCalculator';
 
 interface TableFooterProps {
   invoice: Record<string, any>;
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (event: any) => void;
   grandTotal: number;
   currencySymbol: string;
 }
@@ -35,6 +35,8 @@ export default function TableFooter({
             <textarea
               className="p-2 rounded-md outline-none border border-gray-300"
               rows={2}
+              value={invoice.notes}
+              onChange={handleInputChange}
               placeholder="Any relevant notes or terms"
               name="notes"
             />

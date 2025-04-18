@@ -26,3 +26,12 @@ export const getCurrencySymbolByName = (currency: string) => {
   if (!found) return '$';
   return found.symbol;
 };
+
+export const formatDate = (inputDate: string) => {
+  if (!inputDate) return '';
+  new Date(inputDate).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
