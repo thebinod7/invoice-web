@@ -1,4 +1,5 @@
 export const APP = {
+  NAME: 'Invomaker.com',
   TITLE: 'Free Invoice Generator | No Signup Required',
   DESCRIPTION:
     'Easily create and customize professional invoices with our Free Invoice Generator. Whether you are a freelancer, small business owner, or entrepreneur, our tool helps you create accurate, professional invoices for free. Simply input your details, customize the invoice to fit your needs, and download it in PDF format—ready to send to your clients. No sign-up required',
@@ -41,7 +42,8 @@ export const SUPPORTED_CURRENCIES = [
 ];
 
 export const NAV_LINKS = [
-  { href: '/contact', label: 'Contact Us' },
+  { href: '/how-to-use', label: 'How to Use' },
+  { href: '/recent', label: 'Recent Invoice' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms of Service' },
 ];

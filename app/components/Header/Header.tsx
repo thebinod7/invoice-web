@@ -12,7 +12,7 @@ const Nav = () => {
             className="h-[40px] mt-2 w-auto object-contain"
           /> */}
           <h3 className="mt-3 font-bold hover:text-white cursor-pointer">
-            invomaker.com
+            <Link href="/">invomaker.com</Link>
           </h3>
         </div>
 
