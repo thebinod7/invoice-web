@@ -313,7 +313,7 @@ export default function InvoiceGenerator() {
               <button
                 type="button"
                 onClick={addItem}
-                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-stone-500 hover:bg-stone-600 focus:outline-none"
               >
                 <PlusCircle className="h-4 w-4 mr-1" />
                 Add Item

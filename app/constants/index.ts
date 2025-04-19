@@ -32,10 +32,9 @@ export const SUPPORTED_CURRENCIES = [
 ];
 
 export const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About Us' },
-  { href: '/services', label: 'Services' },
   { href: '/contact', label: 'Contact Us' },
+  { href: '/privacy', label: 'Privacy Policy' },
+  { href: '/terms', label: 'Terms of Service' },
 ];
 
 export const APP_PATHS = {

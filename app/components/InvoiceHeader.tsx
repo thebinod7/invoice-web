@@ -24,7 +24,7 @@ export default function InvoiceHeader({
             name="currency"
             value={invoice.currency}
             onChange={handleInputChange}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
           >
             {SUPPORTED_CURRENCIES.map((item) => {
               return (
@@ -40,7 +40,7 @@ export default function InvoiceHeader({
         <button
           type="button"
           onClick={handleDownloadClick}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-darkish hover:bg-darkish focus:outline-none"
         >
           <Download className="h-5 w-5 mr-2" />
           Download Invoice

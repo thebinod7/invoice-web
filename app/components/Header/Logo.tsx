@@ -1,11 +1,15 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
 export default function Logo() {
   return (
     <>
-      <Link href={"/"}>
-        <img src="/logo.png" alt="logo" className="ml-10 w-[40px] h-[40px]" />
+      <Link href={'/'}>
+        <img
+          src="/images/logo.png"
+          alt="logo"
+          className="h-[50px] w-auto object-contain"
+        />
       </Link>
     </>
   );
