@@ -23,7 +23,7 @@ export default function TableFooter({
             colSpan={3}
             className="px-6 py-2 text-right text-sm font-medium text-gray-900"
           >
-            Subtotal:
+            Subtotal
           </td>
           <td className="px-6 py-2 text-right text-sm font-medium text-gray-900">
             {currencySymbol}
