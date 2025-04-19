@@ -1,4 +1,4 @@
-import { NAV_LINKS } from '@/app/constants';
+import { APP_NAME, NAV_LINKS } from '@/app/constants';
 import Link from 'next/link';
 
 const Nav = () => {
@@ -6,13 +6,8 @@ const Nav = () => {
     <header className="z-10 h-[54px] border-b-1 bg-darkish text-stone-300 shadow-sm">
       <nav className="flex justify-between items-center px-8">
         <div className="">
-          {/* <img
-            src="/images/bill.png"
-            alt="logo"
-            className="h-[40px] mt-2 w-auto object-contain"
-          /> */}
           <h3 className="mt-3 font-bold hover:text-white cursor-pointer">
-            <Link href="/">invomaker.com</Link>
+            <Link href="/">{APP_NAME}</Link>
           </h3>
         </div>
 

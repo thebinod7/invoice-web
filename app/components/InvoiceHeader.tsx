@@ -46,7 +46,7 @@ export default function InvoiceHeader({
           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-greyish hover:text-white bg-darkish hover:bg-darkish focus:outline-none"
         >
           <Download className="h-5 w-5 mr-2" />
-          {pending ? 'Generating...' : 'Download Invoice'}
+          {pending ? 'Generating...' : 'Download'}
         </button>
       </div>
     </div>
