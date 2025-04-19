@@ -1,4 +1,3 @@
-import InvalidFileError from "./InvalidFileError";
-import UploadPreview from "./UploadPreview";
+import UploadPreview from './UploadPreview';
 
-export { InvalidFileError, UploadPreview };
+export { UploadPreview };

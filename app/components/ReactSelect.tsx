@@ -1,8 +1,12 @@
-"use client";
+'use client';
 
-import React from "react";
-import Select, { SingleValue } from "react-select";
-import { SelectItem } from "../types";
+import React from 'react';
+import Select, { SingleValue } from 'react-select';
+
+interface SelectItem {
+  label: string;
+  value: string;
+}
 
 interface IProps {
   options: SelectItem[];
@@ -13,7 +17,7 @@ interface IProps {
 
 export default function ReactSelect({
   options,
-  placeholder = "--Select--",
+  placeholder = '--Select--',
   instanceId,
   handleSelectChange,
 }: IProps) {
@@ -27,10 +31,10 @@ export default function ReactSelect({
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
-            borderColor: state.isFocused ? "#72BAA9" : "", // Set the border color
-            boxShadow: state.isFocused ? "0 0 0 1px #72BAA9" : "none", // Override the box-shadow
-            "&:hover": {
-              borderColor: state.isFocused ? "#72BAA9" : "#474E93", // Ensure hover doesn't override focus
+            borderColor: state.isFocused ? '#72BAA9' : '', // Set the border color
+            boxShadow: state.isFocused ? '0 0 0 1px #72BAA9' : 'none', // Override the box-shadow
+            '&:hover': {
+              borderColor: state.isFocused ? '#72BAA9' : '#474E93', // Ensure hover doesn't override focus
             },
           }),
         }}
