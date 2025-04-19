@@ -42,8 +42,7 @@ export const SUPPORTED_CURRENCIES = [
 ];
 
 export const NAV_LINKS = [
-  { href: '/how-to-use', label: 'How to Use' },
-  { href: '/recent', label: 'Recent Invoice' },
+  { href: '/support', label: 'Support' },
   { href: '/privacy', label: 'Privacy Policy' },
   { href: '/terms', label: 'Terms of Service' },
 ];
