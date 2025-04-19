@@ -6,9 +6,11 @@ interface InvoiceHeaderProps {
   invoice: Record<string, any>;
   handleInputChange: any;
   handleDownloadClick: () => void;
+  pending: boolean;
 }
 
 export default function InvoiceHeader({
+  pending,
   invoice,
   handleInputChange,
   handleDownloadClick,
@@ -38,12 +40,13 @@ export default function InvoiceHeader({
       </div>
       <div>
         <button
+          disabled={pending}
           type="button"
           onClick={handleDownloadClick}
           className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-greyish hover:text-white bg-darkish hover:bg-darkish focus:outline-none"
         >
           <Download className="h-5 w-5 mr-2" />
-          Download Invoice
+          {pending ? 'Generating...' : 'Download Invoice'}
         </button>
       </div>
     </div>

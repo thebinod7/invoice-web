@@ -132,6 +132,9 @@ export default function InvoiceGenerator() {
   });
 
   const downloadInvoice = () => {
+    if (!invoice.billFromName || !invoice.billToName) {
+      return toast.error('Fields with * are required!');
+    }
     const dueAmount = calculateGrandTotal({
       items: lineItems,
       tax: parseFloat(invoice.tax) || 0,
@@ -163,6 +166,7 @@ export default function InvoiceGenerator() {
             invoice={invoice}
             handleInputChange={handleInputChange}
             handleDownloadClick={downloadInvoice}
+            pending={generateInvoiceMutation.isPending}
           />
 
           <div className="border-t border-gray-200 my-4" />
@@ -180,7 +184,7 @@ export default function InvoiceGenerator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Bill From (Name)
+                    Bill From*
                   </label>
                   <input
                     type="text"
@@ -193,7 +197,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Bill From (Address)
+                    Address
                   </label>
                   <input
                     type="text"
@@ -206,7 +210,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Bill To (Name)
+                    Bill To*
                   </label>
                   <input
                     type="text"
@@ -219,7 +223,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Bill To (Address)
+                    Address
                   </label>
                   <input
                     type="text"
@@ -238,7 +242,7 @@ export default function InvoiceGenerator() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">
-                #Invoice Number
+                Invoice Number
               </label>
               <input
                 type="text"
@@ -278,7 +282,7 @@ export default function InvoiceGenerator() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">
-                PO Number (optional)
+                PO Number
               </label>
               <input
                 type="text"
@@ -291,7 +295,7 @@ export default function InvoiceGenerator() {
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-1">
-                Payment Terms (optional)
+                Payment Terms
               </label>
               <input
                 type="text"
