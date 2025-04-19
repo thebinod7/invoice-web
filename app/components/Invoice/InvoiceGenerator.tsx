@@ -320,7 +320,7 @@ export default function InvoiceGenerator() {
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-stone-500 hover:bg-stone-600 focus:outline-none"
               >
                 <PlusCircle className="h-4 w-4 mr-1" />
-                Add Item
+                <span className="hidden sm:block">Add Item</span>
               </button>
             </div>
             <div className="overflow-x-auto">

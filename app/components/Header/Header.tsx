@@ -11,8 +11,8 @@ const Nav = () => {
           </h3>
         </div>
 
-        <div>
-          <ul className="flex justify-center items-center gap-8">
+        <div className="hidden sm:block">
+          <ul className="flex justify-center items-center gap-8 text-stone-300">
             {NAV_LINKS.map((item) => (
               <li className="hover:text-white text-sm mt-3" key={item.label}>
                 <Link href={item.href}>{item.label}</Link>

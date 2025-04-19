@@ -16,9 +16,9 @@ export default function InvoiceHeader({
   handleDownloadClick,
 }: InvoiceHeaderProps) {
   return (
-    <div className="flex justify-between items-center mb-4">
+    <div className="flex justify-between flex-col md:flex-row gap-4 items-center mb-4">
       <div>
-        <div>
+        <div className="w-full">
           <label className="block text-xs font-medium text-gray-700 mb-1">
             Select Currency
           </label>
@@ -26,7 +26,7 @@ export default function InvoiceHeader({
             name="currency"
             value={invoice.currency}
             onChange={handleInputChange}
-            className="px-3 text-xs py-2 border border-gray-300 rounded-md focus:outline-none"
+            className="min-w-36 px-3 text-xs py-2 border border-gray-300 rounded-md focus:outline-none"
           >
             {SUPPORTED_CURRENCIES.map((item) => {
               return (
