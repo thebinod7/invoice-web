@@ -21,7 +21,7 @@ export default function TableFooter({
         <tr className="bg-gray-50">
           <td
             colSpan={3}
-            className="px-6 py-2 text-right text-sm font-medium text-gray-900"
+            className="px-6 py-2 text-right text-xs font-medium text-gray-900"
           >
             Subtotal
           </td>
@@ -31,7 +31,7 @@ export default function TableFooter({
           </td>
         </tr>
         <tr className="bg-gray-50">
-          <td className="px-6 py-4 text-sm font-medium text-gray-900">
+          <td className="px-6 py-4 text-xs font-medium text-gray-900">
             <textarea
               className="p-2 rounded-md outline-none border border-gray-300"
               rows={2}
@@ -43,7 +43,7 @@ export default function TableFooter({
           </td>
           <td
             colSpan={2}
-            className="px-6 text-right text-sm font-medium text-gray-900"
+            className="px-6 text-right text-xs font-medium text-gray-900"
           >
             Tax
           </td>
@@ -57,7 +57,7 @@ export default function TableFooter({
         <tr className="bg-gray-50">
           <td
             colSpan={3}
-            className="px-6 text-right text-sm font-medium text-gray-900"
+            className="px-6 text-right text-xs font-medium text-gray-900"
           >
             Discount
           </td>
@@ -71,7 +71,7 @@ export default function TableFooter({
         <tr className="bg-gray-50">
           <td
             colSpan={3}
-            className="px-6 py-4 text-right text-sm font-medium text-gray-900"
+            className="px-6 py-4 text-right text-xs font-medium text-gray-900"
           >
             Balance Due
           </td>

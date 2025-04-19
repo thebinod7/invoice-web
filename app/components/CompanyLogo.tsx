@@ -12,7 +12,7 @@ export default function CompanyLogo({
 }: CompanyProps) {
   return (
     <div className="flex flex-col space-y-2">
-      <label className="text-sm font-medium text-gray-700">Company Logo</label>
+      <label className="text-xs font-medium text-gray-700">Your Logo</label>
       <div className="flex items-center space-x-4">
         <div className="h-24 w-24 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center overflow-hidden">
           {logoPreview ? (

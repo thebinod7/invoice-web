@@ -179,7 +179,7 @@ export default function InvoiceGenerator() {
             <div className="col-span-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
                     Bill From (Name)
                   </label>
                   <input
@@ -192,7 +192,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
                     Bill From (Address)
                   </label>
                   <input
@@ -205,7 +205,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
                     Bill To (Name)
                   </label>
                   <input
@@ -218,7 +218,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-xs font-medium text-gray-700 mb-1">
                     Bill To (Address)
                   </label>
                   <input
@@ -237,7 +237,7 @@ export default function InvoiceGenerator() {
           {/* Invoice Details */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-gray-700 mb-1">
                 #Invoice Number
               </label>
               <input
@@ -250,7 +250,7 @@ export default function InvoiceGenerator() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-gray-700 mb-1">
                 Invoice Date
               </label>
               <input
@@ -262,7 +262,7 @@ export default function InvoiceGenerator() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-gray-700 mb-1">
                 Due Date
               </label>
               <input
@@ -277,7 +277,7 @@ export default function InvoiceGenerator() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-gray-700 mb-1">
                 PO Number (optional)
               </label>
               <input
@@ -290,7 +290,7 @@ export default function InvoiceGenerator() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-xs font-medium text-gray-700 mb-1">
                 Payment Terms (optional)
               </label>
               <input
