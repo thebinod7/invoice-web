@@ -16,7 +16,7 @@ export default function InvoiceHeader({
   handleDownloadClick,
 }: InvoiceHeaderProps) {
   return (
-    <div className="flex justify-between flex-col md:flex-row gap-4 items-center mb-4">
+    <div className="flex mt-6 justify-between flex-col md:flex-row gap-4 items-center mb-4">
       <div>
         <div className="w-full">
           <label className="block text-xs font-medium text-gray-700 mb-1">
