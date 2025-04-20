@@ -37,7 +37,7 @@ export default function TableFooter({
               rows={1}
               value={invoice.notes}
               onChange={handleInputChange}
-              placeholder="Any relevant notes or terms"
+              placeholder="Any relevant notes"
               name="notes"
             />
           </td>
