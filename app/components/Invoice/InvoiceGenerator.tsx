@@ -199,7 +199,7 @@ export default function InvoiceGenerator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Sending Bill From*
+                    <strong>Sending Bill From*</strong>
                   </label>
                   <input
                     type="text"
@@ -225,7 +225,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Sending Bill To*
+                    <strong> Sending Bill To*</strong>
                   </label>
                   <input
                     type="text"

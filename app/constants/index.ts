@@ -106,8 +106,8 @@ export const SUPPORTED_CURRENCIES = [
 
 export const NAV_LINKS = [
   { href: '/support', label: 'Support' },
-  { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/terms', label: 'Terms of Service' },
+  { href: '/faq', label: 'FAQs' },
+  { href: '/blog', label: 'Blog' },
 ];
 
 export const APP_PATHS = {
@@ -123,4 +123,9 @@ export const APP_PATHS = {
 
 export const SONNER_CONFIG = {
   duration: 5000, // 5 seconds
+};
+
+export const SOCIAL_LINKS = {
+  FACEBOOK: 'https://www.facebook.com/profile.php?id=61575665694124',
+  YOUTUBE: 'https://www.youtube.com/@invomaker',
 };
