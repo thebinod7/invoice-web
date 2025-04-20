@@ -1,6 +1,10 @@
 Posthog => Done
 Favicon => Done
 Responsive => Done
+Img size validation => Done
+Clear image => Done
+Currency update => Done
+
 Recent History
 Footer
 Blog

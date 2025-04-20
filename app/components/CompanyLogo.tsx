@@ -1,14 +1,17 @@
+import { X } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
 interface CompanyProps {
   logoPreview: string;
   handleLogoChange: any;
+  clearUploadedLogo: () => void;
 }
 
 export default function CompanyLogo({
   logoPreview,
   handleLogoChange,
+  clearUploadedLogo,
 }: CompanyProps) {
   return (
     <div className="flex flex-col space-y-2">
@@ -23,6 +26,12 @@ export default function CompanyLogo({
                 fill
                 className="object-contain"
               />
+              <button
+                className="absolute top-0 right-1 bg-white rounded-full p-1 shadow-md hover:bg-gray-100"
+                onClick={clearUploadedLogo} // Replace with your own remove handler
+              >
+                <X size={12} color="red" className="text-red-600" />
+              </button>
             </div>
           ) : (
             <div className="text-gray-400 text-sm text-center p-2">

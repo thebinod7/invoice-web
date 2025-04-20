@@ -26,7 +26,7 @@ export default function TableFooter({
             Subtotal
           </td>
           <td className="px-6 py-2 text-right text-sm font-medium text-gray-900">
-            {currencySymbol}
+            {currencySymbol} {''}
             {invoice.subtotal}
           </td>
         </tr>
@@ -76,7 +76,7 @@ export default function TableFooter({
             Balance Due
           </td>
           <td className="px-6 py-4 text-right text-sm font-medium text-gray-900">
-            {currencySymbol}
+            {currencySymbol} {''}
             {grandTotal.toFixed(2)}
           </td>
         </tr>

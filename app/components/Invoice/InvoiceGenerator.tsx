@@ -3,7 +3,11 @@
 import type React from 'react';
 
 import { API_ROUTES } from '@/app/constants/api-routes';
-import { generateRandomNumber, getCurrencySymbolByName } from '@/app/helpers';
+import {
+  calculateFileSizeInMB,
+  generateRandomNumber,
+  getCurrencySymbolByName,
+} from '@/app/helpers';
 import { postRequest } from '@/app/helpers/request';
 import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
 import { ILineItem } from '@/app/types';
@@ -15,6 +19,7 @@ import CompanyLogo from '../CompanyLogo';
 import InvoiceHeader from '../InvoiceHeader';
 import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
+import { MAX_FILE_SIZE } from '@/app/constants';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -47,8 +52,17 @@ export default function InvoiceGenerator() {
 
   const [logoPreview, setLogoPreview] = useState('');
 
+  const clearUploadedLogo = () => {
+    setLogoPreview('');
+    setInvoice({ ...invoice, companyLogo: '' });
+  };
+
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    const fileSize = +calculateFileSizeInMB(file?.size || 0);
+    if (fileSize > MAX_FILE_SIZE) {
+      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB`);
+    }
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -177,6 +191,7 @@ export default function InvoiceGenerator() {
               <CompanyLogo
                 logoPreview={logoPreview}
                 handleLogoChange={handleLogoChange}
+                clearUploadedLogo={clearUploadedLogo}
               />
             </div>
 

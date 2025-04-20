@@ -6,6 +6,7 @@ export const APP = {
 };
 
 export const APP_NAME = 'InvoMaker';
+export const MAX_FILE_SIZE = 10; // MB
 
 export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/logo.png';
 
@@ -17,9 +18,34 @@ export const DEFAULT_METADATA = {
 
 export const SUPPORTED_CURRENCIES = [
   {
-    label: 'USD',
-    value: 'USD',
-    symbol: '$',
+    label: 'AED',
+    value: 'AED',
+    symbol: 'AED',
+  },
+  {
+    label: 'AUD',
+    value: 'AUD',
+    symbol: 'AUD',
+  },
+  {
+    label: 'BDT',
+    value: 'BDT',
+    symbol: 'Tk',
+  },
+  {
+    label: 'BRL',
+    value: 'BRL',
+    symbol: 'BRL',
+  },
+  {
+    label: 'CAD',
+    value: 'CAD',
+    symbol: 'CAD',
+  },
+  {
+    label: 'CNY',
+    value: 'CNY',
+    symbol: '元',
   },
   {
     label: 'EUR',
@@ -32,14 +58,49 @@ export const SUPPORTED_CURRENCIES = [
     symbol: '£',
   },
   {
-    label: 'JPY',
-    value: 'JPY',
-    symbol: '¥',
+    label: 'HKD',
+    value: 'HKD',
+    symbol: 'HKD',
   },
   {
     label: 'INR',
     value: 'INR',
     symbol: '₹',
+  },
+  {
+    label: 'JPY',
+    value: 'JPY',
+    symbol: '¥',
+  },
+  {
+    label: 'MXN',
+    value: 'MXN',
+    symbol: 'MXN',
+  },
+  {
+    label: 'NPR',
+    value: 'NPR',
+    symbol: 'रु',
+  },
+  {
+    label: 'SGD',
+    value: 'SGD',
+    symbol: 'SGD',
+  },
+  {
+    label: 'RUB',
+    value: 'RUB',
+    symbol: 'RUB',
+  },
+  {
+    label: 'USD',
+    value: 'USD',
+    symbol: '$',
+  },
+  {
+    label: 'ZAR',
+    value: 'ZAR',
+    symbol: 'R',
   },
 ];
 

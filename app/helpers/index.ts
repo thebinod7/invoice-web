@@ -35,3 +35,9 @@ export const formatDate = (inputDate: string) => {
     day: 'numeric',
   });
 };
+
+export const calculateFileSizeInMB = (bytes: number) => {
+  if (!bytes) return 0.0;
+  const mb = bytes / (1024 * 1024);
+  return mb.toFixed(2);
+};
