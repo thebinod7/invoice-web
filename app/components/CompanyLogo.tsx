@@ -41,7 +41,7 @@ export default function CompanyLogo({
         </div>
         <div>
           <label className="bg-stone-500 hover:bg-stone-600 rounded-md text-white px-4 py-2 text-sm cursor-pointer">
-            Upload
+            Select
             <input
               type="file"
               accept="image/*"

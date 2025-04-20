@@ -21,7 +21,7 @@ export default function TableFooter({
         <tr className="bg-gray-50">
           <td
             colSpan={3}
-            className="px-6 py-2 text-right text-xs font-medium text-gray-900"
+            className="px-6 py-4 text-right text-xs font-medium text-gray-900"
           >
             Subtotal
           </td>
@@ -34,7 +34,7 @@ export default function TableFooter({
           <td className="px-6 py-4 text-xs font-medium text-gray-900">
             <textarea
               className="p-2 rounded-md outline-none border border-gray-300"
-              rows={2}
+              rows={1}
               value={invoice.notes}
               onChange={handleInputChange}
               placeholder="Any relevant notes or terms"
@@ -47,7 +47,7 @@ export default function TableFooter({
           >
             Tax
           </td>
-          <td className="px-6 text-right text-sm font-medium text-gray-900">
+          <td className="px-4 text-right text-sm font-medium text-gray-900">
             <TaxCalculator
               taxRate={invoice.tax}
               handleTaxInputChange={handleInputChange}
@@ -61,7 +61,7 @@ export default function TableFooter({
           >
             Discount
           </td>
-          <td className="px-6 text-right text-sm font-medium text-gray-900">
+          <td className="px-4 text-right text-sm font-medium text-gray-900">
             <DiscountCalculator
               discount={invoice.discount}
               handleDiscountInputChange={handleInputChange}

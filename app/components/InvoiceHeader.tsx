@@ -1,6 +1,7 @@
 import React from 'react';
 import { SUPPORTED_CURRENCIES } from '../constants';
 import { Download } from 'lucide-react';
+import LoadingBtn from './Buttons/LoadingBtn';
 
 interface InvoiceHeaderProps {
   invoice: Record<string, any>;
@@ -39,15 +40,19 @@ export default function InvoiceHeader({
         </div>
       </div>
       <div>
-        <button
-          disabled={pending}
-          type="button"
-          onClick={handleDownloadClick}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-greyish hover:text-white bg-darkish hover:bg-darkish focus:outline-none"
-        >
-          <Download className="h-5 w-5 mr-2" />
-          {pending ? 'Generating...' : 'Generate Invoice'}
-        </button>
+        {pending ? (
+          <LoadingBtn label="Generating invoice..." />
+        ) : (
+          <button
+            disabled={pending}
+            type="button"
+            onClick={handleDownloadClick}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-greyish hover:text-white bg-darkish hover:bg-darkish focus:outline-none"
+          >
+            <Download className="h-5 w-5 mr-2" />
+            Generate Invoice
+          </button>
+        )}
       </div>
     </div>
   );

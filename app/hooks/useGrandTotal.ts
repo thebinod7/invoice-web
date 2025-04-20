@@ -18,7 +18,6 @@ export const calculateGrandTotal = ({
   }, 0);
 
   const discountAmount = (discount / 100) * subtotal;
-  console.log({ discountAmount });
   const taxedAmount = ((subtotal - discountAmount) * tax) / 100;
 
   return subtotal - discountAmount + taxedAmount;

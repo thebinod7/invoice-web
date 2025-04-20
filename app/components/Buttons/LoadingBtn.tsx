@@ -1,14 +1,14 @@
-import clsx from "clsx";
-import React from "react";
-import SpinnerX from "./Spinner";
+import clsx from 'clsx';
+import React from 'react';
+import SpinnerX from './Spinner';
 
 export default function LoadingBtn({ label }: { label: string }) {
   return (
-    <div className="relative mb-6 text-center opacity-50">
+    <div className="relative text-center opacity-50">
       <button
         disabled={true}
         className={clsx(
-          `px-4 py-2 ${"hover:cursor-not-allowed"} font-bold text-white bg-greyish rounded-full`
+          `px-4 py-2 ${'hover:cursor-not-allowed'} font-bold text-white bg-greyish rounded-md`
         )}
         type="button"
       >

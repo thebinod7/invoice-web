@@ -5,8 +5,8 @@ Img size validation => Done
 Clear image => Done
 Currency update => Done
 Footer => Done
+Large image => Done
 
 Recent History
 Blog
-Large image
 Large number with decimal input

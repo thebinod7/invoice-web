@@ -83,6 +83,11 @@ export const SUPPORTED_CURRENCIES = [
     symbol: 'रु',
   },
   {
+    label: 'PKR',
+    value: 'PKR',
+    symbol: 'PKR',
+  },
+  {
     label: 'SGD',
     value: 'SGD',
     symbol: 'SGD',

@@ -115,7 +115,7 @@ export default function InvoiceGenerator() {
     });
     setInvoice({
       ...invoice,
-      subtotal: subTotal,
+      subtotal: +subTotal.toFixed(2),
     });
   };
 
@@ -160,7 +160,7 @@ export default function InvoiceGenerator() {
       ...invoice,
       invoiceItems: lineItems,
       subTotal: +invoice.subtotal,
-      dueAmount: dueAmount,
+      dueAmount: dueAmount.toFixed(2),
       currency: getCurrencySymbolByName(invoice.currency),
     };
     generateInvoiceMutation.mutate(payload);
