@@ -254,7 +254,7 @@ export default function InvoiceGenerator() {
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Sender Email
+                    Bill Sender Email
                   </label>
                   <input
                     type="email"
@@ -268,7 +268,7 @@ export default function InvoiceGenerator() {
 
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Client Email
+                    Bill Receiver Email
                   </label>
                   <input
                     type="email"

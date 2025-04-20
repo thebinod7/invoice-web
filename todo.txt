@@ -4,7 +4,9 @@ Responsive => Done
 Img size validation => Done
 Clear image => Done
 Currency update => Done
+Footer => Done
 
 Recent History
-Footer
 Blog
+Large image
+Large number with decimal input
