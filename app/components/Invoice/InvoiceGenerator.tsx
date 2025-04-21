@@ -2,6 +2,7 @@
 
 import type React from 'react';
 
+import { MAX_FILE_SIZE } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import {
   calculateFileSizeInMB,
@@ -19,7 +20,6 @@ import CompanyLogo from '../CompanyLogo';
 import InvoiceHeader from '../InvoiceHeader';
 import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
-import { MAX_FILE_SIZE } from '@/app/constants';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -214,7 +214,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Address
+                    Sender Address
                   </label>
                   <input
                     type="text"
@@ -240,7 +240,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Address
+                    Receiver Address
                   </label>
                   <input
                     type="text"

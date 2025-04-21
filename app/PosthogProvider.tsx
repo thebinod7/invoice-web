@@ -11,10 +11,12 @@ const POSTHOG_API_HOST = process.env.NEXT_PUBLIC_POSTHOG_API_HOST;
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    posthog.init(POSTHOG_API_KEY!, {
-      api_host: POSTHOG_API_HOST,
-      capture_pageview: false, // Disable automatic pageview capture, as we capture manually
-    });
+    if (process.env.NEXT_PUBLIC_NODE_ENV === 'production') {
+      posthog.init(POSTHOG_API_KEY!, {
+        api_host: POSTHOG_API_HOST,
+        capture_pageview: false,
+      });
+    }
   }, []);
 
   return (
