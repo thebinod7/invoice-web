@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { SOCIAL_LINKS } from '../constants';
 
 interface FAQItemProps {
   question: string;
@@ -92,7 +93,11 @@ export default function FAQPage() {
       <div className="mt-8 text-center">
         <p className="text-gray-600">
           Still have questions?{' '}
-          <a href="/" className="text-blue-600 hover:underline">
+          <a
+            href={SOCIAL_LINKS.FACEBOOK}
+            target="_blank"
+            className="text-blue-600 hover:underline"
+          >
             Contact us
           </a>
         </p>

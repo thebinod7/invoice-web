@@ -143,7 +143,10 @@ export default function InvoiceGenerator() {
       link.click();
       window.URL.revokeObjectURL(link.href);
       document.body.removeChild(link);
-      return true; // success
+      toast.success('Invoice downloaded successfully!', {
+        position: 'top-center',
+      });
+      return true;
     },
   });
 

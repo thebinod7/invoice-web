@@ -30,7 +30,8 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    target="_blank"
+                    href={SOCIAL_LINKS.FACEBOOK}
                     className="text-gray-300 hover:text-white transition-colors"
                   >
                     Contact
@@ -61,10 +62,10 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/blog"
+                    href="/about"
                     className="text-gray-300 hover:text-white transition-colors"
                   >
-                    Our Blog
+                    About Us
                   </Link>
                 </li>
               </ul>

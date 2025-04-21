@@ -112,7 +112,7 @@ export const SUPPORTED_CURRENCIES = [
 export const NAV_LINKS = [
   { href: '/support', label: 'Support' },
   { href: '/faq', label: 'FAQs' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/about', label: 'About Us' },
 ];
 
 export const APP_PATHS = {
