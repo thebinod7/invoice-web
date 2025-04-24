@@ -62,7 +62,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/about"
+                    href="/free-invoice-maker"
                     className="text-gray-300 hover:text-white transition-colors"
                   >
                     About Us
