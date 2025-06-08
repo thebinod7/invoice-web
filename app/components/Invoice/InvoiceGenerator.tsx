@@ -151,8 +151,13 @@ export default function InvoiceGenerator() {
   });
 
   const downloadInvoice = () => {
-    if (!invoice.billFromName || !invoice.billToName) {
-      return toast.error('Fields with * are required!');
+    if (
+      !invoice.billFromName ||
+      !invoice.billToName ||
+      !invoice.billFromAddress ||
+      !invoice.billToAddress
+    ) {
+      return toast.error('Please enter required fields!');
     }
     const dueAmount = calculateGrandTotal({
       items: lineItems,
@@ -204,7 +209,10 @@ export default function InvoiceGenerator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    <strong>Sending Bill From*</strong>
+                    <strong>
+                      Sending Bill From{' '}
+                      <span className="text-red-700">(Required)</span>
+                    </strong>
                   </label>
                   <input
                     type="text"
@@ -217,7 +225,10 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Sender Address
+                    <strong>
+                      Sender Address
+                      <span className="text-red-700"> (Required)</span>
+                    </strong>
                   </label>
                   <input
                     type="text"
@@ -230,7 +241,11 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    <strong> Sending Bill To*</strong>
+                    <strong>
+                      {' '}
+                      Sending Bill To{' '}
+                      <span className="text-red-700">(Required)</span>
+                    </strong>
                   </label>
                   <input
                     type="text"
@@ -243,7 +258,10 @@ export default function InvoiceGenerator() {
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Receiver Address
+                    <strong>
+                      Receiver Address
+                      <span className="text-red-700"> (Required)</span>
+                    </strong>
                   </label>
                   <input
                     type="text"
