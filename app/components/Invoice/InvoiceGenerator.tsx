@@ -63,7 +63,7 @@ export default function InvoiceGenerator() {
     const file = e.target.files?.[0];
     const fileSize = +calculateFileSizeInMB(file?.size || 0);
     if (fileSize > MAX_FILE_SIZE) {
-      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB`);
+      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
     if (file) {
       const reader = new FileReader();
