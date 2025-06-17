@@ -20,10 +20,13 @@ import CompanyLogo from '../CompanyLogo';
 import InvoiceHeader from '../InvoiceHeader';
 import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
+import { useRouter } from 'next/navigation';
 
 const DEFAULT_CURRENCY = 'USD';
 
 export default function InvoiceGenerator() {
+  const router = useRouter();
+
   const [lineItems, setLineItems] = useState<ILineItem[]>([
     {
       id: generateRandomNumber(),
@@ -143,10 +146,10 @@ export default function InvoiceGenerator() {
       link.click();
       window.URL.revokeObjectURL(link.href);
       document.body.removeChild(link);
-      toast.success('Invoice downloaded successfully!', {
-        position: 'top-center',
-      });
-      return true;
+      // toast.success('Invoice downloaded successfully!', {
+      //   position: 'top-center',
+      // });
+      router.push('/thanks');
     },
   });
 
