@@ -1,4 +1,4 @@
-import { CheckCircle, Download, Plus } from 'lucide-react';
+import { CheckCircle, Coffee, Download, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { SOCIAL_LINKS } from '../constants';
 
@@ -46,12 +46,28 @@ export default function ThankYouPage() {
             <Plus className="w-5 h-5" />
             <span>Generate New Invoice</span>
           </Link>
+        </div>
 
+        {/* Donation Section */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mt-8 text-center">
+          <div className="flex items-center justify-center mb-3">
+            <Coffee className="w-5 h-5 text-amber-600 mr-2" />
+            <h3 className="text-sm font-semibold text-gray-900">
+              Help Manage Server Costs
+            </h3>
+          </div>
+          <p className="text-sm text-gray-600 mb-4">
+            I want to keep this tool free to use. If this tool helped you,
+            consider buying me a coffee to help keep it running.
+          </p>
           <Link
-            href="/"
-            className="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-4 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center border border-gray-200"
+            href="https://nowpayments.io/payment/?iid=6408888239&source=button"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-colors duration-200 text-sm"
           >
-            Back to Home
+            <Coffee className="w-4 h-4 mr-2" />
+            Buy Me A Coffee
           </Link>
         </div>
 

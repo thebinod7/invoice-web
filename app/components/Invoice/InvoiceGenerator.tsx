@@ -383,14 +383,14 @@ export default function InvoiceGenerator() {
               <h2 className="text-lg font-medium text-gray-700">
                 Invoice Items
               </h2>
-              <button
+              {/* <button
                 type="button"
                 onClick={addItem}
                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-stone-500 hover:bg-stone-600 focus:outline-none"
               >
                 <PlusCircle className="h-4 w-4 mr-1" />
                 <span className="hidden sm:block">Add Item</span>
-              </button>
+              </button> */}
             </div>
             <div className="overflow-x-auto">
               <table className="w-full divide-y divide-gray-200">
@@ -458,6 +458,19 @@ export default function InvoiceGenerator() {
                       </td>
                     </tr>
                   ))}
+
+                  <tr>
+                    <td className="pl-2" colSpan={4}>
+                      <button
+                        type="button"
+                        onClick={addItem}
+                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-stone-500 hover:bg-stone-600 focus:outline-none"
+                      >
+                        <PlusCircle className="h-4 w-4 mr-1" />
+                        <span className="hidden sm:block">Add Item</span>
+                      </button>
+                    </td>
+                  </tr>
                 </tbody>
 
                 <TableFooter
