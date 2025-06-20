@@ -2,6 +2,8 @@ import { CheckCircle, Coffee, Download, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { SOCIAL_LINKS } from '../constants';
 
+const API_KEY = 'C61CPV0-46R44YW-NRAHK9C-8W1PRW7';
+
 export default function ThankYouPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
@@ -62,7 +64,7 @@ export default function ThankYouPage() {
             running!
           </p>
           <Link
-            href="https://nowpayments.io/payment/?iid=6408888239&source=button"
+            href={`https://nowpayments.io/donation?api_key=${API_KEY}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg transition-colors duration-200 text-sm"
