@@ -57,8 +57,9 @@ export default function ThankYouPage() {
             </h3>
           </div>
           <p className="text-sm text-gray-600 mb-4">
-            I want to keep this tool free to use. If this tool helped you,
-            consider buying me a coffee to help keep it running.
+            This tool is free and always will be. If you found it useful, you
+            are welcome to support. Every little bit helps keep the servers
+            running!
           </p>
           <Link
             href="https://nowpayments.io/payment/?iid=6408888239&source=button"
