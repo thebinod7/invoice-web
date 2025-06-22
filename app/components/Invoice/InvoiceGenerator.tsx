@@ -133,8 +133,13 @@ export default function InvoiceGenerator() {
         responseType: 'blob',
       });
     },
-    onError: (error) => {
-      toast.error(error.message || 'Something went wrong!');
+    onError: (error: any) => {
+      if (error.code === 'ERR_NETWORK') {
+        return toast.error('Website is too busy! Please try again later.');
+      }
+      toast.error(
+        error.message || 'Website is too busy! Please try again later.'
+      );
     },
     onSuccess: (data: any) => {
       const blob = new Blob([data.data], { type: 'application/pdf' });
