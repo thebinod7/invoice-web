@@ -21,6 +21,7 @@ import InvoiceHeader from '../InvoiceHeader';
 import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
 import { useRouter } from 'next/navigation';
+import { set } from 'zod';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -38,10 +39,10 @@ export default function InvoiceGenerator() {
   const [invoice, setInvoice] = useState({
     companyLogo: '',
     currency: DEFAULT_CURRENCY,
-    billFromName: '',
-    billFromAddress: '',
-    billToName: '',
-    billToAddress: '',
+    billFromName: 'Vikram Singh',
+    billFromAddress: 'India',
+    billToName: 'Vedhantha',
+    billToAddress: 'Nepal',
     senderEmail: '',
     clientEmail: '',
     invoiceNumber: '',
@@ -56,14 +57,17 @@ export default function InvoiceGenerator() {
   });
 
   const [logoPreview, setLogoPreview] = useState('');
+  const [fileName, setFileName] = useState('');
 
   const clearUploadedLogo = () => {
+    setFileName('');
     setLogoPreview('');
     setInvoice({ ...invoice, companyLogo: '' });
   };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     const fileSize = +calculateFileSizeInMB(file?.size || 0);
     if (fileSize > MAX_FILE_SIZE) {
       return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
@@ -77,6 +81,7 @@ export default function InvoiceGenerator() {
       };
       reader.readAsDataURL(file);
     }
+    setFileName(file?.name || '');
   };
 
   const addItem = () => {
@@ -210,6 +215,7 @@ export default function InvoiceGenerator() {
                 logoPreview={logoPreview}
                 handleLogoChange={handleLogoChange}
                 clearUploadedLogo={clearUploadedLogo}
+                fileName={fileName}
               />
             </div>
 

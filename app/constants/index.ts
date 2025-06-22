@@ -6,7 +6,7 @@ export const APP = {
 };
 
 export const APP_NAME = 'InvoMaker';
-export const MAX_FILE_SIZE = 10; // MB
+export const MAX_FILE_SIZE = 15; // MB
 
 export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/logo.png';
 
