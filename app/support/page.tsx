@@ -2,14 +2,14 @@ import { APP } from '../constants';
 
 export default function SupportPage() {
   return (
-    <div className="min-h-screen">
-      <header className="bg-white shadow-sm">
+    <div className="min-h-screen max-w-4xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      {/* <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900">Support</h1>
         </div>
-      </header>
+      </header> */}
 
-      <main className="max-w-7xl mx-auto py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+      <main className="max-w-7xl mx-auto py-2 sm:py-4 px-4 sm:px-6 lg:px-8">
         <div className="bg-white shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:p-6">
             <div className="prose max-w-none">

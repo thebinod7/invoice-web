@@ -5,21 +5,6 @@ import Link from 'next/link';
 export default function Footer2() {
   return (
     <>
-      <section className="py-20 bg-emerald-600">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-            Ready to Create Your First Invoice?
-          </h2>
-          <p className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of professionals who use our free invoice generator
-            to get paid faster.
-          </p>
-          <button className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-emerald-600 bg-white hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-600">
-            Start Creating Invoices
-            <FileText className="ml-2 h-5 w-5" />
-          </button>
-        </div>
-      </section>
       <footer id="contact" className="bg-gray-900 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
