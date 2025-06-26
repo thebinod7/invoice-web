@@ -195,7 +195,7 @@ export default function InvoiceGenerator() {
   const currencySymbol = getCurrencySymbolByName(invoice.currency);
 
   return (
-    <div className="min-h-screen py-0 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden px-8">
           <InvoiceHeader
