@@ -42,7 +42,7 @@ export default function ThankYouPage() {
         {/* CTA Section */}
         <div className="space-y-4">
           <Link
-            href="/"
+            href="/create-invoice"
             className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center space-x-2 shadow-sm"
           >
             <Plus className="w-5 h-5" />

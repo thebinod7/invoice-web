@@ -8,6 +8,33 @@ import {
   Share2,
   Zap,
 } from 'lucide-react';
+import Link from 'next/link';
+import { APP, DEFAULT_METADATA, DEFAULT_OG_IMAGE_URL } from './constants';
+import { Metadata } from 'next';
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const title = APP.TITLE;
+  const description = APP.DESCRIPTION;
+  return {
+    ...DEFAULT_METADATA,
+    title,
+    description,
+    openGraph: {
+      type: 'website',
+      url: process?.env?.NEXT_PUBLIC_APP_URL,
+      title,
+      description,
+      images: [
+        {
+          url: DEFAULT_OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+  };
+};
 
 export default function LandingPage() {
   return (
@@ -31,10 +58,13 @@ export default function LandingPage() {
                 ready-to-send invoices in seconds.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <button className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                <Link
+                  href="/create-invoice"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                >
                   Create an Invoice
                   <FileText className="ml-2 h-5 w-5" />
-                </button>
+                </Link>
                 <button className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                   View Sample
                   <Eye className="ml-2 h-5 w-5" />
