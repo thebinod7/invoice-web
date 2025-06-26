@@ -26,12 +26,12 @@ export default function Header2() {
           >
             How it Works
           </a>
-          <a
-            href="#contact"
+          <Link
+            href="/create-invoice"
             className="text-gray-600 hover:text-gray-900 transition-colors"
           >
-            Contact
-          </a>
+            Get Started
+          </Link>
         </nav>
       </div>
     </header>

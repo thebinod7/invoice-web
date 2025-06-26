@@ -43,7 +43,7 @@ export default function ThankYouPage() {
         <div className="space-y-4">
           <Link
             href="/create-invoice"
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center space-x-2 shadow-sm"
+            className="w-full font-semibold py-4 px-6 duration-200 flex items-center justify-center space-x-2 shadow-sm text-lg text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
           >
             <Plus className="w-5 h-5" />
             <span>Generate New Invoice</span>
