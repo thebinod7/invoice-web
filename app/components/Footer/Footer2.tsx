@@ -108,8 +108,9 @@ export default function Footer2() {
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
             <p>
-              © {new Date().getFullYear()} {APP_NAME}. All rights reserved. Made
-              with ❤️ for freelancers and small businesses.
+              © {new Date().getFullYear()} {APP_NAME}. All rights reserved.
+              Invoicing made simple for freelancers, small businesses, and
+              beyond.
             </p>
           </div>
         </div>
