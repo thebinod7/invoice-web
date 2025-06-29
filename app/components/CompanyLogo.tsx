@@ -48,7 +48,7 @@ export default function CompanyLogo({
             Select
             <input
               type="file"
-              accept="image/*"
+              accept="image/png, image/jpeg, image/jpg"
               className="hidden"
               onChange={handleLogoChange}
             />
