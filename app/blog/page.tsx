@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { Search, Calendar, User, Tag, ChevronDown } from 'lucide-react';
 import { BLOG_ARTICLES, CATEGORIES } from '../constants/db';
+import Link from 'next/link';
 
 export default function page() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -146,9 +147,12 @@ export default function page() {
 
                   {/* Title */}
                   <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors duration-200">
-                    <a href="#" className="hover:underline">
+                    <Link
+                      href={`/blog/${article.slug}`}
+                      className="hover:underline"
+                    >
                       {article.title}
-                    </a>
+                    </Link>
                   </h2>
 
                   {/* Excerpt */}
@@ -177,9 +181,7 @@ export default function page() {
                       </div>
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-1" />
-                        <span>
-                          {new Date(article.date).toLocaleDateString()}
-                        </span>
+                        <span>{article.date}</span>
                       </div>
                     </div>
                     <span className="font-medium text-blue-600">
