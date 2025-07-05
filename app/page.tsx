@@ -48,7 +48,7 @@ export default function LandingPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div className="text-center lg:text-left">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 mb-4">
-                  100% Free Forever
+                  100% Free |<span className="ml-1">No Sign-Up Required</span>
                 </span>
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                   Create Professional Invoices for{' '}
