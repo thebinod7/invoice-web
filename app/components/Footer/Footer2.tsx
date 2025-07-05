@@ -103,6 +103,15 @@ export default function Footer2() {
                     About Us
                   </Link>
                 </li>
+
+                <li>
+                  <Link
+                    href="/releases"
+                    className="hover:text-white transition-colors"
+                  >
+                    Release Notes
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>

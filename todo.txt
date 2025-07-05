@@ -6,8 +6,11 @@ Clear image => Done
 Currency update => Done
 Footer => Done
 Large image => Done
+Blog Articles => Done
 
 Login and Invoice tracking [sent/paid/pending]
-Blog
 Large number with decimal input
 Validate email address
+Contact form
+Contact on thank you page
+Feedback on thank you page
