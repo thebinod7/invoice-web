@@ -23,9 +23,34 @@ export const SUPPORTED_CURRENCIES = [
     symbol: 'AED',
   },
   {
+    label: 'AMD',
+    value: 'AMD',
+    symbol: 'AMD',
+  },
+  {
+    label: 'ARS',
+    value: 'ARS',
+    symbol: 'ARS',
+  },
+  {
     label: 'AUD',
     value: 'AUD',
     symbol: 'AUD',
+  },
+  {
+    label: 'AWG',
+    value: 'AWG',
+    symbol: 'AWG',
+  },
+  {
+    label: 'AZN',
+    value: 'AZN',
+    symbol: 'AZN',
+  },
+  {
+    label: 'BAM',
+    value: 'BAM',
+    symbol: 'KM',
   },
   {
     label: 'BDT',
@@ -33,9 +58,64 @@ export const SUPPORTED_CURRENCIES = [
     symbol: 'Tk',
   },
   {
+    label: 'BGN',
+    value: 'BGN',
+    symbol: 'лв',
+  },
+  {
+    label: 'BHD',
+    value: 'BHD',
+    symbol: 'BHD',
+  },
+  {
+    label: 'BIF',
+    value: 'BIF',
+    symbol: 'BIF',
+  },
+  {
+    label: 'BMD',
+    value: 'BMD',
+    symbol: 'BMD',
+  },
+  {
+    label: 'BOB',
+    value: 'BOB',
+    symbol: 'BOB',
+  },
+  {
+    label: 'BOV',
+    value: 'BOV',
+    symbol: 'BOV',
+  },
+  {
     label: 'BRL',
     value: 'BRL',
     symbol: 'BRL',
+  },
+  {
+    label: 'BSD',
+    value: 'BSD',
+    symbol: 'BSD',
+  },
+  {
+    label: 'BTN',
+    value: 'BTN',
+    symbol: 'BTN',
+  },
+  {
+    label: 'BWP',
+    value: 'BWP',
+    symbol: 'BWP',
+  },
+  {
+    label: 'BYN',
+    value: 'BYN',
+    symbol: 'BYN',
+  },
+  {
+    label: 'BZD',
+    value: 'BZD',
+    symbol: 'BZD',
   },
   {
     label: 'CAD',
@@ -43,9 +123,74 @@ export const SUPPORTED_CURRENCIES = [
     symbol: 'CAD',
   },
   {
+    label: 'CDF',
+    value: 'CDF',
+    symbol: 'CDF',
+  },
+  {
+    label: 'CHE',
+    value: 'CHE',
+    symbol: 'CHE',
+  },
+  {
+    label: 'CHF',
+    value: 'CHF',
+    symbol: 'CHF',
+  },
+  {
+    label: 'CLF',
+    value: 'CLF',
+    symbol: 'CLF',
+  },
+  {
+    label: 'COU',
+    value: 'COU',
+    symbol: 'COU',
+  },
+  {
+    label: 'CHW',
+    value: 'CHW',
+    symbol: 'CHW',
+  },
+  {
     label: 'CNY',
     value: 'CNY',
     symbol: '元',
+  },
+  {
+    label: 'CRC',
+    value: 'CRC',
+    symbol: 'CRC',
+  },
+  {
+    label: 'CUC',
+    value: 'CUC',
+    symbol: 'CUC',
+  },
+  {
+    label: 'CUP',
+    value: 'CUP',
+    symbol: 'CUP',
+  },
+  {
+    label: 'CVE',
+    value: 'CVE',
+    symbol: 'CVE',
+  },
+  {
+    label: 'DKK',
+    value: 'DKK',
+    symbol: 'DKK',
+  },
+  {
+    label: 'DOP',
+    value: 'DOP',
+    symbol: 'DOP',
+  },
+  {
+    label: 'DZD',
+    value: 'DZD',
+    symbol: 'DZD',
   },
   {
     label: 'EUR',
@@ -103,9 +248,24 @@ export const SUPPORTED_CURRENCIES = [
     symbol: '$',
   },
   {
+    label: 'YER',
+    value: 'YER',
+    symbol: 'YER',
+  },
+  {
     label: 'ZAR',
     value: 'ZAR',
     symbol: 'R',
+  },
+  {
+    label: 'ZMW',
+    value: 'ZMW',
+    symbol: 'ZMW',
+  },
+  {
+    label: 'ZWL',
+    value: 'ZWL',
+    symbol: 'ZWL',
   },
 ];
 
