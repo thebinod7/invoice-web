@@ -24,7 +24,17 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
   {
-    id: '1',
+    id: '14',
+    title: 'Feedback Form',
+    description:
+      'We have added a feedback form to gather your thoughts and suggestions for future improvements.',
+    date: '2025-07-05',
+    version: 'v1.2.1',
+    icon: Newspaper,
+    isNew: true,
+  },
+  {
+    id: '15',
     title: 'Added Blog Articles',
     description:
       'We have added a new section for blog articles to keep you updated with the latest news and insights.',
@@ -34,7 +44,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: true,
   },
   {
-    id: '2',
+    id: '16',
     title: 'Landing Page Improvements',
     description:
       'Improved the landing page with better design and performance optimizations.',
@@ -44,7 +54,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '3',
+    id: '17',
     title: 'Validation and Error Handling',
     description:
       'We have added comprehensive validation and error handling to ensure data integrity and improve user experience.',
@@ -54,7 +64,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '4',
+    id: '18',
     title: 'UI/UX Improvements',
     description:
       'We have revamped the user interface for a more intuitive experience, and improved navigation.',
@@ -64,7 +74,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '5',
+    id: '19',
     title: 'Support company logo',
     description: 'You can now upload company logo for better branding.',
     date: '2025-04-14',
@@ -73,7 +83,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '6',
+    id: '20',
     title: 'Launch',
     description: `Inception of ${APP_NAME}`,
     date: '2025-04-07',
