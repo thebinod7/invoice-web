@@ -1,4 +1,4 @@
-export const CATEGORIES = ['All', 'Insights', 'Tutorial'];
+export const CATEGORIES = ['All', 'Insights', 'Guide'];
 
 export const BLOG_ARTICLES = [
   {
@@ -17,29 +17,29 @@ export const BLOG_ARTICLES = [
   {
     id: 2,
     title:
-      'Best Free Invoice Maker for Freelancers — Send Professional Invoices in Minutes',
+      'Top Mistakes to Avoid When Creating Invoices (and How a Free Generator Helps)',
     excerpt:
-      'Discover the best free invoice maker for freelancers to create and send professional invoices in minutes. Impress your clients and get paid faster with easy-to-use, customizable templates.',
+      'Many freelancers and small business owners make simple invoice mistakes that lead to late payments and unhappy clients. Learn the top invoicing mistakes to avoid and discover how a free invoice generator can help you create professional, error-free invoices quickly and easily.',
     author: 'Invomaker',
-    date: 'July 3, 2025',
-    category: 'Design',
-    readTime: '8 min read',
+    date: 'July 5, 2025',
+    category: 'Insights',
+    readTime: '5 min read',
     image: '/images/logo.png',
-    slug: 'create-professional-invoice-free',
-    tags: ['Freelancers', 'Free', 'Tool'],
+    slug: 'mistakes-to-avoid-when-creating-invoice',
+    tags: ['Freelancers', 'Free', 'Tool', 'Startup', 'Business'],
   },
   {
     id: 3,
     title:
-      'Free Online Invoice Generator for Small Businesses: No Signup Needed',
+      'How to Create a Professional Invoice in 5 Minutes (No Design Skills Needed)',
     excerpt:
-      'Create professional invoices easily with our free online invoice generator for small businesses — no signup required. Save time and get paid faster with simple, customizable invoice templates.',
+      'Learn how to create a professional invoice in just 5 minutes with a free online invoice generator — no design skills needed! Get paid faster with easy, error-free invoices.',
     author: 'Invomaker',
-    date: '2024-01-10',
-    category: 'Backend',
-    readTime: '12 min read',
+    date: 'July 5, 2025',
+    category: 'Guide',
+    readTime: '5 min read',
     image: '/images/logo.png',
-    slug: 'create-professional-invoice-free',
+    slug: 'how-to-create-professional-invoice',
     tags: ['Business', 'Invoice', 'Online'],
   },
 ];
