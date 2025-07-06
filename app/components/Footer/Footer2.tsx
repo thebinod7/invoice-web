@@ -59,8 +59,7 @@ export default function Footer2() {
                 </li>
                 <li>
                   <Link
-                    target="_blank"
-                    href={SOCIAL_LINKS.FACEBOOK}
+                    href="/contact"
                     className="hover:text-white transition-colors"
                   >
                     Contact Us

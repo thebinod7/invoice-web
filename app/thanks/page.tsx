@@ -179,13 +179,12 @@ export default function ThankYouPage() {
         {/* Additional Info */}
         <div className="text-center mt-8">
           <p className="text-xs text-gray-500">
-            Need help? Reach out to us at{' '}
+            Need help? &nbsp;
             <Link
-              target="_blank"
-              href={SOCIAL_LINKS.FACEBOOK}
+              href="/contact"
               className="text-green-600 hover:text-green-700 underline"
             >
-              Facebook
+              Contact Us
             </Link>
           </p>
         </div>
