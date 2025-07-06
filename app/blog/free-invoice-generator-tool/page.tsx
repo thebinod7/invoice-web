@@ -1,9 +1,54 @@
+import {
+  APP,
+  DEFAULT_METADATA,
+  DEFAULT_OG_IMAGE_URL,
+  SEO_KEYWORDS,
+} from '@/app/constants';
 import { BLOG_ARTICLES } from '@/app/constants/db';
 import { Calendar, Clock, Tag, TagIcon, User } from 'lucide-react';
+import { Metadata } from 'next';
 
 const article = BLOG_ARTICLES.find(
   (f) => f.slug === 'free-invoice-generator-tool'
 );
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const title = article?.title || APP.TITLE;
+  const description = article?.excerpt || APP.DESCRIPTION;
+  return {
+    ...DEFAULT_METADATA,
+    title,
+    description,
+    keywords: SEO_KEYWORDS,
+    openGraph: {
+      type: 'website',
+      url: process?.env?.NEXT_PUBLIC_APP_URL,
+      title,
+      description,
+      images: [
+        {
+          url: DEFAULT_OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [
+        {
+          url: DEFAULT_OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+  };
+};
 
 export default function BlogArticlePage() {
   return (

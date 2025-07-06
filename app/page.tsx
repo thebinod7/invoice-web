@@ -11,7 +11,12 @@ import {
 } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { APP, DEFAULT_METADATA, DEFAULT_OG_IMAGE_URL } from './constants';
+import {
+  APP,
+  DEFAULT_METADATA,
+  DEFAULT_OG_IMAGE_URL,
+  SEO_KEYWORDS,
+} from './constants';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const title = APP.TITLE;
@@ -20,9 +25,23 @@ export const generateMetadata = async (): Promise<Metadata> => {
     ...DEFAULT_METADATA,
     title,
     description,
+    keywords: SEO_KEYWORDS,
     openGraph: {
       type: 'website',
       url: process?.env?.NEXT_PUBLIC_APP_URL,
+      title,
+      description,
+      images: [
+        {
+          url: DEFAULT_OG_IMAGE_URL,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
       title,
       description,
       images: [

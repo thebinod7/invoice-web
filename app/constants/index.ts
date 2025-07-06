@@ -294,3 +294,15 @@ export const SOCIAL_LINKS = {
   FACEBOOK: 'https://www.facebook.com/profile.php?id=61575665694124',
   YOUTUBE: 'https://www.youtube.com/@invomaker',
 };
+
+export const SEO_KEYWORDS = [
+  'invoice generator',
+  'free invoice template',
+  'create invoice',
+  'download invoice',
+  'online invoice generator',
+  'professional invoices',
+  'PDF invoice',
+  'invoice maker',
+  'free invoice maker',
+];
