@@ -20,6 +20,9 @@ Allow: /
 User-agent: Facebot
 Allow: /
 
+User-agent: Mediapartners-Google
+Disallow:
+
 User-agent: *
 Disallow: /
 
