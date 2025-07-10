@@ -4,10 +4,10 @@ import { CheckCircle, Download, MessageSquare, Plus, Send } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { SOCIAL_LINKS } from '../constants';
 import { API_ROUTES } from '../constants/api-routes';
 import { sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
+import Head from 'next/head';
 
 export default function ThankYouPage() {
   const [showForm, setShowForm] = useState(false);
