@@ -18,11 +18,13 @@ import { toast } from 'sonner';
 import { API_ROUTES } from '../constants/api-routes';
 import { sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
+import SubscribeSuccess from './SubscribeSuccess';
 
 export default function ThankYouPage() {
   const [showForm, setShowForm] = useState(false);
   const [msgSent, setMsgSent] = useState(false);
   const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   const useFeedbackMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -48,7 +50,7 @@ export default function ThankYouPage() {
     },
     onSuccess: () => {
       setEmail('');
-      toast.success('Thank you for subscribing!');
+      setSubscribed(true);
     },
   });
 
@@ -126,60 +128,72 @@ export default function ThankYouPage() {
                 </p>
               </div>
             </div>
-            <div className="space-y-3 mb-4">
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <FileText className="w-4 h-4 text-emerald-600" />
-                </div>
-                <p className="text-xs text-gray-600">
-                  Early access to new features and tools
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <TrendingUp className="w-4 h-4 text-emerald-600" />
-                </div>
-                <p className="text-xs text-gray-600">
-                  Business growth tips and financial insights
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <Gift className="w-4 h-4 text-emerald-600" />
-                </div>
-                <p className="text-xs text-gray-600">
-                  Invoice best practices and exclusive resources
-                </p>
-              </div>
-            </div>
 
-            <form onSubmit={handleSubscribeFormSubmit} className="space-y-3">
-              <div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
-                  required
-                  className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-400"
-                />
+            {!subscribed && (
+              <div className="space-y-3 mb-4">
+                <div className="flex items-center space-x-3">
+                  <div className="flex-shrink-0">
+                    <FileText className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <p className="text-xs text-gray-600">
+                    Early access to new features and tools
+                  </p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="flex-shrink-0">
+                    <TrendingUp className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <p className="text-xs text-gray-600">
+                    Business growth tips and financial insights
+                  </p>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="flex-shrink-0">
+                    <Gift className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <p className="text-xs text-gray-600">
+                    Invoice best practices and exclusive resources
+                  </p>
+                </div>
               </div>
-              <button
-                disabled={useSubscribeMutation.isPending}
-                type="submit"
-                className="w-full inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-              >
-                <Mail className="w-4 h-4" />
-                <span>
-                  {useSubscribeMutation.isPending
-                    ? 'Please wait...'
-                    : 'Subscribe to Newsletter'}
-                </span>
-              </button>
-            </form>
-            <p className="text-xs text-gray-500 mt-2 text-center">
-              No spam, unsubscribe anytime. We respect your privacy.
-            </p>
+            )}
+
+            {subscribed ? (
+              <SubscribeSuccess />
+            ) : (
+              <>
+                <form
+                  onSubmit={handleSubscribeFormSubmit}
+                  className="space-y-3"
+                >
+                  <div>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your email address"
+                      required
+                      className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent placeholder-gray-400"
+                    />
+                  </div>
+                  <button
+                    disabled={useSubscribeMutation.isPending}
+                    type="submit"
+                    className="w-full inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>
+                      {useSubscribeMutation.isPending
+                        ? 'Please wait...'
+                        : 'Subscribe to Newsletter'}
+                    </span>
+                  </button>
+                </form>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                  No spam, unsubscribe anytime. We respect your privacy.
+                </p>
+              </>
+            )}
           </div>
 
           {/* Feedback Form */}
