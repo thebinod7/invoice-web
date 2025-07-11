@@ -1,23 +1,23 @@
 'use client';
 import { useMutation } from '@tanstack/react-query';
 import {
-  CheckCircle,
-  Download,
   FileText,
   Gift,
+  LoaderIcon,
   Mail,
   MessageSquare,
-  Plus,
   Send,
   TrendingUp,
 } from 'lucide-react';
-import Link from 'next/link';
 import Script from 'next/script';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { API_ROUTES } from '../constants/api-routes';
 import { sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
+import CTA from './CTA';
+import InvoiceGenSuccess from './InvoiceGenSuccess';
+import InvoiceSavedInfo from './InvoiceSavedInfo';
 import SubscribeSuccess from './SubscribeSuccess';
 
 export default function ThankYouPage() {
@@ -81,37 +81,10 @@ export default function ThankYouPage() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full">
           {/* Success Icon */}
-          <div className="text-center mb-4">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-6">
-              <CheckCircle className="w-10 h-10 text-green-600" />
-            </div>
-
-            {/* Thank You Message */}
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Thank You!
-            </h1>
-            <p className="text-lg text-gray-600 mb-1">
-              Your invoice has been generated successfully.
-            </p>
-          </div>
+          <InvoiceGenSuccess />
 
           {/* Invoice Saved Message */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0">
-                <Download className="w-5 h-5 text-green-600 mt-0.5" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-1">
-                  Invoice Saved
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  Your invoice has been automatically saved to your local
-                  device. You can find it in your downloads folder.
-                </p>
-              </div>
-            </div>
-          </div>
+          <InvoiceSavedInfo />
 
           {/* Email Collection Section */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
@@ -181,7 +154,11 @@ export default function ThankYouPage() {
                     type="submit"
                     className="w-full inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                   >
-                    <Mail className="w-4 h-4" />
+                    {useSubscribeMutation.isPending ? (
+                      <LoaderIcon />
+                    ) : (
+                      <Mail className="w-4 h-4" />
+                    )}
                     <span>
                       {useSubscribeMutation.isPending
                         ? 'Please wait...'
@@ -290,29 +267,7 @@ export default function ThankYouPage() {
             )}
           </div>
 
-          {/* CTA Section */}
-          <div className="space-y-4">
-            <Link
-              href="/create-invoice"
-              className="w-full font-semibold py-4 px-6 duration-200 flex items-center justify-center space-x-2 shadow-sm text-lg text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-            >
-              <Plus className="w-5 h-5" />
-              <span>Generate New Invoice</span>
-            </Link>
-          </div>
-
-          {/* Additional Info */}
-          <div className="text-center mt-8">
-            <p className="text-xs text-gray-500">
-              Need help? &nbsp;
-              <Link
-                href="/contact"
-                className="text-green-600 hover:text-green-700 underline"
-              >
-                Contact Us
-              </Link>
-            </p>
-          </div>
+          <CTA />
         </div>
       </div>
     </>
