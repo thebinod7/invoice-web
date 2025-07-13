@@ -12,36 +12,39 @@ const article = BLOG_ARTICLES.find(
   (f) => f.slug === 'free-invoice-generator-tool'
 );
 
-export const generateMetadata = async (): Promise<Metadata> => {
+export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
+  const meta = BLOG_ARTICLES.find((f) => f.slug === params.slug);
+  const metaTitle = meta?.title;
+  const metaDescription = meta?.excerpt;
   return {
     ...DEFAULT_METADATA,
-    title: article?.title,
-    description: article?.excerpt,
+    title: metaTitle,
+    description: metaDescription,
     keywords: SEO_KEYWORDS,
     openGraph: {
       type: 'website',
       url: process?.env?.NEXT_PUBLIC_APP_URL,
-      title: article?.title,
-      description: article?.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       images: [
         {
           url: DEFAULT_OG_IMAGE_URL,
           width: 1200,
           height: 630,
-          alt: article?.title,
+          alt: metaTitle,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: article?.title,
-      description: article?.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       images: [
         {
           url: DEFAULT_OG_IMAGE_URL,
           width: 1200,
           height: 630,
-          alt: article?.title,
+          alt: metaTitle,
         },
       ],
     },
