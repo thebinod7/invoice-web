@@ -14,7 +14,9 @@ const article = BLOG_ARTICLES.find(
 
 export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
   const meta = BLOG_ARTICLES.find((f) => f.slug === params.slug);
-  const metaTitle = meta?.title;
+  console.log('meta', meta);
+  const metaTitle =
+    'Free Invoice Generator Tool for Professional Invoices Generation';
   const metaDescription = meta?.excerpt;
   return {
     ...DEFAULT_METADATA,
