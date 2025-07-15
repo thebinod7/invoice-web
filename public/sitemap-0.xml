@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://invomaker.com/about</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/faq</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/privacy</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/support</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/terms</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/blog</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/releases</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/blog/free-invoice-generator-tool</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/blog/how-to-create-professional-invoice</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/free-invoice-maker</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/blog/mistakes-to-avoid-when-creating-invoice</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/thanks</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/create-invoice</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-<url><loc>https://invomaker.com/contact</loc><lastmod>2025-07-15T02:09:40.964Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/faq</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/about</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/privacy</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/contact</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/releases</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/support</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/terms</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/create-invoice</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/thanks</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/blog/free-invoice-generator-tool</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/blog/how-to-create-professional-invoice</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/blog/mistakes-to-avoid-when-creating-invoice</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/free-invoice-maker</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+<url><loc>https://invomaker.com/blog</loc><lastmod>2025-07-15T02:15:46.086Z</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

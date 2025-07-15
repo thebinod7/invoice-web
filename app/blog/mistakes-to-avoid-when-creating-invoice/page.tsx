@@ -12,10 +12,9 @@ const article = BLOG_ARTICLES.find(
   (f) => f.slug === 'mistakes-to-avoid-when-creating-invoice'
 );
 
-export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
-  const meta = BLOG_ARTICLES.find((f) => f.slug === params.slug);
-  const metaTitle = meta?.title;
-  const metaDescription = meta?.excerpt;
+export const generateMetadata = async (): Promise<Metadata> => {
+  const metaTitle = article?.title;
+  const metaDescription = article?.excerpt;
   return {
     title: metaTitle,
     description: metaDescription,
@@ -23,7 +22,7 @@ export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
     category: APP_CATEGORY,
     openGraph: {
       type: 'website',
-      url: `${WEBSITE_URL}/blog/${meta?.slug}`,
+      url: `${WEBSITE_URL}/blog/${article?.slug}`,
       title: metaTitle,
       description: metaDescription,
       images: [
