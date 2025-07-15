@@ -1,8 +1,8 @@
 import {
-  APP,
-  DEFAULT_METADATA,
+  APP_CATEGORY,
   DEFAULT_OG_IMAGE_URL,
   SEO_KEYWORDS,
+  WEBSITE_URL,
 } from '@/app/constants';
 import { BLOG_ARTICLES } from '@/app/constants/db';
 import { Calendar, Clock, Tag, TagIcon, User } from 'lucide-react';
@@ -17,13 +17,13 @@ export const generateMetadata = async ({ params }: any): Promise<Metadata> => {
   const metaTitle = meta?.title;
   const metaDescription = meta?.excerpt;
   return {
-    ...DEFAULT_METADATA,
     title: metaTitle,
     description: metaDescription,
     keywords: SEO_KEYWORDS,
+    category: APP_CATEGORY,
     openGraph: {
       type: 'website',
-      url: process?.env?.NEXT_PUBLIC_APP_URL,
+      url: `${WEBSITE_URL}/blog/${meta?.slug}`,
       title: metaTitle,
       description: metaDescription,
       images: [
