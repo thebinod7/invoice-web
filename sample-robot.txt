@@ -1,0 +1,33 @@
+# *
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Mediapartners-Google
+Disallow:
+
+User-agent: *
+Disallow: /
+
+# Host
+Host: https://invomaker.com
+
+# Sitemaps
+Sitemap: https://invomaker.com/sitemap.xml
