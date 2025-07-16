@@ -5,7 +5,8 @@ import { GA_PUBLISHER_ID } from '../constants';
 export default function AdBanner(props: any) {
   useEffect(() => {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+      (window as any).adsbygoogle.push({});
     } catch (err) {
       console.log(err);
     }
