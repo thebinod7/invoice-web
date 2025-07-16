@@ -161,7 +161,7 @@ export default function ThankYouPage() {
           <CTA />
 
           {/* Google Ads Section */}
-          <div className="mt-4">
+          <div className="mt-8">
             <AdBanner />
           </div>
 
