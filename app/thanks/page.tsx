@@ -1,7 +1,6 @@
 'use client';
 import { useMutation } from '@tanstack/react-query';
 import { MessageSquare, Send } from 'lucide-react';
-import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import AdBanner from '../components/AdBanner';
@@ -162,18 +161,12 @@ export default function ThankYouPage() {
           <CTA />
 
           {/* Google Ads Section */}
-          <div className="bg-white  mt-4 rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">
-              Support Us
-            </h3>
-            <p className="text-xs text-gray-500 mb-4">
-              Like this tool? Your support keeps it running and free for all.
-            </p>
+          <div className="mt-4">
             <AdBanner />
           </div>
 
           {/* Additional Info */}
-          <div className="text-center mt-8">
+          {/* <div className="text-center mt-4">
             <p className="text-xs text-gray-500">
               Need help? &nbsp;
               <Link
@@ -183,7 +176,7 @@ export default function ThankYouPage() {
                 Contact Us
               </Link>
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
