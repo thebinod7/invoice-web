@@ -26,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script
+        <script
+          async
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GA_PUBLISHER_ID}`}
-          strategy="afterInteractive"
           crossOrigin="anonymous"
-        />
+        ></script>
       </head>
       <body
         className={clsx(
