@@ -1,14 +1,6 @@
 'use client';
 import { useMutation } from '@tanstack/react-query';
-import {
-  FileText,
-  Gift,
-  LoaderIcon,
-  Mail,
-  MessageSquare,
-  Send,
-  TrendingUp,
-} from 'lucide-react';
+import { MessageSquare, Send } from 'lucide-react';
 import Script from 'next/script';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -18,14 +10,11 @@ import { postRequest } from '../helpers/request';
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
-import SubscribeSuccess from './SubscribeSuccess';
-import WiseAffiliate from './WiseAffiliate';
+import Link from 'next/link';
 
 export default function ThankYouPage() {
   const [showForm, setShowForm] = useState(false);
   const [msgSent, setMsgSent] = useState(false);
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
 
   const useFeedbackMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -42,18 +31,18 @@ export default function ThankYouPage() {
     },
   });
 
-  const useSubscribeMutation = useMutation({
-    mutationFn: (payload: any) => {
-      return postRequest(API_ROUTES.APP + '/subscribe', payload);
-    },
-    onError: (error) => {
-      toast.error(sanitizeError(error));
-    },
-    onSuccess: () => {
-      setEmail('');
-      setSubscribed(true);
-    },
-  });
+  // const useSubscribeMutation = useMutation({
+  //   mutationFn: (payload: any) => {
+  //     return postRequest(API_ROUTES.APP + '/subscribe', payload);
+  //   },
+  //   onError: (error) => {
+  //     toast.error(sanitizeError(error));
+  //   },
+  //   onSuccess: () => {
+  //     setEmail('');
+  //     setSubscribed(true);
+  //   },
+  // });
 
   const handleFeedbackSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -64,20 +53,12 @@ export default function ThankYouPage() {
     });
   };
 
-  const handleSubscribeFormSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    useSubscribeMutation.mutate({
-      email: email,
-    });
-  };
-
   return (
     <>
       <Script
-        id="adsbygoogle-init"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6581571197850735"
         strategy="afterInteractive"
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+        crossOrigin="anonymous"
       />
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full">
@@ -88,8 +69,6 @@ export default function ThankYouPage() {
           <InvoiceSavedInfo />
 
           {/* Affiliate Section */}
-
-          <WiseAffiliate />
 
           {/* Feedback Form */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
@@ -186,6 +165,41 @@ export default function ThankYouPage() {
           </div>
 
           <CTA />
+
+          {/* Google Ads Section */}
+          <div className="bg-white  mt-4 rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
+            <h3 className="text-sm font-semibold text-gray-900 mb-2">
+              Support Us
+            </h3>
+            <p className="text-xs text-gray-500 mb-4">
+              Like this tool? Your support keeps it running and free for all.
+            </p>
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-6581571197850735"
+              data-ad-slot="7961627716"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            ></ins>
+          </div>
+
+          {/* Additional Info */}
+          <div className="text-center mt-8">
+            <p className="text-xs text-gray-500">
+              Need help? &nbsp;
+              <Link
+                href="/contact"
+                className="text-green-600 hover:text-green-700 underline"
+              >
+                Contact Us
+              </Link>
+            </p>
+          </div>
+
+          <Script id="adsbygoogle-init" strategy="afterInteractive">
+            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          </Script>
         </div>
       </div>
     </>

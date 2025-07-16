@@ -14,19 +14,6 @@ export default function CTA() {
           <span>Generate New Invoice</span>
         </Link>
       </div>
-
-      {/* Additional Info */}
-      <div className="text-center mt-8">
-        <p className="text-xs text-gray-500">
-          Need help? &nbsp;
-          <Link
-            href="/contact"
-            className="text-green-600 hover:text-green-700 underline"
-          >
-            Contact Us
-          </Link>
-        </p>
-      </div>
     </>
   );
 }
