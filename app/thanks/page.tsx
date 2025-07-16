@@ -1,16 +1,16 @@
 'use client';
 import { useMutation } from '@tanstack/react-query';
 import { MessageSquare, Send } from 'lucide-react';
-import Script from 'next/script';
+import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import AdBanner from '../components/AdBanner';
 import { API_ROUTES } from '../constants/api-routes';
 import { sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
-import Link from 'next/link';
 
 export default function ThankYouPage() {
   const [showForm, setShowForm] = useState(false);
@@ -55,11 +55,6 @@ export default function ThankYouPage() {
 
   return (
     <>
-      <Script
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6581571197850735"
-        strategy="afterInteractive"
-        crossOrigin="anonymous"
-      />
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full">
           {/* Success Icon */}
@@ -174,14 +169,7 @@ export default function ThankYouPage() {
             <p className="text-xs text-gray-500 mb-4">
               Like this tool? Your support keeps it running and free for all.
             </p>
-            <ins
-              className="adsbygoogle"
-              style={{ display: 'block' }}
-              data-ad-client="ca-pub-6581571197850735"
-              data-ad-slot="7961627716"
-              data-ad-format="auto"
-              data-full-width-responsive="true"
-            ></ins>
+            <AdBanner />
           </div>
 
           {/* Additional Info */}
@@ -196,10 +184,6 @@ export default function ThankYouPage() {
               </Link>
             </p>
           </div>
-
-          <Script id="adsbygoogle-init" strategy="afterInteractive">
-            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-          </Script>
         </div>
       </div>
     </>

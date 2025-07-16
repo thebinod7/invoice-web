@@ -11,6 +11,7 @@ export const MAX_FILE_SIZE = 15; // MB
 export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/logo.png';
 export const WEBSITE_URL = process?.env?.NEXT_PUBLIC_APP_URL;
 export const APP_CATEGORY = 'Finance';
+export const GA_PUBLISHER_ID = process?.env?.NEXT_PUBLIC_GA_PUBLISHER_ID;
 
 export const DEFAULT_METADATA = {
   metadataBase: new URL(

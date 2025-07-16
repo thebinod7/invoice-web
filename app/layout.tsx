@@ -1,10 +1,11 @@
+import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { APP } from './constants';
-import './globals.css';
-import clsx from 'clsx';
-import Providers from './Providers';
+import Script from 'next/script';
 import { Suspense } from 'react';
+import { APP, GA_PUBLISHER_ID } from './constants';
+import './globals.css';
+import Providers from './Providers';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,6 +25,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GA_PUBLISHER_ID}`}
+          strategy="afterInteractive"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={clsx(
           'antialiased scroll-smooth focus:scroll-auto',
