@@ -1,6 +1,10 @@
 'use client';
 
-import { MAX_FILE_SIZE, SUPPORTED_CURRENCIES } from '@/app/constants';
+import {
+  MAX_FILE_SIZE,
+  MAX_FILE_SIZE_BYTES,
+  SUPPORTED_CURRENCIES,
+} from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { calculateFileSizeInMB, getCurrencySymbolByName } from '@/app/helpers';
 import { postRequest } from '@/app/helpers/request';
@@ -11,9 +15,12 @@ import {
   Building,
   Calendar,
   CreditCard,
+  Download,
   FileText,
   Hash,
+  Loader2,
   Mail,
+  MessageSquare,
   PlusCircle,
   Trash2,
   Upload,
@@ -24,6 +31,7 @@ import { useRouter } from 'next/navigation';
 import type React from 'react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import LoadingBtn from '../Buttons/LoadingBtn';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -58,7 +66,9 @@ export default function InvoiceGeneratorV2() {
   const [fileName, setFileName] = useState('');
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => {
     const { name, value } = e.target;
     setInvoice((prev) => ({ ...prev, [name]: value }));
@@ -128,17 +138,9 @@ export default function InvoiceGeneratorV2() {
       link.click();
       window.URL.revokeObjectURL(link.href);
       document.body.removeChild(link);
-      // router.push('/thanks');
+      router.push('/thanks');
     },
   });
-
-  //   const grandTotal = lineItems.reduce((sum, item) => {
-  //   return (
-  //     sum +
-  //     Number.parseInt(item.quantity || '0') *
-  //       Number.parseFloat(item.rate || '0')
-  //   );
-  // }, 0);
 
   const calculateSubtotal = (items: ILineItem[]) => {
     let subTotal = 0;
@@ -161,7 +163,14 @@ export default function InvoiceGeneratorV2() {
   });
 
   const downloadInvoice = () => {
-    console.log('LineItems:', lineItems);
+    if (
+      !invoice.billFromName ||
+      !invoice.billToName ||
+      !invoice.billFromAddress ||
+      !invoice.billToAddress
+    ) {
+      return toast.error('Please enter sender and reciever details!');
+    }
     const payload = {
       ...invoice,
       invoiceItems: lineItems,
@@ -220,21 +229,13 @@ export default function InvoiceGeneratorV2() {
             </div>
           </div>
 
-          {/* <button
-                    onClick={downloadInvoice}
-                    className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full sm:w-auto sm:self-end px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2"
-                  >
-                    <FileText className="h-4 w-4" />
-                    Download Invoice
-                  </button> */}
-
           <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
             {/* Company Information Section - Responsive Grid */}
             <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
               <div className="px-6 py-4 border-b border-slate-200">
                 <h3 className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
                   <Building className="h-5 w-5 text-blue-600" />
-                  Company Information
+                  Basic Information
                 </h3>
               </div>
               <div className="p-6">
@@ -270,16 +271,17 @@ export default function InvoiceGeneratorV2() {
                           <div>
                             <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
                               <input
+                                max={MAX_FILE_SIZE_BYTES}
                                 type="file"
                                 onChange={handleLogoChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                accept="image/*"
+                                accept="image/png, image/jpeg, image/jpg"
                               />
                               Choose File
                             </button>
                           </div>
                           <p className="text-xs text-slate-500">
-                            PNG, JPG up to 2MB
+                            PNG, JPG up to {MAX_FILE_SIZE} MB
                           </p>
                         </div>
                       )}
@@ -772,6 +774,95 @@ export default function InvoiceGeneratorV2() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Notes Section - Compact */}
+            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
+              <div className="px-4 py-3 border-b border-slate-200">
+                <h3 className="flex items-center gap-2 text-slate-800 text-base font-semibold">
+                  <MessageSquare className="h-4 w-4 text-indigo-600" />
+                  Additional Notes
+                </h3>
+              </div>
+              <div className="p-4">
+                <textarea
+                  name="notes"
+                  value={invoice.notes}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
+                  placeholder="Add any additional notes, terms, or payment instructions..."
+                />
+              </div>
+            </div>
+
+            {/* Generate Invoice Button - Compact */}
+
+            <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-700 to-green-600 rounded-xl shadow-lg p-6">
+              {/* Animated background effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-violet-400/20 animate-pulse"></div>
+
+              <div className="relative flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div className="text-center sm:text-left">
+                  <p className="text-white font-semibold text-base">
+                    Ready to generate your invoice?
+                  </p>
+                  <p className="text-purple-100 text-sm mt-1">
+                    Review all information before generating
+                  </p>
+                </div>
+
+                <button
+                  onClick={downloadInvoice}
+                  disabled={generateInvoiceMutation.isPending}
+                  className={`
+         group relative w-full sm:w-auto min-w-[180px] font-semibold py-3 px-8 rounded-lg 
+        transition-all duration-300 transform hover:scale-105 active:scale-95
+        flex items-center justify-center gap-3 text-base
+        ${
+          generateInvoiceMutation.isPending
+            ? 'bg-white/90 text-emerald-600 cursor-not-allowed'
+            : 'bg-white hover:bg-emerald-50 text-emerald-600 shadow-lg hover:shadow-xl'
+        }
+      `}
+                >
+                  {/* Loading overlay */}
+                  {generateInvoiceMutation.isPending && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg animate-pulse"></div>
+                  )}
+
+                  {/* Button content */}
+                  <div className="relative flex items-center gap-3">
+                    {generateInvoiceMutation.isPending ? (
+                      <>
+                        <Loader2 className="h-5 w-5 animate-spin text-emerald-600" />
+                        <span className="font-medium">
+                          Generating Invoice...
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="h-5 w-5 transition-transform group-hover:translate-y-[-2px]" />
+                        <span>Generate Invoice</span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Shimmer effect for loading */}
+                  {generateInvoiceMutation.isPending && (
+                    <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_2s_infinite] rounded-lg"></div>
+                  )}
+                </button>
+              </div>
+
+              {/* Progress dots indicator */}
+              {generateInvoiceMutation.isPending && (
+                <div className="flex justify-center mt-4 gap-1">
+                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
+                </div>
+              )}
             </div>
           </div>
         </div>
