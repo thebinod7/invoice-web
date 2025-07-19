@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function AdBlockAlert() {
   const [isOpen, setIsOpen] = useState(true);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const handleRefresh = () => {
     window.location.reload();
@@ -67,23 +68,45 @@ export default function AdBlockAlert() {
 
         {/* Title */}
         <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-4">
-          Adblock Detected
+          We Noticed an Ad Blocker
         </h2>
 
         {/* Description */}
-        <p className="text-gray-600 dark:text-gray-300 text-center leading-relaxed mb-6">
-          It appears that you are using an ad-blocker in your browser. Our
-          website relies on ad revenue to provide free service to our visitors.
-          Please consider supporting us by disabling your ad blocker.
+        <p className="text-sm text-yellow-900 text-center leading-relaxed mb-4">
+          It looks like you're using an ad blocker. We respect your choice, but
+          ads are how we keep our content free and accessible to everyone.
+          Please consider whitelisting us; it really makes a difference. 💙
         </p>
 
+        <button
+          onClick={() => setShowInstructions(!showInstructions)}
+          className="mt-4 text-sm text-yellow-700 underline hover:text-yellow-900"
+        >
+          {showInstructions
+            ? 'Hide instructions'
+            : 'How to whitelist this site'}
+        </button>
+
+        {showInstructions && (
+          <div className="mt-3 text-sm text-yellow-900 space-y-2">
+            <p>
+              <strong>uBlock Origin:</strong> Click the uBlock icon → Click the
+              power button to disable on this site → Reload the page.
+            </p>
+            <p>
+              <strong>AdBlock / Adblock Plus:</strong> Click the AdBlock icon →
+              “Click disable on this website” → Reload the page.
+            </p>
+          </div>
+        )}
+
         {/* Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <button
             onClick={handleRefresh}
             className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
-            Refresh Page
+            Reload Page
           </button>
         </div>
       </div>
