@@ -2,6 +2,7 @@
 
 import {
   Calendar,
+  FormInputIcon,
   Home,
   Image,
   Newspaper,
@@ -24,6 +25,16 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
   {
+    id: '13',
+    title: 'New Invoice Generation Form',
+    description:
+      'We have introduced a new invoice generation form that simplifies the process of creating and managing invoices.',
+    date: '2025-07-19',
+    version: 'v1.2.2',
+    icon: FormInputIcon,
+    isNew: true,
+  },
+  {
     id: '14',
     title: 'Feedback Form',
     description:
@@ -41,7 +52,7 @@ const featureReleases: FeatureRelease[] = [
     date: '2025-07-05',
     version: 'v1.2.0',
     icon: Newspaper,
-    isNew: true,
+    isNew: false,
   },
   {
     id: '16',

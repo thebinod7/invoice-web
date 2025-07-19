@@ -129,16 +129,25 @@ export default function InvoiceGeneratorV2() {
       );
     },
     onSuccess: (data: any) => {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      console.log({ isMobile });
+
       const blob = new Blob([data.data], { type: 'application/pdf' });
       const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = 'invoice.pdf';
-      document.body.appendChild(link);
-      link.click();
-      window.URL.revokeObjectURL(link.href);
-      document.body.removeChild(link);
-      router.push('/thanks');
+
+      if (isMobile) {
+        window.open(blobUrl, '_blank'); // Open instead of download
+      } else {
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = 'invoice.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      window.URL.revokeObjectURL(blobUrl);
+      window.location.replace('/thanks');
     },
   });
 

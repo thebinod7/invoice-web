@@ -1,11 +1,11 @@
 import {
   DollarSign,
-  Download,
   Edit3,
   Eye,
   FileText,
   Palette,
   Share2,
+  Smartphone,
   Sparkles,
   Zap,
 } from 'lucide-react';
@@ -182,14 +182,13 @@ export default function LandingPage() {
               </div>
               <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center">
                 <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Download className="h-6 w-6 text-orange-600" />
+                  <Smartphone className="h-6 w-6 text-orange-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Download as PDF
+                  Mobile Friendly
                 </h3>
                 <p className="text-gray-600">
-                  Download high-quality PDF invoices and send them to your
-                  clients.
+                  Create and download invoices on any device, anywhere, anytime.
                 </p>
               </div>
             </div>
