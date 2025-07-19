@@ -808,7 +808,6 @@ export default function InvoiceGeneratorV2() {
             {/* Generate Invoice Button - Compact */}
 
             <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-700 to-green-600 rounded-xl shadow-lg p-6">
-              {/* Animated background effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-violet-400/20 animate-pulse"></div>
 
               <div className="relative flex flex-col sm:flex-row gap-4 items-center justify-between">
@@ -856,11 +855,6 @@ export default function InvoiceGeneratorV2() {
                       </>
                     )}
                   </div>
-
-                  {/* Shimmer effect for loading */}
-                  {generateInvoiceMutation.isPending && (
-                    <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_2s_infinite] rounded-lg"></div>
-                  )}
                 </button>
               </div>
 

@@ -1,3 +1,4 @@
+import AdBanner from '@/app/components/AdBanner';
 import {
   APP_CATEGORY,
   DEFAULT_OG_IMAGE_URL,
@@ -97,6 +98,11 @@ export default function BlogArticlePage() {
                 make when creating invoices — and how using a free online
                 invoice generator can help you avoid them.
               </p>
+
+              {/* Google Ads Section */}
+              <div className="mt-8">
+                <AdBanner />
+              </div>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-8">
                 1️⃣ Forgetting Important Details

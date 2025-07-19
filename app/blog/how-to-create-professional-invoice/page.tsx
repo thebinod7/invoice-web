@@ -1,3 +1,4 @@
+import AdBanner from '@/app/components/AdBanner';
 import {
   APP_CATEGORY,
   DEFAULT_OG_IMAGE_URL,
@@ -102,6 +103,11 @@ export default function BlogArticlePage() {
                 it’s the best choice for freelancers, small business owners, and
                 anyone who wants to get paid fast.
               </p>
+
+              {/* Google Ads Section */}
+              <div className="mt-8">
+                <AdBanner />
+              </div>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-8">
                 Why a professional invoice matters{' '}
