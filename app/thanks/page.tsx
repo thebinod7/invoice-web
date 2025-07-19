@@ -1,7 +1,7 @@
 'use client';
 import { useMutation } from '@tanstack/react-query';
 import { MessageSquare, Send } from 'lucide-react';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import AdBanner from '../components/AdBanner';
 import { API_ROUTES } from '../constants/api-routes';
@@ -10,10 +10,16 @@ import { postRequest } from '../helpers/request';
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
+import { AdblockDetector } from 'adblock-detector';
+import AdBlockAlert from '../components/AdBlockAlert';
 
 export default function ThankYouPage() {
+  const adbDetector = new AdblockDetector(); // call
+  const userHasAdblock = adbDetector.detect();
+
   const [showForm, setShowForm] = useState(false);
   const [msgSent, setMsgSent] = useState(false);
+  const [showAdBlockAlert, setShowAdBlockAlert] = useState(false);
 
   const useFeedbackMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -30,19 +36,6 @@ export default function ThankYouPage() {
     },
   });
 
-  // const useSubscribeMutation = useMutation({
-  //   mutationFn: (payload: any) => {
-  //     return postRequest(API_ROUTES.APP + '/subscribe', payload);
-  //   },
-  //   onError: (error) => {
-  //     toast.error(sanitizeError(error));
-  //   },
-  //   onSuccess: () => {
-  //     setEmail('');
-  //     setSubscribed(true);
-  //   },
-  // });
-
   const handleFeedbackSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget as HTMLFormElement);
@@ -52,8 +45,22 @@ export default function ThankYouPage() {
     });
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log({ userHasAdblock });
+      if (userHasAdblock) {
+        setShowAdBlockAlert(true);
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  console.log({ userHasAdblock });
+
   return (
     <>
+      {showAdBlockAlert && <AdBlockAlert />}
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full">
           {/* Success Icon */}
