@@ -20,5 +20,17 @@ export const calculateGrandTotal = ({
   const discountAmount = (discount / 100) * subtotal;
   const taxedAmount = ((subtotal - discountAmount) * tax) / 100;
 
-  return subtotal - discountAmount + taxedAmount;
+  const final = subtotal - discountAmount + taxedAmount;
+  return parseFloat(final.toFixed(2));
+};
+
+export const calculateFinalTotal = ({
+  grandTotal = 0,
+  tax = 0,
+  discount = 0,
+}) => {
+  const taxAmount = (grandTotal * tax) / 100;
+  const discountAmount = (grandTotal * discount) / 100;
+  const finalTotal = grandTotal + taxAmount - discountAmount;
+  return finalTotal.toFixed(2);
 };

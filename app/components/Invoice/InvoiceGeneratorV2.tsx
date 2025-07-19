@@ -22,7 +22,11 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { postRequest } from '@/app/helpers/request';
 import { API_ROUTES } from '@/app/constants/api-routes';
-import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
+import {
+  calculateFinalTotal,
+  calculateGrandTotal,
+} from '@/app/hooks/useGrandTotal';
+import { ILineItem } from '@/app/types';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -46,23 +50,15 @@ const invoiceInitial = {
   subtotal: 0,
 };
 
-const mockLineItems = [{ title: '', quantity: '', rate: '' }];
+const initialLineItems = [{ title: '', quantity: '', rate: '' }];
 
 export default function InvoiceGeneratorV2() {
   const router = useRouter();
 
   const [invoice, setInvoice] = useState(invoiceInitial);
-  const [lineItems, setLineItems] = useState(mockLineItems);
+  const [lineItems, setLineItems] = useState(initialLineItems);
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
-
-  const grandTotal = lineItems.reduce((sum, item) => {
-    return (
-      sum +
-      Number.parseInt(item.quantity || '0') *
-        Number.parseFloat(item.rate || '0')
-    );
-  }, 0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -106,6 +102,7 @@ export default function InvoiceGeneratorV2() {
       i === index ? { ...item, [field]: value } : item
     );
     setLineItems(updated);
+    calculateSubtotal(updated);
   };
 
   const generateInvoiceMutation = useMutation({
@@ -132,18 +129,45 @@ export default function InvoiceGeneratorV2() {
       link.click();
       window.URL.revokeObjectURL(link.href);
       document.body.removeChild(link);
-      router.push('/thanks');
+      // router.push('/thanks');
     },
   });
 
+  //   const grandTotal = lineItems.reduce((sum, item) => {
+  //   return (
+  //     sum +
+  //     Number.parseInt(item.quantity || '0') *
+  //       Number.parseFloat(item.rate || '0')
+  //   );
+  // }, 0);
+
+  const calculateSubtotal = (items: ILineItem[]) => {
+    let subTotal = 0;
+
+    items.forEach((item: any) => {
+      item.total =
+        parseFloat(item.rate || '0') * parseInt(item.quantity || '1');
+      subTotal += item.total;
+    });
+    setInvoice({
+      ...invoice,
+      subtotal: +subTotal.toFixed(2),
+    });
+  };
+
+  const finalTotal = calculateGrandTotal({
+    items: lineItems,
+    tax: invoice.tax,
+    discount: invoice.discount,
+  });
+
   const downloadInvoice = () => {
-    // Mock download handler
-    console.log('INVOICE:', invoice);
+    console.log('LineItems:', lineItems);
     const payload = {
       ...invoice,
       invoiceItems: lineItems,
       subTotal: +invoice.subtotal,
-      dueAmount: grandTotal.toFixed(2),
+      dueAmount: finalTotal,
       currency: getCurrencySymbolByName(invoice.currency),
     };
     generateInvoiceMutation.mutate(payload);
@@ -646,34 +670,8 @@ export default function InvoiceGeneratorV2() {
                       </span>
                       <span className="font-semibold text-slate-900 text-lg">
                         {currencySymbol}
-                        {grandTotal.toFixed(2)}
+                        {invoice.subtotal.toFixed(2)}
                       </span>
-                    </div>
-
-                    {/* Tax */}
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm text-slate-600">
-                          Tax Rate (%):
-                        </label>
-                        <input
-                          type="number"
-                          name="tax"
-                          value={invoice.tax}
-                          onChange={handleInputChange}
-                          className="w-20 h-8 px-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="0"
-                          min="0"
-                          step="0.1"
-                        />
-                      </div>
-                      <div className="flex justify-between sm:justify-end items-center gap-4">
-                        <span className="text-sm text-slate-700">Tax:</span>
-                        <span className="font-medium text-slate-900">
-                          {currencySymbol}
-                          {((grandTotal * (invoice.tax || 0)) / 100).toFixed(2)}
-                        </span>
-                      </div>
                     </div>
 
                     {/* Discount */}
@@ -700,7 +698,36 @@ export default function InvoiceGeneratorV2() {
                         <span className="font-medium text-green-600">
                           -{currencySymbol}
                           {(
-                            (grandTotal * (invoice.discount || 0)) /
+                            (invoice.subtotal * (invoice.discount || 0)) /
+                            100
+                          ).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Tax */}
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm text-slate-600">
+                          Tax Rate (%):
+                        </label>
+                        <input
+                          type="number"
+                          name="tax"
+                          value={invoice.tax}
+                          onChange={handleInputChange}
+                          className="w-20 h-8 px-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="0"
+                          min="0"
+                          step="0.1"
+                        />
+                      </div>
+                      <div className="flex justify-between sm:justify-end items-center gap-4">
+                        <span className="text-sm text-slate-700">Tax:</span>
+                        <span className="font-medium text-slate-900">
+                          {currencySymbol}
+                          {(
+                            (invoice.subtotal * (invoice.tax || 0)) /
                             100
                           ).toFixed(2)}
                         </span>
@@ -715,11 +742,7 @@ export default function InvoiceGeneratorV2() {
                         </span>
                         <span className="text-2xl font-bold text-slate-900">
                           {currencySymbol}
-                          {(
-                            grandTotal +
-                            (grandTotal * (invoice.tax || 0)) / 100 -
-                            (grandTotal * (invoice.discount || 0)) / 100
-                          ).toFixed(2)}
+                          {finalTotal}
                         </span>
                       </div>
                     </div>
