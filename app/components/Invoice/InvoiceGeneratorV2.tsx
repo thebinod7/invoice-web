@@ -1,32 +1,29 @@
 'use client';
 
-import type React from 'react';
-import { useState } from 'react';
+import { MAX_FILE_SIZE, SUPPORTED_CURRENCIES } from '@/app/constants';
+import { API_ROUTES } from '@/app/constants/api-routes';
+import { calculateFileSizeInMB, getCurrencySymbolByName } from '@/app/helpers';
+import { postRequest } from '@/app/helpers/request';
+import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
+import { ILineItem } from '@/app/types';
+import { useMutation } from '@tanstack/react-query';
 import {
+  Building,
+  Calendar,
+  CreditCard,
+  FileText,
+  Hash,
+  Mail,
   PlusCircle,
   Trash2,
   Upload,
-  X,
-  FileText,
-  Calendar,
-  Mail,
-  Building,
   User,
-  Hash,
-  CreditCard,
+  X,
 } from 'lucide-react';
-import { calculateFileSizeInMB, getCurrencySymbolByName } from '@/app/helpers';
-import { MAX_FILE_SIZE } from '@/app/constants';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { useMutation } from '@tanstack/react-query';
-import { postRequest } from '@/app/helpers/request';
-import { API_ROUTES } from '@/app/constants/api-routes';
-import {
-  calculateFinalTotal,
-  calculateGrandTotal,
-} from '@/app/hooks/useGrandTotal';
-import { ILineItem } from '@/app/types';
+import type React from 'react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 const DEFAULT_CURRENCY = 'USD';
 
@@ -60,7 +57,9 @@ export default function InvoiceGeneratorV2() {
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setInvoice((prev) => ({ ...prev, [name]: value }));
   };
@@ -182,10 +181,11 @@ export default function InvoiceGeneratorV2() {
           {/* Header Section - Fully Responsive */}
           <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-4 sm:px-8 py-4 sm:py-6">
             <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="flex flex-col md:flex-row md:items-center md:gap-8 gap-4">
+                {/* <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm w-fit">
                   <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                </div>
+                </div> */}
+
                 <div>
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
                     Invoice Generator
@@ -194,16 +194,39 @@ export default function InvoiceGeneratorV2() {
                     Create professional invoices instantly
                   </p>
                 </div>
+
+                <div className="md:ml-auto">
+                  <label className="block text-lg font-bold text-white mb-1">
+                    Select Currency
+                  </label>
+                  <select
+                    name="currency"
+                    value={invoice.currency}
+                    onChange={handleInputChange}
+                    className="min-w-44 px-3 text-xs py-2 border border-gray-300 rounded-md focus:outline-none"
+                  >
+                    {SUPPORTED_CURRENCIES.map((item) => (
+                      <option
+                        className="text-xs"
+                        key={item.value}
+                        value={item.value}
+                      >
+                        {item.label} ({item.symbol})
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <button
-                onClick={downloadInvoice}
-                className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full sm:w-auto sm:self-end px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2"
-              >
-                <FileText className="h-4 w-4" />
-                Download Invoice
-              </button>
             </div>
           </div>
+
+          {/* <button
+                    onClick={downloadInvoice}
+                    className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full sm:w-auto sm:self-end px-6 py-3 rounded-lg font-medium flex items-center justify-center gap-2"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Download Invoice
+                  </button> */}
 
           <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
             {/* Company Information Section - Responsive Grid */}
@@ -669,7 +692,7 @@ export default function InvoiceGeneratorV2() {
                         Subtotal:
                       </span>
                       <span className="font-semibold text-slate-900 text-lg">
-                        {currencySymbol}
+                        {currencySymbol} {}
                         {invoice.subtotal.toFixed(2)}
                       </span>
                     </div>
@@ -696,7 +719,7 @@ export default function InvoiceGeneratorV2() {
                           Discount:
                         </span>
                         <span className="font-medium text-green-600">
-                          -{currencySymbol}
+                          -{currencySymbol} {}
                           {(
                             (invoice.subtotal * (invoice.discount || 0)) /
                             100
@@ -725,7 +748,7 @@ export default function InvoiceGeneratorV2() {
                       <div className="flex justify-between sm:justify-end items-center gap-4">
                         <span className="text-sm text-slate-700">Tax:</span>
                         <span className="font-medium text-slate-900">
-                          {currencySymbol}
+                          {currencySymbol} {}
                           {(
                             (invoice.subtotal * (invoice.tax || 0)) /
                             100
@@ -741,7 +764,7 @@ export default function InvoiceGeneratorV2() {
                           Total:
                         </span>
                         <span className="text-2xl font-bold text-slate-900">
-                          {currencySymbol}
+                          {currencySymbol} {}
                           {finalTotal}
                         </span>
                       </div>
