@@ -102,7 +102,7 @@ export default function BlogArticlePage() {
 
               {/* Google Ads Section */}
               <div className="mt-8">
-                <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_AD_SLOT} />
+                <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_SLOT} />
               </div>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-8">

@@ -19,7 +19,7 @@ export default function AdBanner({ adSlotId }: { adSlotId?: string }) {
         overflow: 'hidden',
       }}
       data-ad-client={GA_PUBLISHER_ID}
-      data-ad-slot={adSlotId || GOOGLE_AD.THANK_YOU_PAGE_AD_SLOT}
+      data-ad-slot={adSlotId || GOOGLE_AD.THANK_YOU_PAGE_SLOT}
       data-ad-format="auto"
       data-full-width-responsive="true"
     />

@@ -170,7 +170,7 @@ export default function ThankYouPage() {
 
           {/* Google Ads Section */}
           <div className="mt-8">
-            <AdBanner adSlotId={GOOGLE_AD.THANK_YOU_PAGE_AD_SLOT} />
+            <AdBanner adSlotId={GOOGLE_AD.THANK_YOU_PAGE_SLOT} />
           </div>
 
           {/* Additional Info */}
