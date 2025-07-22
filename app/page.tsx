@@ -15,8 +15,10 @@ import {
   APP,
   DEFAULT_METADATA,
   DEFAULT_OG_IMAGE_URL,
+  GOOGLE_AD,
   SEO_KEYWORDS,
 } from './constants';
+import AdBanner from './components/AdBanner';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const title = APP.TITLE;
@@ -248,93 +250,13 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        {/* <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Professionals
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-5 w-5 text-yellow-400 fill-current"
-                  />
-                ))}
-              </div>
-              <p className="text-gray-600 mb-4">
-                "This tool saved me hours every week. The invoices look
-                professional and my clients love how easy it is to understand
-                the breakdown."
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-white font-semibold">SJ</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Sarah Johnson</p>
-                  <p className="text-sm text-gray-500">Freelance Designer</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-5 w-5 text-yellow-400 fill-current"
-                  />
-                ))}
-              </div>
-              <p className="text-gray-600 mb-4">
-                "Perfect for my small business. No monthly fees, no complicated
-                setup. Just create and send invoices when I need them."
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-white font-semibold">MR</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Mike Rodriguez</p>
-                  <p className="text-sm text-gray-500">Consultant</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="flex items-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-5 w-5 text-yellow-400 fill-current"
-                  />
-                ))}
-              </div>
-              <p className="text-gray-600 mb-4">
-                "The customization options are great. I can add my branding and
-                make each invoice look exactly how I want it."
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center mr-3">
-                  <span className="text-white font-semibold">AL</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Anna Lee</p>
-                  <p className="text-sm text-gray-500">
-                    Marketing Agency Owner
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Google Ads Section */}
+        <div className="mt-8">
+          <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_AD_SLOT} />
         </div>
-      </section> */}
 
         {/* SEO Section */}
-        <section id="seo" className="py-20">
+        <section id="seo" className="py-20 mt-4">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">

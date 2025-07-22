@@ -1,6 +1,3 @@
-import AdBanner from '../components/AdBanner';
-import { APP, GOOGLE_AD } from '../constants';
-
 export default function AboutUs() {
   return (
     <div className="min-h-screen">
@@ -54,11 +51,6 @@ export default function AboutUs() {
                 user-friendly and reliable invoice generator out there.
               </p>
             </section>
-
-            {/* Google Ads Section */}
-            <div className="mt-8">
-              <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_AD_SLOT} />
-            </div>
           </div>
         </div>
       </div>
