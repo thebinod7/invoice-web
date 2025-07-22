@@ -14,6 +14,11 @@ export const WEBSITE_URL = process?.env?.NEXT_PUBLIC_APP_URL;
 export const APP_CATEGORY = 'Finance';
 export const GA_PUBLISHER_ID = process?.env?.NEXT_PUBLIC_GA_PUBLISHER_ID;
 
+export const GOOGLE_AD = {
+  THANK_YOU_PAGE_AD_SLOT: '7961627716',
+  BLOG_PAGE_AD_SLOT: '4481509717',
+};
+
 export const DEFAULT_METADATA = {
   metadataBase: new URL(
     process?.env?.NEXT_PUBLIC_APP_URL || 'https://invomaker.com'

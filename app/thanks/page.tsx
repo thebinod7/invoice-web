@@ -12,6 +12,7 @@ import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
 import { AdblockDetector } from 'adblock-detector';
 import AdBlockAlert from '../components/AdBlockAlert';
+import { GOOGLE_AD } from '../constants';
 
 export default function ThankYouPage() {
   const adbDetector = new AdblockDetector(); // call
@@ -169,7 +170,7 @@ export default function ThankYouPage() {
 
           {/* Google Ads Section */}
           <div className="mt-8">
-            <AdBanner />
+            <AdBanner adSlotId={GOOGLE_AD.THANK_YOU_PAGE_AD_SLOT} />
           </div>
 
           {/* Additional Info */}

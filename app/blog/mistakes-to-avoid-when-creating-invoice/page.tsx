@@ -2,6 +2,7 @@ import AdBanner from '@/app/components/AdBanner';
 import {
   APP_CATEGORY,
   DEFAULT_OG_IMAGE_URL,
+  GOOGLE_AD,
   SEO_KEYWORDS,
   WEBSITE_URL,
 } from '@/app/constants';
@@ -101,7 +102,7 @@ export default function BlogArticlePage() {
 
               {/* Google Ads Section */}
               <div className="mt-8">
-                <AdBanner />
+                <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_AD_SLOT} />
               </div>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-8">
