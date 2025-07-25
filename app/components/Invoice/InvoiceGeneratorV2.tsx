@@ -19,7 +19,6 @@ import {
   FileText,
   Hash,
   Loader2,
-  Mail,
   MessageSquare,
   PlusCircle,
   Trash2,
@@ -31,18 +30,14 @@ import { useRouter } from 'next/navigation';
 import type React from 'react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import LoadingBtn from '../Buttons/LoadingBtn';
 
 const DEFAULT_CURRENCY = 'USD';
 
 const invoiceInitial = {
   companyLogo: '',
   currency: DEFAULT_CURRENCY,
-  billFromName: '',
-  billFromAddress: '',
-  billToName: '',
-  billToAddress: '',
-  senderEmail: '',
+  senderDetails: '',
+  receiverDetails: '',
   clientEmail: '',
   invoiceNumber: '',
   invoiceDate: '',
@@ -172,12 +167,7 @@ export default function InvoiceGeneratorV2() {
   });
 
   const downloadInvoice = () => {
-    if (
-      !invoice.billFromName ||
-      !invoice.billToName ||
-      !invoice.billFromAddress ||
-      !invoice.billToAddress
-    ) {
+    if (!invoice.senderDetails || !invoice.receiverDetails) {
       return toast.error('Please enter sender and reciever details!');
     }
     const payload = {
@@ -303,102 +293,36 @@ export default function InvoiceGeneratorV2() {
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-700 flex items-center gap-2 flex-wrap">
                           <User className="h-4 w-4 text-blue-600" />
-                          <span>Sending Bill From</span>
+                          <span>Sender Details</span>
                           <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
                             Required
                           </span>
                         </label>
-                        <input
-                          type="text"
-                          name="billFromName"
-                          value={invoice.billFromName}
+                        <textarea
+                          name="senderDetails"
+                          value={invoice.senderDetails}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                          placeholder="Enter company name"
+                          rows={7}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
+                          placeholder={`Eg: XYZ Corporation\n123 Main Street, Suite 400 \n(555) 123-4567 \nbilling@xyz.com\nmore details...`}
                         />
                       </div>
 
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-slate-700 flex items-center gap-2 flex-wrap">
                           <Building className="h-4 w-4 text-blue-600" />
-                          <span>Sender Address</span>
+                          <span>Receiver Details</span>
                           <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
                             Required
                           </span>
                         </label>
-                        <input
-                          type="text"
-                          name="billFromAddress"
-                          value={invoice.billFromAddress}
+                        <textarea
+                          name="receiverDetails"
+                          value={invoice.receiverDetails}
                           onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                          placeholder="Enter company address"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 flex items-center gap-2 flex-wrap">
-                          <User className="h-4 w-4 text-green-600" />
-                          <span>Sending Bill To</span>
-                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                            Required
-                          </span>
-                        </label>
-                        <input
-                          type="text"
-                          name="billToName"
-                          value={invoice.billToName}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                          placeholder="Enter client name"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 flex items-center gap-2 flex-wrap">
-                          <Building className="h-4 w-4 text-green-600" />
-                          <span>Receiver Address</span>
-                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                            Required
-                          </span>
-                        </label>
-                        <input
-                          type="text"
-                          name="billToAddress"
-                          value={invoice.billToAddress}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                          placeholder="Enter client address"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-blue-600" />
-                          Bill Sender Email
-                        </label>
-                        <input
-                          type="email"
-                          name="senderEmail"
-                          value={invoice.senderEmail}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                          placeholder="sender@company.com"
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-green-600" />
-                          Bill Receiver Email
-                        </label>
-                        <input
-                          type="email"
-                          name="clientEmail"
-                          value={invoice.clientEmail}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                          placeholder="client@company.com"
+                          rows={7}
+                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
+                          placeholder={`Eg: ABC Inc\n123 Main Street, Suite 400 \n(555) 123-5678 \nbilling@abc.com\nmore details...`}
                         />
                       </div>
                     </div>
