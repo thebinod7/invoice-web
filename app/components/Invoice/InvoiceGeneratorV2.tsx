@@ -145,7 +145,7 @@ export default function InvoiceGeneratorV2() {
       }
 
       window.URL.revokeObjectURL(blobUrl);
-      // window.location.replace('/thanks');
+      window.location.replace('/thanks');
     },
   });
 
