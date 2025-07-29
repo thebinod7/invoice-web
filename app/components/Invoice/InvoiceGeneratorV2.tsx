@@ -5,6 +5,8 @@ import { API_ROUTES } from '@/app/constants/api-routes';
 import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import {
   calculateFileSizeInMB,
+  calculatePercentAmountOfTotal,
+  formatCurrency,
   getCurrencyLocaleByName,
   getCurrencySymbolByName,
 } from '@/app/helpers';
@@ -143,7 +145,7 @@ export default function InvoiceGeneratorV2() {
       }
 
       window.URL.revokeObjectURL(blobUrl);
-      window.location.replace('/thanks');
+      // window.location.replace('/thanks');
     },
   });
 
@@ -176,6 +178,11 @@ export default function InvoiceGeneratorV2() {
       invoiceItems: lineItems,
       subTotal: +invoice.subtotal,
       dueAmount: finalTotal,
+      tax: calculatePercentAmountOfTotal(invoice.subtotal, invoice.tax),
+      discount: calculatePercentAmountOfTotal(
+        invoice.subtotal,
+        invoice.discount
+      ),
       currency: getCurrencySymbolByName(invoice.currency),
     };
     generateInvoiceMutation.mutate(payload);
@@ -593,11 +600,13 @@ export default function InvoiceGeneratorV2() {
                                 Amount:
                               </span>
                               <span className="text-lg font-bold text-slate-900">
-                                {currencySymbol}
-                                {(
-                                  Number.parseInt(item.quantity || '0') *
-                                  Number.parseFloat(item.rate || '0')
-                                ).toFixed(2)}
+                                {
+                                  (formatCurrency(
+                                    Number.parseInt(item.quantity || '0') *
+                                      Number.parseFloat(item.rate || '0')
+                                  ),
+                                  currencySymbol)
+                                }
                               </span>
                             </div>
                           </div>
@@ -628,8 +637,7 @@ export default function InvoiceGeneratorV2() {
                         Subtotal:
                       </span>
                       <span className="font-semibold text-slate-900 text-lg">
-                        {currencySymbol} {}
-                        {invoice.subtotal.toFixed(2)}
+                        {formatCurrency(invoice.subtotal, currencySymbol)}
                       </span>
                     </div>
 
@@ -655,11 +663,14 @@ export default function InvoiceGeneratorV2() {
                           Discount:
                         </span>
                         <span className="font-medium text-green-600">
-                          -{currencySymbol} {}
-                          {(
-                            (invoice.subtotal * (invoice.discount || 0)) /
-                            100
-                          ).toFixed(2)}
+                          -
+                          {formatCurrency(
+                            calculatePercentAmountOfTotal(
+                              invoice.subtotal,
+                              invoice.discount
+                            ),
+                            currencySymbol
+                          )}
                         </span>
                       </div>
                     </div>
@@ -684,11 +695,13 @@ export default function InvoiceGeneratorV2() {
                       <div className="flex justify-between sm:justify-end items-center gap-4">
                         <span className="text-sm text-slate-700">Tax:</span>
                         <span className="font-medium text-slate-900">
-                          {currencySymbol} {}
-                          {(
-                            (invoice.subtotal * (invoice.tax || 0)) /
-                            100
-                          ).toFixed(2)}
+                          {formatCurrency(
+                            calculatePercentAmountOfTotal(
+                              invoice.subtotal,
+                              invoice.tax
+                            ),
+                            currencySymbol
+                          )}
                         </span>
                       </div>
                     </div>
@@ -700,8 +713,7 @@ export default function InvoiceGeneratorV2() {
                           Total:
                         </span>
                         <span className="text-2xl font-bold text-slate-900">
-                          {currencySymbol} {}
-                          {finalTotal}
+                          {formatCurrency(finalTotal, currencySymbol)}
                         </span>
                       </div>
                     </div>

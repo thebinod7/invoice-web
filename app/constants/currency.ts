@@ -50,3 +50,12 @@ export const SUPPORTED_CURRENCIES = [
   { label: 'ZMW', value: 'ZMW', symbol: 'ZMW', locale: 'en-ZM' },
   { label: 'ZWL', value: 'ZWL', symbol: 'ZWL', locale: 'en-ZW' },
 ];
+
+export const SYMBOL_SUPPORTED_CURRENCIES = [
+  'USD',
+  'EUR',
+  'GBP',
+  'INR',
+  'JPY',
+  'NPR',
+];

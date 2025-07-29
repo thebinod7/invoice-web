@@ -1,4 +1,9 @@
-import { SUPPORTED_CURRENCIES } from '../constants/currency';
+import * as currencyFormatter from 'currency-formatter';
+
+import {
+  SUPPORTED_CURRENCIES,
+  SYMBOL_SUPPORTED_CURRENCIES,
+} from '../constants/currency';
 
 export const sanitizeError = (error: any) => {
   if (error?.response?.data?.message) {
@@ -46,4 +51,39 @@ export const calculateFileSizeInMB = (bytes: number) => {
   if (!bytes) return 0.0;
   const mb = bytes / (1024 * 1024);
   return mb.toFixed(2);
+};
+
+export const formatCurrency = (amount: number, currencyCode = 'USD') => {
+  try {
+    const options: {
+      code: string;
+      symbol?: string;
+      format: string;
+      decimal: string;
+      thousand: string;
+      precision: number;
+    } = {
+      code: currencyCode,
+      symbol: currencyCode,
+      format: '%s%v',
+      decimal: '.',
+      thousand: ',',
+      precision: 2,
+    };
+    const symbolSupported = SYMBOL_SUPPORTED_CURRENCIES.includes(currencyCode);
+
+    if (symbolSupported) delete options.symbol;
+    return currencyFormatter.format(amount, options);
+  } catch (error) {
+    console.error(`Error formatting currency: ${error}`);
+    return amount.toString();
+  }
+};
+
+export const calculatePercentAmountOfTotal = (
+  total: number,
+  percentage: number
+) => {
+  if (total <= 0 || percentage < 0) return 0;
+  return (total * percentage) / 100;
 };
