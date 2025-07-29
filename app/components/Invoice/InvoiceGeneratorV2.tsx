@@ -1,12 +1,13 @@
 'use client';
 
-import {
-  MAX_FILE_SIZE,
-  MAX_FILE_SIZE_BYTES,
-  SUPPORTED_CURRENCIES,
-} from '@/app/constants';
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
-import { calculateFileSizeInMB, getCurrencySymbolByName } from '@/app/helpers';
+import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
+import {
+  calculateFileSizeInMB,
+  getCurrencyLocaleByName,
+  getCurrencySymbolByName,
+} from '@/app/helpers';
 import { postRequest } from '@/app/helpers/request';
 import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
 import { ILineItem } from '@/app/types';

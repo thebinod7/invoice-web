@@ -1,4 +1,4 @@
-import { SUPPORTED_CURRENCIES } from '../constants';
+import { SUPPORTED_CURRENCIES } from '../constants/currency';
 
 export const sanitizeError = (error: any) => {
   if (error?.response?.data?.message) {
@@ -25,6 +25,12 @@ export const getCurrencySymbolByName = (currency: string) => {
   const found = SUPPORTED_CURRENCIES.find((item) => item.value === currency);
   if (!found) return '$';
   return found.symbol;
+};
+
+export const getCurrencyLocaleByName = (currency: string) => {
+  const found = SUPPORTED_CURRENCIES.find((item) => item.value === currency);
+  if (!found) return 'en-US';
+  return found.locale;
 };
 
 export const formatDate = (inputDate: string) => {

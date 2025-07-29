@@ -1,7 +1,7 @@
 import React from 'react';
-import { SUPPORTED_CURRENCIES } from '../constants';
 import { Download } from 'lucide-react';
 import LoadingBtn from './Buttons/LoadingBtn';
+import { SUPPORTED_CURRENCIES } from '../constants/currency';
 
 interface InvoiceHeaderProps {
   invoice: Record<string, any>;
