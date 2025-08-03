@@ -96,8 +96,8 @@ export default function BlogArticlePage() {
                 big problems. Many small business owners, freelancers, and
                 startups lose time and even money because of invoice errors. In
                 this article, we will show you the most common mistakes people
-                make when creating invoices — and how using a free online
-                invoice generator can help you avoid them.
+                make when creating invoices, and how using a free online invoice
+                generator can help you avoid them.
               </p>
 
               {/* Google Ads Section */}
@@ -233,7 +233,7 @@ export default function BlogArticlePage() {
 
             <p className="text-gray-700 leading-relaxed mb-6">
               If you haven’t tried an online invoice maker yet, now is the
-              perfect time to start. Your clients will thank you — and so will
+              perfect time to start. Your clients will thank you, and so will
               your bank account!
             </p>
 

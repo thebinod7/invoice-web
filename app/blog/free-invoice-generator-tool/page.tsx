@@ -105,9 +105,9 @@ export default function BlogArticlePage() {
               <p className="text-gray-700 leading-relaxed mb-6">
                 A free invoice generator is an online tool that allows you to
                 create customized, professional invoices without any cost. You
-                don’t need advanced design skills or expensive software — all
-                you need is an internet connection. These tools are designed to
-                be user-friendly, fast, and efficient, making them ideal for
+                don’t need advanced design skills or expensive software, all you
+                need is an internet connection. These tools are designed to be
+                user-friendly, fast, and efficient, making them ideal for
                 freelancers, consultants, and small business owners.
               </p>
 

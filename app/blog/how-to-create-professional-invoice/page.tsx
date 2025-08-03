@@ -94,7 +94,7 @@ export default function BlogArticlePage() {
                 Creating a professional invoice can feel stressful, especially
                 if you are not good at design or accounting. But don’t worry!
                 With the right tools, you can make a beautiful, professional
-                invoice in just five minutes — no design skills needed.
+                invoice in just five minutes, no design skills needed.
               </p>
 
               <p className="text-lg text-gray-700 leading-relaxed mb-6">
@@ -243,7 +243,7 @@ export default function BlogArticlePage() {
             <p className="text-gray-700 leading-relaxed mb-6">
               Creating a professional invoice doesn’t have to be difficult or
               time-consuming. With a free online invoice generator, you can make
-              and send a clean, branded invoice in just five minutes — no design
+              and send a clean, branded invoice in just five minutes, no design
               or technical skills needed.
             </p>
 
