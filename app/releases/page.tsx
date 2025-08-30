@@ -5,6 +5,7 @@ import {
   FormInputIcon,
   Home,
   Image,
+  LayoutTemplate,
   Newspaper,
   Search,
   ShieldAlert,
@@ -25,6 +26,16 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
   {
+    id: '12',
+    title: 'Save basic invoice template',
+    description:
+      'You can now save basic invoice template like logo, currency, sender, and reciever details. This will help you to create invoice faster.',
+    date: '2025-08-30',
+    version: 'v1.2.3',
+    icon: LayoutTemplate,
+    isNew: true,
+  },
+  {
     id: '13',
     title: 'New Invoice Generation Form',
     description:
@@ -32,7 +43,7 @@ const featureReleases: FeatureRelease[] = [
     date: '2025-07-19',
     version: 'v1.2.2',
     icon: FormInputIcon,
-    isNew: true,
+    isNew: false,
   },
   {
     id: '14',
@@ -42,7 +53,7 @@ const featureReleases: FeatureRelease[] = [
     date: '2025-07-05',
     version: 'v1.2.1',
     icon: Newspaper,
-    isNew: true,
+    isNew: false,
   },
   {
     id: '15',
