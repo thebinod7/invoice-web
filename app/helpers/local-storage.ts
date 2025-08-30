@@ -1,8 +1,8 @@
-import { getCookie } from "cookies-next/client";
+import { getCookie } from 'cookies-next/client';
 
 export const LOCAL_KEYS = {
-  ACCESS_TOKEN: "accessToken",
-  USER: "user",
+  ACCESS_TOKEN: 'accessToken',
+  USER: 'user',
 };
 
 export const getLocalUser = () => {
@@ -26,9 +26,9 @@ export const setAccessToken = (accessToken: string) => {
 };
 
 export const getAccessToken = (): string => {
-  let accessToken = "";
+  let accessToken = '';
   try {
-    accessToken = localStorage.getItem(LOCAL_KEYS.ACCESS_TOKEN) || "";
+    accessToken = localStorage.getItem(LOCAL_KEYS.ACCESS_TOKEN) || '';
   } catch (error) {}
   return accessToken;
 };
@@ -59,4 +59,24 @@ export const generateCookieHeaders = () => {
 export const getAccessTokenFromCookie = () => {
   const token = getCookie(LOCAL_KEYS.ACCESS_TOKEN);
   return token;
+};
+
+export const saveInvoiceDetails = (invoiceDetails: any) => {
+  try {
+    localStorage.setItem('invoiceDetails', JSON.stringify(invoiceDetails));
+  } catch (error) {}
+};
+
+export const getInvoiceDetails = () => {
+  try {
+    const invoiceDetails = localStorage.getItem('invoiceDetails');
+    if (!invoiceDetails) return null;
+    return JSON.parse(invoiceDetails);
+  } catch (error) {}
+};
+
+export const clearInvoiceDetails = () => {
+  try {
+    localStorage.removeItem('invoiceDetails');
+  } catch (error) {}
 };

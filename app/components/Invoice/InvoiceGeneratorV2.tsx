@@ -7,9 +7,12 @@ import {
   calculateFileSizeInMB,
   calculatePercentAmountOfTotal,
   formatCurrency,
-  getCurrencyLocaleByName,
   getCurrencySymbolByName,
 } from '@/app/helpers';
+import {
+  getInvoiceDetails,
+  saveInvoiceDetails,
+} from '@/app/helpers/local-storage';
 import { postRequest } from '@/app/helpers/request';
 import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
 import { ILineItem } from '@/app/types';
@@ -29,9 +32,8 @@ import {
   User,
   X,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 const DEFAULT_CURRENCY = 'USD';
@@ -56,8 +58,6 @@ const invoiceInitial = {
 const initialLineItems = [{ title: '', quantity: '', rate: '' }];
 
 export default function InvoiceGeneratorV2() {
-  const router = useRouter();
-
   const [invoice, setInvoice] = useState(invoiceInitial);
   const [lineItems, setLineItems] = useState(initialLineItems);
   const [logoPreview, setLogoPreview] = useState('');
@@ -127,6 +127,12 @@ export default function InvoiceGeneratorV2() {
       );
     },
     onSuccess: (data: any) => {
+      saveInvoiceDetails({
+        senderDetails: invoice.senderDetails,
+        receiverDetails: invoice.receiverDetails,
+        currency: invoice.currency,
+        companyLogo: invoice.companyLogo,
+      });
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       console.log({ isMobile });
 
@@ -187,6 +193,14 @@ export default function InvoiceGeneratorV2() {
     };
     generateInvoiceMutation.mutate(payload);
   };
+
+  useEffect(() => {
+    const storedInvoice = getInvoiceDetails();
+    if (!storedInvoice) return;
+    const { companyLogo, ...rest } = storedInvoice;
+    if (rest) setInvoice({ ...invoice, ...rest, companyLogo });
+    if (companyLogo) setLogoPreview(companyLogo);
+  }, []);
 
   const currencySymbol = getCurrencySymbolByName(invoice.currency);
 
@@ -308,7 +322,7 @@ export default function InvoiceGeneratorV2() {
                         </label>
                         <textarea
                           name="senderDetails"
-                          value={invoice.senderDetails}
+                          value={invoice.senderDetails || ''}
                           onChange={handleInputChange}
                           rows={7}
                           className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
@@ -326,7 +340,7 @@ export default function InvoiceGeneratorV2() {
                         </label>
                         <textarea
                           name="receiverDetails"
-                          value={invoice.receiverDetails}
+                          value={invoice.receiverDetails || ''}
                           onChange={handleInputChange}
                           rows={7}
                           className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
