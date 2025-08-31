@@ -17,6 +17,18 @@ export default function Footer2() {
                 The simplest way to create professional invoices for free. No
                 sign-up required.
               </p>
+              <Link
+                href="https://superlaun.ch/products/456"
+                target="_blank"
+                rel="noopener"
+              >
+                <img
+                  src="https://superlaun.ch/badge.png"
+                  alt="Featured on Super Launch"
+                  width="200"
+                  height="200"
+                />
+              </Link>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Social</h3>
