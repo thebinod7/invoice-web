@@ -9,6 +9,7 @@ import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
 import LightAdAboveGenerateBtn from '../components/Paid/LightAdAboveGenerateBtn';
+import Link from 'next/link';
 
 export default function ThankYouPage() {
   const adbDetector = new AdblockDetector(); // call
@@ -32,8 +33,11 @@ export default function ThankYouPage() {
   return (
     <>
       {showAdBlockAlert && <AdBlockAlert />}
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-4">
         <div className="max-w-md w-full">
+          {/* <div className="text-blue-500 underline text-right">
+            <Link href={'/'}>Advertise with us</Link>
+          </div> */}
           <TopBannerAd />
           {/* Success Icon */}
           <InvoiceGenSuccess />
@@ -42,7 +46,7 @@ export default function ThankYouPage() {
           <InvoiceSavedInfo />
 
           {/* Paid Ad Box */}
-          <LightAdAboveGenerateBtn />
+          {/* <LightAdAboveGenerateBtn /> */}
 
           <CTA />
 
