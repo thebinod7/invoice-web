@@ -3,14 +3,14 @@ import Link from 'next/link';
 import React from 'react';
 
 interface TopBannerAdProps {
-  name?: string;
+  productName?: string;
   tagline?: string;
   websiteUrl?: string;
   image?: string;
 }
 
 export default function TopBannerAd({
-  name,
+  productName,
   tagline,
   websiteUrl,
   image,
@@ -25,22 +25,32 @@ export default function TopBannerAd({
             className="h-12 w-12 rounded"
           />
           <div>
-            <h3 className="font-semibold text-lg">{name || 'Premium Spot'}</h3>
+            <h3 className="font-semibold text-lg">
+              {productName || 'Ad Spot Available'}
+            </h3>
             <p className="text-green-100 text-sm text-wrap">
-              {tagline || 'Your ad will be featured here.'}
+              {tagline || 'Describe your ad here.'}
             </p>
           </div>
         </div>
         <div className="flex items-center space-x-3 text-xs">
-          <Link
-            href={`${websiteUrl || '#'}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white text-green-600 px-2 py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-          >
-            <ExternalLink className="h-4 w-4" />
-          </Link>
-          {/* <ExternalLink className="h-4 w-4" /> */}
+          {websiteUrl ? (
+            <Link
+              href={`${websiteUrl}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-green-600 px-2 py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+            </Link>
+          ) : (
+            <Link
+              href={'/advertise'}
+              className="bg-white text-green-600 px-2.5 py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+            >
+              Reserve Spot
+            </Link>
+          )}
         </div>
       </div>
     </div>

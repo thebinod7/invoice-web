@@ -55,6 +55,7 @@ export default function AdvertisePage() {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = e.target.files?.[0] || null;
+
     if (file?.size > MAX_FILE_SIZE_IN_BYTES) {
       return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
@@ -64,11 +65,8 @@ export default function AdvertisePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.image) return toast.error('Please upload an image.');
     console.log('Form submitted:', formData);
-  };
-
-  const handlePayment = () => {
-    console.log('Processing payment...');
   };
 
   return (
@@ -81,7 +79,7 @@ export default function AdvertisePage() {
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto text-balance">
             Reach high-intent freelancers and small business owners at the
-            perfect moment - right after they complete their invoicing.
+            perfect moment. Right after they complete their invoicing.
           </p>
         </div>
 
@@ -95,7 +93,7 @@ export default function AdvertisePage() {
               </span>
             </h2>
             <TopBannerAd
-              name={formData.productName}
+              productName={formData.productName}
               tagline={formData.tagline}
               websiteUrl={formData.websiteUrl}
             />
@@ -260,7 +258,6 @@ export default function AdvertisePage() {
                       accept="image/*"
                       onChange={handleImageChange}
                       className="hidden"
-                      required
                     />
                     <label htmlFor="image" className="cursor-pointer">
                       <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
@@ -279,7 +276,6 @@ export default function AdvertisePage() {
                 <div className="pt-4 space-y-4">
                   <button
                     type="submit"
-                    onClick={handlePayment}
                     className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-md transition-colors focus:outline-none"
                   >
                     Proceed to Payment - ${AD_PRICE.SEVEN_DAYS}
