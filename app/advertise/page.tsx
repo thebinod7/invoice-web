@@ -84,8 +84,8 @@ export default function AdvertisePage() {
       toast.error(sanitizeError(error));
     },
     onSuccess: (data) => {
-      // Go to the checkout page
-      toast.success('Your message has been sent successfully!');
+      const result: any = data?.data?.result;
+      window.location.href = result.paymentUrl;
     },
   });
 
@@ -263,7 +263,8 @@ export default function AdvertisePage() {
                     type="submit"
                     className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-md transition-colors focus:outline-none"
                   >
-                    Proceed to Payment - ${AD_PRICE.SEVEN_DAYS}
+                    Proceed to Payment - $
+                    {(AD_PRICE.SEVEN_DAYS * 0.9).toFixed(2)}
                   </button>
                 </div>
 
