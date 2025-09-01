@@ -63,3 +63,7 @@ export const SEO_KEYWORDS = [
   'invoice maker',
   'free invoice maker',
 ];
+
+export const AD_PRICE = {
+  SEVEN_DAYS: 14.99,
+};

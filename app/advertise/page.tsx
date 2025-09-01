@@ -1,32 +1,24 @@
 'use client';
 
+import { useMutation } from '@tanstack/react-query';
+import { Upload } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
-import {
-  Users,
-  Eye,
-  TrendingUp,
-  Target,
-  CheckCircle,
-  Upload,
-} from 'lucide-react';
-import TopBannerAd from '../components/Paid/TopBannerAd';
 import { toast } from 'sonner';
+import SpinnerX from '../components/Buttons/Spinner';
+import TopBannerAd from '../components/Paid/TopBannerAd';
+import { AD_PRICE } from '../constants';
+import { sanitizeError } from '../helpers';
+import { postRequest } from '../helpers/request';
+import AdHeader from './AdHeader';
+import AdPricing from './AdPricing';
+import AudienceStats from './AudienceStats';
+import { API_ROUTES } from '../constants/api-routes';
 
 const MAX_TAGLINE_LENGTH = 80;
 const MAX_NAME_LENGTH = 40;
 const MAX_FILE_SIZE = 5;
 const MAX_FILE_SIZE_IN_BYTES = 2 * 1024 * 1024;
-
-const AD_PRICE = {
-  SEVEN_DAYS: 14.99,
-};
-
-const STATS = {
-  ACTIVE_USERS: 290,
-  IMPRESSIONS: '2K',
-  PAGE_VIEWS: '2.5K',
-};
 
 // TODO: Add top 5 demographics:
 // 0 United States => 54.42
@@ -36,13 +28,19 @@ const STATS = {
 // 4 Australia => 7.19
 // 5 Canada => 6.63
 
+const IMAGE_UPLOAD_URL =
+  'https://api.breakfreekit.com/api/v1/app/upload-single';
+
 export default function AdvertisePage() {
   const [formData, setFormData] = useState({
     productName: '',
     tagline: '',
     websiteUrl: '',
-    image: null as File | null,
+    imageUrl: '',
+    clientEmail: '',
   });
+
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,28 +58,48 @@ export default function AdvertisePage() {
       return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
 
-    setFormData((prev) => ({ ...prev, image: file }));
+    const formData: any = new FormData();
+    formData.append('file', file);
+    return uploadImageMutation.mutate(formData);
   };
+
+  const uploadImageMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(IMAGE_UPLOAD_URL, payload);
+    },
+    onError: (error) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: (data) => {
+      const result: any = data?.data?.result;
+      setUploadedImage(result.Location);
+    },
+  });
+
+  const sendPurchaseDetailsMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(`${API_ROUTES.APP}/ad-purchase`, payload);
+    },
+    onError: (error) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: (data) => {
+      // Go to the checkout page
+      toast.success('Your message has been sent successfully!');
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.image) return toast.error('Please upload an image.');
-    console.log('Form submitted:', formData);
+    if (!uploadedImage) return toast.error('Please upload an image.');
+    formData.imageUrl = uploadedImage;
+    return sendPurchaseDetailsMutation.mutateAsync(formData);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-white">
       <div className="container mx-auto px-4 py-12 max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 text-balance">
-            Advertise with Us
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto text-balance">
-            Reach high-intent freelancers and small business owners at the
-            perfect moment. Right after they complete their invoicing.
-          </p>
-        </div>
+        <AdHeader />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left Column - Benefits & Stats */}
@@ -98,77 +116,8 @@ export default function AdvertisePage() {
               websiteUrl={formData.websiteUrl}
             />
 
-            {/* Audience Stats */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-200">
-              <div className="p-6 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Target className="w-5 h-5 text-emerald-600" />
-                  Perfect Timing & Audience
-                </h3>
-                <p className="text-gray-600 mt-1">
-                  Reach users when they're most engaged with business tools
-                </p>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-emerald-50 rounded-lg">
-                    <Users className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900">
-                      {STATS.ACTIVE_USERS}+
-                    </div>
-                    <div className="text-sm text-gray-600">Weekly Users</div>
-                  </div>
-                  <div className="text-center p-4 bg-emerald-50 rounded-lg">
-                    <Eye className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-900">
-                      {STATS.IMPRESSIONS}+
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      Monthly Impressions
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      High-intent B2B audience (freelancers, small businesses)
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      Users who just completed invoicing - perfect timing
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      {STATS.PAGE_VIEWS}+ monthly page views with engaged users
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Pricing */}
-            <div className="bg-white rounded-xl shadow-lg border border-emerald-200">
-              <div className="p-8 text-center">
-                <div className="mb-4">
-                  <div className="text-4xl font-bold text-gray-900">
-                    ${AD_PRICE.SEVEN_DAYS}
-                  </div>
-                  <div className="text-gray-600">for 7 days</div>
-                </div>
-                <div className="flex items-center justify-center gap-2 text-emerald-600 mb-6">
-                  <TrendingUp className="w-5 h-5" />
-                  <span className="font-medium">
-                    Premium placement guaranteed
-                  </span>
-                </div>
-              </div>
-            </div>
+            <AudienceStats />
+            <AdPricing />
           </div>
 
           {/* Right Column - Application Form */}
@@ -180,6 +129,25 @@ export default function AdvertisePage() {
             </div>
             <div className="p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2">
+                  <label
+                    htmlFor="clientEmail"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Email Address *
+                  </label>
+                  <input
+                    id="clientEmail"
+                    name="clientEmail"
+                    type="email"
+                    value={formData.clientEmail}
+                    onChange={handleInputChange}
+                    placeholder="Enter your email address"
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <label
                     htmlFor="productName"
@@ -260,15 +228,32 @@ export default function AdvertisePage() {
                       className="hidden"
                     />
                     <label htmlFor="image" className="cursor-pointer">
-                      <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <div className="text-sm text-gray-600">
-                        {formData.image
-                          ? formData.image.name
-                          : 'Click to upload your product image'}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        PNG, JPG up to 5MB (recommended: square image)
-                      </div>
+                      {uploadImageMutation.isPending ? (
+                        <div className="flex items-center gap-2 justify-center">
+                          <SpinnerX variant={3.5} /> {''}
+                          <p className="text-sm">Please wait...</p>
+                        </div>
+                      ) : (
+                        <div>
+                          {uploadedImage ? (
+                            <img
+                              src={uploadedImage}
+                              alt="Uploaded"
+                              className="w-20 h-20 object-cover rounded-lg mx-auto mb-2"
+                            />
+                          ) : (
+                            <>
+                              <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                              <div className="text-sm text-gray-600">
+                                Click to upload your product image
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1">
+                                PNG, JPG up to 5MB (recommended: square image)
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      )}
                     </label>
                   </div>
                 </div>
