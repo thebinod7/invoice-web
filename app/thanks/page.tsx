@@ -44,7 +44,7 @@ export default function ThankYouPage() {
           {/* <div className="text-blue-500 underline text-right">
             <Link href={'/'}>Advertise with us</Link>
           </div> */}
-          <TopBannerAd />
+          <TopBannerAd websiteUrl="#" />
           {/* Success Icon */}
           <InvoiceGenSuccess />
 
