@@ -8,24 +8,19 @@ import { GOOGLE_AD } from '../constants';
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
-
-const ACTIVE_AD = {
-  name: 'Ad Name',
-  tagline: 'Ad Tagline',
-  websiteUrl: 'https://www.example.com',
-  image:
-    'https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-};
+import { useGetActiveAd } from '../hooks/backend/invoice';
 
 export default function ThankYouPage() {
   const adbDetector = new AdblockDetector(); // call
   const userHasAdblock = adbDetector.detect();
-
   const [showAdBlockAlert, setShowAdBlockAlert] = useState(false);
+
+  const { data } = useGetActiveAd();
+
+  const activeAd = data?.data?.result || null;
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log({ userHasAdblock });
       if (userHasAdblock) {
         setShowAdBlockAlert(true);
       }
@@ -44,7 +39,12 @@ export default function ThankYouPage() {
           {/* <div className="text-blue-500 underline text-right">
             <Link href={'/'}>Advertise with us</Link>
           </div> */}
-          <TopBannerAd />
+          <TopBannerAd
+            productName={activeAd?.productName || ''}
+            tagline={activeAd?.tagline || ''}
+            websiteUrl={activeAd?.websiteUrl || ''}
+            image={activeAd?.imageUrl || ''}
+          />
           {/* Success Icon */}
           <InvoiceGenSuccess />
 
