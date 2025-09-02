@@ -48,7 +48,7 @@ export default function TopBannerAd({
               href={'/advertise'}
               className="bg-white text-green-600 px-2.5 py-2 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
             >
-              Reserve Spot
+              Get Started
             </Link>
           )}
         </div>

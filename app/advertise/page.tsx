@@ -113,7 +113,7 @@ export default function AdvertisePage() {
             <TopBannerAd
               productName={formData.productName}
               tagline={formData.tagline}
-              websiteUrl={formData.websiteUrl}
+              websiteUrl={formData.websiteUrl || '#'}
             />
 
             <AudienceStats />
@@ -260,11 +260,18 @@ export default function AdvertisePage() {
 
                 <div className="pt-4 space-y-4">
                   <button
+                    disabled={sendPurchaseDetailsMutation.isPending}
                     type="submit"
-                    className="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-md transition-colors focus:outline-none"
+                    className={`w-full ${
+                      sendPurchaseDetailsMutation.isPending
+                        ? 'bg-gray-400 cursor-progress'
+                        : 'bg-gray-800'
+                    } text-white font-medium py-3 px-4 rounded-md transition-colors focus:outline-none`}
                   >
-                    Proceed to Payment - $
-                    {(AD_PRICE.SEVEN_DAYS * 0.9).toFixed(2)}
+                    {sendPurchaseDetailsMutation.isPending
+                      ? 'Processing...'
+                      : 'Proceed to Payment'}{' '}
+                    - ${(AD_PRICE.SEVEN_DAYS * 0.9).toFixed(2)}
                   </button>
                 </div>
 
