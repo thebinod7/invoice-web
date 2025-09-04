@@ -1,0 +1,5 @@
+===Ad Display===
+- Request submit from website
+- Save data inside DB and notify admin
+- Update status=>ACTIVE and hasPaid=>true if payment recieved
+- Ad should autmatically fetched and displayed
