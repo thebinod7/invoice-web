@@ -1,4 +1,5 @@
 import AdBanner from '@/app/components/AdBanner';
+import { HorizontalAdBanner } from '@/app/components/Paid/HorizontalAdbanner';
 import {
   APP_CATEGORY,
   DEFAULT_OG_IMAGE_URL,
@@ -61,6 +62,8 @@ export default function BlogArticlePage() {
         <article className="bg-white rounded-xl shadow-sm overflow-hidden">
           {/* Article Content */}
           <div className="p-6 md:p-8">
+            <HorizontalAdBanner />
+
             {/* Category Badge */}
             <div className="mb-4 p-2 rounded-md bg-blue-100 text-blue-800 hover:bg-blue-200">
               <div className="flex items-center gap-2 text-sm">
@@ -99,11 +102,6 @@ export default function BlogArticlePage() {
                 make when creating invoices, and how using a free online invoice
                 generator can help you avoid them.
               </p>
-
-              {/* Google Ads Section */}
-              <div className="mt-8">
-                <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_SLOT} />
-              </div>
 
               <h2 className="text-2xl font-bold text-gray-900 mb-4 mt-8">
                 1️⃣ Forgetting Important Details
@@ -249,6 +247,11 @@ export default function BlogArticlePage() {
                   </span>
                 ))}
               </div>
+            </div>
+
+            {/* Google Ads Section */}
+            <div className="mt-8">
+              <AdBanner adSlotId={GOOGLE_AD.BLOG_PAGE_SLOT} />
             </div>
           </div>
         </article>

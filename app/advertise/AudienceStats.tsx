@@ -56,6 +56,13 @@ export default function AudienceStats() {
               {STATS.PAGE_VIEWS}+ monthly page views with engaged users
             </span>
           </div>
+          <div className="flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+            <span className="text-gray-700">
+              Display ad on <span className="font-bold">thanks</span> page and
+              all <span className="font-bold">blog posts</span>
+            </span>
+          </div>
         </div>
       </div>
     </div>
