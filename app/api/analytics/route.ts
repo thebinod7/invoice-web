@@ -7,7 +7,7 @@ const FULL_API_URL = `${POSTHOG_API_ENDPOINT}/insights/trend/`;
 
 const PV = 320;
 const VI = 76;
-const INVOICES = 515;
+const INVOICES = 1500;
 
 export async function GET() {
   try {
@@ -32,14 +32,8 @@ export async function GET() {
             type: 'events',
             math: 'dau', // unique visitors
           },
-          {
-            id: 'invoice_generated',
-            name: 'invoice_generated',
-            type: 'events',
-            math: 'total', // total invoices generated in 7 days
-          },
         ],
-        date_from: '-7d',
+        date_from: '-30d',
         display: 'BoldNumber',
       }),
     });

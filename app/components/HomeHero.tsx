@@ -75,7 +75,7 @@ export default function HomeHero() {
           </div>
           <div className="relative" id="stats">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Weekly Stats
+              Monthly Stats
             </h3>
 
             {stats.loading ? (
@@ -104,7 +104,7 @@ export default function HomeHero() {
                       <Users className="h-3 w-3 text-blue-600" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">Visits</p>
+                      <p className="text-xs text-gray-500">Unique Visits</p>
                       <p className="text-sm font-semibold text-gray-900">
                         {formatNumber(stats.visitors) + '+'}
                       </p>
