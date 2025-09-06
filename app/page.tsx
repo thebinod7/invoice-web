@@ -6,11 +6,12 @@ import {
   Palette,
   Share2,
   Smartphone,
-  Sparkles,
   Zap,
 } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import AdBanner from './components/AdBanner';
+import HomeHero from './components/HomeHero';
 import {
   APP,
   DEFAULT_METADATA,
@@ -18,7 +19,6 @@ import {
   GOOGLE_AD,
   SEO_KEYWORDS,
 } from './constants';
-import AdBanner from './components/AdBanner';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const title = APP.TITLE;
@@ -61,78 +61,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-
       <div className="mx-0 sm:mx-5 md:mx-8 lg:mx-20 xl:mx-24 2xl:mx-28">
-        <section className="py-10 lg:py-16">
-          <div className="container mx-auto px-4">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="text-center lg:text-left">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 mb-4">
-                  100% Free |<span className="ml-1">No Sign-Up Required</span>
-                </span>
-                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                  Create Professional Invoices for{' '}
-                  <span className="text-emerald-600">Free</span>
-                </h1>
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                  No sign-up needed. Generate and download beautiful,
-                  ready-to-send invoices in seconds.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link
-                    href="/create-invoice"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-                  >
-                    Create an Invoice
-                    <FileText className="ml-2 h-5 w-5" />
-                  </Link>
-                  <a
-                    href="#seo"
-                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                  >
-                    Why Us?
-                    <Sparkles className="ml-2 h-5 w-5" />
-                  </a>
-                </div>
-              </div>
-              <div className="relative">
-                <div className="bg-gradient-to-br from-emerald-50 to-teal-100 rounded-2xl p-8 shadow-2xl">
-                  <div className="bg-white rounded-lg shadow-lg p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-emerald-600 rounded"></div>
-                        <span className="font-semibold text-gray-900">
-                          Your Company
-                        </span>
-                      </div>
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                        Invoice #001
-                      </span>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="pt-3">
-                        <div className="flex justify-between text-sm text-gray-500">
-                          <span>Web Design Services</span>
-                          <span>$1,000.00</span>
-                        </div>
-                        <div className="flex justify-between text-sm text-gray-500">
-                          <span>Tax (25%)</span>
-                          <span>$250.00</span>
-                        </div>
-                      </div>
-
-                      <div className="flex justify-between border-t">
-                        <span className="text-gray-600">Due Amount</span>
-                        <span className="font-semibold">$1,250.00</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <HomeHero />
 
         {/* Features Section */}
         <section id="features" className="py-20 bg-gray-50">

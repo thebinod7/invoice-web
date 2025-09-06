@@ -3,8 +3,8 @@ import React from 'react';
 
 const STATS = {
   ACTIVE_USERS: 290,
-  IMPRESSIONS: '2K',
-  PAGE_VIEWS: '2.5K',
+  IMPRESSIONS: '3K',
+  PAGE_VIEWS: '3K',
 };
 
 export default function AudienceStats() {
