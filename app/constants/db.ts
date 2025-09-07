@@ -42,4 +42,18 @@ export const BLOG_ARTICLES = [
     slug: 'how-to-create-professional-invoice',
     tags: ['Business', 'Invoice', 'Online'],
   },
+  {
+    id: 4,
+    title:
+      'How to Create Invoice for International Clients (USA, CANADA and more). Brief PDF Guide',
+    excerpt:
+      'Learn how to create a professional PDF invoice for international clients (USA, Canada and more). Step-by-step guide + free invoice generator to get paid faster worldwide.',
+    author: 'Invomaker',
+    date: 'Sep 07, 2025',
+    category: 'Guide',
+    readTime: '7 min read',
+    image: '/images/logo.png',
+    slug: 'create-invoice-for-international-clients-pdf-guide',
+    tags: ['International', 'Invoice', 'PDF'],
+  },
 ];
