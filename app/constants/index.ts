@@ -65,5 +65,5 @@ export const SEO_KEYWORDS = [
 ];
 
 export const AD_PRICE = {
-  SEVEN_DAYS: 16.66,
+  SEVEN_DAYS: 14.43,
 };
