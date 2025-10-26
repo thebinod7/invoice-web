@@ -2,6 +2,7 @@
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
 import ReactSelect from '../components/ReactSelect';
+import { TIMEZONE_OPTIONS } from '../helpers/timezone';
 
 type TimezoneOption = {
   label: string;
@@ -10,7 +11,7 @@ type TimezoneOption = {
   city: string;
 };
 
-const TIMEZONE_OPTIONS: TimezoneOption[] = [
+const _TIMEZONE_OPTIONS: TimezoneOption[] = [
   {
     label: 'Kathmandu, Nepal (Asia/Kathmandu)',
     value: 'Asia/Kathmandu',
@@ -138,8 +139,8 @@ function formatZoneDisplay(opt: TimezoneOption) {
 }
 
 export default function TimezoneConverter({
-  initialFrom = 'Asia/Kathmandu',
-  initialTo = 'UTC',
+  initialFrom = 'America/Chicago',
+  initialTo = 'Europe/London',
 }: {
   initialFrom?: string;
   initialTo?: string;
@@ -188,20 +189,20 @@ export default function TimezoneConverter({
     );
   }
 
-  return (
-    <div className="max-w-xl mx-auto p-4 bg-white rounded-2xl shadow">
-      <h2 className="text-xl font-semibold mb-3">Timezone converter</h2>
+  console.log('From: ', fromZone);
 
-      <label className="block mb-2 text-sm font-medium">
-        Source timezone (country / city)
-      </label>
+  return (
+    <div className="max-w-xl mt-5 my-5 mx-auto p-4 bg-white rounded-2xl shadow">
+      <h2 className="text-xl font-semibold mb-3">Timezone Converter</h2>
+
+      <label className="block mb-2 text-sm font-medium">Source timezone</label>
       <div className="mb-4">
         <div className="relative">
           <ReactSelect
             handleSelectChange={(d) => setFromZone(d!.value)}
             options={TIMEZONE_OPTIONS}
             instanceId="tz-source"
-            placeholder="Select your source timezone"
+            placeholder="Search by city (e.g. Chicago)"
           />
           {/* <select
             aria-label="Select source timezone"
@@ -240,15 +241,15 @@ export default function TimezoneConverter({
       </div>
 
       <label className="block mb-2 text-sm font-medium">
-        Destination timezone (country / city)
+        Destination timezone
       </label>
       <div className="mb-4">
         <div className="relative">
           <ReactSelect
             handleSelectChange={(d) => setToZone(d!.value)}
             options={TIMEZONE_OPTIONS}
-            instanceId="tz-source"
-            placeholder="Search country or city (e.g. London, UK)"
+            instanceId="tz-destination"
+            placeholder="Search by city (e.g. London)"
           />
           {/* <select
             aria-label="Select destination timezone"
@@ -271,18 +272,18 @@ export default function TimezoneConverter({
         {error && <div className="text-red-600 mb-2">{error}</div>}
         {!dateTimeISO && (
           <div className="text-sm text-gray-600">
-            Enter a source date & time.
+            Select source date & time.
           </div>
         )}
         {converted && (
           <div className="p-3 border rounded bg-gray-50">
             <div className="mb-1">
               <strong>Source ({fromZone})</strong>:{' '}
-              {converted.from.toFormat('yyyy-LL-dd HH:mm (ZZZZ)')}
+              {converted.from.toFormat('yyyy MMMM dd, hh:mm a (ZZZZ)')}
             </div>
             <div>
               <strong>Destination ({toZone})</strong>:{' '}
-              {converted.to.toFormat('yyyy-LL-dd HH:mm (ZZZZ)')}
+              {converted.to.toFormat('yyyy MMMM dd, hh:mm a (ZZZZ)')}
             </div>
             <div className="mt-2 text-sm text-gray-600">
               Offset difference: {converted.to.offset - converted.from.offset}{' '}
@@ -295,7 +296,7 @@ export default function TimezoneConverter({
       <div className="flex justify-end gap-2">
         <button
           type="button"
-          className="px-3 py-2 border rounded bg-white"
+          className="px-6 py-2 border rounded bg-white"
           onClick={() => {
             // swap zones
             setFromZone((prev) => {
@@ -306,7 +307,7 @@ export default function TimezoneConverter({
         >
           Swap
         </button>
-        <button
+        {/* <button
           type="button"
           className="px-3 py-2 border rounded bg-blue-600 text-white"
           onClick={() => {
@@ -316,7 +317,7 @@ export default function TimezoneConverter({
           }}
         >
           Copy ISO
-        </button>
+        </button> */}
       </div>
     </div>
   );
