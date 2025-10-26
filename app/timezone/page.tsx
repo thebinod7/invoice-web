@@ -1,26 +1,7 @@
 'use client';
-import React, { useMemo, useState } from 'react';
 import { DateTime } from 'luxon';
-
-/**
- * TimezoneConverter - a focused, production-ready React component for Next.js
- *
- * Features:
- * - 3 inputs: source timezone (country/city), source date/time, destination timezone
- * - Searchable dropdowns for timezones (keyboard accessible)
- * - Accurate conversions using Luxon (handles DST and IANA zones)
- * - Validation and user-friendly error messages
- * - Tailwind CSS-ready class names for styling
- *
- * How to use:
- * 1. Install dependency: `npm install luxon`
- * 2. Drop this component into a Next.js page or component tree.
- * 3. Ensure Tailwind (or your CSS) is available for the classes used below, or replace classes.
- *
- * Notes:
- * - For production you might want to replace the in-file timezone list with a curated list
- *   or an API-backed dataset; for many apps a hand-picked list of common zones is sufficient.
- */
+import { useMemo, useState } from 'react';
+import ReactSelect from '../components/ReactSelect';
 
 type TimezoneOption = {
   label: string;
@@ -174,31 +155,8 @@ export default function TimezoneConverter({
     // to input datetime-local we need YYYY-MM-DDTHH:mm
     return dt ? dt.slice(0, 16) : '';
   });
-  const [queryFrom, setQueryFrom] = useState<string>('');
-  const [queryTo, setQueryTo] = useState<string>('');
+
   const [error, setError] = useState<string | null>(null);
-
-  const filteredFrom = useMemo(() => {
-    const q = queryFrom.trim().toLowerCase();
-    if (!q) return TIMEZONE_OPTIONS;
-    return TIMEZONE_OPTIONS.filter(
-      (o) =>
-        o.label.toLowerCase().includes(q) ||
-        o.country.toLowerCase().includes(q) ||
-        o.city.toLowerCase().includes(q)
-    );
-  }, [queryFrom]);
-
-  const filteredTo = useMemo(() => {
-    const q = queryTo.trim().toLowerCase();
-    if (!q) return TIMEZONE_OPTIONS;
-    return TIMEZONE_OPTIONS.filter(
-      (o) =>
-        o.label.toLowerCase().includes(q) ||
-        o.country.toLowerCase().includes(q) ||
-        o.city.toLowerCase().includes(q)
-    );
-  }, [queryTo]);
 
   // compute converted time
   const converted = useMemo(() => {
@@ -238,15 +196,14 @@ export default function TimezoneConverter({
         Source timezone (country / city)
       </label>
       <div className="mb-4">
-        <input
-          aria-label="Search source timezone"
-          className="w-full p-2 border rounded mb-2"
-          placeholder="Search country or city (e.g. Kathmandu, Nepal)"
-          value={queryFrom}
-          onChange={(e) => setQueryFrom(e.target.value)}
-        />
         <div className="relative">
-          <select
+          <ReactSelect
+            handleSelectChange={(d) => setFromZone(d!.value)}
+            options={TIMEZONE_OPTIONS}
+            instanceId="tz-source"
+            placeholder="Select your source timezone"
+          />
+          {/* <select
             aria-label="Select source timezone"
             className="w-full p-2 border rounded"
             size={5}
@@ -258,7 +215,7 @@ export default function TimezoneConverter({
                 {formatZoneDisplay(opt)}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
       </div>
 
@@ -286,15 +243,14 @@ export default function TimezoneConverter({
         Destination timezone (country / city)
       </label>
       <div className="mb-4">
-        <input
-          aria-label="Search destination timezone"
-          className="w-full p-2 border rounded mb-2"
-          placeholder="Search country or city (e.g. London, UK)"
-          value={queryTo}
-          onChange={(e) => setQueryTo(e.target.value)}
-        />
         <div className="relative">
-          <select
+          <ReactSelect
+            handleSelectChange={(d) => setToZone(d!.value)}
+            options={TIMEZONE_OPTIONS}
+            instanceId="tz-source"
+            placeholder="Search country or city (e.g. London, UK)"
+          />
+          {/* <select
             aria-label="Select destination timezone"
             className="w-full p-2 border rounded"
             size={5}
@@ -306,7 +262,7 @@ export default function TimezoneConverter({
                 {formatZoneDisplay(opt)}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
       </div>
 
@@ -354,7 +310,6 @@ export default function TimezoneConverter({
           type="button"
           className="px-3 py-2 border rounded bg-blue-600 text-white"
           onClick={() => {
-            // copy result to clipboard (friendly fallback)
             if (!converted) return;
             const text = `Source (${fromZone}): ${converted.from.toISO()} -> Destination (${toZone}): ${converted.to.toISO()}`;
             navigator.clipboard?.writeText(text);
