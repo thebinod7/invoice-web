@@ -13,6 +13,7 @@ interface IProps {
   placeholder: string;
   instanceId: string;
   handleSelectChange: (value: SingleValue<SelectItem>) => void;
+  currentValue?: SelectItem;
 }
 
 export default function ReactSelect({
@@ -20,10 +21,12 @@ export default function ReactSelect({
   placeholder = '--Select--',
   instanceId,
   handleSelectChange,
+  currentValue,
 }: IProps) {
   return (
     <>
       <Select
+        value={currentValue || null}
         onChange={handleSelectChange}
         instanceId={instanceId}
         placeholder={placeholder}
