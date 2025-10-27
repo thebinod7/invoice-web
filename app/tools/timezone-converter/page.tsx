@@ -1,30 +1,15 @@
 'use client';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
-import ReactSelect from '../components/ReactSelect';
-import { TIMEZONE_OPTIONS } from '../helpers/timezone';
+import ReactSelect from '../../components/ReactSelect';
+import { TIMEZONE_OPTIONS } from '../../helpers/timezone';
 import { AlertCircle, ArrowRightLeft, Calendar, Clock } from 'lucide-react';
+import AdBanner from '@/app/components/AdBanner';
+import { GOOGLE_AD } from '@/app/constants';
 
-type TimezoneOption = {
-  label: string;
-  value: string; // IANA timezone
-  country: string;
-  city: string;
-};
-
-function formatZoneDisplay(opt: TimezoneOption) {
-  return opt.label;
-}
-
-export default function TimezoneConverter({
-  initialFrom = 'America/Chicago',
-  initialTo = 'Europe/London',
-}: {
-  initialFrom?: string;
-  initialTo?: string;
-}) {
-  const [fromZone, setFromZone] = useState<string>(initialFrom);
-  const [toZone, setToZone] = useState<string>(initialTo);
+export default function TimezoneConverter() {
+  const [fromZone, setFromZone] = useState<string>('America/Chicago');
+  const [toZone, setToZone] = useState<string>('Europe/London');
   const [dateTimeISO, setDateTimeISO] = useState<string>(() => {
     // default to current local datetime in ISO for <input type="datetime-local">
     const dt = DateTime.local().toISO({
@@ -189,6 +174,10 @@ export default function TimezoneConverter({
             Swap
           </button>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <AdBanner adSlotId={GOOGLE_AD.TOOLS_SLOT} />
       </div>
     </div>
   );

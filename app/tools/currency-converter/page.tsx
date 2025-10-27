@@ -1,8 +1,10 @@
 'use client';
 
+import AdBanner from '@/app/components/AdBanner';
+import ReactSelect from '@/app/components/ReactSelect';
+import { GOOGLE_AD } from '@/app/constants';
 import { ArrowRightLeft, DollarSign } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
-import ReactSelect from '../components/ReactSelect';
 
 const API_BASE_URL = 'https://api.frankfurter.dev/v1/latest';
 
@@ -146,6 +148,10 @@ export default function page() {
             Exchange rates are updated daily.
           </p>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <AdBanner adSlotId={GOOGLE_AD.TOOLS_SLOT} />
       </div>
     </div>
   );

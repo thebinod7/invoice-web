@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Select, { SingleValue } from 'react-select';
 
 interface SelectItem {
@@ -15,14 +14,6 @@ interface IProps {
   handleSelectChange: (value: SingleValue<SelectItem>) => void;
   currentValue?: SelectItem;
 }
-
-const customStyles = {
-  control: (base) => ({
-    ...base,
-    height: 35,
-    minHeight: 35,
-  }),
-};
 
 export default function ReactSelect({
   options,
@@ -48,7 +39,7 @@ export default function ReactSelect({
               borderColor: state.isFocused ? '#72BAA9' : '#474E93', // Ensure hover doesn't override focus
             },
           }),
-          input(base, props) {
+          input(base) {
             return {
               ...base,
               height: 35,
