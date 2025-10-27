@@ -16,6 +16,14 @@ interface IProps {
   currentValue?: SelectItem;
 }
 
+const customStyles = {
+  control: (base) => ({
+    ...base,
+    height: 35,
+    minHeight: 35,
+  }),
+};
+
 export default function ReactSelect({
   options,
   placeholder = '--Select--',
@@ -40,6 +48,12 @@ export default function ReactSelect({
               borderColor: state.isFocused ? '#72BAA9' : '#474E93', // Ensure hover doesn't override focus
             },
           }),
+          input(base, props) {
+            return {
+              ...base,
+              height: 35,
+            };
+          },
         }}
       />
     </>
