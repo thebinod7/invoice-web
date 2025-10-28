@@ -53,6 +53,12 @@ export const SOCIAL_LINKS = {
   YOUTUBE: 'https://www.youtube.com/@invomaker',
 };
 
+export const TOOLS_LIST = {
+  TIMEZONE: '/tools/timezone-converter',
+  CURRENCY: '/tools/currency-converter',
+  INVOICE: '/create-invoice',
+};
+
 export const SEO_KEYWORDS = [
   'invoice generator',
   'free invoice template',

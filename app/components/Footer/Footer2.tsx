@@ -1,4 +1,4 @@
-import { APP_NAME, SOCIAL_LINKS } from '@/app/constants';
+import { APP_NAME, SOCIAL_LINKS, TOOLS_LIST } from '@/app/constants';
 import { FileText } from 'lucide-react';
 import Link from 'next/link';
 
@@ -31,32 +31,30 @@ export default function Footer2() {
               </Link>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Social</h3>
+              <h3 className="text-lg font-semibold mb-4">Tools</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <Link
-                    target="_blank"
-                    href={SOCIAL_LINKS.YOUTUBE}
+                    href={TOOLS_LIST.TIMEZONE}
                     className="hover:text-white transition-colors"
                   >
-                    Youtube
+                    Timezone Converter
                   </Link>
                 </li>
                 <li>
                   <Link
-                    target="_blank"
-                    href={SOCIAL_LINKS.FACEBOOK}
+                    href={TOOLS_LIST.CURRENCY}
                     className="hover:text-white transition-colors"
                   >
-                    Facebook
+                    Currency Converter
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/blog"
+                    href={TOOLS_LIST.INVOICE}
                     className="hover:text-white transition-colors"
                   >
-                    Blog
+                    Invoice Generator
                   </Link>
                 </li>
               </ul>

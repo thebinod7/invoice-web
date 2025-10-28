@@ -1,7 +1,8 @@
-import { Calculator, Clock, DollarSign, Globe, Search } from 'lucide-react';
+import { Clock, DollarSign, Globe, ReceiptIcon, Search } from 'lucide-react';
 import Link from 'next/link';
+import { TOOLS_LIST } from '../constants';
 
-const TOOLS_LIST = [
+const TOOLS = [
   {
     id: 1,
     name: 'Timezone Converter',
@@ -9,7 +10,7 @@ const TOOLS_LIST = [
     icon: Clock,
     category: 'Time',
     color: 'emerald',
-    link: '/tools/timezone-converter',
+    link: TOOLS_LIST.TIMEZONE,
   },
   {
     id: 2,
@@ -18,15 +19,16 @@ const TOOLS_LIST = [
     icon: DollarSign,
     category: 'Finance',
     color: 'emerald',
-    link: '/tools/currency-converter',
+    link: TOOLS_LIST.CURRENCY,
   },
   {
     id: 3,
-    name: 'Project Cost Planner (Coming Soon!)',
-    description: 'Estimate project costs with ease',
-    icon: Calculator,
+    name: 'Invoice Generator',
+    description: 'Create professional invoices in seconds',
+    icon: ReceiptIcon,
     category: 'Finance',
     color: 'emerald',
+    link: TOOLS_LIST.INVOICE,
   },
 ];
 
@@ -48,9 +50,9 @@ export default function page() {
 
       {/* Tools Grid */}
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        {TOOLS_LIST.length > 0 ? (
+        {TOOLS.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {TOOLS_LIST.map((tool) => {
+            {TOOLS.map((tool) => {
               const IconComponent = tool.icon;
               return (
                 <div
@@ -112,7 +114,7 @@ export default function page() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div className="text-center">
               <div className="text-3xl font-bold text-emerald-600 mb-2">
-                {TOOLS_LIST.length}
+                {TOOLS.length}
               </div>
               <p className="text-gray-600">Tools Available</p>
             </div>
