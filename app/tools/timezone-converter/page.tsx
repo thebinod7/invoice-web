@@ -70,9 +70,9 @@ export default function TimezoneConverter() {
 
       <div className="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
         <div className="mb-8">
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3">
-            From Timezone
-          </label>
+          <label className="block text-xs font-semibold text-slate-700 tracking-wider mb-3">
+            FROM TIMEZONE (Search by city eg: Chicago)
+          </label>{' '}
           <ReactSelect
             currentValue={TIMEZONE_OPTIONS.find((o) => o.value === fromZone)}
             handleSelectChange={(d) => setFromZone(d!.value)}
@@ -86,7 +86,7 @@ export default function TimezoneConverter() {
           <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3">
             Date & Time
           </label>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3">
             <div className="flex-1 relative">
               <Calendar className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
               <input
@@ -108,8 +108,8 @@ export default function TimezoneConverter() {
         </div>
 
         <div className="mb-8">
-          <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-3">
-            To Timezone
+          <label className="block text-xs font-semibold text-slate-700 tracking-wider mb-3">
+            TO TIMEZONE (Search by city eg: London)
           </label>
           <ReactSelect
             currentValue={TIMEZONE_OPTIONS.find((o) => o.value === toZone)}
@@ -136,22 +136,22 @@ export default function TimezoneConverter() {
         )}
 
         {converted && (
-          <div className="mb-8 p-6 bg-slate-50 border border-slate-200 rounded-lg space-y-5">
-            <div className="flex items-start justify-between gap-4">
+          <div className="mb-8 p-4 sm:p-6 bg-slate-50 border border-slate-200 rounded-lg space-y-4 sm:space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <div className="flex-1">
                 <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
                   {fromZone}
                 </p>
-                <p className="text-lg font-light text-slate-900">
+                <p className="text-base sm:text-lg font-light text-slate-900">
                   {converted.from.toFormat('yyyy MMMM dd, hh:mm a (ZZZZ)')}{' '}
                 </p>
               </div>
-              <ArrowRightLeft className="w-4 h-4 text-slate-400 mt-1 flex-shrink-0" />
-              <div className="flex-1 text-right">
+              <ArrowRightLeft className="w-4 h-4 text-slate-400 mt-1 flex-shrink-0 hidden sm:block" />
+              <div className="flex-1 sm:text-right">
                 <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
                   {toZone}
                 </p>
-                <p className="text-lg font-light text-slate-900">
+                <p className="text-base sm:text-lg font-light text-slate-900">
                   {converted.to.toFormat('yyyy MMMM dd, hh:mm a (ZZZZ)')}{' '}
                 </p>
               </div>
