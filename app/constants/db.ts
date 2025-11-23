@@ -56,4 +56,18 @@ export const BLOG_ARTICLES = [
     slug: 'create-invoice-for-international-clients-pdf-guide',
     tags: ['International', 'Invoice', 'PDF'],
   },
+  {
+    id: 5,
+    title:
+      'How to Create an Invoice for Freelancers (Step-by-Step Guide + Free Templates)',
+    excerpt:
+      'Learn how to create an invoice for freelancers (step-by-step guide + free templates). Get paid faster with easy, error-free invoices.',
+    author: 'Invomaker',
+    date: 'Nov 23, 2025',
+    category: 'Guide',
+    readTime: '7 min read',
+    image: '/images/logo.png',
+    slug: 'how-to-create-invoice-for-freelancers',
+    tags: ['Freelancers', 'Invoice', 'Templates'],
+  },
 ];
