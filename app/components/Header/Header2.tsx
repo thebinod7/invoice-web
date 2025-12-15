@@ -19,9 +19,6 @@ export default function Header2() {
             className="relative group flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 font-semibold text-sm hover:from-emerald-100 hover:to-teal-100 transition-all duration-200 shadow-sm hover:shadow-md border border-emerald-200"
           >
             More Tools
-            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-600 text-white text-xs font-bold animate-pulse">
-              NEW
-            </span>
           </Link>
           <Link
             href="/blog"
