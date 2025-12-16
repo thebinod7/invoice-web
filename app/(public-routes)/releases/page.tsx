@@ -1,5 +1,6 @@
 'use client';
 
+import { APP_NAME } from '@/app/constants';
 import {
   Calendar,
   FormInputIcon,
@@ -12,7 +13,6 @@ import {
   Sparkles,
   View,
 } from 'lucide-react';
-import { APP_NAME } from '../constants';
 
 interface FeatureRelease {
   id: string;

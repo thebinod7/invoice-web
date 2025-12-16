@@ -5,15 +5,16 @@ import { Upload } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import SpinnerX from '../components/Buttons/Spinner';
-import TopBannerAd from '../components/Paid/TopBannerAd';
-import { AD_PRICE } from '../constants';
-import { sanitizeError } from '../helpers';
-import { postRequest } from '../helpers/request';
+
 import AdHeader from './AdHeader';
 import AdPricing from './AdPricing';
 import AudienceStats from './AudienceStats';
-import { API_ROUTES } from '../constants/api-routes';
+import { postRequest } from '@/app/helpers/request';
+import { sanitizeError } from '@/app/helpers';
+import { API_ROUTES } from '@/app/constants/api-routes';
+import TopBannerAd from '@/app/components/Paid/TopBannerAd';
+import SpinnerX from '@/app/components/Buttons/Spinner';
+import { AD_PRICE } from '@/app/constants';
 
 const MAX_TAGLINE_LENGTH = 80;
 const MAX_NAME_LENGTH = 40;

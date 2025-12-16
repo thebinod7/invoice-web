@@ -1,4 +1,4 @@
-import { APP } from '../constants';
+import { APP } from '@/app/constants';
 
 export default function PrivacyPolicy() {
   return (

@@ -5,10 +5,10 @@ import type React from 'react';
 import { CheckCircle, Mail, MessageSquare, Send, User } from 'lucide-react';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { postRequest } from '../helpers/request';
-import { API_ROUTES } from '../constants/api-routes';
-import { sanitizeError } from '../helpers';
 import { toast } from 'sonner';
+import { postRequest } from '@/app/helpers/request';
+import { API_ROUTES } from '@/app/constants/api-routes';
+import { sanitizeError } from '@/app/helpers';
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({

@@ -1,6 +1,6 @@
+import { APP_PATHS } from '@/app/constants';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { APP_PATHS } from '../constants';
 
 export default function CTA() {
   return (

@@ -1,12 +1,13 @@
 'use client';
 import { useRef, useState } from 'react';
-import AdBanner from '../components/AdBanner';
-import EarlyAdopterForm from '../components/EarlyAdopters';
-import { GOOGLE_AD } from '../constants';
+
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
 import { ChevronDown } from 'lucide-react';
+import EarlyAdopterForm from '@/app/components/EarlyAdopters';
+import AdBanner from '@/app/components/AdBanner';
+import { GOOGLE_AD } from '@/app/constants';
 
 export default function ThankYouPage() {
   // const { data } = useGetActiveAd();

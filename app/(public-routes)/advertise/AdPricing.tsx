@@ -1,6 +1,6 @@
+import { AD_PRICE } from '@/app/constants';
 import { TrendingUp } from 'lucide-react';
 import React from 'react';
-import { AD_PRICE } from '../constants';
 
 export default function AdPricing() {
   return (

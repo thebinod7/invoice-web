@@ -1,4 +1,4 @@
-import { APP } from '../constants';
+import { APP } from '@/app/constants';
 
 export default function SupportPage() {
   return (
@@ -119,17 +119,6 @@ export default function SupportPage() {
                 <li>Microsoft Edge: latest two versions</li>
                 <li>Internet Explorer 11</li>
               </ul>
-
-              <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-6">
-                Download Invoice feature
-              </h2>
-              <p className="text-gray-700 mb-8">
-                {APP.NAME} uses your web browser's local storage to remember
-                your invoices without requiring you to create an account with
-                us. We do not maintain any copies of your downloaded invoice on
-                our servers. Clearing your browser history will clear all of
-                your invoices on {APP.NAME} and they cannot be recovered.
-              </p>
             </div>
           </div>
         </div>

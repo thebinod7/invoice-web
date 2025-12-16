@@ -10,15 +10,15 @@ import {
 } from 'lucide-react';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import AdBanner from './components/AdBanner';
-import HomeHero from './components/HomeHero';
+import AdBanner from '../components/AdBanner';
+import HomeHero from '../components/HomeHero';
 import {
   APP,
   DEFAULT_METADATA,
   DEFAULT_OG_IMAGE_URL,
   GOOGLE_AD,
   SEO_KEYWORDS,
-} from './constants';
+} from '../constants';
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const title = APP.TITLE;
