@@ -15,9 +15,7 @@ const Providers = ({ children }: { readonly children: React.ReactNode }) => {
     <AuthContextProvider>
       <AppContextProvider>
         <QueryClientProvider client={queryClient}>
-          <PostHogProvider>
-            <AppWrapper>{children}</AppWrapper>
-          </PostHogProvider>
+          <PostHogProvider>{children}</PostHogProvider>
         </QueryClientProvider>
       </AppContextProvider>
     </AuthContextProvider>
