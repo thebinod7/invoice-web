@@ -1,6 +1,6 @@
+import { TOOLS_LIST } from '@/app/constants';
 import { Clock, DollarSign, Globe, ReceiptIcon, Search } from 'lucide-react';
 import Link from 'next/link';
-import { TOOLS_LIST } from '../constants';
 
 const TOOLS = [
   {

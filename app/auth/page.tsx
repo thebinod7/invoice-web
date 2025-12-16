@@ -123,7 +123,7 @@ export default function MagicLinkLogin() {
 
         <div className="mt-8 text-center">
           <p className="text-sm text-neutral-500">
-            Password-less login. Secure and easy to use.
+            Secure and easy to use. Password-less login.
           </p>
         </div>
       </div>

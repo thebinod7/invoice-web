@@ -1,11 +1,11 @@
 'use client';
 import { DateTime } from 'luxon';
 import { useMemo, useState } from 'react';
-import ReactSelect from '../../components/ReactSelect';
-import { TIMEZONE_OPTIONS } from '../../helpers/timezone';
 import { AlertCircle, ArrowRightLeft, Calendar, Clock } from 'lucide-react';
 import AdBanner from '@/app/components/AdBanner';
 import { GOOGLE_AD } from '@/app/constants';
+import ReactSelect from '@/app/components/ReactSelect';
+import { TIMEZONE_OPTIONS } from '@/app/helpers/timezone';
 
 export default function TimezoneConverter() {
   const [fromZone, setFromZone] = useState<string>('America/Chicago');
