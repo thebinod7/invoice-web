@@ -1,46 +1,50 @@
 'use client';
 
+import { useMutation } from '@tanstack/react-query';
+import { AlertCircle, CheckCircle2, Home, Loader2, Mail } from 'lucide-react';
+import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
-import { Mail, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { API_ROUTES } from '../constants/api-routes';
+import { emailValidator } from '../helpers';
+import { postRequest } from '../helpers/request';
 
 export default function MagicLinkLogin() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<
-    'idle' | 'loading' | 'success' | 'error'
-  >('idle');
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const useSendMagicLinkMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(`${API_ROUTES.AUTH}/magic-login`, payload);
+    },
+    onError: () => {
+      setStatus('success');
+    },
+    onSuccess: () => {
+      setStatus('success');
+    },
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!email.trim()) {
       setStatus('error');
-      setErrorMessage('Email address is required');
-      return;
+      return setErrorMessage('Email address is required');
     }
-
-    if (!validateEmail(email)) {
+    if (!emailValidator(email)) {
       setStatus('error');
-      setErrorMessage('Please enter a valid email address');
-      return;
+      return setErrorMessage('Please enter a valid email address');
     }
-
-    setStatus('loading');
     setErrorMessage('');
-
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-    }, 1500);
+    return useSendMagicLinkMutation.mutateAsync({ email });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
+      {/* Write a fixed Home button to navigate to the home page */}
+      <Link href="/" title="Go Home">
+        <Home className="absolute top-10 left-10 cursor-pointer z-10 w-6 h-6 text-black" />
+      </Link>
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-semibold text-black mb-3 tracking-tight text-balance">
@@ -62,7 +66,7 @@ export default function MagicLinkLogin() {
               <span className="font-medium text-black">{email}</span>
             </p>
             <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
-              Click the link in your email to sign in
+              You can close this tab now.
             </p>
           </div>
         ) : (
@@ -93,7 +97,7 @@ export default function MagicLinkLogin() {
                       ? 'border-red-300 bg-red-50'
                       : 'border-neutral-300 bg-white'
                   }`}
-                  disabled={status === 'loading'}
+                  disabled={useSendMagicLinkMutation.isPending}
                 />
               </div>
               {status === 'error' && (
@@ -106,10 +110,10 @@ export default function MagicLinkLogin() {
 
             <button
               type="submit"
-              disabled={status === 'loading'}
+              disabled={useSendMagicLinkMutation.isPending}
               className="w-full bg-emerald-500 hover:bg-emerald-500 text-white font-medium py-3.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {status === 'loading' ? (
+              {useSendMagicLinkMutation.isPending ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Sending magic link...

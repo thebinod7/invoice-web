@@ -1,5 +1,10 @@
 import * as currencyFormatter from 'currency-formatter';
 
+export const emailValidator = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 import {
   SUPPORTED_CURRENCIES,
   SYMBOL_SUPPORTED_CURRENCIES,
