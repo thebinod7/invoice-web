@@ -36,6 +36,7 @@ export const NAV_LINKS = [
 export const APP_PATHS = {
   HOME: '/',
   ABOUT: '/about',
+  CREATE_INVOICE: '/create-invoice',
   SERVICES: '/services',
   CONTACT: '/contact',
   APPLICATION_FORM: '/application-form',

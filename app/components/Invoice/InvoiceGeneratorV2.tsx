@@ -794,7 +794,7 @@ export default function InvoiceGeneratorV2() {
                   <div className="relative flex items-center gap-3">
                     {generateInvoiceMutation.isPending ? (
                       <>
-                        <Loader2 className="h-5 w-5 animate-spin text-emerald-600" />
+                        <Loader2 className="h-5 w-5 animate-spin text-emerald-500" />
                         <span className="font-medium">
                           Generating Invoice...
                         </span>
