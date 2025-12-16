@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import AdBanner from '../components/AdBanner';
 import EarlyAdopterForm from '../components/EarlyAdopters';
 import { GOOGLE_AD } from '../constants';
@@ -11,6 +11,24 @@ import { ChevronDown } from 'lucide-react';
 export default function ThankYouPage() {
   // const { data } = useGetActiveAd();
   const [showForm, setShowForm] = useState(false);
+  const formRef = useRef<HTMLDivElement | null>(null);
+
+  const handleShowComingBtn = () => {
+    setShowForm((prev) => {
+      const next = !prev;
+
+      if (!prev) {
+        setTimeout(() => {
+          formRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+        }, 0);
+      }
+
+      return next;
+    });
+  };
 
   return (
     <>
@@ -24,8 +42,8 @@ export default function ThankYouPage() {
           <InvoiceSavedInfo />
           <button
             type="button"
-            onClick={() => setShowForm(!showForm)}
-            className="flex items-center justify-between w-full text-left mb-2 px-4 py-2 border-2 border-green-500/20 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:border-green-500/40 transition-all group"
+            onClick={handleShowComingBtn}
+            className="flex items-center justify-between w-full text-left mb-2 px-4 py-3 border-2 border-green-500/20 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:border-green-500/40 transition-all group"
           >
             <span className="text-sm font-semibold text-gray-900 group-hover:text-green-700 transition-colors">
               See what’s coming
@@ -37,7 +55,11 @@ export default function ThankYouPage() {
             />
           </button>
 
-          {showForm && <EarlyAdopterForm />}
+          {showForm && (
+            <div ref={formRef} className="mt-4">
+              <EarlyAdopterForm />
+            </div>
+          )}
 
           <CTA />
 

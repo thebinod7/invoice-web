@@ -3,6 +3,11 @@
 import type React from 'react';
 import { Check, Mail } from 'lucide-react';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { postRequest } from '../helpers/request';
+import { sanitizeError } from '../helpers';
+import { toast } from 'sonner';
+import { API_ROUTES } from '../constants/api-routes';
 
 const FEATURES_LIST = [
   'Invoice history',
@@ -16,15 +21,38 @@ export default function EarlyAdopterForm() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const earlyAdopterMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(`${API_ROUTES.USERS}`, payload);
+    },
+    onError: (error: any) => {
+      setIsSubmitting(false);
+      const err: any = error?.response?.data;
+      // Check is message has keyword duplicate
+      if (err.message.includes('duplicate')) {
+        return toast.error('You are already on the list!');
+      }
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: (data) => {
+      toast.success('Submission successful!');
+      setSubmitted(true);
+    },
+    onSettled: () => {
+      setIsSubmitting(false);
+      setEmail('');
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setSubmitted(true);
-    setIsSubmitting(false);
+    const payload = {
+      firstName: 'Early',
+      lastName: 'Adopter',
+      email,
+    };
+    earlyAdopterMutation.mutate(payload);
   };
 
   if (submitted) {
