@@ -50,7 +50,7 @@ export default function HomeHero() {
             </span>
             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Create Professional Invoices for{' '}
-              <span className="text-emerald-600">Free</span>
+              <span className="text-emerald-500">Free</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 leading-relaxed">
               No sign-up needed. Generate and download beautiful, ready-to-send
@@ -59,7 +59,7 @@ export default function HomeHero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
                 href="/create-invoice"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-500 hover:bg-emerald-400 rounded-lg transition-colors  focus:ring-offset-2"
               >
                 Create an Invoice
                 <FileText className="ml-2 h-5 w-5" />
@@ -131,7 +131,7 @@ export default function HomeHero() {
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-emerald-600 rounded"></div>
+                    <div className="w-8 h-8 bg-emerald-500 rounded"></div>
                     <span className="font-semibold text-gray-900">
                       Your Company
                     </span>

@@ -65,7 +65,7 @@ export default function Newsletter() {
             </div>
             <button
               type="submit"
-              className="w-full inline-flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              className="w-full inline-flex items-center justify-center space-x-2 bg-emerald-500 hover:bg-emerald-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
             >
               {isPending ? <LoaderIcon /> : <Mail className="w-4 h-4" />}
               <span>

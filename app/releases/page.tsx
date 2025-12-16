@@ -26,17 +26,27 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
   {
-    id: '12',
+    id: '191',
+    title: 'Branding updates',
+    description:
+      'Made small branding updates to make the app more visually appealing and user-friendly.',
+    date: '2025-12-16',
+    version: 'v1.2.4',
+    icon: LayoutTemplate,
+    isNew: true,
+  },
+  {
+    id: '192',
     title: 'Save basic invoice template',
     description:
       'You can now save basic invoice template like logo, currency, sender, and reciever details. This will help you to create invoice faster.',
     date: '2025-08-30',
     version: 'v1.2.3',
     icon: LayoutTemplate,
-    isNew: true,
+    isNew: false,
   },
   {
-    id: '13',
+    id: '193',
     title: 'New Invoice Generation Form',
     description:
       'We have introduced a new invoice generation form that simplifies the process of creating and managing invoices.',
@@ -46,7 +56,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '14',
+    id: '194',
     title: 'Feedback Form',
     description:
       'We have added a feedback form to gather your thoughts and suggestions for future improvements.',
@@ -56,7 +66,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '15',
+    id: '195',
     title: 'Added Blog Articles',
     description:
       'We have added a new section for blog articles to keep you updated with the latest news and insights.',
@@ -66,7 +76,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '16',
+    id: '196',
     title: 'Landing Page Improvements',
     description:
       'Improved the landing page with better design and performance optimizations.',
@@ -76,7 +86,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '17',
+    id: '197',
     title: 'Validation and Error Handling',
     description:
       'We have added comprehensive validation and error handling to ensure data integrity and improve user experience.',
@@ -86,7 +96,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '18',
+    id: '198',
     title: 'UI/UX Improvements',
     description:
       'We have revamped the user interface for a more intuitive experience, and improved navigation.',
@@ -96,7 +106,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '19',
+    id: '199',
     title: 'Support company logo',
     description: 'You can now upload company logo for better branding.',
     date: '2025-04-14',
@@ -105,7 +115,7 @@ const featureReleases: FeatureRelease[] = [
     isNew: false,
   },
   {
-    id: '20',
+    id: '200',
     title: 'Launch',
     description: `Inception of ${APP_NAME}`,
     date: '2025-04-07',

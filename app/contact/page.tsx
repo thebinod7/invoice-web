@@ -53,7 +53,7 @@ export default function ContactForm() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 rounded-full mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-500 rounded-full mb-6">
             <Mail className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -72,7 +72,7 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-600 mb-2"
               >
                 Full Name
               </label>
@@ -87,7 +87,7 @@ export default function ContactForm() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg transition-colors"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -97,7 +97,7 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-600 mb-2"
               >
                 Email Address
               </label>
@@ -112,7 +112,7 @@ export default function ContactForm() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg  transition-colors"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -122,7 +122,7 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="subject"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-600 mb-2"
               >
                 Subject
               </label>
@@ -137,7 +137,7 @@ export default function ContactForm() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg  transition-colors"
                   placeholder="What's this about?"
                 />
               </div>
@@ -147,7 +147,7 @@ export default function ContactForm() {
             <div>
               <label
                 htmlFor="message"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-600 mb-2"
               >
                 Message
               </label>
@@ -158,7 +158,7 @@ export default function ContactForm() {
                 onChange={handleChange}
                 required
                 rows={4}
-                className="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors resize-none"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-lg  transition-colors resize-none"
                 placeholder="Tell us more about your inquiry..."
               />
             </div>
@@ -168,7 +168,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={useContactMutation.isPending}
-                className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-emerald-500 hover:bg-emerald-600  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {useContactMutation.isPending ? (
                   <>
@@ -188,7 +188,7 @@ export default function ContactForm() {
             {formSubmitted && (
               <div className="flex items-center p-4 bg-green-50 border border-green-200 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
-                <p className="text-green-800">
+                <p className="text-green-600">
                   Thank you! Your message has been sent successfully. We'll get
                   back to you soon.
                 </p>
