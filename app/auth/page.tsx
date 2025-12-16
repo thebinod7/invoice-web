@@ -7,6 +7,7 @@ import {
   ChevronLeft,
   Home,
   Loader2,
+  Lock,
   Mail,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -29,6 +30,9 @@ export default function MagicLinkLogin() {
     },
     onSuccess: () => {
       setStatus('success');
+    },
+    onSettled: () => {
+      setEmail('');
     },
   });
 
@@ -67,7 +71,7 @@ export default function MagicLinkLogin() {
           <div className="flex justify-end items-center mb-2">
             <ChevronLeft className="cursor-pointer ml-4 z-10 w-6 h-6 text-black" />
             <button className="text-sm" onClick={() => setStatus('idle')}>
-              Go Back
+              Take me back
             </button>
           </div>
         )}
@@ -142,7 +146,8 @@ export default function MagicLinkLogin() {
           </form>
         )}
 
-        <div className="mt-8 text-center">
+        <div className="mt-6 flex items-center justify-center">
+          <Lock className="w-4 h-4 mr-1" />
           <p className="text-sm text-neutral-500">
             Secure and easy to use. Password-less login.
           </p>
