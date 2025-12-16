@@ -1,7 +1,14 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { AlertCircle, CheckCircle2, Home, Loader2, Mail } from 'lucide-react';
+import {
+  AlertCircle,
+  CheckCircle2,
+  ChevronLeft,
+  Home,
+  Loader2,
+  Mail,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
 import { API_ROUTES } from '../constants/api-routes';
@@ -54,6 +61,16 @@ export default function MagicLinkLogin() {
             Enter your email to receive a magic link
           </p>
         </div>
+
+        {/* Go back button if status is success */}
+        {status === 'success' && (
+          <div className="flex justify-end items-center mb-2">
+            <ChevronLeft className="cursor-pointer ml-4 z-10 w-6 h-6 text-black" />
+            <button className="text-sm" onClick={() => setStatus('idle')}>
+              Go Back
+            </button>
+          </div>
+        )}
 
         {status === 'success' ? (
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 text-center">

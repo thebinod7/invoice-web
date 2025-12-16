@@ -34,6 +34,7 @@ export const NAV_LINKS = [
 ];
 
 export const APP_PATHS = {
+  AUTH: '/auth',
   HOME: '/',
   ABOUT: '/about',
   BLOG: '/blog',
