@@ -1,19 +1,35 @@
-import Sidebar from '@/ui/Sidebar';
-import React from 'react';
+'use client';
 
-export default function DashboardWrapper({
+import Sidebar from '@/ui/Sidebar';
+import { useState } from 'react';
+
+export default function DashboardLayout({
   children,
 }: {
-  readonly children: React.ReactNode;
+  children: React.ReactNode;
 }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [expandedSections, setExpandedSections] = useState({
+    visa: true,
+    tour: false,
+    activities: false,
+    content: false,
+  });
+
+  const toggleSection = (key: string) => {
+    setExpandedSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar
-        sidebarOpen={true}
-        expandedSections={{}}
-        toggleSection={() => {}}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        expandedSections={expandedSections}
+        toggleSection={toggleSection}
       />
-      {children}
+
+      <main className="flex-1 flex flex-col overflow-hidden">{children}</main>
     </div>
   );
 }
