@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Loader2, Mail, CheckCircle2, XCircle } from 'lucide-react';
 import { API_BASE_URL } from '@/app/helpers/config';
+import axios from 'axios';
 
 type VerificationState = 'verifying' | 'success' | 'error';
 
@@ -21,29 +22,22 @@ export default function VerifyMagicLinkPage() {
   useEffect(() => {
     const verifyMagicLink = async () => {
       try {
-        // Call your API endpoint to verify the token
-        const response = await fetch(
+        const response = await axios.get(
           `${API_BASE_URL}/auth/verify-magic-login/${token}`,
           {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
           }
         );
 
-        const data = await response.json();
+        console.log('DATA: ', response.data);
 
-        console.log('DAta', data);
-
-        if (response.ok) {
-          setState('success');
-          // Redirect to dashboard after 2 seconds
-          setTimeout(() => {
-            router.push('/dashboard');
-          }, 2000);
-        } else {
-          setState('error');
-          setErrorMessage(ERROR_MSG);
-        }
+        setState('success');
+        // Redirect to dashboard after 2 seconds
+        // setTimeout(() => {
+        //   router.push('/dashboard');
+        // }, 2000);
       } catch (error) {
         console.error('[v0] Verification error:', error);
         setState('error');
