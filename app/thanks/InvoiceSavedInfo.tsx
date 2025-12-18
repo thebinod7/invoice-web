@@ -1,12 +1,11 @@
-import { Download } from 'lucide-react';
-import React from 'react';
+import { Check } from 'lucide-react';
 
 export default function InvoiceSavedInfo() {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-4">
       <div className="flex items-start space-x-3">
         <div className="flex-shrink-0">
-          <Download className="w-5 h-5 text-green-600 mt-0.5" />
+          <Check className="w-5 h-5 text-green-600 mt-0.5" />
         </div>
         <div>
           <h3 className="text-sm font-semibold text-gray-900 mb-1">
