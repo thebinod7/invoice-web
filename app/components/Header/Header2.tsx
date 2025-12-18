@@ -24,9 +24,6 @@ const NAV_LINKS = [
 ];
 
 export default function Header2() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const toggleMenu = () => setMenuOpen((prev) => !prev);
-
   return (
     <header className="border-b border-gray-100">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -48,7 +45,7 @@ export default function Header2() {
           ))}
         </nav>
 
-        <Profile onLinkClick={toggleMenu} />
+        <Profile />
       </div>
     </header>
   );

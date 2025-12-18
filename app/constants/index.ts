@@ -41,10 +41,7 @@ export const APP_PATHS = {
   CREATE_INVOICE: '/create-invoice',
   SERVICES: '/services',
   CONTACT: '/contact',
-  APPLICATION_FORM: '/application-form',
-  SUBMISSIONS: '/dashboard/submissions',
   DASHBOARD: '/dashboard',
-  LOGIN: '/login',
 };
 
 export const SONNER_CONFIG = {

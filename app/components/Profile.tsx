@@ -26,11 +26,7 @@ const MENU_ITEMS = [
   },
 ];
 
-interface ProfileProps {
-  onLinkClick?: () => void;
-}
-
-export default function Profile({ onLinkClick }: ProfileProps) {
+export default function Profile({}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -57,15 +53,13 @@ export default function Profile({ onLinkClick }: ProfileProps) {
   }, []);
 
   const handleLogoutClick = useCallback(() => {
-    onLinkClick?.();
     clearLocalStorage();
     deleteCookie(LOCAL_KEYS.ACCESS_TOKEN);
     window.location.href = '/';
-  }, [onLinkClick]);
+  }, []);
 
   const handleItemClick = () => {
     setIsDropdownOpen(false);
-    onLinkClick?.();
   };
 
   return (
@@ -82,8 +76,7 @@ export default function Profile({ onLinkClick }: ProfileProps) {
         ) : (
           <Link
             className="outline outline-1 px-5 py-1.5 rounded-sm outline-offset-2"
-            href={APP_PATHS.LOGIN}
-            onClick={onLinkClick}
+            href={APP_PATHS.AUTH}
           >
             Sign In
           </Link>
