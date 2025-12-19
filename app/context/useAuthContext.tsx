@@ -41,10 +41,18 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     }
   }, []);
 
-  const doLogout = useCallback(() => {
+  const doLogout = useCallback(async () => {
+    const res = await fetch(`${API_BASE_URL}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    const json = await res.json();
+    console.log('json', json);
     clearLocalStorage();
-    refreshAuthState();
-  }, [refreshAuthState]);
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+    // window.location.href = '/';
+  }, []);
 
   useEffect(() => {
     refreshAuthState();

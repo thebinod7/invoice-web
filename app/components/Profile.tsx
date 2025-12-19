@@ -3,14 +3,14 @@
 import { deleteCookie } from 'cookies-next/client';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { APP_PATHS } from '../constants';
+import { useAuthContext } from '../context/useAuthContext';
 import {
   clearLocalStorage,
   getLocalUser,
   LOCAL_KEYS,
 } from '../helpers/local-storage';
-import { useAuthContext } from '../context/useAuthContext';
 
 const MENU_ITEMS = [
   {
@@ -24,7 +24,7 @@ const MENU_ITEMS = [
 ];
 
 export default function Profile({}) {
-  const { currentUser, setCurrentUser } = useAuthContext();
+  const { currentUser, setCurrentUser, doLogout } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
 
@@ -49,10 +49,9 @@ export default function Profile({}) {
     setCurrentUser(getLocalUser());
   }, []);
 
-  const handleLogoutClick = useCallback(() => {
-    clearLocalStorage();
-    deleteCookie(LOCAL_KEYS.ACCESS_TOKEN);
-    window.location.href = '/';
+  const handleLogoutClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    doLogout();
   }, []);
 
   const handleItemClick = () => {
