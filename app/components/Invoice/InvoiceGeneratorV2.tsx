@@ -120,10 +120,12 @@ export default function InvoiceGeneratorV2() {
     },
     onError: (error: any) => {
       if (error.code === 'ERR_NETWORK') {
-        return toast.error('Website is too busy! Please try again later.');
+        return toast.error(
+          'We are updating our servers! Please try again later.'
+        );
       }
       toast.error(
-        error.message || 'Website is too busy! Please try again later.'
+        error.message || 'We are updating our servers! Please try again later.'
       );
     },
     onSuccess: (data: any) => {

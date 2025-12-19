@@ -3,8 +3,6 @@ import { useRef, useState } from 'react';
 
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
-import InvoiceSavedInfo from './InvoiceSavedInfo';
-import { ChevronDown } from 'lucide-react';
 import EarlyAdopterForm from '@/app/components/EarlyAdopters';
 import AdBanner from '@/app/components/AdBanner';
 import { GOOGLE_AD } from '@/app/constants';
@@ -40,13 +38,13 @@ export default function ThankYouPage() {
           <InvoiceGenSuccess />
 
           {/* Invoice Saved Message */}
-          <InvoiceSavedInfo />
-          <button
+          {/* <InvoiceSavedInfo /> */}
+          {/* <button
             type="button"
             onClick={handleShowComingBtn}
-            className="flex items-center justify-between w-full text-left mb-2 px-4 py-3 border-2 border-green-500/20 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:border-green-500/40 transition-all group"
+            className="flex items-center justify-between w-full text-left mb-2 px-4 py-3 border-2 border-green-500/30 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:border-green-500/40 transition-all group"
           >
-            <span className="text-sm font-semibold text-gray-900 group-hover:text-green-700 transition-colors">
+            <span className="text-md font-bold text-gray-900 group-hover:text-green-700 transition-colors">
               See what’s coming
             </span>
             <ChevronDown
@@ -54,13 +52,17 @@ export default function ThankYouPage() {
                 showForm ? 'rotate-180' : ''
               }`}
             />
-          </button>
+          </button> */}
 
-          {showForm && (
+          {/* {showForm && (
             <div ref={formRef} className="mt-4">
               <EarlyAdopterForm />
             </div>
-          )}
+          )} */}
+
+          <div ref={formRef} className="mt-2">
+            <EarlyAdopterForm />
+          </div>
 
           <CTA />
 
