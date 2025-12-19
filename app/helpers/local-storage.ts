@@ -1,7 +1,7 @@
 import { getCookie } from 'cookies-next/client';
 
 export const LOCAL_KEYS = {
-  ACCESS_TOKEN: 'accessToken',
+  ACCESS_TOKEN: 'invAccessToken',
   USER: 'user',
 };
 

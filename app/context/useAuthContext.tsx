@@ -5,29 +5,40 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
-import {
-  clearLocalStorage,
-  getAccessTokenFromCookie,
-} from "../helpers/local-storage";
+} from 'react';
+import { API_BASE_URL } from '../helpers/config';
+import { clearLocalStorage } from '../helpers/local-storage';
+import { ICurrentUser } from '../types';
 
 interface AuthContextProps {
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   refreshAuthState: () => void;
   doLogout: () => void;
+
+  currentUser: ICurrentUser | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<ICurrentUser | null>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthContextProvider = ({ children }: { children: any }) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<ICurrentUser | null>(null);
 
-  const refreshAuthState = useCallback(() => {
-    setIsLoggedIn(Boolean(getAccessTokenFromCookie()));
+  const refreshAuthState = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/users/me`, {
+        credentials: 'include',
+      });
+
+      const json = await res.json();
+      const isAuthenticated = json.result ? true : false;
+      setCurrentUser(json.result);
+      setIsLoggedIn(isAuthenticated);
+    } catch {
+      setIsLoggedIn(false);
+    }
   }, []);
 
   const doLogout = useCallback(() => {
@@ -36,24 +47,25 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   }, [refreshAuthState]);
 
   useEffect(() => {
-    setIsLoggedIn(Boolean(getAccessTokenFromCookie()));
+    refreshAuthState();
   }, []);
 
   const values = useMemo(
     () => ({
-      isModalOpen,
-      setIsModalOpen,
       isLoggedIn,
       setIsLoggedIn,
+
+      currentUser,
+      setCurrentUser,
 
       refreshAuthState,
       doLogout,
     }),
     [
-      isModalOpen,
-      setIsModalOpen,
       isLoggedIn,
       setIsLoggedIn,
+      currentUser,
+      setCurrentUser,
       refreshAuthState,
       doLogout,
     ]
@@ -66,7 +78,7 @@ export const useAuthContext = (): AuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error(
-      "useAuthContext must be used within an AuthContextProvider"
+      'useAuthContext must be used within an AuthContextProvider'
     );
   }
   return context;

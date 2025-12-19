@@ -3,13 +3,14 @@
 import { deleteCookie } from 'cookies-next/client';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { APP_PATHS } from '../constants';
 import {
   clearLocalStorage,
   getLocalUser,
   LOCAL_KEYS,
 } from '../helpers/local-storage';
+import { useAuthContext } from '../context/useAuthContext';
 
 const MENU_ITEMS = [
   {
@@ -20,16 +21,12 @@ const MENU_ITEMS = [
     label: 'Settings',
     href: '/settings',
   },
-  {
-    label: 'Profile',
-    href: '/settings',
-  },
 ];
 
 export default function Profile({}) {
+  const { currentUser, setCurrentUser } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
-  const [currentUser, setCurrentUser] = useState<any>(null);
 
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef?.current.contains(event.target)) {
@@ -72,7 +69,7 @@ export default function Profile({}) {
         onClick={toggleDropdown}
       >
         {currentUser ? (
-          `Hi, ${currentUser.name}`
+          `Hi, ${currentUser.firstName}`
         ) : (
           <Link
             className="outline outline-1 px-5 py-1.5 rounded-sm outline-offset-2"
