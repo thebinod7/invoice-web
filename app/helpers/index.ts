@@ -1,5 +1,9 @@
 import * as currencyFormatter from 'currency-formatter';
 
+export const getNameInitials = (firstName: string, lastName: string) => {
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+};
+
 export const emailValidator = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);

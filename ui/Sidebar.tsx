@@ -1,4 +1,6 @@
 import { APP_NAME } from '@/app/constants';
+import { useAuthContext } from '@/app/context/useAuthContext';
+import { getNameInitials } from '@/app/helpers';
 import {
   ChevronDown,
   ChevronRight,
@@ -18,7 +20,9 @@ export default function Sidebar({
   toggleSection,
   expandedSections,
 }: any) {
+  const { currentUser } = useAuthContext();
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
   return (
     <>
       {/* Sidebar */}
@@ -141,14 +145,16 @@ export default function Sidebar({
             className="w-full flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 -m-2"
           >
             <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-semibold text-gray-600">
-              CN
+              {currentUser
+                ? getNameInitials(currentUser.firstName, currentUser.lastName)
+                : '...'}
             </div>
             <div className="flex-1 min-w-0 text-left">
               <p className="font-semibold text-sm text-gray-900 truncate">
-                Binod Chaudhary
+                {currentUser?.firstName} {currentUser?.lastName}
               </p>
               <p className="text-xs text-gray-500 truncate">
-                thebinod7@gmail.com
+                {currentUser?.email || '...'}
               </p>
             </div>
             <ChevronRight
