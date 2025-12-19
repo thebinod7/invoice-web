@@ -75,13 +75,17 @@ export default function EarlyAdopterForm() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 max-w-lg mx-auto">
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 max-w-lg mx-auto">
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        See what's coming.
+      </h3>
       {/* Sub-text */}
-      <p className="text-gray-600 mb-6 leading-relaxed text-sm">
-        We're adding a few optional features to help you get paid faster.{' '}
-        <span className="italic">
-          Early adopters may get special pricing when Pro launches.
-        </span>
+      <p className="text-gray-600 mb-2 leading-relaxed text-sm">
+        We're adding few <span className="font-bold">optional features</span> to
+        help you get paid faster and easier.{' '}
+      </p>
+      <p className="italic text-sm mb-1">
+        Early adopters may get special pricing when Pro launches.
       </p>
 
       {/* Feature bullets */}

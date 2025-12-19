@@ -5,8 +5,6 @@ import EarlyAdopterForm from '../components/EarlyAdopters';
 import { GOOGLE_AD } from '../constants';
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
-import InvoiceSavedInfo from './InvoiceSavedInfo';
-import { ChevronDown } from 'lucide-react';
 
 export default function ThankYouPage() {
   // const { data } = useGetActiveAd();
@@ -39,8 +37,8 @@ export default function ThankYouPage() {
           <InvoiceGenSuccess />
 
           {/* Invoice Saved Message */}
-          <InvoiceSavedInfo />
-          <button
+          {/* <InvoiceSavedInfo /> */}
+          {/* <button
             type="button"
             onClick={handleShowComingBtn}
             className="flex items-center justify-between w-full text-left mb-2 px-4 py-3 border-2 border-green-500/30 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:border-green-500/40 transition-all group"
@@ -53,13 +51,17 @@ export default function ThankYouPage() {
                 showForm ? 'rotate-180' : ''
               }`}
             />
-          </button>
+          </button> */}
 
-          {showForm && (
+          {/* {showForm && (
             <div ref={formRef} className="mt-4">
               <EarlyAdopterForm />
             </div>
-          )}
+          )} */}
+
+          <div ref={formRef} className="mt-2">
+            <EarlyAdopterForm />
+          </div>
 
           <CTA />
 
