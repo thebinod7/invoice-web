@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { Loader2, Mail, CheckCircle2, XCircle } from 'lucide-react';
+import { APP_PATHS } from '@/app/constants';
 import { API_BASE_URL } from '@/app/helpers/config';
 import axios from 'axios';
+import { CheckCircle2, Loader2, Mail, XCircle } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 type VerificationState = 'verifying' | 'success' | 'error';
 
@@ -22,19 +23,16 @@ export default function VerifyMagicLinkPage() {
   useEffect(() => {
     const verifyMagicLink = async () => {
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/auth/verify-magic-login/${token}`,
-          {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          }
-        );
+        await axios.get(`${API_BASE_URL}/auth/verify-magic-login/${token}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        });
 
         setState('success');
         // Redirect to dashboard after 2 seconds
         setTimeout(() => {
-          window.location.href = '/dashboard';
+          window.location.href = APP_PATHS.DASHBOARD;
         }, 2000);
       } catch (error) {
         console.error('[v0] Verification error:', error);

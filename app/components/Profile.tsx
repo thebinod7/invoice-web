@@ -1,16 +1,10 @@
 'use client';
 
-import { deleteCookie } from 'cookies-next/client';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { APP_PATHS } from '../constants';
 import { useAuthContext } from '../context/useAuthContext';
-import {
-  clearLocalStorage,
-  getLocalUser,
-  LOCAL_KEYS,
-} from '../helpers/local-storage';
 
 const MENU_ITEMS = [
   {
@@ -24,7 +18,7 @@ const MENU_ITEMS = [
 ];
 
 export default function Profile({}) {
-  const { currentUser, setCurrentUser, doLogout } = useAuthContext();
+  const { authStatus, currentUser, doLogout } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
 
@@ -45,10 +39,6 @@ export default function Profile({}) {
     };
   }, []);
 
-  useEffect(() => {
-    setCurrentUser(getLocalUser());
-  }, []);
-
   const handleLogoutClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     doLogout();
@@ -57,6 +47,10 @@ export default function Profile({}) {
   const handleItemClick = () => {
     setIsDropdownOpen(false);
   };
+
+  if (authStatus === 'loading') {
+    return <div className="h-7 w-24 animate-pulse rounded bg-slate-100" />;
+  }
 
   return (
     <div ref={dropdownRef}>

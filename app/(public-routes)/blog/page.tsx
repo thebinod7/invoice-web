@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { Search, Calendar, User, Tag, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { BLOG_ARTICLES } from '@/app/constants/db';
+import { BLOG_ARTICLES, CATEGORIES } from '@/app/constants/db';
 
 export default function page() {
   const [searchTerm, setSearchTerm] = useState('');

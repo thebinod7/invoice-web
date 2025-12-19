@@ -10,7 +10,10 @@ import { API_BASE_URL } from '../helpers/config';
 import { clearLocalStorage } from '../helpers/local-storage';
 import { ICurrentUser } from '../types';
 
+type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
+
 interface AuthContextProps {
+  authStatus: AuthStatus;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   refreshAuthState: () => void;
@@ -25,18 +28,22 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<ICurrentUser | null>(null);
+  const [authStatus, setAuthStatus] = useState<AuthStatus>('loading');
 
   const refreshAuthState = useCallback(async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/users/me`, {
         credentials: 'include',
+        cache: 'no-store',
       });
 
       const json = await res.json();
       const isAuthenticated = json.result ? true : false;
       setCurrentUser(json.result);
       setIsLoggedIn(isAuthenticated);
+      setAuthStatus(isAuthenticated ? 'authenticated' : 'unauthenticated');
     } catch {
+      setAuthStatus('unauthenticated');
       setIsLoggedIn(false);
     }
   }, []);
@@ -60,6 +67,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const values = useMemo(
     () => ({
+      authStatus,
       isLoggedIn,
       setIsLoggedIn,
 

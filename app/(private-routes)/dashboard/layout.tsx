@@ -16,9 +16,7 @@ export default function DashboardLayout({
     content: false,
   });
 
-  const toggleSection = (key: string) => {
-    setExpandedSections((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  const toggleSection = (key: string) => {};
 
   return (
     <div className="flex h-screen bg-gray-50">
