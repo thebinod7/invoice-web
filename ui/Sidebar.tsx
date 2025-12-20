@@ -1,19 +1,15 @@
 import { APP_NAME } from '@/app/constants';
 import { useAuthContext } from '@/app/context/useAuthContext';
-import { getNameInitials } from '@/app/helpers';
+import { ICurrentUser } from '@/app/types';
 import {
   ChevronDown,
-  ChevronRight,
   CreditCard,
   ExternalLink,
   Home,
-  LogOut,
   Mail,
-  Settings,
-  User,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { ProfileDropdown } from './ProfileDropdown';
 
 export default function Sidebar({
   sidebarOpen,
@@ -21,7 +17,6 @@ export default function Sidebar({
   expandedSections,
 }: any) {
   const { currentUser } = useAuthContext();
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
   return (
     <>
@@ -123,46 +118,9 @@ export default function Sidebar({
 
         {/* User Profile */}
         <div className="p-4 border-t border-gray-200 relative">
-          {profileMenuOpen && (
-            <div className="bottom-full mb-2 left-4 right-4 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <User className="w-4 h-4" />
-                <span>Profile</span>
-              </button>
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <Settings className="w-4 h-4" />
-                <span>Settings</span>
-              </button>
-              <div className="border-t border-gray-200 my-2" />
-              <button className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                <LogOut className="w-4 h-4" />
-                <span>Logout</span>
-              </button>
-            </div>
-          )}
-          <button
-            onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-            className="w-full flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 -m-2"
-          >
-            <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-semibold text-gray-600">
-              {currentUser
-                ? getNameInitials(currentUser.firstName, currentUser.lastName)
-                : '...'}
-            </div>
-            <div className="flex-1 min-w-0 text-left">
-              <p className="font-semibold text-sm text-gray-900 truncate">
-                {currentUser?.firstName} {currentUser?.lastName}
-              </p>
-              <p className="text-xs text-gray-500 truncate">
-                {currentUser?.email || '...'}
-              </p>
-            </div>
-            <ChevronRight
-              className={`w-4 h-4 text-gray-400 transition-transform ${
-                profileMenuOpen ? 'rotate-90' : ''
-              }`}
-            />
-          </button>
+          <ProfileDropdown
+            currentUser={currentUser as ICurrentUser | undefined}
+          />{' '}
         </div>
       </aside>
       {/* Overlay for mobile */}

@@ -58,7 +58,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     clearLocalStorage();
     setIsLoggedIn(false);
     setCurrentUser(null);
-    // window.location.href = '/';
+    window.location.href = '/';
   }, []);
 
   useEffect(() => {
