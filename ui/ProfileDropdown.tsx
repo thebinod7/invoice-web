@@ -1,5 +1,6 @@
 'use client';
 
+import { APP_PATHS } from '@/app/constants';
 import { useAuthContext } from '@/app/context/useAuthContext';
 import {
   DropdownMenu,
@@ -12,6 +13,7 @@ import {
   DropdownMenuShortcut,
 } from '@/components/ui/dropdown-menu';
 import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 
 export function ProfileDropdown({
   currentUser,
@@ -47,7 +49,7 @@ export function ProfileDropdown({
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem className="cursor-pointer">
-            Profile
+            <Link href={`${APP_PATHS.DASHBOARD}/profile`}>Profile</Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">

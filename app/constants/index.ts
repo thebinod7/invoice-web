@@ -74,3 +74,10 @@ export const SEO_KEYWORDS = [
 export const AD_PRICE = {
   SEVEN_DAYS: 14.43,
 };
+
+export const GENDER = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER',
+  UNKNOWN: 'UNKNOWN',
+};
