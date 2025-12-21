@@ -1,6 +1,8 @@
 import * as currencyFormatter from 'currency-formatter';
 
-// Add ... after some text length, make textLimit optional
+export const isMobile = () => {
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+};
 export const truncateString = (str: string, textLimit?: number) => {
   if (!textLimit) textLimit = 16;
   if (!str) return '';

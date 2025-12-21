@@ -5,6 +5,7 @@ import { formatCurrency, formatDate } from '@/app/helpers';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
 
 export type InvoiceRow = {
+  _id: string;
   invoiceNumber: string;
   grandTotal: number;
   currency: string;
@@ -41,6 +42,6 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
   {
     id: 'action',
     header: '',
-    cell: () => <InvoiceActionDropdown />,
+    cell: ({ row }) => <InvoiceActionDropdown rowId={row.original._id} />,
   },
 ];

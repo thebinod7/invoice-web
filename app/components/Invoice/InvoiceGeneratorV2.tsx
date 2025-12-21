@@ -8,6 +8,7 @@ import {
   calculatePercentAmountOfTotal,
   formatCurrency,
   getCurrencySymbolByName,
+  isMobile,
 } from '@/app/helpers';
 import {
   getInvoiceDetails,
@@ -135,13 +136,11 @@ export default function InvoiceGeneratorV2() {
         currency: invoice.currency,
         companyLogo: invoice.companyLogo,
       });
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      console.log({ isMobile });
-
+      const mobile = isMobile();
       const blob = new Blob([data.data], { type: 'application/pdf' });
       const blobUrl = window.URL.createObjectURL(blob);
 
-      if (isMobile) {
+      if (mobile) {
         window.open(blobUrl, '_blank'); // Open instead of download
       } else {
         const link = document.createElement('a');
