@@ -13,10 +13,10 @@ export const useGetActiveAd = () => {
   });
 };
 
-export const useListMyInvoices = (query: Record<string, string>) => {
+export const useListMyInvoices = (query: any) => {
   const queryString = new URLSearchParams(query).toString();
   return useQuery({
-    queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
+    queryKey: [QUERY_KEYS.INVOICE.MY_LIST, queryString],
     queryFn: () => getRequest(`${API_ROUTES.INVOICES}/me?${queryString}`),
     enabled: true,
     staleTime: getStaleTimeInMinutes(2),

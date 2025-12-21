@@ -86,3 +86,5 @@ export const GENDER = {
   OTHER: 'OTHER',
   UNKNOWN: 'UNKNOWN',
 };
+
+export const PAZE_SIZE = 8;
