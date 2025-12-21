@@ -8,14 +8,15 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { capitalizeFirstLetter } from '@/app/helpers';
+import { Fragment } from 'react';
 
 export function BreadcrumbMenu({ items }: { items: string[] }) {
   return (
     <Breadcrumb>
       <BreadcrumbList>
         {items.map((item, index) => (
-          <>
-            <BreadcrumbItem key={index}>
+          <Fragment key={index + 1}>
+            <BreadcrumbItem>
               <BreadcrumbPage
                 className={`${
                   index === items.length - 1 ? 'font-semibold' : ''
@@ -30,7 +31,7 @@ export function BreadcrumbMenu({ items }: { items: string[] }) {
                 <SlashIcon />
               </BreadcrumbSeparator>
             )}
-          </>
+          </Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>

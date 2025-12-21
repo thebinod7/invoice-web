@@ -11,8 +11,11 @@ import {
 import Link from 'next/link';
 import { ProfileDropdown } from './ProfileDropdown';
 
-export default function Sidebar({ sidebarOpen }: any) {
+export default function Sidebar({ sidebarOpen, pathname }: any) {
   const { currentUser } = useAuthContext();
+
+  const pathEndParts = pathname.split('/');
+  const activePath = pathEndParts[pathEndParts.length - 1];
 
   return (
     <>
@@ -45,7 +48,9 @@ export default function Sidebar({ sidebarOpen }: any) {
         <nav className="flex-1 overflow-y-auto p-4 text-sm">
           <Link
             href={APP_PATHS.DASHBOARD.HOME}
-            className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg mb-1"
+            className={`${
+              activePath === 'dashboard' && 'bg-gray-100'
+            } flex items-center gap-3 px-3 py-2 text-gray-700 rounded-lg mb-1`}
           >
             <ChartNoAxesColumn className="w-5 h-5" />
             <span>Dashboard</span>
@@ -56,7 +61,9 @@ export default function Sidebar({ sidebarOpen }: any) {
             <div className="mb-1">
               <Link
                 href={APP_PATHS.DASHBOARD.INVOICES}
-                className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                className={`
+                  ${activePath === 'invoices' && 'bg-gray-100'}
+                  w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg`}
               >
                 <FileStack className="w-5 h-5" />
                 <span className="flex-1 text-left">Invoice History</span>
