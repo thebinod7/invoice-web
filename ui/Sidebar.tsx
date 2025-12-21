@@ -20,7 +20,7 @@ export default function Sidebar({ sidebarOpen }: any) {
       <aside
         className={`${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:static inset-y-0 left-0 z-50 w-64 shrink-0 bg-white border-r border-gray-200 transition-transform flex flex-col`}
+        } md:static inset-y-0 left-0 z-50 w-50 shrink-0 bg-white border-r border-gray-200 transition-transform flex flex-col`}
       >
         {/* Logo */}
         <div className="p-4 mt-1 border-b border-gray-200">

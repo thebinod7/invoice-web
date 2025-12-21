@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
 import { TanstackTable } from '@/ui/TanstackTable';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
@@ -74,13 +75,9 @@ export default function page() {
       },
       {
         id: 'action',
-        header: 'Action',
+        header: '',
         cell: ({ row }) => {
-          return (
-            <Button variant="outline" size="sm">
-              Edit
-            </Button>
-          );
+          return <InvoiceActionDropdown />;
         },
       },
     ],
