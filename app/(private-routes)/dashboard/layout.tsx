@@ -3,13 +3,18 @@
 import Sidebar from '@/ui/Sidebar';
 import { Bell, Menu } from 'lucide-react';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { BreadcrumbMenu } from '@/ui/Breadcrumb';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const pathsInArray = pathname.split('/');
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -26,7 +31,7 @@ export default function DashboardLayout({
                 <Menu className="w-6 h-6" />
               </button>
               <Menu className="w-5 h-5 text-gray-400 hidden md:block" />
-              <h2 className="text-xl font-semibold text-gray-900">Dashboard</h2>
+              <BreadcrumbMenu items={pathsInArray} />
             </div>
             <button className="p-2 hover:bg-gray-100 rounded-lg">
               <Bell className="w-5 h-5 text-gray-600" />
