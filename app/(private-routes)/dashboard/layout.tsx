@@ -26,11 +26,10 @@ export default function DashboardLayout({
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden"
+                className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
               >
                 <Menu className="w-6 h-6" />
               </button>
-              <Menu className="w-5 h-5 text-gray-400 hidden md:block" />
               <BreadcrumbMenu items={pathsInArray} />
             </div>
             <button className="p-2 hover:bg-gray-100 rounded-lg">
