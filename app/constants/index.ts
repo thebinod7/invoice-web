@@ -88,3 +88,9 @@ export const GENDER = {
 };
 
 export const PAZE_SIZE = 8;
+export const INVOICE_STATUS = {
+  CREATED: 'CREATED',
+  SENT: 'SENT',
+  PAID: 'PAID',
+  CANCELLED: 'CANCELLED',
+};

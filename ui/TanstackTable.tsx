@@ -1,5 +1,6 @@
 'use client';
 
+import { INVOICE_STATUS } from '@/app/constants';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -8,6 +9,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Table,
   TableBody,
@@ -21,7 +30,6 @@ import {
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  SortingState,
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
@@ -46,7 +54,6 @@ interface DataTableProps<TData, TValue> {
   onNextPage?: () => void;
   onPreviousPage?: () => void;
   currentPage?: number;
-  onSortingChange?: (sortBy: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 export function TanstackTable<TData, TValue>({
@@ -67,9 +74,7 @@ export function TanstackTable<TData, TValue>({
   onNextPage,
   onPreviousPage,
   currentPage,
-  onSortingChange,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
@@ -80,27 +85,15 @@ export function TanstackTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    onSortingChange: (updater) => {
-      const newSorting =
-        typeof updater === 'function' ? updater(sorting) : updater;
-      setSorting(newSorting);
-
-      // Handle server-side sorting
-      if (onSortingChange && newSorting.length > 0) {
-        const sort = newSorting[0];
-        onSortingChange(sort.id, sort.desc ? 'desc' : 'asc');
-      }
-    },
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    // Remove client-side pagination, sorting, and filtering for server-side implementation
+    // Remove client-side pagination, and filtering for server-side implementation
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
-      sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
@@ -109,7 +102,7 @@ export function TanstackTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center gap-2 py-4">
         {searchKey && (
           <Input
             placeholder={searchPlaceholder}
@@ -118,6 +111,22 @@ export function TanstackTable<TData, TValue>({
             className="max-w-sm"
           />
         )}
+        {/* Add status filter here */}
+        <Select>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value={INVOICE_STATUS.CREATED}>Created</SelectItem>
+              <SelectItem value={INVOICE_STATUS.SENT}>Sent</SelectItem>
+              <SelectItem value={INVOICE_STATUS.PAID}>Paid</SelectItem>
+              <SelectItem value={INVOICE_STATUS.CANCELLED}>
+                Cancelled
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         {showColumnToggle && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
