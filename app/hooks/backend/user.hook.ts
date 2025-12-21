@@ -6,18 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetMeQuery = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.USER.ME],
+    queryKey: [QUERY_KEYS.USER.GET_ME],
     queryFn: () => getRequest(`${API_ROUTES.USERS}/me`),
     enabled: true,
     staleTime: getStaleTimeInMinutes(10),
-  });
-};
-
-export const useGetActiveAd = () => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.APP.ACTIVE_AD],
-    queryFn: () => getRequest(`${API_ROUTES.APP}/active-ad`),
-    enabled: true,
-    staleTime: getStaleTimeInMinutes(2),
   });
 };

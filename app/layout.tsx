@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import { APP, GA_PUBLISHER_ID } from './constants';
 import './globals.css';
 import Providers from './Providers';
+import { Toaster } from 'sonner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function RootLayout({
         <Providers>
           <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         </Providers>
+        <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
       </body>
     </html>
   );

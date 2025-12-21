@@ -14,8 +14,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
-import { useGetMeQuery } from '@/app/hooks/backend/invoice';
 import { GENDER } from '@/app/constants';
+import { useGetMeQuery } from '@/app/hooks/backend/user.hook';
+import { useMutation } from '@tanstack/react-query';
+import { patchRequest } from '@/app/helpers/request';
+import { API_ROUTES } from '@/app/constants/api-routes';
+import { sanitizeError } from '@/app/helpers';
+import { toast } from 'sonner';
 
 export default function ProfileUpdateForm() {
   const { data } = useGetMeQuery();
@@ -27,6 +32,18 @@ export default function ProfileUpdateForm() {
     gender: '',
   });
 
+  const updateProfileMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return patchRequest(`${API_ROUTES.USERS}/me`, payload);
+    },
+    onError: (error) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: () => {
+      toast.success('Profile updated successfully!');
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const payload = {
@@ -34,7 +51,7 @@ export default function ProfileUpdateForm() {
       lastName: formData.lastName,
       gender: formData.gender,
     };
-    console.log(payload);
+    return updateProfileMutation.mutate(payload);
   };
 
   useEffect(() => {
@@ -49,9 +66,9 @@ export default function ProfileUpdateForm() {
   }, [data]);
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto mt-4">
       <div className="p-4 md:p-12">
-        <div className="text-center mb-10">
+        <div className="mb-4">
           <p className="text-muted-foreground text-pretty leading-relaxed">
             Keep your information current and accurate
           </p>
@@ -70,7 +87,7 @@ export default function ProfileUpdateForm() {
               onChange={(e) =>
                 setFormData({ ...formData, firstName: e.target.value })
               }
-              className="h-11"
+              className="h-10"
               required
             />
           </div>
@@ -87,7 +104,7 @@ export default function ProfileUpdateForm() {
               onChange={(e) =>
                 setFormData({ ...formData, lastName: e.target.value })
               }
-              className="h-11"
+              className="h-10"
               required
             />
           </div>
@@ -102,7 +119,7 @@ export default function ProfileUpdateForm() {
               type="email"
               placeholder="your.email@example.com"
               defaultValue={formData.email}
-              className="h-11"
+              className="h-10"
             />
           </div>
 
@@ -117,10 +134,10 @@ export default function ProfileUpdateForm() {
               }
               required
             >
-              <SelectTrigger id="gender" className="h-11 w-full">
+              <SelectTrigger id="gender" className="h-10 w-full">
                 <SelectValue placeholder="Select your gender" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent defaultValue={formData.gender}>
                 <SelectItem value={GENDER.MALE}>Male</SelectItem>
                 <SelectItem value={GENDER.FEMALE}>Female</SelectItem>
                 <SelectItem value={GENDER.OTHER}>Other</SelectItem>
@@ -129,8 +146,12 @@ export default function ProfileUpdateForm() {
             </Select>
           </div>
 
-          <Button type="submit" className="w-full h-11 mt-8">
-            Save Changes
+          <Button
+            disabled={updateProfileMutation.isPending}
+            type="submit"
+            className="w-full h-10 mt-8"
+          >
+            {updateProfileMutation.isPending ? 'Updating...' : 'Update Profile'}
           </Button>
         </form>
       </div>
