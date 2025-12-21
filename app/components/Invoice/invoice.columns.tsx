@@ -1,11 +1,12 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { formatCurrency, formatDate } from '@/app/helpers';
+import { formatCurrency, formatDate, truncateString } from '@/app/helpers';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
 
 export type InvoiceRow = {
   _id: string;
+  receiverDetails: string;
   invoiceNumber: string;
   grandTotal: number;
   currency: string;
@@ -14,6 +15,11 @@ export type InvoiceRow = {
 };
 
 export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
+  {
+    accessorKey: 'receiverDetails',
+    header: 'Client',
+    cell: ({ getValue }) => truncateString(getValue<string>(), 15),
+  },
   {
     accessorKey: 'invoiceNumber',
     header: '# Invoice Number',
