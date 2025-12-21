@@ -2,23 +2,19 @@
 
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { APP_PATHS } from '../constants';
 import { useAuthContext } from '../context/useAuthContext';
 
 const MENU_ITEMS = [
   {
-    label: 'Dashboard',
-    href: '/dashboard',
-  },
-  {
-    label: 'Settings',
-    href: '/settings',
+    label: 'My Dashboard',
+    href: APP_PATHS.DASHBOARD.HOME,
   },
 ];
 
 export default function Profile({}) {
-  const { authStatus, currentUser, doLogout } = useAuthContext();
+  const { authStatus, currentUser } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
 
@@ -37,11 +33,6 @@ export default function Profile({}) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
-
-  const handleLogoutClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    doLogout();
   }, []);
 
   const handleItemClick = () => {
@@ -96,15 +87,6 @@ export default function Profile({}) {
                 </li>
               );
             })}
-            <li>
-              <Link
-                onClick={handleLogoutClick}
-                href="#logout"
-                className="block px-4 py-2 hover:bg-slate-100 dark:hover:text-white"
-              >
-                Logout
-              </Link>
-            </li>
           </ul>
         </div>
       )}

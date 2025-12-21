@@ -10,23 +10,10 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [expandedSections, setExpandedSections] = useState({
-    visa: true,
-    tour: false,
-    activities: false,
-    content: false,
-  });
-
-  const toggleSection = (key: string) => {};
 
   return (
     <div className="flex h-screen bg-gray-50">
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        expandedSections={expandedSections}
-        toggleSection={toggleSection}
-      />
+      <Sidebar sidebarOpen={sidebarOpen} />
 
       <main className="flex-1 flex flex-col overflow-hidden">
         <header className="bg-white border-b border-gray-200 px-6 py-4">

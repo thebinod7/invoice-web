@@ -49,7 +49,7 @@ export function ProfileDropdown({
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuItem className="cursor-pointer">
-            <Link href={`${APP_PATHS.DASHBOARD}/profile`}>Profile</Link>
+            <Link href={APP_PATHS.DASHBOARD.PROFILE}>Profile</Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">

@@ -41,7 +41,12 @@ export const APP_PATHS = {
   CREATE_INVOICE: '/create-invoice',
   SERVICES: '/services',
   CONTACT: '/contact',
-  DASHBOARD: '/dashboard',
+  DASHBOARD: {
+    BILING: '/dashboard/billing',
+    HOME: '/dashboard',
+    INVOICES: '/dashboard/invoices',
+    PROFILE: '/dashboard/profile',
+  },
 };
 
 export const SONNER_CONFIG = {

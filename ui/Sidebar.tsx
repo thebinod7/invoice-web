@@ -1,21 +1,17 @@
-import { APP_NAME } from '@/app/constants';
+import { APP_NAME, APP_PATHS } from '@/app/constants';
 import { useAuthContext } from '@/app/context/useAuthContext';
 import { ICurrentUser } from '@/app/types';
 import {
-  ChevronDown,
+  ChartNoAxesColumn,
   CreditCard,
   ExternalLink,
-  Home,
+  FileStack,
   Mail,
 } from 'lucide-react';
 import Link from 'next/link';
 import { ProfileDropdown } from './ProfileDropdown';
 
-export default function Sidebar({
-  sidebarOpen,
-  toggleSection,
-  expandedSections,
-}: any) {
+export default function Sidebar({ sidebarOpen }: any) {
   const { currentUser } = useAuthContext();
 
   return (
@@ -46,72 +42,47 @@ export default function Sidebar({
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto p-4">
-          <a
-            href="#"
+        <nav className="flex-1 overflow-y-auto p-4 text-sm">
+          <Link
+            href={APP_PATHS.DASHBOARD.HOME}
             className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg mb-1"
           >
-            <Home className="w-5 h-5" />
+            <ChartNoAxesColumn className="w-5 h-5" />
             <span>Dashboard</span>
-          </a>
+          </Link>
 
           <div className="mt-6">
-            {/* Visa Section */}
+            {/* Invoice Section */}
             <div className="mb-1">
-              <button className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-                <CreditCard className="w-5 h-5" />
-                <span className="flex-1 text-left">Invoices</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    expandedSections.visa ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {expandedSections.visa && (
-                <div className="ml-8 mt-1 space-y-1">
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Setup
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Applications
-                  </a>
-                </div>
-              )}
+              <Link
+                href={APP_PATHS.DASHBOARD.INVOICES}
+                className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
+                <FileStack className="w-5 h-5" />
+                <span className="flex-1 text-left">Invoice History</span>
+              </Link>
             </div>
 
-            {/* Tour Section */}
+            {/* Billing Section */}
             <div className="mb-1">
-              <button className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              <Link
+                href={APP_PATHS.DASHBOARD.BILING}
+                className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
+                <CreditCard className="w-5 h-5" />
+                <span className="flex-1 text-left">Billing</span>
+              </Link>
+            </div>
+
+            {/* Billing Section */}
+            <div className="mb-1">
+              <Link
+                href={APP_PATHS.DASHBOARD.HOME}
+                className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >
                 <Mail className="w-5 h-5" />
                 <span className="flex-1 text-left">Email</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    expandedSections.tour ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {expandedSections.email && (
-                <div className="ml-8 mt-1 space-y-1">
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Inbox
-                  </a>
-                  <a
-                    href="#"
-                    className="block px-3 py-2 text-sm text-gray-600 hover:text-gray-900"
-                  >
-                    Outbox
-                  </a>
-                </div>
-              )}
+              </Link>
             </div>
           </div>
         </nav>
