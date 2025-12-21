@@ -12,3 +12,13 @@ export const useGetActiveAd = () => {
     staleTime: getStaleTimeInMinutes(2),
   });
 };
+
+export const useListMyInvoices = (query: Record<string, string>) => {
+  const queryString = new URLSearchParams(query).toString();
+  return useQuery({
+    queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
+    queryFn: () => getRequest(`${API_ROUTES.INVOICES}/me?${queryString}`),
+    enabled: true,
+    staleTime: getStaleTimeInMinutes(2),
+  });
+};

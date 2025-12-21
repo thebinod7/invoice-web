@@ -49,7 +49,7 @@ export const getCurrencyLocaleByName = (currency: string) => {
 
 export const formatDate = (inputDate: string) => {
   if (!inputDate) return '';
-  new Date(inputDate).toLocaleDateString('en-US', {
+  return new Date(inputDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',

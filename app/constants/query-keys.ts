@@ -7,5 +7,7 @@ export const QUERY_KEYS = {
     GET_ME: 'GET_ME',
     UPDATE_ME: 'UPDATE_ME',
   },
-  INVOICE: '',
+  INVOICE: {
+    MY_LIST: 'MY_LIST',
+  },
 };
