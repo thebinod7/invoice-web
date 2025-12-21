@@ -48,10 +48,13 @@ export function ProfileDropdown({
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
-            <Link href={APP_PATHS.DASHBOARD.PROFILE}>Profile</Link>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          <Link href={APP_PATHS.DASHBOARD.PROFILE}>
+            <DropdownMenuItem className="cursor-pointer">
+              Profile
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </Link>
+
           <DropdownMenuItem className="cursor-pointer">
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>

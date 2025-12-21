@@ -49,7 +49,7 @@ interface DataTableProps<TData, TValue> {
   onSortingChange?: (sortBy: string, sortOrder: 'asc' | 'desc') => void;
 }
 
-export function DataTable<TData, TValue>({
+export function TanstackTable<TData, TValue>({
   columns,
   data,
   searchKey,
