@@ -1,5 +1,15 @@
 import * as currencyFormatter from 'currency-formatter';
 
+// Add ... after some text length, make textLimit optional
+export const truncateString = (str: string, textLimit?: number) => {
+  if (!textLimit) textLimit = 16;
+  if (!str) return '';
+  if (str.length > textLimit) {
+    return str.slice(0, textLimit) + '...';
+  }
+  return str;
+};
+
 export const capitalizeFirstLetter = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };

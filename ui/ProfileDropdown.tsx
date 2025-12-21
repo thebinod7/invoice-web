@@ -2,6 +2,7 @@
 
 import { APP_PATHS } from '@/app/constants';
 import { useAuthContext } from '@/app/context/useAuthContext';
+import { truncateString } from '@/app/helpers';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -35,10 +36,15 @@ export function ProfileDropdown({
           </div>
           <div className="flex-1 min-w-0 text-left">
             <p className="font-semibold text-sm text-gray-900 truncate">
-              {currentUser?.firstName} {currentUser?.lastName}
+              {currentUser
+                ? truncateString(
+                    `${currentUser.firstName} ${currentUser.lastName}`
+                  )
+                : '...'}
             </p>
             <p className="text-xs text-gray-500 truncate">
-              {currentUser?.email || '...'}
+              {(currentUser?.email && truncateString(currentUser.email)) ||
+                '...'}
             </p>
           </div>
           <ChevronRight className="w-4 h-4 text-gray-400 transition-transform" />
