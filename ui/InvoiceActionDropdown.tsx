@@ -14,9 +14,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import axios from 'axios';
+import { Archive, Download, FileUp } from 'lucide-react';
 import { toast } from 'sonner';
 
-export function InvoiceActionDropdown({ rowId }: { rowId: string }) {
+export function InvoiceActionDropdown({
+  rowId,
+  invoiceNumber,
+}: {
+  rowId: string;
+  invoiceNumber: string;
+}) {
   const { doLogout } = useAuthContext();
 
   const handleDownload = async () => {
@@ -40,7 +47,7 @@ export function InvoiceActionDropdown({ rowId }: { rowId: string }) {
       }
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = `invoice-${rowId}.pdf`;
+      link.download = `invoice-${invoiceNumber}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -60,17 +67,22 @@ export function InvoiceActionDropdown({ rowId }: { rowId: string }) {
 
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={handleDownload} className="cursor-pointer">
-            Download
+          <DropdownMenuItem
+            onClick={handleDownload}
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <Download className="h-4 w-4" />
+            <span>Download</span>
           </DropdownMenuItem>
-
-          <DropdownMenuItem className="cursor-pointer">Export</DropdownMenuItem>
-
-          <DropdownMenuItem className="cursor-pointer">Clone</DropdownMenuItem>
+          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+            <FileUp className="h-4 w-4" />
+            <span>Export</span>
+          </DropdownMenuItem>{' '}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer" onClick={doLogout}>
-          Mark as Sent
+        <DropdownMenuItem className="flex text-red-600 items-center gap-2 cursor-pointer">
+          <Archive className="h-4 w-4" />
+          <span>Archive</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

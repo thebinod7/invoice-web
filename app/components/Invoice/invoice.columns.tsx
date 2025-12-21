@@ -42,6 +42,11 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
   {
     id: 'action',
     header: '',
-    cell: ({ row }) => <InvoiceActionDropdown rowId={row.original._id} />,
+    cell: ({ row }) => (
+      <InvoiceActionDropdown
+        rowId={row.original._id}
+        invoiceNumber={row.original.invoiceNumber}
+      />
+    ),
   },
 ];
