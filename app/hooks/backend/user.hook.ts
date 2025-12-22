@@ -12,3 +12,12 @@ export const useGetMeQuery = () => {
     staleTime: getStaleTimeInMinutes(10),
   });
 };
+
+export const useMyStatsQuery = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.APP.MY_STATS],
+    queryFn: () => getRequest(`${API_ROUTES.APP}/my-stats`),
+    enabled: true,
+    staleTime: getStaleTimeInMinutes(10),
+  });
+};

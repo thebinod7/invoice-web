@@ -1,21 +1,27 @@
 'use client';
 
-import { Inbox, ReceiptText, Send } from 'lucide-react';
+import { useMyStatsQuery } from '@/app/hooks/backend/user.hook';
+import { FileCheck, ReceiptText, Send } from 'lucide-react';
 
 export default function Dashboard() {
+  const { data } = useMyStatsQuery();
+
+  const result = data?.data?.result || null;
   const stats = [
     {
       title: 'Total Invoices',
-      value: '184',
+      value: result?.totalInvoice || 0,
       icon: ReceiptText,
-      link: 'View all',
     },
-    { title: 'Created Invoices', value: '1252', icon: Inbox, link: 'View all' },
     {
       title: 'Sent Invoices',
-      value: '36',
+      value: result?.sentInvoice || 0,
       icon: Send,
-      link: 'View all',
+    },
+    {
+      title: 'Paid Invoices',
+      value: result?.paidInvoice || 0,
+      icon: FileCheck,
     },
   ];
 
