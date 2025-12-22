@@ -5,7 +5,7 @@ export const APP = {
     'Easily create and customize professional invoices with our Free Invoice Generator. Whether you are a freelancer, small business owner, or entrepreneur, our tool helps you create accurate, professional invoices for free. Simply input your details, customize the invoice to fit your needs, and download it in PDF format—ready to send to your clients. No sign-up required',
 };
 
-export const APP_NAME = 'Invomaker.com';
+export const APP_NAME = 'invomaker.com';
 export const MAX_FILE_SIZE = 5; // MB
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1024 * 1024;
 

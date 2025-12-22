@@ -57,19 +57,16 @@ export function ProfileDropdown({
           <Link href={APP_PATHS.DASHBOARD.PROFILE}>
             <DropdownMenuItem className="cursor-pointer">
               Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
 
           <DropdownMenuItem className="cursor-pointer">
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onClick={doLogout}>
           Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

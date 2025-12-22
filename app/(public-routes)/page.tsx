@@ -97,8 +97,7 @@ export default function LandingPage() {
                   100% Free
                 </h3>
                 <p className="text-gray-600">
-                  No hidden costs, no paywalls, no subscriptions. Create
-                  unlimited invoices for free.
+                  Create unlimited invoices free of cost. No account required.
                 </p>
               </div>
               <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center">

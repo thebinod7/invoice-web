@@ -26,7 +26,7 @@ export default function DashboardLayout({
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                className="p-2 hover:bg-gray-100 rounded-lg"
               >
                 <Menu className="w-6 h-6" />
               </button>

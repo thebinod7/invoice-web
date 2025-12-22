@@ -1,45 +1,21 @@
 'use client';
 
-import {
-  Eye,
-  FileCheck,
-  FileText,
-  ListChecks,
-  Plane,
-  Users,
-} from 'lucide-react';
-import { useState } from 'react';
+import { Inbox, ReceiptText, Send } from 'lucide-react';
 
 export default function Dashboard() {
-  const [expandedSections, setExpandedSections] = useState<
-    Record<string, boolean>
-  >({
-    visa: true,
-    tour: false,
-    activities: false,
-    content: false,
-  });
-
-  const toggleSection = (section: string) => {
-    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
-
   const stats = [
-    { title: 'Total Users', value: '184', icon: Users, link: 'View all' },
-    { title: 'Visa Services', value: '1252', icon: Plane, link: 'View all' },
     {
-      title: 'Total Submissions',
-      value: '36',
-      icon: FileText,
+      title: 'Total Invoices',
+      value: '184',
+      icon: ReceiptText,
       link: 'View all',
     },
-    { title: 'Pending Submissions', value: '0', icon: ListChecks, link: null },
-    { title: 'In-Review Submissions', value: '0', icon: Eye, link: null },
+    { title: 'Created Invoices', value: '1252', icon: Inbox, link: 'View all' },
     {
-      title: 'Completed Submissions',
-      value: '10',
-      icon: FileCheck,
-      link: null,
+      title: 'Sent Invoices',
+      value: '36',
+      icon: Send,
+      link: 'View all',
     },
   ];
 
