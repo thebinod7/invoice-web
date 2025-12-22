@@ -54,6 +54,7 @@ interface DataTableProps<TData, TValue> {
   onNextPage?: () => void;
   onPreviousPage?: () => void;
   currentPage?: number;
+  handleStatusChange?: (status: string) => void;
 }
 
 export function TanstackTable<TData, TValue>({
@@ -74,6 +75,7 @@ export function TanstackTable<TData, TValue>({
   onNextPage,
   onPreviousPage,
   currentPage,
+  handleStatusChange,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -112,7 +114,7 @@ export function TanstackTable<TData, TValue>({
           />
         )}
         {/* Add status filter here */}
-        <Select>
+        <Select onValueChange={handleStatusChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>

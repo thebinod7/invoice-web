@@ -13,12 +13,16 @@ export default function page() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('');
   const debouncedSearch = useDebounce(search, DEBOUNCE_DELAY);
-  const { data, isLoading, refetch } = useListMyInvoices({
-    page: currentPage,
-    perPage: PAZE_SIZE,
-    search: debouncedSearch,
-  });
+
+  const queryParams = useMemo(() => {
+    const params = new URLSearchParams();
+    if (status) params.set('status', status);
+    return params.toString();
+  }, [status, debouncedSearch, currentPage]);
+
+  const { data, isLoading, refetch } = useListMyInvoices(queryParams);
   const result = data?.data?.result || null;
 
   useEffect(() => {
@@ -43,6 +47,7 @@ export default function page() {
         onNextPage={() => setCurrentPage(currentPage + 1)}
         onPreviousPage={() => setCurrentPage(currentPage - 1)}
         currentPage={result?.meta?.currentPage}
+        handleStatusChange={(status) => setStatus(status)}
       />
     </div>
   );
