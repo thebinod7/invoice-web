@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import axios from 'axios';
-import { Archive, Download, FileUp } from 'lucide-react';
+import { Archive, Download, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function InvoiceActionDropdown({
@@ -75,8 +75,8 @@ export function InvoiceActionDropdown({
             <span>Download</span>
           </DropdownMenuItem>
           <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
-            <FileUp className="h-4 w-4" />
-            <span>Export</span>
+            <Pencil className="h-4 w-4" />
+            <span>Edit Invoice</span>
           </DropdownMenuItem>{' '}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
