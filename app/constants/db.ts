@@ -71,3 +71,32 @@ export const BLOG_ARTICLES = [
     tags: ['Freelancers', 'Invoice', 'Templates'],
   },
 ];
+
+export const PRICING = {
+  FREE: {
+    plan: 'FREE',
+    price: 'Free',
+    features: [
+      { text: 'Create Invoices Instantly', enabled: true },
+      { text: 'No Signup Required', enabled: true },
+      { text: 'Multiple Currency Support', enabled: true },
+      { text: 'Download PDF', enabled: true },
+      { text: 'Invoice History', enabled: false },
+      { text: 'Edit Past Invoices', enabled: false },
+      { text: 'Payment Tracking (Paid / Unpaid)', enabled: false },
+      { text: 'Unlimited Downloads', enabled: false },
+    ],
+  },
+  STARTER: {
+    price: '3.99',
+    plan: 'STARTER',
+    features: [
+      { text: 'Everything in Free', enabled: true },
+      { text: 'Invoice History & Search', enabled: true },
+      { text: 'Edit Past Invoices', enabled: true },
+      { text: 'Payment Tracking (Paid / Unpaid)', enabled: true },
+      { text: 'Save Clients & Business Details', enabled: true },
+      { text: 'Unlimited Downloads', enabled: true },
+    ],
+  },
+};

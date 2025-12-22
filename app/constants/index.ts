@@ -42,10 +42,10 @@ export const APP_PATHS = {
   SERVICES: '/services',
   CONTACT: '/contact',
   DASHBOARD: {
-    BILING: '/dashboard/billing',
     HOME: '/dashboard',
     INVOICES: '/dashboard/invoices',
     PROFILE: '/dashboard/profile',
+    SUBSCRIPTION: '/dashboard/subscription',
   },
 };
 
