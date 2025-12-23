@@ -5,7 +5,7 @@ import { useDebounce } from '@/app/hooks/ui/debounce';
 import { TanstackTable } from '@/ui/TanstackTable';
 import { useEffect, useMemo, useState } from 'react';
 
-const DEBOUNCE_DELAY = 700;
+const DEBOUNCE_DELAY = 1000;
 
 export default function page() {
   const columns = useMemo(() => invoiceColumns(), []);
