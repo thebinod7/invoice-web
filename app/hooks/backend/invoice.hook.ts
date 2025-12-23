@@ -13,6 +13,15 @@ export const useGetActiveAd = () => {
   });
 };
 
+export const useGetInvoiceById = (id: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.INVOICE.GET_BY_ID, id],
+    queryFn: () => getRequest(`${API_ROUTES.INVOICES}/${id}`),
+    enabled: true,
+    staleTime: 0,
+  });
+};
+
 export const useListMyInvoices = (query: any) => {
   const queryString = new URLSearchParams(query).toString();
   return useQuery({

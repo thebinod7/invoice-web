@@ -15,3 +15,26 @@ export interface ICurrentUser {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IInvoiceDetails {
+  companyLogo?: string;
+  senderDetails: string;
+  receiverDetails: string;
+  currency: string;
+  invoiceNumber: string;
+  invoiceItems: [];
+  subTotal: number;
+  grandTotal: number;
+  dueDate?: string;
+  poNumber?: string;
+  paymentTerms?: string;
+  tax?: number;
+  discount?: number;
+  additionalNote?: number;
+}
+
+export interface IInvoiceItem {
+  description: string;
+  quantity: string;
+  unitPrice: string;
+}

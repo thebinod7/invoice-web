@@ -1,5 +1,9 @@
 import * as currencyFormatter from 'currency-formatter';
 
+export const isoToDateInput = (iso: string) => {
+  return new Date(iso).toISOString().split('T')[0];
+};
+
 export const isMobile = () => {
   return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 };

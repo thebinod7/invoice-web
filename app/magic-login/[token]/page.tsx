@@ -32,7 +32,7 @@ export default function VerifyMagicLinkPage() {
         setState('success');
         // Redirect to dashboard after 2 seconds
         setTimeout(() => {
-          window.location.href = APP_PATHS.DASHBOARD;
+          window.location.href = APP_PATHS.DASHBOARD.HOME;
         }, 2000);
       } catch (error) {
         console.error('[v0] Verification error:', error);
