@@ -42,22 +42,15 @@ const initialLineItems = [{ title: '', quantity: '', rate: '' }];
 
 export default function InvoiceGeneratorV3({
   currentInvoice,
+  handleInputChange,
 }: {
+  handleInputChange: (e: any) => void;
   currentInvoice: IInvoiceDetails;
 }) {
   const [invoice, setInvoice] = useState(currentInvoice);
   const [lineItems, setLineItems] = useState(initialLineItems);
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
-
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setInvoice((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -312,8 +305,8 @@ export default function InvoiceGeneratorV3({
                         </label>
                         <textarea
                           name="senderDetails"
-                          value={invoice.senderDetails || ''}
-                          onChange={handleInputChange}
+                          value={currentInvoice.senderDetails || ''}
+                          onChange={(e) => handleInputChange(e)}
                           rows={7}
                           className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
                           placeholder={`Eg: XYZ Corporation\n123 Main Street, Suite 400 \n(555) 123-4567 \nbilling@xyz.com\nmore details...`}
@@ -330,8 +323,8 @@ export default function InvoiceGeneratorV3({
                         </label>
                         <textarea
                           name="receiverDetails"
-                          value={invoice.receiverDetails || ''}
-                          onChange={handleInputChange}
+                          value={currentInvoice.receiverDetails || ''}
+                          onChange={(e) => handleInputChange(e)}
                           rows={7}
                           className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
                           placeholder={`Eg: ABC Inc\n123 Main Street, Suite 400 \n(555) 123-5678 \nbilling@abc.com\nmore details...`}
@@ -362,13 +355,13 @@ export default function InvoiceGeneratorV3({
                     <input
                       type="text"
                       name="invoiceNumber"
-                      value={invoice.invoiceNumber}
-                      onChange={handleInputChange}
+                      value={currentInvoice.invoiceNumber || ''}
+                      onChange={(e) => handleInputChange(e)}
                       className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
                       placeholder="INV-001"
                     />
                   </div>
-                  <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+                  <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
                       <Calendar className="h-4 w-4 text-red-600" />
                       Due Date
@@ -377,9 +370,11 @@ export default function InvoiceGeneratorV3({
                       type="date"
                       name="dueDate"
                       value={
-                        invoice.dueDate ? isoToDateInput(invoice.dueDate) : ''
+                        currentInvoice.dueDate
+                          ? isoToDateInput(currentInvoice.dueDate)
+                          : ''
                       }
-                      onChange={handleInputChange}
+                      onChange={(e) => handleInputChange(e)}
                       className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
                     />
                   </div>
@@ -394,8 +389,8 @@ export default function InvoiceGeneratorV3({
                     <input
                       type="text"
                       name="poNumber"
-                      value={invoice.poNumber}
-                      onChange={handleInputChange}
+                      value={currentInvoice.poNumber || ''}
+                      onChange={(e) => handleInputChange(e)}
                       className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
                       placeholder="PO-12345"
                     />
@@ -409,8 +404,8 @@ export default function InvoiceGeneratorV3({
                     <input
                       type="text"
                       name="paymentTerms"
-                      value={invoice.paymentTerms}
-                      onChange={handleInputChange}
+                      value={currentInvoice.paymentTerms || ''}
+                      onChange={(e) => handleInputChange(e)}
                       className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
                       placeholder="Net 30 days"
                     />
@@ -648,8 +643,8 @@ export default function InvoiceGeneratorV3({
                         <input
                           type="number"
                           name="discount"
-                          value={invoice.discount}
-                          onChange={handleInputChange}
+                          value={currentInvoice.discount}
+                          onChange={(e) => handleInputChange(e)}
                           className="w-20 h-8 px-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                           placeholder="0"
                           min="0"
@@ -664,8 +659,8 @@ export default function InvoiceGeneratorV3({
                           -
                           {formatCurrency(
                             calculatePercentAmountOfTotal(
-                              invoice.subTotal,
-                              invoice?.discount || 0
+                              currentInvoice.subTotal,
+                              currentInvoice?.discount || 0
                             ),
                             currencySymbol
                           )}
@@ -682,8 +677,8 @@ export default function InvoiceGeneratorV3({
                         <input
                           type="number"
                           name="tax"
-                          value={invoice.tax}
-                          onChange={handleInputChange}
+                          value={currentInvoice.tax}
+                          onChange={(e) => handleInputChange(e)}
                           className="w-20 h-8 px-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
                           placeholder="0"
                           min="0"
@@ -695,8 +690,8 @@ export default function InvoiceGeneratorV3({
                         <span className="font-medium text-slate-900">
                           {formatCurrency(
                             calculatePercentAmountOfTotal(
-                              invoice.subTotal,
-                              Number(invoice?.tax) || 0
+                              currentInvoice.subTotal,
+                              Number(currentInvoice?.tax) || 0
                             ),
                             currencySymbol
                           )}
@@ -711,7 +706,10 @@ export default function InvoiceGeneratorV3({
                           Total:
                         </span>
                         <span className="text-2xl font-bold text-slate-900">
-                          {formatCurrency(invoice.grandTotal, currencySymbol)}
+                          {formatCurrency(
+                            currentInvoice.grandTotal,
+                            currencySymbol
+                          )}
                         </span>
                       </div>
                     </div>
@@ -730,9 +728,9 @@ export default function InvoiceGeneratorV3({
               </div>
               <div className="p-4">
                 <textarea
-                  name="notes"
-                  value={invoice.additionalNote}
-                  onChange={handleInputChange}
+                  name="additionalNote"
+                  value={currentInvoice.additionalNote || ''}
+                  onChange={(e) => handleInputChange(e)}
                   rows={3}
                   className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
                   placeholder="Add any additional notes, terms, or payment instructions..."

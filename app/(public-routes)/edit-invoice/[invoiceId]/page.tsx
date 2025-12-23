@@ -14,9 +14,17 @@ export default function page() {
     null
   );
 
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setInvoiceDetails((prev: any) => ({ ...prev, [name]: value }));
+  };
+
   useEffect(() => {
     if (result) {
-      console.log('result => ', result);
       const payload = {
         senderDetails: result.senderDetails,
         receiverDetails: result.receiverDetails,
@@ -38,5 +46,10 @@ export default function page() {
 
   console.log('invoiceDetails => ', invoiceDetails);
   if (!invoiceDetails) return <div>Loading...</div>;
-  return <InvoiceGeneratorV3 currentInvoice={invoiceDetails} />;
+  return (
+    <InvoiceGeneratorV3
+      currentInvoice={invoiceDetails}
+      handleInputChange={handleInputChange}
+    />
+  );
 }
