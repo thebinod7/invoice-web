@@ -1,19 +1,10 @@
 'use client';
 
 import { INVOICE_STATUS } from '@/app/constants';
-import { API_ROUTES } from '@/app/constants/api-routes';
-import {
-  formatCurrency,
-  formatDate,
-  sanitizeError,
-  truncateString,
-} from '@/app/helpers';
-import { API_BASE_URL } from '@/app/helpers/config';
-import { patchRequest } from '@/app/helpers/request';
+import { formatCurrency, formatDate, truncateString } from '@/app/helpers';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
-import { ShadSelect } from '@/ui/ShadSelect';
+import { InvoiceStatusSelect } from '@/ui/InvoiceStatusSelect';
 import { ColumnDef } from '@tanstack/react-table';
-import { toast } from 'sonner';
 
 export type InvoiceRow = {
   _id: string;
@@ -43,20 +34,6 @@ const STATUS_OPTIONS = [
     value: INVOICE_STATUS.CANCELLED,
   },
 ];
-
-const handleStatusChange = async (rowId: string, status: string) => {
-  try {
-    await patchRequest(
-      `${API_BASE_URL}${API_ROUTES.INVOICES}/${rowId}/status`,
-      {
-        status,
-      }
-    );
-    toast.success('Status updated successfully!');
-  } catch (err) {
-    toast.error(sanitizeError(err));
-  }
-};
 
 export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
   {
@@ -90,12 +67,10 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
     header: 'Status',
     cell: ({ row }) => {
       return (
-        <ShadSelect
+        <InvoiceStatusSelect
+          invoiceId={row.original._id}
           selectLabel="select to update"
           value={row.original.status}
-          handleChange={(status) =>
-            handleStatusChange(row.original._id, status)
-          }
           options={STATUS_OPTIONS}
         />
       );
