@@ -51,7 +51,9 @@ export function InvoiceStatusSelect({
       toast.error(sanitizeError(error));
     },
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVOICE.MY_LIST] });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
+      });
       toast.success('Status updated successfully!');
     },
     onSettled: () => {

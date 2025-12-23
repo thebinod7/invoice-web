@@ -1,8 +1,7 @@
 'use client';
 
 import { API_ROUTES } from '@/app/constants/api-routes';
-import { useAuthContext } from '@/app/context/useAuthContext';
-import { isMobile } from '@/app/helpers';
+import { isMobile, sanitizeError } from '@/app/helpers';
 import { API_BASE_URL } from '@/app/helpers/config';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +15,10 @@ import {
 import axios from 'axios';
 import { Archive, Download, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
+import { ConfirmDialog } from './ConfirmDialog';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { delRequest } from '@/app/helpers/request';
+import { QUERY_KEYS } from '@/app/constants/query-keys';
 
 export function InvoiceActionDropdown({
   rowId,
@@ -24,7 +27,7 @@ export function InvoiceActionDropdown({
   rowId: string;
   invoiceNumber: string;
 }) {
-  const { doLogout } = useAuthContext();
+  const queryClient = useQueryClient();
 
   const handleDownload = async () => {
     try {
@@ -57,6 +60,28 @@ export function InvoiceActionDropdown({
     }
   };
 
+  const archiveInvoiceMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return delRequest(`${API_ROUTES.INVOICES}/${payload.invoiceId}`);
+    },
+    onError: (error) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
+      });
+      toast.success('Invoice archived successfully!');
+    },
+    onSettled: () => {
+      toast.dismiss();
+    },
+  });
+
+  const handleArchiveClick = () => {
+    archiveInvoiceMutation.mutate({ invoiceId: rowId });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -80,10 +105,18 @@ export function InvoiceActionDropdown({
           </DropdownMenuItem>{' '}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex text-red-600 items-center gap-2 cursor-pointer">
-          <Archive className="h-4 w-4" />
-          <span>Archive</span>
-        </DropdownMenuItem>
+        <ConfirmDialog
+          handleConfirm={handleArchiveClick}
+          triggerButton={
+            <Button
+              variant="secondary"
+              className="flex bg-white text-red-600 items-center gap-2 cursor-pointer"
+            >
+              <Archive className="h-4 w-4" />
+              <span>Archive</span>
+            </Button>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );
