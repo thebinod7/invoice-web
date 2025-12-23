@@ -82,6 +82,11 @@ export function InvoiceActionDropdown({
     archiveInvoiceMutation.mutate({ invoiceId: rowId });
   };
 
+  const handleEditClick = () => {
+    // Open on new tab
+    window.open(`/edit-invoice/${rowId}`, '_blank');
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -99,7 +104,10 @@ export function InvoiceActionDropdown({
             <Download className="h-4 w-4" />
             <span>Download</span>
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+          <DropdownMenuItem
+            onClick={handleEditClick}
+            className="flex items-center gap-2 cursor-pointer"
+          >
             <Pencil className="h-4 w-4" />
             <span>Edit Invoice</span>
           </DropdownMenuItem>{' '}
