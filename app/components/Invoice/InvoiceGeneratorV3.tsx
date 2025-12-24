@@ -43,9 +43,11 @@ const initialLineItems = [{ title: '', quantity: '', rate: '' }];
 export default function InvoiceGeneratorV3({
   currentInvoice,
   handleInputChange,
+  updateListItem,
 }: {
   handleInputChange: (e: any) => void;
   currentInvoice: IInvoiceDetails;
+  updateListItem: (index: number, field: string, value: string) => void;
 }) {
   const [invoice, setInvoice] = useState(currentInvoice);
   const [lineItems, setLineItems] = useState(initialLineItems);
@@ -85,6 +87,7 @@ export default function InvoiceGeneratorV3({
   };
 
   const updateItem = (index: number, field: string, value: string) => {
+    console.log('updateItem', index, field, value);
     const updated = lineItems.map((item, i) =>
       i === index ? { ...item, [field]: value } : item
     );
@@ -192,7 +195,7 @@ export default function InvoiceGeneratorV3({
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
           {/* Header Section - Fully Responsive */}
-          <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-4 sm:px-8 py-4 sm:py-6">
+          <div className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 px-4 sm:px-8 py-4 sm:py-6">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col md:flex-row md:items-center md:gap-8 gap-4">
                 {/* <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm w-fit">
@@ -445,7 +448,7 @@ export default function InvoiceGeneratorV3({
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
-                      {invoice?.invoiceItems.map(
+                      {currentInvoice.invoiceItems.map(
                         (item: IInvoiceItem, index) => (
                           <tr
                             key={index}
@@ -456,7 +459,7 @@ export default function InvoiceGeneratorV3({
                                 type="text"
                                 value={item.description}
                                 onChange={(e) =>
-                                  updateItem(
+                                  updateListItem(
                                     index,
                                     'description',
                                     e.target.value
@@ -471,7 +474,11 @@ export default function InvoiceGeneratorV3({
                                 type="number"
                                 value={item.quantity}
                                 onChange={(e) =>
-                                  updateItem(index, 'quantity', e.target.value)
+                                  updateListItem(
+                                    index,
+                                    'quantity',
+                                    e.target.value
+                                  )
                                 }
                                 className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
                                 placeholder="0"
@@ -483,7 +490,11 @@ export default function InvoiceGeneratorV3({
                                 type="number"
                                 value={item.unitPrice || ''}
                                 onChange={(e) =>
-                                  updateItem(index, 'unitPrice', e.target.value)
+                                  updateListItem(
+                                    index,
+                                    'unitPrice',
+                                    e.target.value
+                                  )
                                 }
                                 className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
                                 placeholder="0.00"

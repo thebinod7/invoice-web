@@ -1,7 +1,7 @@
 'use client';
 import InvoiceGeneratorV3 from '@/app/components/Invoice/InvoiceGeneratorV3';
 import { useGetInvoiceById } from '@/app/hooks/backend/invoice.hook';
-import { IInvoiceDetails } from '@/app/types';
+import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -21,6 +21,15 @@ export default function page() {
   ) => {
     const { name, value } = e.target;
     setInvoiceDetails((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const updateListItem = (index: number, field: string, value: string) => {
+    const invoiceItems = invoiceDetails?.invoiceItems || [];
+    const updated = invoiceItems.map((item: IInvoiceItem, i: number) =>
+      i === index ? { ...item, [field]: value } : item
+    );
+    console.log('updated => ', updated);
+    setInvoiceDetails((prev: any) => ({ ...prev, invoiceItems: updated }));
   };
 
   useEffect(() => {
@@ -45,11 +54,13 @@ export default function page() {
   }, [result]);
 
   console.log('invoiceDetails => ', invoiceDetails);
-  if (!invoiceDetails) return <div>Loading...</div>;
+  if (!invoiceDetails)
+    return <div className="h-screen text-center mt-52">...</div>;
   return (
     <InvoiceGeneratorV3
       currentInvoice={invoiceDetails}
       handleInputChange={handleInputChange}
+      updateListItem={updateListItem}
     />
   );
 }
