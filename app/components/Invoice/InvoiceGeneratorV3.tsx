@@ -28,7 +28,6 @@ import {
   Hash,
   Loader2,
   MessageSquare,
-  PlusCircle,
   Trash2,
   Upload,
   User,
@@ -37,6 +36,7 @@ import {
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import AddInvoiceItem from './AddInvoiceItem';
 
 const initialLineItems = [{ title: '', quantity: '', rate: '' }];
 
@@ -44,10 +44,14 @@ export default function InvoiceGeneratorV3({
   currentInvoice,
   handleInputChange,
   updateListItem,
+  removeListItem,
+  addListItem,
 }: {
   handleInputChange: (e: any) => void;
   currentInvoice: IInvoiceDetails;
   updateListItem: (index: number, field: string, value: string) => void;
+  removeListItem: (index: number) => void;
+  addListItem: () => void;
 }) {
   const [invoice, setInvoice] = useState(currentInvoice);
   const [lineItems, setLineItems] = useState(initialLineItems);
@@ -76,23 +80,6 @@ export default function InvoiceGeneratorV3({
   const clearUploadedLogo = () => {
     setLogoPreview('');
     setFileName('');
-  };
-
-  const addItem = () => {
-    setLineItems([...lineItems, { title: '', quantity: '', rate: '' }]);
-  };
-
-  const removeItem = (index: number) => {
-    setLineItems(lineItems.filter((_, i) => i !== index));
-  };
-
-  const updateItem = (index: number, field: string, value: string) => {
-    console.log('updateItem', index, field, value);
-    const updated = lineItems.map((item, i) =>
-      i === index ? { ...item, [field]: value } : item
-    );
-    setLineItems(updated);
-    calculateSubtotal(updated);
   };
 
   const generateInvoiceMutation = useMutation({
@@ -188,7 +175,7 @@ export default function InvoiceGeneratorV3({
     if (companyLogo) setLogoPreview(companyLogo);
   }, []);
 
-  const currencySymbol = getCurrencySymbolByName(invoice?.currency);
+  const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
@@ -514,7 +501,7 @@ export default function InvoiceGeneratorV3({
                                   ).toFixed(2)}
                                 </div>
                                 <button
-                                  onClick={() => removeItem(index)}
+                                  onClick={() => removeListItem(index)}
                                   className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors duration-150"
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -541,7 +528,7 @@ export default function InvoiceGeneratorV3({
                             Item #{index + 1}
                           </h4>
                           <button
-                            onClick={() => removeItem(index)}
+                            onClick={() => removeListItem(index)}
                             className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors duration-150"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -557,7 +544,11 @@ export default function InvoiceGeneratorV3({
                               type="text"
                               value={item.description}
                               onChange={(e) =>
-                                updateItem(index, 'description', e.target.value)
+                                updateListItem(
+                                  index,
+                                  'description',
+                                  e.target.value
+                                )
                               }
                               className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
                               placeholder="Item description"
@@ -573,7 +564,11 @@ export default function InvoiceGeneratorV3({
                                 type="number"
                                 value={item.quantity}
                                 onChange={(e) =>
-                                  updateItem(index, 'quantity', e.target.value)
+                                  updateListItem(
+                                    index,
+                                    'quantity',
+                                    e.target.value
+                                  )
                                 }
                                 className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
                                 placeholder="0"
@@ -588,7 +583,11 @@ export default function InvoiceGeneratorV3({
                                 type="number"
                                 value={item.unitPrice || ''}
                                 onChange={(e) =>
-                                  updateItem(index, 'unitPrice', e.target.value)
+                                  updateListItem(
+                                    index,
+                                    'unitPrice',
+                                    e.target.value
+                                  )
                                 }
                                 className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
                                 placeholder="0.00"
@@ -620,17 +619,7 @@ export default function InvoiceGeneratorV3({
                   ))}
                 </div>
 
-                {/* Add Item Button */}
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    onClick={addItem}
-                    className="border-2 border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50 text-slate-700 hover:text-blue-700 bg-transparent w-full sm:w-auto px-4 py-2 rounded-md font-medium flex items-center justify-center gap-2 transition-colors duration-150"
-                  >
-                    <PlusCircle className="h-4 w-4" />
-                    Add Item
-                  </button>
-                </div>
+                <AddInvoiceItem addListItem={addListItem} />
 
                 {/* Totals Section - Responsive */}
                 <div className="mt-8 space-y-4">

@@ -32,6 +32,19 @@ export default function page() {
     setInvoiceDetails((prev: any) => ({ ...prev, invoiceItems: updated }));
   };
 
+  const removeListItem = (index: number) => {
+    const invoiceItems = invoiceDetails?.invoiceItems || [];
+    const updated = invoiceItems.filter((_, i) => i !== index);
+    setInvoiceDetails((prev: any) => ({ ...prev, invoiceItems: updated }));
+  };
+
+  const addListItem = () => {
+    const newRow = { description: '', quantity: '', unitPrice: '' };
+    const invoiceItems = invoiceDetails?.invoiceItems || [];
+    const updated = [...invoiceItems, newRow];
+    setInvoiceDetails((prev: any) => ({ ...prev, invoiceItems: updated }));
+  };
+
   useEffect(() => {
     if (result) {
       const payload = {
@@ -61,6 +74,8 @@ export default function page() {
       currentInvoice={invoiceDetails}
       handleInputChange={handleInputChange}
       updateListItem={updateListItem}
+      removeListItem={removeListItem}
+      addListItem={addListItem}
     />
   );
 }
