@@ -17,7 +17,7 @@ export interface ICurrentUser {
 }
 
 export interface IInvoiceDetails {
-  companyLogo?: string;
+  companyLogoUrl?: string;
   senderDetails: string;
   receiverDetails: string;
   currency: string;

@@ -70,6 +70,7 @@ export default function page() {
     return <div className="h-screen text-center mt-52">Loading...</div>;
   return (
     <InvoiceGeneratorV3
+      invoiceId={invoiceId as string}
       currentInvoice={invoiceDetails}
       handleInputChange={handleInputChange}
       updateListItem={updateListItem}

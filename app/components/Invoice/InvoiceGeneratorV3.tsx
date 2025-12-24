@@ -3,10 +3,11 @@
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import {
-  calculateFileSizeInMB,
   formatCurrency,
   getCurrencySymbolByName,
+  isMobile,
 } from '@/app/helpers';
+import { calculateInvoiceTotals } from '@/app/helpers/helper';
 import { postRequest } from '@/app/helpers/request';
 import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
@@ -21,16 +22,16 @@ import InvoiceDetailsBox from './InvoiceDetailsBox';
 import InvoiceDownloadAction from './InvoiceDownloadAction';
 import InvoiceHeaderSection from './InvoiceHeaderSection';
 import InvoiceSummary from './InvoiceSummary';
-import { calculateInvoiceTotals } from '@/app/helpers/helper';
 
-// TODO: Calculate tax, discount, subtotal and grand total
 export default function InvoiceGeneratorV3({
+  invoiceId,
   currentInvoice,
   handleInputChange,
   updateListItem,
   removeListItem,
   addListItem,
 }: {
+  invoiceId: string;
   handleInputChange: (e: any) => void;
   currentInvoice: IInvoiceDetails;
   updateListItem: (index: number, field: string, value: string) => void;
@@ -41,25 +42,6 @@ export default function InvoiceGeneratorV3({
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    const fileSize = +calculateFileSizeInMB(file?.size || 0);
-    if (fileSize > MAX_FILE_SIZE) {
-      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
-    }
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setLogoPreview(result);
-        // setInvoice({ ...invoice, companyLogo: result });
-      };
-      reader.readAsDataURL(file);
-    }
-    setFileName(file?.name || '');
-  };
-
   const clearUploadedLogo = () => {
     setLogoPreview('');
     setFileName('');
@@ -67,9 +49,13 @@ export default function InvoiceGeneratorV3({
 
   const generateInvoiceMutation = useMutation({
     mutationFn: (payload: any) => {
-      return postRequest(API_ROUTES.GENERATE_INVOICE, payload, {
-        responseType: 'blob',
-      });
+      return postRequest(
+        `${API_ROUTES.INVOICES}/${invoiceId}/edit-download`,
+        payload,
+        {
+          responseType: 'blob',
+        }
+      );
     },
     onError: (error: any) => {
       if (error.code === 'ERR_NETWORK') {
@@ -81,11 +67,28 @@ export default function InvoiceGeneratorV3({
         error.message || 'We are updating our servers! Please try again later.'
       );
     },
-    onSuccess: (data: any) => {},
+    onSuccess: (data: any) => {
+      const mobile = isMobile();
+      const blob = new Blob([data.data], { type: 'application/pdf' });
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      if (mobile) {
+        window.open(blobUrl, '_blank'); // Open instead of download
+      } else {
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = 'invoice.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      window.URL.revokeObjectURL(blobUrl);
+      window.location.replace('/thanks');
+    },
   });
 
   const downloadInvoice = () => {
-    alert('Download invoice');
+    return generateInvoiceMutation.mutate(currentInvoice);
   };
 
   const { subTotal, grandTotal } = calculateInvoiceTotals({
@@ -150,7 +153,11 @@ export default function InvoiceGeneratorV3({
                               <input
                                 max={MAX_FILE_SIZE_BYTES}
                                 type="file"
-                                onChange={handleLogoChange}
+                                onChange={() =>
+                                  toast.info(
+                                    'Updating logo is not supported yet! It will be available soon.'
+                                  )
+                                }
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                 accept="image/png, image/jpeg, image/jpg"
                               />
