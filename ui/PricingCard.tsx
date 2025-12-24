@@ -1,5 +1,6 @@
-import { Check, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Check, CheckCircle, X } from 'lucide-react';
 
 interface Feature {
   text: string;
@@ -29,14 +30,15 @@ export function PricingCard({
   features,
   isHighlighted = false,
 }: PricingCardProps) {
+  console.log({ isHighlighted });
   return (
     <div
-      className={cn(
-        'relative flex flex-col rounded-3xl p-8 transition-all',
-        isHighlighted
-          ? 'border border-black bg-white text-black shadow-lg'
-          : 'border border-gray-200 bg-white text-black shadow-sm'
-      )}
+      style={{
+        borderColor: isHighlighted ? 'black' : '',
+      }}
+      className={`relative flex flex-col rounded-s-lg p-8 transition-all border text-black bg-white
+                ${isHighlighted ? 'shadow-xl' : 'shadow-sm'}
+          `}
     >
       <div className="mb-8">
         <div className="mb-4 flex items-center justify-between">
@@ -60,16 +62,28 @@ export function PricingCard({
             <div className="mb-6 text-sm text-black/60">{regularPrice}</div>
           )}
 
-          <button
-            className={cn(
-              'w-full rounded-xl py-2 text-base font-semibold transition-colors',
-              buttonVariant === 'default'
-                ? 'bg-black text-white hover:bg-black/90'
-                : 'bg-white text-black hover:bg-gray-50 border border-black'
-            )}
-          >
-            {buttonText}
-          </button>
+          {isHighlighted ? (
+            <Button
+              disabled={true}
+              className="w-full py-4 font-semibold"
+              variant="outline"
+              size="sm"
+            >
+              <CheckCircle /> Active
+            </Button>
+          ) : (
+            <Button
+              disabled={true}
+              className={cn(
+                'w-full rounded-xl py-2 text-base font-semibold transition-colors',
+                buttonVariant === 'default'
+                  ? 'bg-black text-white hover:bg-black/90'
+                  : 'bg-white text-black hover:bg-gray-50 border border-black'
+              )}
+            >
+              {buttonText}
+            </Button>
+          )}
         </div>
       </div>
 
