@@ -42,6 +42,7 @@ export const APP_PATHS = {
   SERVICES: '/services',
   CONTACT: '/contact',
   DASHBOARD: {
+    FEEDBACK: '/dashboard/feedback',
     HOME: '/dashboard',
     INVOICES: '/dashboard/invoices',
     PROFILE: '/dashboard/profile',

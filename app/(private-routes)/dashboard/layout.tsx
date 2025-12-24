@@ -1,10 +1,10 @@
 'use client';
 
-import Sidebar from '@/ui/Sidebar';
-import { Bell, Menu } from 'lucide-react';
-import { useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { BreadcrumbMenu } from '@/ui/Breadcrumb';
+import Sidebar from '@/ui/Sidebar';
+import { Bell, Sprout } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 export default function DashboardLayout({
   children,
@@ -26,9 +26,9 @@ export default function DashboardLayout({
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="cursor-default p-2 rounded-lg"
               >
-                <Menu className="w-6 h-6" />
+                <Sprout className="w-6 h-6" />
               </button>
               <BreadcrumbMenu items={pathsInArray} />
             </div>

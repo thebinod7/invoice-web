@@ -6,6 +6,7 @@ import {
   CreditCard,
   ExternalLink,
   FileStack,
+  Lightbulb,
   Mail,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -79,6 +80,17 @@ export default function Sidebar({ sidebarOpen, pathname }: any) {
               >
                 <CreditCard className="w-5 h-5" />
                 <span className="flex-1 text-left">Pro Subscription</span>
+              </Link>
+            </div>
+
+            <div className="mb-1">
+              <Link
+                href={APP_PATHS.DASHBOARD.FEEDBACK}
+                className={`w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg
+                  ${activePath === 'feedback' && 'bg-gray-100'}`}
+              >
+                <Lightbulb className="w-5 h-5" />
+                <span className="flex-1 text-left">Feedback</span>
               </Link>
             </div>
           </div>

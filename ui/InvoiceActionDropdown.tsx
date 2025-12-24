@@ -78,12 +78,11 @@ export function InvoiceActionDropdown({
     },
   });
 
-  const handleArchiveClick = () => {
+  const handleDeleteClick = () => {
     archiveInvoiceMutation.mutate({ invoiceId: rowId });
   };
 
   const handleEditClick = () => {
-    // Open on new tab
     window.open(`/edit-invoice/${rowId}`, '_blank');
   };
 
@@ -102,26 +101,27 @@ export function InvoiceActionDropdown({
             className="flex items-center gap-2 cursor-pointer"
           >
             <Download className="h-4 w-4" />
-            <span>Download</span>
+            <span>Download Now</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={handleEditClick}
             className="flex items-center gap-2 cursor-pointer"
           >
             <Pencil className="h-4 w-4" />
-            <span>Edit Invoice</span>
+            <span>Edit & Download</span>
           </DropdownMenuItem>{' '}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <ConfirmDialog
-          handleConfirm={handleArchiveClick}
+          message="Are you sure you want to delete this invoice?"
+          handleConfirm={handleDeleteClick}
           triggerButton={
             <Button
               variant="secondary"
               className="flex bg-white text-red-600 items-center gap-2 cursor-pointer"
             >
               <Archive className="h-4 w-4" />
-              <span>Archive</span>
+              <span>Delete</span>
             </Button>
           }
         />
