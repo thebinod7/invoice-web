@@ -21,7 +21,9 @@ import InvoiceDetailsBox from './InvoiceDetailsBox';
 import InvoiceDownloadAction from './InvoiceDownloadAction';
 import InvoiceHeaderSection from './InvoiceHeaderSection';
 import InvoiceSummary from './InvoiceSummary';
+import { calculateInvoiceTotals } from '@/app/helpers/helper';
 
+// TODO: Calculate tax, discount, subtotal and grand total
 export default function InvoiceGeneratorV3({
   currentInvoice,
   handleInputChange,
@@ -85,6 +87,12 @@ export default function InvoiceGeneratorV3({
   const downloadInvoice = () => {
     alert('Download invoice');
   };
+
+  const { subTotal, grandTotal } = calculateInvoiceTotals({
+    items: currentInvoice?.invoiceItems,
+    taxPercent: currentInvoice?.tax,
+    discountPercent: currentInvoice?.discount,
+  });
 
   const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);
 
@@ -391,10 +399,10 @@ export default function InvoiceGeneratorV3({
                 <AddInvoiceItem addListItem={addListItem} />
 
                 <InvoiceSummary
-                  tax={currentInvoice.tax || 0}
-                  discount={currentInvoice.discount || 0}
-                  subTotal={currentInvoice.subTotal}
-                  grandTotal={currentInvoice.grandTotal}
+                  tax={currentInvoice.tax}
+                  discount={currentInvoice.discount}
+                  subTotal={subTotal}
+                  grandTotal={grandTotal}
                   currencySymbol={currencySymbol}
                   handleInputChange={handleInputChange}
                 />

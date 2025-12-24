@@ -2,8 +2,8 @@ import { calculatePercentAmountOfTotal, formatCurrency } from '@/app/helpers';
 import React from 'react';
 
 export default function InvoiceSummary({
-  tax = 0,
-  discount = 0,
+  tax,
+  discount,
   subTotal,
   grandTotal,
   currencySymbol,
