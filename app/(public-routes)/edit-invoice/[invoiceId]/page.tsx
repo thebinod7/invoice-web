@@ -28,7 +28,6 @@ export default function page() {
     const updated = invoiceItems.map((item: IInvoiceItem, i: number) =>
       i === index ? { ...item, [field]: value } : item
     );
-    console.log('updated => ', updated);
     setInvoiceDetails((prev: any) => ({ ...prev, invoiceItems: updated }));
   };
 
@@ -68,7 +67,7 @@ export default function page() {
 
   console.log('invoiceDetails => ', invoiceDetails);
   if (!invoiceDetails)
-    return <div className="h-screen text-center mt-52">...</div>;
+    return <div className="h-screen text-center mt-52">Loading...</div>;
   return (
     <InvoiceGeneratorV3
       currentInvoice={invoiceDetails}

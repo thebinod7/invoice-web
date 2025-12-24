@@ -7,24 +7,17 @@ import {
   calculateFileSizeInMB,
   formatCurrency,
   getCurrencySymbolByName,
-  isMobile,
-  isoToDateInput,
 } from '@/app/helpers';
-import { saveInvoiceDetails } from '@/app/helpers/local-storage';
 import { postRequest } from '@/app/helpers/request';
 import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
 import {
   Building,
-  Calendar,
-  CreditCard,
   Download,
   FileText,
-  Hash,
   Loader2,
   Trash2,
   Upload,
-  User,
   X,
 } from 'lucide-react';
 import type React from 'react';
@@ -32,6 +25,8 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import AddInvoiceItem from './AddInvoiceItem';
 import AdditinalNote from './AdditinalNote';
+import CompanyDetails from './CompanyDetails';
+import InvoiceDetailsBox from './InvoiceDetailsBox';
 import InvoiceSummary from './InvoiceSummary';
 import ProgressDotIndicator from './ProgressDotIndicator';
 
@@ -48,7 +43,7 @@ export default function InvoiceGeneratorV3({
   removeListItem: (index: number) => void;
   addListItem: () => void;
 }) {
-  const [invoice, setInvoice] = useState(currentInvoice);
+  //=====================================================
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
 
@@ -64,7 +59,7 @@ export default function InvoiceGeneratorV3({
       reader.onloadend = () => {
         const result = reader.result as string;
         setLogoPreview(result);
-        setInvoice({ ...invoice, companyLogo: result });
+        // setInvoice({ ...invoice, companyLogo: result });
       };
       reader.readAsDataURL(file);
     }
@@ -92,40 +87,10 @@ export default function InvoiceGeneratorV3({
         error.message || 'We are updating our servers! Please try again later.'
       );
     },
-    onSuccess: (data: any) => {
-      saveInvoiceDetails({
-        senderDetails: invoice.senderDetails,
-        receiverDetails: invoice.receiverDetails,
-        currency: invoice.currency,
-        companyLogo: invoice.companyLogo,
-      });
-      const mobile = isMobile();
-      const blob = new Blob([data.data], { type: 'application/pdf' });
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      if (mobile) {
-        window.open(blobUrl, '_blank'); // Open instead of download
-      } else {
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.download = 'invoice.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-
-      window.URL.revokeObjectURL(blobUrl);
-      window.location.replace('/thanks');
-    },
+    onSuccess: (data: any) => {},
   });
 
-  const downloadInvoice = () => {
-    if (!invoice.senderDetails || !invoice.receiverDetails) {
-      return toast.error('Please enter sender and reciever details!');
-    }
-    const payload = {};
-    generateInvoiceMutation.mutate(payload);
-  };
+  const downloadInvoice = () => {};
 
   const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);
 
@@ -137,10 +102,6 @@ export default function InvoiceGeneratorV3({
           <div className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 px-4 sm:px-8 py-4 sm:py-6">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col md:flex-row md:items-center md:gap-8 gap-4">
-                {/* <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm w-fit">
-                  <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                </div> */}
-
                 <div>
                   <h1 className="text-xl sm:text-2xl font-bold text-white">
                     Invoice Generator
@@ -156,7 +117,7 @@ export default function InvoiceGeneratorV3({
                   </label>
                   <select
                     name="currency"
-                    value={invoice?.currency}
+                    value={currentInvoice?.currency}
                     onChange={handleInputChange}
                     className="min-w-44 px-3 text-xs py-2 border border-gray-300 rounded-md focus:outline-none"
                   >
@@ -234,127 +195,19 @@ export default function InvoiceGeneratorV3({
                     </div>
                   </div>
 
-                  {/* Company Details - Responsive Grid */}
-                  <div className="lg:col-span-2">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 flex items-center gap-2 flex-wrap">
-                          <User className="h-4 w-4 text-blue-600" />
-                          <span>Sender Details</span>
-                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                            Required
-                          </span>
-                        </label>
-                        <textarea
-                          name="senderDetails"
-                          value={currentInvoice.senderDetails || ''}
-                          onChange={(e) => handleInputChange(e)}
-                          rows={7}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
-                          placeholder={`Eg: XYZ Corporation\n123 Main Street, Suite 400 \n(555) 123-4567 \nbilling@xyz.com\nmore details...`}
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-700 flex items-center gap-2 flex-wrap">
-                          <Building className="h-4 w-4 text-blue-600" />
-                          <span>Receiver Details</span>
-                          <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                            Required
-                          </span>
-                        </label>
-                        <textarea
-                          name="receiverDetails"
-                          value={currentInvoice.receiverDetails || ''}
-                          onChange={(e) => handleInputChange(e)}
-                          rows={7}
-                          className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
-                          placeholder={`Eg: ABC Inc\n123 Main Street, Suite 400 \n(555) 123-5678 \nbilling@abc.com\nmore details...`}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <CompanyDetails
+                    senderDetails={currentInvoice.senderDetails}
+                    receiverDetails={currentInvoice.receiverDetails}
+                    handleInputChange={handleInputChange}
+                  />
                 </div>
               </div>
             </div>
 
-            {/* Invoice Details Section - Responsive Grid */}
-            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-              <div className="px-6 py-4 border-b border-slate-200">
-                <h3 className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
-                  <FileText className="h-5 w-5 text-purple-600" />
-                  Invoice Details
-                </h3>
-              </div>
-              <div className="p-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6">
-                  {' '}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                      <Hash className="h-4 w-4 text-purple-600" />
-                      Invoice Number
-                    </label>
-                    <input
-                      type="text"
-                      name="invoiceNumber"
-                      value={currentInvoice.invoiceNumber || ''}
-                      onChange={(e) => handleInputChange(e)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                      placeholder="INV-001"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                      <Calendar className="h-4 w-4 text-red-600" />
-                      Due Date
-                    </label>
-                    <input
-                      type="date"
-                      name="dueDate"
-                      value={
-                        currentInvoice.dueDate
-                          ? isoToDateInput(currentInvoice.dueDate)
-                          : ''
-                      }
-                      onChange={(e) => handleInputChange(e)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                      <Hash className="h-4 w-4 text-orange-600" />
-                      PO Number
-                    </label>
-                    <input
-                      type="text"
-                      name="poNumber"
-                      value={currentInvoice.poNumber || ''}
-                      onChange={(e) => handleInputChange(e)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                      placeholder="PO-12345"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700 flex items-center gap-2">
-                      <CreditCard className="h-4 w-4 text-orange-600" />
-                      Payment Terms
-                    </label>
-                    <input
-                      type="text"
-                      name="paymentTerms"
-                      value={currentInvoice.paymentTerms || ''}
-                      onChange={(e) => handleInputChange(e)}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10 sm:h-11"
-                      placeholder="Net 30 days"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <InvoiceDetailsBox
+              currentInvoice={currentInvoice}
+              handleInputChange={handleInputChange}
+            />
 
             {/* Line Items Section - Fully Responsive Table */}
             <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
@@ -469,106 +322,108 @@ export default function InvoiceGeneratorV3({
 
                 {/* Mobile/Tablet Card View */}
                 <div className="lg:hidden space-y-4">
-                  {invoice?.invoiceItems.map((item: IInvoiceItem, index) => (
-                    <div
-                      key={index}
-                      className="bg-white border border-slate-200 rounded-lg shadow-sm"
-                    >
-                      <div className="p-4 space-y-4">
-                        <div className="flex justify-between items-start">
-                          <h4 className="font-medium text-slate-900">
-                            Item #{index + 1}
-                          </h4>
-                          <button
-                            onClick={() => removeListItem(index)}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors duration-150"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </div>
-
-                        <div className="space-y-3">
-                          <div>
-                            <label className="text-sm font-medium text-slate-700 mb-1 block">
-                              Description
-                            </label>
-                            <input
-                              type="text"
-                              value={item.description}
-                              onChange={(e) =>
-                                updateListItem(
-                                  index,
-                                  'description',
-                                  e.target.value
-                                )
-                              }
-                              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
-                              placeholder="Item description"
-                            />
+                  {currentInvoice?.invoiceItems.map(
+                    (item: IInvoiceItem, index) => (
+                      <div
+                        key={index}
+                        className="bg-white border border-slate-200 rounded-lg shadow-sm"
+                      >
+                        <div className="p-4 space-y-4">
+                          <div className="flex justify-between items-start">
+                            <h4 className="font-medium text-slate-900">
+                              Item #{index + 1}
+                            </h4>
+                            <button
+                              onClick={() => removeListItem(index)}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors duration-150"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
                           </div>
 
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="space-y-3">
                             <div>
                               <label className="text-sm font-medium text-slate-700 mb-1 block">
-                                Quantity
+                                Description
                               </label>
                               <input
-                                type="number"
-                                value={item.quantity}
+                                type="text"
+                                value={item.description}
                                 onChange={(e) =>
                                   updateListItem(
                                     index,
-                                    'quantity',
+                                    'description',
                                     e.target.value
                                   )
                                 }
                                 className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
-                                placeholder="0"
-                                step="1"
+                                placeholder="Item description"
                               />
                             </div>
-                            <div>
-                              <label className="text-sm font-medium text-slate-700 mb-1 block">
-                                Rate
-                              </label>
-                              <input
-                                type="number"
-                                value={item.unitPrice || ''}
-                                onChange={(e) =>
-                                  updateListItem(
-                                    index,
-                                    'unitPrice',
-                                    e.target.value
-                                  )
-                                }
-                                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
-                                placeholder="0.00"
-                                min="0"
-                                step="1"
-                              />
-                            </div>
-                          </div>
 
-                          <div className="pt-2 border-t border-slate-200">
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-medium text-slate-700">
-                                Amount:
-                              </span>
-                              <span className="text-lg font-bold text-slate-900">
-                                {
-                                  (formatCurrency(
-                                    Number.parseInt(item.quantity || '0') *
-                                      Number.parseFloat(item.unitPrice || '0')
-                                  ),
-                                  currencySymbol)
-                                }
-                              </span>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div>
+                                <label className="text-sm font-medium text-slate-700 mb-1 block">
+                                  Quantity
+                                </label>
+                                <input
+                                  type="number"
+                                  value={item.quantity}
+                                  onChange={(e) =>
+                                    updateListItem(
+                                      index,
+                                      'quantity',
+                                      e.target.value
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
+                                  placeholder="0"
+                                  step="1"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-sm font-medium text-slate-700 mb-1 block">
+                                  Rate
+                                </label>
+                                <input
+                                  type="number"
+                                  value={item.unitPrice || ''}
+                                  onChange={(e) =>
+                                    updateListItem(
+                                      index,
+                                      'unitPrice',
+                                      e.target.value
+                                    )
+                                  }
+                                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
+                                  placeholder="0.00"
+                                  min="0"
+                                  step="1"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="pt-2 border-t border-slate-200">
+                              <div className="flex justify-between items-center">
+                                <span className="text-sm font-medium text-slate-700">
+                                  Amount:
+                                </span>
+                                <span className="text-lg font-bold text-slate-900">
+                                  {
+                                    (formatCurrency(
+                                      Number.parseInt(item.quantity || '0') *
+                                        Number.parseFloat(item.unitPrice || '0')
+                                    ),
+                                    currencySymbol)
+                                  }
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
 
                 <AddInvoiceItem addListItem={addListItem} />
