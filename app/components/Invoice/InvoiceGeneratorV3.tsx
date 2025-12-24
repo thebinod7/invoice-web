@@ -2,7 +2,6 @@
 
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
-import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import {
   calculateFileSizeInMB,
   formatCurrency,
@@ -11,15 +10,7 @@ import {
 import { postRequest } from '@/app/helpers/request';
 import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
-import {
-  Building,
-  Download,
-  FileText,
-  Loader2,
-  Trash2,
-  Upload,
-  X,
-} from 'lucide-react';
+import { Building, FileText, Trash2, Upload, X } from 'lucide-react';
 import type React from 'react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -27,8 +18,9 @@ import AddInvoiceItem from './AddInvoiceItem';
 import AdditinalNote from './AdditinalNote';
 import CompanyDetails from './CompanyDetails';
 import InvoiceDetailsBox from './InvoiceDetailsBox';
+import InvoiceDownloadAction from './InvoiceDownloadAction';
+import InvoiceHeaderSection from './InvoiceHeaderSection';
 import InvoiceSummary from './InvoiceSummary';
-import ProgressDotIndicator from './ProgressDotIndicator';
 
 export default function InvoiceGeneratorV3({
   currentInvoice,
@@ -90,7 +82,9 @@ export default function InvoiceGeneratorV3({
     onSuccess: (data: any) => {},
   });
 
-  const downloadInvoice = () => {};
+  const downloadInvoice = () => {
+    alert('Download invoice');
+  };
 
   const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);
 
@@ -99,42 +93,10 @@ export default function InvoiceGeneratorV3({
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
           {/* Header Section - Fully Responsive */}
-          <div className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 px-4 sm:px-8 py-4 sm:py-6">
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col md:flex-row md:items-center md:gap-8 gap-4">
-                <div>
-                  <h1 className="text-xl sm:text-2xl font-bold text-white">
-                    Invoice Generator
-                  </h1>
-                  <p className="text-slate-300 text-xs sm:text-sm">
-                    Create professional invoices instantly
-                  </p>
-                </div>
-
-                <div className="md:ml-auto">
-                  <label className="block text-lg font-bold text-white mb-1">
-                    Select Currency
-                  </label>
-                  <select
-                    name="currency"
-                    value={currentInvoice?.currency}
-                    onChange={handleInputChange}
-                    className="min-w-44 px-3 text-xs py-2 border border-gray-300 rounded-md focus:outline-none"
-                  >
-                    {SUPPORTED_CURRENCIES.map((item) => (
-                      <option
-                        className="text-xs"
-                        key={item.value}
-                        value={item.value}
-                      >
-                        {item.label} ({item.symbol})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+          <InvoiceHeaderSection
+            currency={currentInvoice?.currency}
+            handleInputChange={handleInputChange}
+          />
 
           <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
             {/* Company Information Section - Responsive Grid */}
@@ -444,59 +406,10 @@ export default function InvoiceGeneratorV3({
               handleInputChange={handleInputChange}
             />
 
-            <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-700 to-green-600 rounded-xl shadow-lg p-6">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-violet-400/20 animate-pulse"></div>
-
-              <div className="relative flex flex-col sm:flex-row gap-4 items-center justify-between">
-                <div className="text-center sm:text-left">
-                  <p className="text-white font-semibold text-base">
-                    Ready to generate your invoice?
-                  </p>
-                  <p className="text-purple-100 text-sm mt-1">
-                    Review all information before generating
-                  </p>
-                </div>
-
-                <button
-                  onClick={downloadInvoice}
-                  disabled={generateInvoiceMutation.isPending}
-                  className={`
-         group relative w-full sm:w-auto min-w-[180px] font-semibold py-3 px-8 rounded-lg 
-        transition-all duration-300 transform hover:scale-105 active:scale-95
-        flex items-center justify-center gap-3 text-base
-        ${
-          generateInvoiceMutation.isPending
-            ? 'bg-white/90 text-emerald-600 cursor-not-allowed'
-            : 'bg-white hover:bg-emerald-50 text-emerald-600 shadow-lg hover:shadow-xl'
-        }
-      `}
-                >
-                  {/* Loading overlay */}
-                  {generateInvoiceMutation.isPending && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg animate-pulse"></div>
-                  )}
-
-                  {/* Button content */}
-                  <div className="relative flex items-center gap-3">
-                    {generateInvoiceMutation.isPending ? (
-                      <>
-                        <Loader2 className="h-5 w-5 animate-spin text-emerald-500" />
-                        <span className="font-medium">
-                          Generating Invoice...
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <Download className="h-5 w-5 transition-transform group-hover:translate-y-[-2px]" />
-                        <span>Generate Invoice</span>
-                      </>
-                    )}
-                  </div>
-                </button>
-              </div>
-
-              {generateInvoiceMutation.isPending && <ProgressDotIndicator />}
-            </div>
+            <InvoiceDownloadAction
+              handleDownloadClick={downloadInvoice}
+              isPending={generateInvoiceMutation.isPending}
+            />
           </div>
         </div>
       </div>
