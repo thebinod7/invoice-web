@@ -5,19 +5,14 @@ import { API_ROUTES } from '@/app/constants/api-routes';
 import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import {
   calculateFileSizeInMB,
-  calculatePercentAmountOfTotal,
   formatCurrency,
   getCurrencySymbolByName,
   isMobile,
   isoToDateInput,
 } from '@/app/helpers';
-import {
-  getInvoiceDetails,
-  saveInvoiceDetails,
-} from '@/app/helpers/local-storage';
+import { saveInvoiceDetails } from '@/app/helpers/local-storage';
 import { postRequest } from '@/app/helpers/request';
-import { calculateGrandTotal } from '@/app/hooks/useGrandTotal';
-import { IInvoiceDetails, IInvoiceItem, ILineItem } from '@/app/types';
+import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
 import {
   Building,
@@ -27,18 +22,18 @@ import {
   FileText,
   Hash,
   Loader2,
-  MessageSquare,
   Trash2,
   Upload,
   User,
   X,
 } from 'lucide-react';
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import AddInvoiceItem from './AddInvoiceItem';
-
-const initialLineItems = [{ title: '', quantity: '', rate: '' }];
+import AdditinalNote from './AdditinalNote';
+import InvoiceSummary from './InvoiceSummary';
+import ProgressDotIndicator from './ProgressDotIndicator';
 
 export default function InvoiceGeneratorV3({
   currentInvoice,
@@ -54,7 +49,6 @@ export default function InvoiceGeneratorV3({
   addListItem: () => void;
 }) {
   const [invoice, setInvoice] = useState(currentInvoice);
-  const [lineItems, setLineItems] = useState(initialLineItems);
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
 
@@ -125,55 +119,13 @@ export default function InvoiceGeneratorV3({
     },
   });
 
-  const calculateSubtotal = (items: ILineItem[]) => {
-    let subTotalAmount = 0;
-
-    items.forEach((item: any) => {
-      item.total =
-        parseFloat(item.rate || '0') * parseInt(item.quantity || '1');
-      subTotalAmount += item.total;
-    });
-    setInvoice({
-      ...invoice,
-      subTotal: +subTotalAmount.toFixed(2),
-    });
-  };
-
-  const finalTotal = calculateGrandTotal({
-    items: lineItems,
-    tax: Number(invoice?.tax) || 0,
-    discount: Number(invoice?.discount) || 0,
-  });
-
   const downloadInvoice = () => {
     if (!invoice.senderDetails || !invoice.receiverDetails) {
       return toast.error('Please enter sender and reciever details!');
     }
-    const payload = {
-      ...invoice,
-      invoiceItems: lineItems,
-      subTotal: Number(invoice?.subTotal) || 0,
-      dueAmount: finalTotal,
-      tax: calculatePercentAmountOfTotal(
-        invoice.subTotal,
-        Number(invoice?.tax) || 0
-      ),
-      discount: calculatePercentAmountOfTotal(
-        invoice.subTotal,
-        invoice?.discount || 0
-      ),
-      currency: getCurrencySymbolByName(invoice.currency),
-    };
+    const payload = {};
     generateInvoiceMutation.mutate(payload);
   };
-
-  useEffect(() => {
-    const storedInvoice = getInvoiceDetails();
-    if (!storedInvoice) return;
-    const { companyLogo, ...rest } = storedInvoice;
-    if (rest) setInvoice({ ...invoice, ...rest, companyLogo });
-    if (companyLogo) setLogoPreview(companyLogo);
-  }, []);
 
   const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);
 
@@ -621,124 +573,21 @@ export default function InvoiceGeneratorV3({
 
                 <AddInvoiceItem addListItem={addListItem} />
 
-                {/* Totals Section - Responsive */}
-                <div className="mt-8 space-y-4">
-                  <div className="border-t-2 border-slate-200 pt-6">
-                    {/* Subtotal */}
-                    <div className="flex justify-between items-center py-2">
-                      <span className="font-medium text-slate-700">
-                        Subtotal:
-                      </span>
-                      <span className="font-semibold text-slate-900 text-lg">
-                        {formatCurrency(invoice.subTotal, currencySymbol)}
-                      </span>
-                    </div>
-
-                    {/* Discount */}
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm text-slate-600">
-                          Discount (%):
-                        </label>
-                        <input
-                          type="number"
-                          name="discount"
-                          value={currentInvoice.discount}
-                          onChange={(e) => handleInputChange(e)}
-                          className="w-20 h-8 px-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="0"
-                          min="0"
-                          step="0.1"
-                        />
-                      </div>
-                      <div className="flex justify-between sm:justify-end items-center gap-4">
-                        <span className="text-sm text-slate-700">
-                          Discount:
-                        </span>
-                        <span className="font-medium text-green-600">
-                          -
-                          {formatCurrency(
-                            calculatePercentAmountOfTotal(
-                              currentInvoice.subTotal,
-                              currentInvoice?.discount || 0
-                            ),
-                            currencySymbol
-                          )}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Tax */}
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
-                      <div className="flex items-center gap-2">
-                        <label className="text-sm text-slate-600">
-                          Tax Rate (%):
-                        </label>
-                        <input
-                          type="number"
-                          name="tax"
-                          value={currentInvoice.tax}
-                          onChange={(e) => handleInputChange(e)}
-                          className="w-20 h-8 px-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="0"
-                          min="0"
-                          step="0.1"
-                        />
-                      </div>
-                      <div className="flex justify-between sm:justify-end items-center gap-4">
-                        <span className="text-sm text-slate-700">Tax:</span>
-                        <span className="font-medium text-slate-900">
-                          {formatCurrency(
-                            calculatePercentAmountOfTotal(
-                              currentInvoice.subTotal,
-                              Number(currentInvoice?.tax) || 0
-                            ),
-                            currencySymbol
-                          )}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Total */}
-                    <div className="border-t border-slate-200 pt-4 mt-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xl font-bold text-slate-800">
-                          Total:
-                        </span>
-                        <span className="text-2xl font-bold text-slate-900">
-                          {formatCurrency(
-                            currentInvoice.grandTotal,
-                            currencySymbol
-                          )}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Notes Section - Compact */}
-            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-              <div className="px-4 py-3 border-b border-slate-200">
-                <h3 className="flex items-center gap-2 text-slate-800 text-base font-semibold">
-                  <MessageSquare className="h-4 w-4 text-indigo-600" />
-                  Additional Notes
-                </h3>
-              </div>
-              <div className="p-4">
-                <textarea
-                  name="additionalNote"
-                  value={currentInvoice.additionalNote || ''}
-                  onChange={(e) => handleInputChange(e)}
-                  rows={3}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-vertical text-sm"
-                  placeholder="Add any additional notes, terms, or payment instructions..."
+                <InvoiceSummary
+                  tax={currentInvoice.tax || 0}
+                  discount={currentInvoice.discount || 0}
+                  subTotal={currentInvoice.subTotal}
+                  grandTotal={currentInvoice.grandTotal}
+                  currencySymbol={currencySymbol}
+                  handleInputChange={handleInputChange}
                 />
               </div>
             </div>
 
-            {/* Generate Invoice Button - Compact */}
+            <AdditinalNote
+              value={currentInvoice.additionalNote || ''}
+              handleInputChange={handleInputChange}
+            />
 
             <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-emerald-700 to-green-600 rounded-xl shadow-lg p-6">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-violet-400/20 animate-pulse"></div>
@@ -791,14 +640,7 @@ export default function InvoiceGeneratorV3({
                 </button>
               </div>
 
-              {/* Progress dots indicator */}
-              {generateInvoiceMutation.isPending && (
-                <div className="flex justify-center mt-4 gap-1">
-                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                  <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
-                </div>
-              )}
+              {generateInvoiceMutation.isPending && <ProgressDotIndicator />}
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ export interface IInvoiceDetails {
   paymentTerms?: string;
   tax?: number;
   discount?: number;
-  additionalNote?: number;
+  additionalNote?: string;
 }
 
 export interface IInvoiceItem {
