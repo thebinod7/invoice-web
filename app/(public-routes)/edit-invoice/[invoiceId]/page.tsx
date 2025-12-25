@@ -65,13 +65,13 @@ export default function page() {
     }
   }, [result]);
 
-  console.log('invoiceDetails => ', invoiceDetails);
   if (!invoiceDetails)
     return <div className="h-screen text-center mt-52">Loading...</div>;
   return (
     <InvoiceGeneratorV3
       invoiceId={invoiceId as string}
       currentInvoice={invoiceDetails}
+      setCurrentInvoice={setInvoiceDetails}
       handleInputChange={handleInputChange}
       updateListItem={updateListItem}
       removeListItem={removeListItem}

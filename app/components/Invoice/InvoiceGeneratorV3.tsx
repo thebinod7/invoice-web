@@ -3,6 +3,7 @@
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import {
+  calculateFileSizeInMB,
   formatCurrency,
   getCurrencySymbolByName,
   isMobile,
@@ -26,6 +27,7 @@ import InvoiceSummary from './InvoiceSummary';
 export default function InvoiceGeneratorV3({
   invoiceId,
   currentInvoice,
+  setCurrentInvoice,
   handleInputChange,
   updateListItem,
   removeListItem,
@@ -34,6 +36,9 @@ export default function InvoiceGeneratorV3({
   invoiceId: string;
   handleInputChange: (e: any) => void;
   currentInvoice: IInvoiceDetails;
+  setCurrentInvoice: React.Dispatch<
+    React.SetStateAction<IInvoiceDetails | null>
+  >;
   updateListItem: (index: number, field: string, value: string) => void;
   removeListItem: (index: number) => void;
   addListItem: () => void;
@@ -45,6 +50,25 @@ export default function InvoiceGeneratorV3({
   const clearUploadedLogo = () => {
     setLogoPreview('');
     setFileName('');
+  };
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    const fileSize = +calculateFileSizeInMB(file?.size || 0);
+    if (fileSize > MAX_FILE_SIZE) {
+      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
+    }
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setLogoPreview(result);
+        setCurrentInvoice({ ...currentInvoice, companyLogoUrl: result });
+      };
+      reader.readAsDataURL(file);
+    }
+    setFileName(file?.name || '');
   };
 
   const generateInvoiceMutation = useMutation({
@@ -153,11 +177,7 @@ export default function InvoiceGeneratorV3({
                               <input
                                 max={MAX_FILE_SIZE_BYTES}
                                 type="file"
-                                onChange={() =>
-                                  toast.info(
-                                    'Updating logo is not supported yet! It will be available soon.'
-                                  )
-                                }
+                                onChange={handleLogoChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                 accept="image/png, image/jpeg, image/jpg"
                               />
