@@ -22,7 +22,7 @@ export interface IInvoiceDetails {
   receiverDetails: string;
   currency: string;
   invoiceNumber: string;
-  invoiceItems: [];
+  invoiceItems: InvoiceItemInput[];
   subTotal: number;
   grandTotal: number;
   dueDate?: string;
