@@ -19,6 +19,7 @@ import {
   formatCurrency,
   getCurrencySymbolByName,
   isMobile,
+  sanitizeError,
 } from '@/app/helpers';
 import {
   calculateInvoiceTotals,
@@ -109,6 +110,30 @@ export default function page() {
     setCurrentInvoice((prev: any) => ({ ...prev, invoiceItems: updated }));
   };
 
+  const downloadOnlyMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(`${API_ROUTES.APP}/download-invoice`, payload, {
+        responseType: 'blob',
+      });
+    },
+    onError: (error: any) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: (data: any) => {
+      const mobile = isMobile();
+      const blob = new Blob([data.data], { type: 'application/pdf' });
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      if (mobile) {
+        window.open(blobUrl, '_blank');
+      } else {
+        downloadFromBlobUrl(blobUrl, 'invoice.pdf');
+      }
+      window.URL.revokeObjectURL(blobUrl);
+      window.location.replace('/thanks');
+    },
+  });
+
   const generateInvoiceMutation = useMutation({
     mutationFn: (payload: any) => {
       return postRequest(`${API_ROUTES.INVOICES}`, payload, {
@@ -131,7 +156,7 @@ export default function page() {
       const blobUrl = window.URL.createObjectURL(blob);
 
       if (mobile) {
-        window.open(blobUrl, '_blank'); // Open instead of download
+        window.open(blobUrl, '_blank');
       } else {
         downloadFromBlobUrl(blobUrl, 'invoice.pdf');
       }
@@ -163,6 +188,7 @@ export default function page() {
     if (isLoggedIn) {
       return generateInvoiceMutation.mutate(payload);
     }
+    return downloadOnlyMutation.mutate(payload);
   };
 
   const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);

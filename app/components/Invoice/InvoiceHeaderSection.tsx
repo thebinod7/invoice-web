@@ -10,7 +10,7 @@ export default function InvoiceHeaderSection({
   handleInputChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
   return (
-    <div className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 px-4 sm:px-8 py-4 sm:py-6">
+    <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-neutral-200 px-4 sm:px-8 py-4 sm:py-6">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col md:flex-row md:items-center md:gap-8 gap-4">
           <div>
