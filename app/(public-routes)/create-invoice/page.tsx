@@ -7,15 +7,23 @@ import InvoiceDetailsBox from '@/app/components/Invoice/InvoiceDetailsBox';
 import InvoiceDownloadAction from '@/app/components/Invoice/InvoiceDownloadAction';
 import InvoiceHeaderSection from '@/app/components/Invoice/InvoiceHeaderSection';
 import InvoiceSummary from '@/app/components/Invoice/InvoiceSummary';
-import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
+import {
+  DEFAULT_CURRENCY,
+  MAX_FILE_SIZE,
+  MAX_FILE_SIZE_BYTES,
+} from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
+import { useAuthContext } from '@/app/context/useAuthContext';
 import {
   calculateFileSizeInMB,
   formatCurrency,
   getCurrencySymbolByName,
   isMobile,
 } from '@/app/helpers';
-import { calculateInvoiceTotals } from '@/app/helpers/helper';
+import {
+  calculateInvoiceTotals,
+  downloadFromBlobUrl,
+} from '@/app/helpers/helper';
 import { postRequest } from '@/app/helpers/request';
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
@@ -26,19 +34,21 @@ import { toast } from 'sonner';
 
 export default function page() {
   //=====================================================
+  const { isLoggedIn } = useAuthContext();
+
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
   const [currentInvoice, setCurrentInvoice] = useState<IInvoiceDetails>({
     companyLogoUrl: '',
-    senderDetails: 'Rumsan Associates',
-    receiverDetails: 'PlasticBank Pvt. Ltd.',
-    currency: 'USD',
+    senderDetails: '',
+    receiverDetails: '',
+    currency: DEFAULT_CURRENCY,
     invoiceNumber: '',
     dueDate: '',
-    paymentTerms: 'Good terms',
-    poNumber: 'PO-123',
-    invoiceItems: [{ description: '', quantity: 0, unitPrice: 0 }],
-    additionalNote: 'Nice working with you',
+    paymentTerms: '',
+    poNumber: '',
+    invoiceItems: [{ description: 'Item 1', quantity: 1, unitPrice: 100 }],
+    additionalNote: '',
     tax: 0,
     discount: 0,
     subTotal: 0,
@@ -101,7 +111,6 @@ export default function page() {
 
   const generateInvoiceMutation = useMutation({
     mutationFn: (payload: any) => {
-      console.log('Payload==>', payload);
       return postRequest(`${API_ROUTES.INVOICES}`, payload, {
         responseType: 'blob',
       });
@@ -124,12 +133,7 @@ export default function page() {
       if (mobile) {
         window.open(blobUrl, '_blank'); // Open instead of download
       } else {
-        const link = document.createElement('a');
-        link.href = blobUrl;
-        link.download = 'invoice.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        downloadFromBlobUrl(blobUrl, 'invoice.pdf');
       }
       window.URL.revokeObjectURL(blobUrl);
       window.location.replace('/thanks');
@@ -143,13 +147,22 @@ export default function page() {
   });
 
   const downloadInvoice = () => {
+    if (
+      !currentInvoice.senderDetails ||
+      !currentInvoice.receiverDetails ||
+      !currentInvoice.invoiceItems.length
+    ) {
+      return toast.error('Please fill all the required fields');
+    }
     const payload = {
       ...currentInvoice,
       subTotal,
       grandTotal,
     };
     if (!payload.dueDate) delete payload.dueDate;
-    return generateInvoiceMutation.mutate(payload);
+    if (isLoggedIn) {
+      return generateInvoiceMutation.mutate(payload);
+    }
   };
 
   const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency);
@@ -243,7 +256,10 @@ export default function page() {
                 <h3 className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
                     <FileText className="h-5 w-5 text-emerald-600" />
-                    Invoice Items
+                    Invoice Items{' '}
+                    <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+                      Required
+                    </span>
                   </span>
                 </h3>
               </div>

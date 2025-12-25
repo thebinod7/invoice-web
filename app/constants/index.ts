@@ -95,3 +95,4 @@ export const INVOICE_STATUS = {
   PAID: 'PAID',
   CANCELLED: 'CANCELLED',
 };
+export const DEFAULT_CURRENCY = 'USD';

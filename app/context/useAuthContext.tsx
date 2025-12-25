@@ -54,7 +54,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       credentials: 'include',
     });
     const json = await res.json();
-    console.log('json', json);
     clearLocalStorage();
     setIsLoggedIn(false);
     setCurrentUser(null);

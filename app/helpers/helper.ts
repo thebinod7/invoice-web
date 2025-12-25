@@ -1,5 +1,14 @@
 import { InvoiceItemInput } from '../types';
 
+export const downloadFromBlobUrl = (blobUrl: string, fileName: string) => {
+  const link = document.createElement('a');
+  link.href = blobUrl;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 export interface CalculatedInvoiceItem extends InvoiceItemInput {
   rowTotal: number;
 }
