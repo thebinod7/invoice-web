@@ -10,7 +10,7 @@ import {
 } from '@/app/helpers';
 import { calculateInvoiceTotals } from '@/app/helpers/helper';
 import { postRequest } from '@/app/helpers/request';
-import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
+import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
 import { Building, FileText, Trash2, Upload, X } from 'lucide-react';
 import type React from 'react';
@@ -238,7 +238,7 @@ export default function InvoiceGeneratorV3({
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {currentInvoice.invoiceItems.map(
-                        (item: IInvoiceItem, index) => (
+                        (item: InvoiceItemInput, index) => (
                           <tr
                             key={index}
                             className="hover:bg-slate-50/50 transition-colors duration-150"
@@ -297,10 +297,7 @@ export default function InvoiceGeneratorV3({
                                   <span className="text-sm text-slate-600">
                                     {currencySymbol}
                                   </span>
-                                  {(
-                                    Number.parseInt(item.quantity || '0') *
-                                    Number.parseFloat(item.unitPrice || '0')
-                                  ).toFixed(2)}
+                                  {(item.quantity * item.unitPrice).toFixed(2)}
                                 </div>
                                 <button
                                   onClick={() => removeListItem(index)}
@@ -320,7 +317,7 @@ export default function InvoiceGeneratorV3({
                 {/* Mobile/Tablet Card View */}
                 <div className="lg:hidden space-y-4">
                   {currentInvoice?.invoiceItems.map(
-                    (item: IInvoiceItem, index) => (
+                    (item: InvoiceItemInput, index) => (
                       <div
                         key={index}
                         className="bg-white border border-slate-200 rounded-lg shadow-sm"
@@ -408,8 +405,7 @@ export default function InvoiceGeneratorV3({
                                 <span className="text-lg font-bold text-slate-900">
                                   {
                                     (formatCurrency(
-                                      Number.parseInt(item.quantity || '0') *
-                                        Number.parseFloat(item.unitPrice || '0')
+                                      item.quantity * item.unitPrice
                                     ),
                                     currencySymbol)
                                   }

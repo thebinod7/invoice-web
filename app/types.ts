@@ -33,8 +33,8 @@ export interface IInvoiceDetails {
   additionalNote?: string;
 }
 
-export interface IInvoiceItem {
+export interface InvoiceItemInput {
   description: string;
-  quantity: string;
-  unitPrice: string;
+  quantity: number;
+  unitPrice: number;
 }

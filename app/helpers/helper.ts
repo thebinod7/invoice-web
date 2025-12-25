@@ -1,8 +1,5 @@
-export interface InvoiceItemInput {
-  description: string;
-  quantity: number;
-  unitPrice: number;
-}
+import { InvoiceItemInput } from '../types';
+
 export interface CalculatedInvoiceItem extends InvoiceItemInput {
   rowTotal: number;
 }

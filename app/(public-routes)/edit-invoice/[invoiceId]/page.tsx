@@ -1,7 +1,7 @@
 'use client';
 import InvoiceGeneratorV3 from '@/app/components/Invoice/InvoiceGeneratorV3';
 import { useGetInvoiceById } from '@/app/hooks/backend/invoice.hook';
-import { IInvoiceDetails, IInvoiceItem } from '@/app/types';
+import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -25,7 +25,7 @@ export default function page() {
 
   const updateListItem = (index: number, field: string, value: string) => {
     const invoiceItems = invoiceDetails?.invoiceItems || [];
-    const updated = invoiceItems.map((item: IInvoiceItem, i: number) =>
+    const updated = invoiceItems.map((item: InvoiceItemInput, i: number) =>
       i === index ? { ...item, [field]: value } : item
     );
     setInvoiceDetails((prev: any) => ({ ...prev, invoiceItems: updated }));
