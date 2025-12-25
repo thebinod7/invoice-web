@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { MAX_FILE_SIZE } from '@/app/constants';
+import { DEFAULT_CURRENCY, MAX_FILE_SIZE } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import {
   calculateFileSizeInMB,
@@ -21,8 +21,6 @@ import CompanyLogo from '../CompanyLogo';
 import InvoiceHeader from '../InvoiceHeader';
 import TableFooter from '../TableFooter';
 import LineItemsTableHead from './LineItemsTableHead';
-
-const DEFAULT_CURRENCY = 'USD';
 
 export default function InvoiceGenerator() {
   const router = useRouter();

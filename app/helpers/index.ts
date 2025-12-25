@@ -33,6 +33,7 @@ import {
   SUPPORTED_CURRENCIES,
   SYMBOL_SUPPORTED_CURRENCIES,
 } from '../constants/currency';
+import { DEFAULT_CURRENCY } from '../constants';
 
 export const sanitizeError = (error: any) => {
   if (error?.response?.data?.message) {
@@ -82,7 +83,10 @@ export const calculateFileSizeInMB = (bytes: number) => {
   return mb.toFixed(2);
 };
 
-export const formatCurrency = (amount: number, currencyCode = 'USD') => {
+export const formatCurrency = (
+  amount: number,
+  currencyCode = DEFAULT_CURRENCY
+) => {
   try {
     const options: {
       code: string;

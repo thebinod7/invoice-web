@@ -1,8 +1,9 @@
+import { DEFAULT_CURRENCY } from '@/app/constants';
 import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import React from 'react';
 
 export default function InvoiceHeaderSection({
-  currency = 'USD',
+  currency = DEFAULT_CURRENCY,
   handleInputChange,
 }: {
   currency: string;

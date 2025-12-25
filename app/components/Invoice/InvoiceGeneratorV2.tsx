@@ -1,6 +1,10 @@
 'use client';
 
-import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
+import {
+  DEFAULT_CURRENCY,
+  MAX_FILE_SIZE,
+  MAX_FILE_SIZE_BYTES,
+} from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import {
@@ -36,8 +40,6 @@ import {
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-
-const DEFAULT_CURRENCY = 'USD';
 
 const invoiceInitial = {
   companyLogo: '',
