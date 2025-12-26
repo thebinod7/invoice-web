@@ -31,9 +31,6 @@ export default function MagicLinkLogin() {
     onSuccess: () => {
       setStatus('success');
     },
-    onSettled: () => {
-      setEmail('');
-    },
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
