@@ -88,7 +88,7 @@ export const PRICING = {
     ],
   },
   STARTER: {
-    price: '3.99',
+    price: 'xxx',
     plan: 'Starter',
     features: [
       { text: 'Everything in Free', enabled: true },

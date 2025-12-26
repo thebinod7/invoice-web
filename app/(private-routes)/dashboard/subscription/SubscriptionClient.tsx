@@ -24,7 +24,7 @@ export default function SubscriptionClient() {
           <PricingCard
             plan={PRICING.STARTER.plan}
             price={`$${PRICING.STARTER.price}`}
-            priceDetail="/month"
+            priceDetail="/year"
             buttonText="Get started now"
             buttonVariant="secondary"
             isHighlighted={false}

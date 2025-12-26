@@ -56,13 +56,15 @@ export function ProfileDropdown({
         <DropdownMenuGroup>
           <Link href={APP_PATHS.DASHBOARD.PROFILE}>
             <DropdownMenuItem className="cursor-pointer">
-              Profile
+              My Profile
             </DropdownMenuItem>
           </Link>
 
-          <DropdownMenuItem className="cursor-pointer">
-            Settings
-          </DropdownMenuItem>
+          <Link href={APP_PATHS.DASHBOARD.SUBSCRIPTION}>
+            <DropdownMenuItem className="cursor-pointer">
+              Subscription
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onClick={doLogout}>

@@ -3,11 +3,10 @@ import { useAuthContext } from '@/app/context/useAuthContext';
 import { ICurrentUser } from '@/app/types';
 import {
   ChartNoAxesColumn,
-  CreditCard,
   ExternalLink,
   FileStack,
   Lightbulb,
-  Mail,
+  Plus,
 } from 'lucide-react';
 import Link from 'next/link';
 import { ProfileDropdown } from './ProfileDropdown';
@@ -58,6 +57,20 @@ export default function Sidebar({ sidebarOpen, pathname }: any) {
           </Link>
 
           <div className="mt-6">
+            {/* New Invoice Section */}
+            <div className="mb-1">
+              <Link
+                target="_blank"
+                href={APP_PATHS.CREATE_INVOICE}
+                className={`
+                  ${activePath === 'new-invoice' && 'bg-gray-100'}
+                  w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg`}
+              >
+                <Plus className="w-5 h-5" />
+                <span className="flex-1 text-left">New Invoice</span>
+              </Link>
+            </div>
+
             {/* Invoice Section */}
             <div className="mb-1">
               <Link
@@ -72,7 +85,7 @@ export default function Sidebar({ sidebarOpen, pathname }: any) {
             </div>
 
             {/* Billing Section */}
-            <div className="mb-1">
+            {/* <div className="mb-1">
               <Link
                 href={APP_PATHS.DASHBOARD.SUBSCRIPTION}
                 className={`w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg
@@ -81,7 +94,7 @@ export default function Sidebar({ sidebarOpen, pathname }: any) {
                 <CreditCard className="w-5 h-5" />
                 <span className="flex-1 text-left">Pro Subscription</span>
               </Link>
-            </div>
+            </div> */}
 
             <div className="mb-1">
               <Link
