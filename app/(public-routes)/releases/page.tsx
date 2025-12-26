@@ -7,6 +7,7 @@ import {
   Home,
   Image,
   LayoutTemplate,
+  List,
   Newspaper,
   Search,
   ShieldAlert,
@@ -26,6 +27,15 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
   {
+    id: '190',
+    title: 'Invoice history',
+    description: 'A new feature that allows you to view your invoice history.',
+    date: '2025-12-28',
+    version: 'v2.0.0',
+    icon: List,
+    isNew: true,
+  },
+  {
     id: '191',
     title: 'Branding updates',
     description:
@@ -33,7 +43,7 @@ const featureReleases: FeatureRelease[] = [
     date: '2025-12-16',
     version: 'v1.2.4',
     icon: LayoutTemplate,
-    isNew: true,
+    isNew: false,
   },
   {
     id: '192',
