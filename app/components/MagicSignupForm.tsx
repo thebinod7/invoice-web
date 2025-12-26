@@ -25,8 +25,8 @@ export default function MagicLoginForm() {
       setIsSubmitting(false);
       toast.error(sanitizeError(error));
     },
-    onSuccess: (data) => {
-      toast.success('Submission successful!');
+    onSuccess: () => {
+      toast.success('Magic link sent!');
       setSubmitted(true);
     },
     onSettled: () => {
@@ -45,7 +45,7 @@ export default function MagicLoginForm() {
     magicLinkMutation.mutate(payload);
   };
 
-  if (!submitted) {
+  if (submitted) {
     return (
       <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 max-w-lg mx-auto">
         <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 text-center">
@@ -54,11 +54,11 @@ export default function MagicLoginForm() {
             Check your email
           </h2>
           <p className="text-neutral-700 leading-relaxed">
-            We've sent a magic link to
+            We've sent a magic link to {}
             <span className="font-medium text-black">{email}</span>
           </p>
           <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
-            Please check your email.
+            Please check an email.
           </p>
         </div>
       </div>
@@ -95,7 +95,7 @@ export default function MagicLoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
-              className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
             />
           </div>
         </div>
@@ -104,9 +104,9 @@ export default function MagicLoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Sending...' : 'Get magic link'}
+          {isSubmitting ? 'Sending...' : 'Get a magic link'}
         </button>
 
         <p className="text-muted-foreground text-xs">
