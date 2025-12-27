@@ -66,7 +66,7 @@ export default function ProfileClient() {
   }, [data]);
 
   return (
-    <Card className="w-full max-w-md mx-auto mt-4">
+    <Card className="w-full max-w-md mx-auto mt-16">
       <div className="p-4 md:p-12">
         <div className="mb-4">
           <p className="text-muted-foreground text-pretty leading-relaxed">

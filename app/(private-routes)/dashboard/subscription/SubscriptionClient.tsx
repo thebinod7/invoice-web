@@ -3,7 +3,7 @@ import { PricingCard } from '@/ui/PricingCard';
 
 export default function SubscriptionClient() {
   return (
-    <div className="min-h-screen px-40 py-16">
+    <div className="min-h-screen px-40 md:px-48 py-16">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl lg:text-4xl">

@@ -18,6 +18,7 @@ import { CheckCircle2, FileText, Send } from 'lucide-react';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { useMyStatsQuery } from '@/app/hooks/backend/user.hook';
 import { formatCurrency } from '@/app/helpers';
+import { PageSpinner } from '@/ui/PageSpinner';
 
 // Type definitions
 interface InvoiceData {
@@ -54,7 +55,7 @@ export default function DashboardClientV2() {
 
   const invoiceData: InvoiceData = data?.data?.result || null;
 
-  if (!invoiceData) return <div className="text-center mt-20">Loading...</div>;
+  if (!invoiceData) return <PageSpinner />;
 
   const { amountsByCurrency, counts, meta } = invoiceData;
   const currencyChartData = Object.entries(amountsByCurrency).map(
