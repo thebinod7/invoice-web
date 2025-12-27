@@ -32,7 +32,7 @@ export function ProfileDropdown({
           <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center font-semibold text-gray-600">
             {currentUser
               ? getNameInitials(currentUser.firstName, currentUser.lastName)
-              : '...'}
+              : 'CN'}
           </div>
           <div className="flex-1 min-w-0 text-left">
             <p className="font-semibold text-sm text-gray-900 truncate">
@@ -40,7 +40,7 @@ export function ProfileDropdown({
                 ? truncateString(
                     `${currentUser.firstName} ${currentUser.lastName}`
                   )
-                : '...'}
+                : 'Fetching profile..'}
             </p>
             <p className="text-xs text-gray-500 truncate">
               {(currentUser?.email && truncateString(currentUser.email)) ||
