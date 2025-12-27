@@ -2,9 +2,13 @@
 
 import { INVOICE_STATUS } from '@/app/constants';
 import { formatCurrency, formatDate, truncateString } from '@/app/helpers';
+import { checkIsOverdue } from '@/app/helpers/date';
+import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
 import { InvoiceStatusSelect } from '@/ui/InvoiceStatusSelect';
+import { TooltipBox } from '@/ui/TooltipBox';
 import { ColumnDef } from '@tanstack/react-table';
+import { Info } from 'lucide-react';
 
 export type InvoiceRow = {
   _id: string;
@@ -59,7 +63,24 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
     header: 'Due Date',
     cell: ({ getValue }) => {
       const dueDate = getValue<string>();
-      return formatDate(dueDate);
+      if (!dueDate) return '-';
+
+      const isOver = checkIsOverdue(new Date(dueDate));
+      if (!isOver) return formatDate(dueDate);
+
+      return (
+        <TooltipBox>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-2">
+              {formatDate(dueDate)}
+              <Info color="red" size={16} />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Invoice is overdue</p>
+          </TooltipContent>
+        </TooltipBox>
+      );
     },
   },
   {
