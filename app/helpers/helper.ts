@@ -68,3 +68,25 @@ export const calculateInvoiceTotals = (params: {
     grandTotal: grandTotalCents / 100,
   };
 };
+
+export function splitFullName(fullName: string) {
+  if (typeof fullName !== 'string') {
+    return { firstName: '', lastName: '' };
+  }
+
+  const parts = fullName.trim().replace(/\s+/g, ' ').split(' ');
+
+  if (parts.length === 0 || parts[0] === '') {
+    return { firstName: '', lastName: '' };
+  }
+
+  return {
+    firstName: parts[0],
+    lastName: parts.slice(1).join(' '),
+  };
+}
+
+export function isValidName(name: string) {
+  const parts = name.trim().replace(/\s+/g, ' ').split(' ');
+  return parts.length >= 2;
+}

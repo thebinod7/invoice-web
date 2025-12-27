@@ -56,7 +56,7 @@ export default function Profile({}) {
           `Hi, ${currentUser.firstName}`
         ) : (
           <Link
-            className="outline outline-1 px-5 py-1.5 rounded-sm outline-offset-2"
+            className="outline bg-emerald-500 hover:bg-emerald-600 text-white outline-1 px-5 py-2 rounded-sm outline-offset-2"
             href={APP_PATHS.AUTH}
           >
             Sign In

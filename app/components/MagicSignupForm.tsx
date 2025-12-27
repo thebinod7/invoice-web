@@ -19,7 +19,7 @@ export default function MagicLoginForm() {
 
   const magicLinkMutation = useMutation({
     mutationFn: (payload: any) => {
-      return postRequest(`${API_ROUTES.AUTH}/magic-signup`, payload);
+      return postRequest(`${API_ROUTES.AUTH}/magic-onboarding`, payload);
     },
     onError: (error: any) => {
       setIsSubmitting(false);

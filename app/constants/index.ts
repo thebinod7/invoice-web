@@ -35,6 +35,7 @@ export const NAV_LINKS = [
 
 export const APP_PATHS = {
   AUTH: '/auth',
+  SIGNUP: '/signup',
   HOME: '/',
   ABOUT: '/about',
   BLOG: '/blog',

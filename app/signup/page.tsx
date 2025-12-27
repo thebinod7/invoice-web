@@ -4,47 +4,79 @@ import { useMutation } from '@tanstack/react-query';
 import {
   AlertCircle,
   CheckCircle2,
-  ChevronLeft,
   Home,
   Loader2,
   Mail,
+  User,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
-import { API_ROUTES } from '../constants/api-routes';
-import { emailValidator } from '../helpers';
-import { postRequest } from '../helpers/request';
+import { toast } from 'sonner';
 import { APP_PATHS } from '../constants';
+import { API_ROUTES } from '../constants/api-routes';
+import { emailValidator, sanitizeError } from '../helpers';
+import { isValidName, splitFullName } from '../helpers/helper';
+import { postRequest } from '../helpers/request';
 
-export default function MagicLinkLogin() {
-  const [email, setEmail] = useState('');
+export default function page() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorField, setErrorField] = useState({
+    name: '',
+    email: '',
+  });
 
-  const useSendMagicLinkMutation = useMutation({
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+  });
+
+  const useSignupMutation = useMutation({
     mutationFn: (payload: any) => {
-      return postRequest(`${API_ROUTES.AUTH}/magic-login`, payload);
+      return postRequest(`${API_ROUTES.AUTH}/magic-signup`, payload);
     },
-    onError: () => {
-      setStatus('success');
+    onError: (err) => {
+      toast.error(sanitizeError(err));
     },
     onSuccess: () => {
+      toast.success('Magic link sent!');
       setStatus('success');
     },
   });
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'name') {
+      setErrorField({ ...errorField, name: '' });
+    }
+    if (name === 'email') {
+      setErrorField({ ...errorField, email: '' });
+    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    let isValid = true;
+    let error = {
+      name: '',
+      email: '',
+    };
     e.preventDefault();
-    if (!email.trim()) {
-      setStatus('error');
-      return setErrorMessage('Email address is required');
+    if (!formData.email.trim() || !emailValidator(formData.email)) {
+      isValid = false;
+      error.email = 'Please enter a valid email address';
     }
-    if (!emailValidator(email)) {
-      setStatus('error');
-      return setErrorMessage('Please enter a valid email address');
+    if (!formData.name.trim() || !isValidName(formData.name)) {
+      isValid = false;
+      error.name = 'Full name is required';
     }
-    setErrorMessage('');
-    return useSendMagicLinkMutation.mutateAsync({ email });
+    if (!isValid) return setErrorField(error);
+    const { firstName, lastName } = splitFullName(formData.name);
+    const payload = {
+      firstName,
+      lastName,
+      email: formData.email,
+    };
+    return useSignupMutation.mutateAsync(payload);
   };
 
   return (
@@ -56,22 +88,12 @@ export default function MagicLinkLogin() {
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-semibold text-black mb-3 tracking-tight text-balance">
-            Welcome back
+            Create an Account
           </h1>
           <p className="text-neutral-600 leading-relaxed">
-            Enter your email to receive a magic link
+            You only need account to access pro features.
           </p>
         </div>
-
-        {/* Go back button if status is success */}
-        {status === 'success' && (
-          <div className="flex justify-end items-center mb-2">
-            <ChevronLeft className="cursor-pointer ml-4 z-10 w-6 h-6 text-black" />
-            <button className="text-sm" onClick={() => setStatus('idle')}>
-              Take me back
-            </button>
-          </div>
-        )}
 
         {status === 'success' ? (
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 text-center">
@@ -81,7 +103,7 @@ export default function MagicLinkLogin() {
             </h2>
             <p className="text-neutral-700 leading-relaxed">
               We've sent a magic link to{' '}
-              <span className="font-medium text-black">{email}</span>
+              <span className="font-medium text-black">{formData.email}</span>
             </p>
             <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
               You can close this tab now.
@@ -89,6 +111,38 @@ export default function MagicLinkLogin() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-black mb-2"
+              >
+                Full Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="John Snow"
+                  className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${
+                    errorField.name
+                      ? 'border-red-300 bg-red-50'
+                      : 'border-neutral-300 bg-white'
+                  }`}
+                  disabled={useSignupMutation.isPending}
+                />
+              </div>
+              {errorField.name && (
+                <div className="flex items-center gap-2 mt-2 text-sm text-red-600">
+                  <AlertCircle className="w-4 h-4" />
+                  <span>{errorField.name}</span>
+                </div>
+              )}
+            </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -101,59 +155,47 @@ export default function MagicLinkLogin() {
                 <input
                   id="email"
                   type="email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (status === 'error') {
-                      setStatus('idle');
-                      setErrorMessage('');
-                    }
-                  }}
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="you@example.com"
                   className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${
-                    status === 'error'
+                    errorField.email
                       ? 'border-red-300 bg-red-50'
                       : 'border-neutral-300 bg-white'
                   }`}
-                  disabled={useSendMagicLinkMutation.isPending}
+                  disabled={useSignupMutation.isPending}
                 />
               </div>
-              {status === 'error' && (
+              {errorField.email && (
                 <div className="flex items-center gap-2 mt-2 text-sm text-red-600">
                   <AlertCircle className="w-4 h-4" />
-                  <span>{errorMessage}</span>
+                  <span>{errorField.email}</span>
                 </div>
               )}
             </div>
 
-            {/* <div className="mt-4 flex items-center justify-center">
-              <Lock className="w-4 h-4 mr-1" />
-              <p className="text-sm text-neutral-500">
-                Secure and easy to use. Password-less login.
-              </p>
-            </div> */}
-
             <button
               type="submit"
-              disabled={useSendMagicLinkMutation.isPending}
+              disabled={useSignupMutation.isPending}
               className="w-full bg-emerald-500 hover:bg-emerald-500 text-white font-medium py-3.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {useSendMagicLinkMutation.isPending ? (
+              {useSignupMutation.isPending ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Sending magic link...
+                  Signing up...
                 </>
               ) : (
-                'Send magic link'
+                'Sign Up'
               )}
             </button>
 
             <div className="flex justify-center">
               <Link
-                href={APP_PATHS.SIGNUP}
+                href={APP_PATHS.AUTH}
                 className="text-sm text-neutral-600 hover:underline transition-colors"
               >
-                Don't have an account? Register
+                Already have an account? Login
               </Link>
             </div>
           </form>
