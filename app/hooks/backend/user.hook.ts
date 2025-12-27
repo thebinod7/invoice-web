@@ -9,7 +9,7 @@ export const useGetMeQuery = () => {
     queryKey: [QUERY_KEYS.USER.GET_ME],
     queryFn: () => getRequest(`${API_ROUTES.USERS}/me`),
     enabled: true,
-    staleTime: getStaleTimeInMinutes(10),
+    staleTime: 0,
   });
 };
 
@@ -18,6 +18,6 @@ export const useMyStatsQuery = () => {
     queryKey: [QUERY_KEYS.APP.MY_STATS],
     queryFn: () => getRequest(`${API_ROUTES.APP}/my-stats`),
     enabled: true,
-    staleTime: getStaleTimeInMinutes(10),
+    staleTime: 0,
   });
 };

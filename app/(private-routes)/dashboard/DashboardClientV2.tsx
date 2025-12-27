@@ -78,8 +78,7 @@ export default function DashboardClientV2() {
       title: 'Paid Invoices',
       value: `${counts.paidInvoices}`,
       description: `${(
-        (counts.paidInvoices / counts.sentInvoices) *
-        100
+        (counts.paidInvoices || 0 / counts.sentInvoices || 0) * 100
       ).toFixed(0)}% paid rate`,
       icon: <CheckCircle2 className="w-5 h-5" />,
       bgColor: 'from-green-50 to-emerald-50',
@@ -88,8 +87,7 @@ export default function DashboardClientV2() {
       title: 'Sent Invoices',
       value: `${counts.sentInvoices}`,
       description: `${(
-        (counts.sentInvoices / counts.totalInvoices) *
-        100
+        (counts.sentInvoices || 0 / counts.totalInvoices || 0) * 100
       ).toFixed(0)}% of total`,
       icon: <Send className="w-5 h-5" />,
       bgColor: 'from-amber-50 to-orange-50',
@@ -232,11 +230,15 @@ export default function DashboardClientV2() {
         {/* Invoice Status Pie */}
         <Card className="min-w-0 border border-slate-200 bg-white">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-900">
+            <CardTitle className="flex items-center gap-2 text-slate-900 mb-1">
               <CheckCircle2 className="w-5 h-5" />
               Invoice Status
             </CardTitle>
-            <CardDescription>Payment completion rate</CardDescription>
+            <CardDescription>
+              {invoiceStatusData[0].value > 0 && invoiceStatusData[1].value > 0
+                ? 'Payment completion rate'
+                : 'No data to display'}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="w-full max-w-full">
