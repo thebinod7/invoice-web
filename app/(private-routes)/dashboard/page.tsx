@@ -1,4 +1,5 @@
 import DashboardClient from './DashboardClient';
+import DashboardClientV2 from './DashboardClientV2';
 
 // Generate metadata
 export const metadata = {
@@ -8,7 +9,7 @@ export const metadata = {
 export default function Dashboard() {
   return (
     <>
-      <DashboardClient />
+      <DashboardClientV2 />
     </>
   );
 }
