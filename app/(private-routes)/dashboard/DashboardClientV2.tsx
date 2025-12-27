@@ -16,6 +16,8 @@ import {
 } from '@/components/ui/chart';
 import { CheckCircle2, FileText, Send } from 'lucide-react';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { useMyStatsQuery } from '@/app/hooks/backend/user.hook';
+import { formatCurrency } from '@/app/helpers';
 
 // Type definitions
 interface InvoiceData {
@@ -48,39 +50,14 @@ interface StatCard {
 }
 
 export default function DashboardClientV2() {
-  // Sample data matching the API response format
-  const invoiceData: InvoiceData = {
-    counts: {
-      totalInvoices: 42,
-      sentInvoices: 30,
-      paidInvoices: 18,
-    },
-    amountsByCurrency: {
-      USD: {
-        total: 4250.0,
-        unpaid: 1450.0,
-        overdue: 600.0,
-      },
-      EUR: {
-        total: 1150.0,
-        unpaid: 300.0,
-        overdue: 0.0,
-      },
-      NPR: {
-        total: 95000,
-        unpaid: 15000,
-        overdue: 5000,
-      },
-    },
-    meta: {
-      currencyCount: 3,
-      excludedStatuses: ['DRAFT'],
-      generatedAt: '2025-09-27T06:30:00Z',
-    },
-  };
+  const { data } = useMyStatsQuery();
 
-  // Prepare chart data
-  const currencyChartData = Object.entries(invoiceData.amountsByCurrency).map(
+  const invoiceData: InvoiceData = data?.data?.result || null;
+
+  if (!invoiceData) return <div className="text-center mt-20">Loading...</div>;
+
+  const { amountsByCurrency, counts, meta } = invoiceData;
+  const currencyChartData = Object.entries(amountsByCurrency).map(
     ([currency, amounts]) => ({
       currency,
       total: amounts.total,
@@ -92,16 +69,16 @@ export default function DashboardClientV2() {
   const statCards: StatCard[] = [
     {
       title: 'Total Invoices',
-      value: invoiceData.counts.totalInvoices,
-      description: `${invoiceData.counts.sentInvoices} sent this period`,
+      value: counts.totalInvoices,
+      description: `${counts.sentInvoices} sent this period`,
       icon: <FileText className="w-5 h-5" />,
       bgColor: 'from-blue-50 to-cyan-50',
     },
     {
       title: 'Paid Invoices',
-      value: `${invoiceData.counts.paidInvoices}/${invoiceData.counts.sentInvoices}`,
+      value: `${counts.paidInvoices}`,
       description: `${(
-        (invoiceData.counts.paidInvoices / invoiceData.counts.sentInvoices) *
+        (counts.paidInvoices / counts.sentInvoices) *
         100
       ).toFixed(0)}% paid rate`,
       icon: <CheckCircle2 className="w-5 h-5" />,
@@ -109,9 +86,9 @@ export default function DashboardClientV2() {
     },
     {
       title: 'Sent Invoices',
-      value: `${invoiceData.counts.sentInvoices}`,
+      value: `${counts.sentInvoices}`,
       description: `${(
-        (invoiceData.counts.sentInvoices / invoiceData.counts.totalInvoices) *
+        (counts.sentInvoices / counts.totalInvoices) *
         100
       ).toFixed(0)}% of total`,
       icon: <Send className="w-5 h-5" />,
@@ -120,10 +97,10 @@ export default function DashboardClientV2() {
   ];
 
   const invoiceStatusData = [
-    { name: 'Paid', value: invoiceData.counts.paidInvoices, fill: '#10b981' },
+    { name: 'Paid', value: counts.paidInvoices, fill: '#10b981' },
     {
       name: 'Unpaid',
-      value: invoiceData.counts.sentInvoices - invoiceData.counts.paidInvoices,
+      value: counts.sentInvoices - counts.paidInvoices,
       fill: '#f59e0b',
     },
   ];
@@ -198,52 +175,54 @@ export default function DashboardClientV2() {
                   </tr>
                 </thead>
                 <tbody>
-                  {currencyChartData.map((row, idx) => (
-                    <tr
-                      key={idx}
-                      className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
-                    >
-                      <td className="px-4 py-3 font-medium text-slate-900">
-                        {row.currency}
-                      </td>
-                      <td className="px-4 py-3 text-right text-slate-900 font-semibold">
-                        {row.currency === 'NPR'
-                          ? row.total.toLocaleString()
-                          : `$${row.total.toFixed(2)}`}
-                      </td>
-                      <td className="px-4 py-3 text-right text-amber-600">
-                        {row.currency === 'NPR'
-                          ? row.unpaid.toLocaleString()
-                          : `$${row.unpaid.toFixed(2)}`}
-                      </td>
-                      <td className="px-4 py-3 text-right text-red-600">
-                        {row.currency === 'NPR'
-                          ? row.overdue.toLocaleString()
-                          : `$${row.overdue.toFixed(2)}`}
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <div className="w-16 bg-slate-200 rounded-full h-2">
-                            <div
-                              className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full"
-                              style={{
-                                width: `${
-                                  ((row.total - row.unpaid) / row.total) * 100
-                                }%`,
-                              }}
-                            ></div>
+                  {currencyChartData.length > 0 ? (
+                    currencyChartData.map((row, idx) => (
+                      <tr
+                        key={idx}
+                        className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                      >
+                        <td className="px-4 py-3 font-medium text-slate-900">
+                          {row.currency}
+                        </td>
+                        <td className="px-4 py-3 text-right text-slate-900 font-semibold">
+                          {formatCurrency(row.total, row.currency)}
+                        </td>
+                        <td className="px-4 py-3 text-right text-amber-600">
+                          {formatCurrency(row.unpaid, row.currency)}
+                        </td>
+                        <td className="px-4 py-3 text-right text-red-600">
+                          {formatCurrency(row.overdue, row.currency)}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <div className="w-16 bg-slate-200 rounded-full h-2">
+                              <div
+                                className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full"
+                                style={{
+                                  width: `${
+                                    ((row.total - row.unpaid) / row.total) * 100
+                                  }%`,
+                                }}
+                              ></div>
+                            </div>
+                            <span className="text-xs font-medium text-slate-600">
+                              {(
+                                ((row.total - row.unpaid) / row.total) *
+                                100
+                              ).toFixed(0)}
+                              %
+                            </span>
                           </div>
-                          <span className="text-xs font-medium text-slate-600">
-                            {(
-                              ((row.total - row.unpaid) / row.total) *
-                              100
-                            ).toFixed(0)}
-                            %
-                          </span>
-                        </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="text-center py-4">
+                        No data available
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
@@ -274,9 +253,9 @@ export default function DashboardClientV2() {
                       data={invoiceStatusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={70}
-                      outerRadius={100}
-                      paddingAngle={2}
+                      innerRadius={55}
+                      outerRadius={84}
+                      paddingAngle={0}
                       dataKey="value"
                       label={({ name, percent = 0 }) =>
                         `${name} ${(percent * 100).toFixed(0)}%`
@@ -297,13 +276,8 @@ export default function DashboardClientV2() {
 
       {/* Footer Info */}
       <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 border-t border-slate-200 pt-6">
-        <p>
-          Last updated:{' '}
-          {new Date(invoiceData.meta.generatedAt).toLocaleDateString()}
-        </p>
-        <p>
-          Excluding: {invoiceData.meta.excludedStatuses.join(', ')} invoices
-        </p>
+        <p>Last updated: {new Date(meta.generatedAt).toLocaleDateString()}</p>
+        <p>Excluding: {meta.excludedStatuses.join(', ')} invoices</p>
       </div>
     </div>
   );
