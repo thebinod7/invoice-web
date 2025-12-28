@@ -2,6 +2,7 @@
 import InvoiceGeneratorV3 from '@/app/components/Invoice/InvoiceGeneratorV3';
 import { useGetInvoiceById } from '@/app/hooks/backend/invoice.hook';
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
+import { PageSpinner } from '@/ui/PageSpinner';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -47,6 +48,7 @@ export default function page() {
   useEffect(() => {
     if (result) {
       const payload = {
+        companyLogoUrl: result.companyLogoUrl,
         senderDetails: result.senderDetails,
         receiverDetails: result.receiverDetails,
         currency: result.currency,
@@ -65,8 +67,7 @@ export default function page() {
     }
   }, [result]);
 
-  if (!invoiceDetails)
-    return <div className="h-screen text-center mt-52">Loading...</div>;
+  if (!invoiceDetails) return <PageSpinner />;
   return (
     <InvoiceGeneratorV3
       invoiceId={invoiceId as string}

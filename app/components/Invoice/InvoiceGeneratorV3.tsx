@@ -9,12 +9,15 @@ import {
   isMobile,
 } from '@/app/helpers';
 import { calculateInvoiceTotals } from '@/app/helpers/helper';
-import { postRequest } from '@/app/helpers/request';
+import {
+  getS3SignedUrl,
+  postRequest,
+  uploadUsingSignedUrl,
+} from '@/app/helpers/request';
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
 import { Building, FileText, Trash2, Upload, X } from 'lucide-react';
 import type React from 'react';
-import { useState } from 'react';
 import { toast } from 'sonner';
 import AddInvoiceItem from './AddInvoiceItem';
 import AdditinalNote from './AdditinalNote';
@@ -44,31 +47,34 @@ export default function InvoiceGeneratorV3({
   addListItem: () => void;
 }) {
   //=====================================================
-  const [logoPreview, setLogoPreview] = useState('');
-  const [fileName, setFileName] = useState('');
 
   const clearUploadedLogo = () => {
-    setLogoPreview('');
-    setFileName('');
+    setCurrentInvoice({
+      ...currentInvoice,
+      companyLogoUrl: '',
+    });
   };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     const fileSize = +calculateFileSizeInMB(file?.size || 0);
     if (fileSize > MAX_FILE_SIZE) {
       return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setLogoPreview(result);
-        setCurrentInvoice({ ...currentInvoice, companyLogoUrl: result });
-      };
-      reader.readAsDataURL(file);
+
+    const { presignedUrl, fileUrl } = await getS3SignedUrl({
+      fileName: file?.name || '',
+      mimeType: file?.type || '',
+      fileSize: file?.size || 0,
+    });
+    if (presignedUrl) {
+      await uploadUsingSignedUrl(presignedUrl, file);
+      return setCurrentInvoice({
+        ...currentInvoice,
+        companyLogoUrl: fileUrl,
+      });
     }
-    setFileName(file?.name || '');
   };
 
   const generateInvoiceMutation = useMutation({
@@ -150,10 +156,13 @@ export default function InvoiceGeneratorV3({
                       Company Logo
                     </label>
                     <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 sm:p-6 text-center hover:border-blue-400 transition-colors duration-200">
-                      {logoPreview ? (
+                      {currentInvoice?.companyLogoUrl ? (
                         <div className="relative">
                           <img
-                            src={logoPreview || '/placeholder.svg'}
+                            src={
+                              currentInvoice.companyLogoUrl ||
+                              '/placeholder.svg'
+                            }
                             alt="Logo preview"
                             className="max-h-20 sm:max-h-24 mx-auto rounded-lg"
                           />
@@ -163,11 +172,9 @@ export default function InvoiceGeneratorV3({
                           >
                             <X className="h-3 w-3" />
                           </button>
-                          {fileName && (
-                            <p className="text-xs text-slate-600 mt-2 truncate">
-                              {fileName}
-                            </p>
-                          )}
+                          <p className="text-xs text-slate-600 mt-2 truncate">
+                            {currentInvoice.companyLogoUrl}
+                          </p>
                         </div>
                       ) : (
                         <div className="space-y-2">

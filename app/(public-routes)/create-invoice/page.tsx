@@ -25,7 +25,11 @@ import {
   calculateInvoiceTotals,
   downloadFromBlobUrl,
 } from '@/app/helpers/helper';
-import { postRequest } from '@/app/helpers/request';
+import {
+  getS3SignedUrl,
+  postRequest,
+  uploadUsingSignedUrl,
+} from '@/app/helpers/request';
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
 import { useMutation } from '@tanstack/react-query';
 import { Building, FileText, Trash2, Upload, X } from 'lucide-react';
@@ -61,13 +65,32 @@ export default function page() {
     setFileName('');
   };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
     const fileSize = +calculateFileSizeInMB(file?.size || 0);
     if (fileSize > MAX_FILE_SIZE) {
       return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
+
+    // Only if user is logged in
+    if (isLoggedIn) {
+      console.log('=====Private Request=====');
+      const { presignedUrl, fileUrl } = await getS3SignedUrl({
+        fileName: file?.name || '',
+        mimeType: file?.type || '',
+        fileSize: file?.size || 0,
+      });
+      if (presignedUrl) {
+        await uploadUsingSignedUrl(presignedUrl, file);
+        setLogoPreview(fileUrl);
+        return setCurrentInvoice({
+          ...currentInvoice,
+          companyLogoUrl: fileUrl,
+        });
+      }
+    }
+
+    console.log('=====Public Request=====');
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -134,7 +157,7 @@ export default function page() {
     },
   });
 
-  const generateInvoiceMutation = useMutation({
+  const downloadAndSaveMutation = useMutation({
     mutationFn: (payload: any) => {
       return postRequest(`${API_ROUTES.INVOICES}`, payload, {
         responseType: 'blob',
@@ -186,7 +209,7 @@ export default function page() {
     };
     if (!payload.dueDate) delete payload.dueDate;
     if (isLoggedIn) {
-      return generateInvoiceMutation.mutate(payload);
+      return downloadAndSaveMutation.mutate(payload);
     }
     return downloadOnlyMutation.mutate(payload);
   };
@@ -512,7 +535,10 @@ export default function page() {
 
             <InvoiceDownloadAction
               handleDownloadClick={downloadInvoice}
-              isPending={generateInvoiceMutation.isPending}
+              isPending={
+                downloadAndSaveMutation.isPending ||
+                downloadOnlyMutation.isPending
+              }
             />
           </div>
         </div>

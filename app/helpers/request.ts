@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_BASE_URL } from './config';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+  baseURL: API_BASE_URL,
   headers: {
     'ngrok-skip-browser-warning': 'yes',
   },
@@ -42,6 +43,26 @@ const delRequest = async (url: string, config = {}) =>
 const patchRequest = async (url: string, body: any, config = {}) =>
   axiosInstance.patch(url, body, config);
 
+const getS3SignedUrl = async (payload: any) => {
+  const response = await axios.post(
+    `${API_BASE_URL}/app/generate-signed-url`,
+    payload
+  );
+  if (!response.data) return null;
+  return response.data.result;
+};
+
+const uploadUsingSignedUrl = async (signedUrl: string, file: any) => {
+  const response = await axios.put(signedUrl, file, {
+    headers: {
+      'Content-Type': file.type,
+    },
+  });
+  console.log('Response==>', response);
+  if (!response.data) return null;
+  return response.data.result;
+};
+
 export {
   getRequest,
   postRequest,
@@ -49,4 +70,6 @@ export {
   delRequest,
   patchRequest,
   axiosInstance,
+  getS3SignedUrl,
+  uploadUsingSignedUrl,
 };
