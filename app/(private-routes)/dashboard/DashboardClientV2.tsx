@@ -26,6 +26,7 @@ interface InvoiceData {
     totalInvoices: number;
     sentInvoices: number;
     paidInvoices: number;
+    cancelledInvoices: number;
   };
   amountsByCurrency: {
     [key: string]: {
@@ -78,20 +79,22 @@ export default function DashboardClientV2() {
     {
       title: 'Paid Invoices',
       value: `${counts.paidInvoices}`,
-      description: `${(
-        (counts.paidInvoices / counts.sentInvoices) *
-        100
-      ).toFixed(0)}% paid rate`,
+      description: `${
+        counts.sentInvoices > 0
+          ? ((counts.paidInvoices / counts.sentInvoices) * 100).toFixed(0)
+          : 0
+      }% paid rate`,
       icon: <CheckCircle2 className="w-5 h-5" />,
       bgColor: 'from-green-50 to-emerald-50',
     },
     {
       title: 'Sent Invoices',
       value: `${counts.sentInvoices}`,
-      description: `${(
-        (counts.sentInvoices / counts.totalInvoices) *
-        100
-      ).toFixed(0)}% of total`,
+      description: `${
+        counts.totalInvoices > 0
+          ? ((counts.sentInvoices / counts.totalInvoices) * 100).toFixed(0)
+          : 0
+      }% of total`,
       icon: <Send className="w-5 h-5" />,
       bgColor: 'from-amber-50 to-orange-50',
     },
@@ -101,7 +104,8 @@ export default function DashboardClientV2() {
     { name: 'Paid', value: counts.paidInvoices, fill: '#10b981' },
     {
       name: 'Unpaid',
-      value: counts.sentInvoices - counts.paidInvoices,
+      value:
+        counts.totalInvoices - counts.paidInvoices - counts.cancelledInvoices,
       fill: '#f59e0b',
     },
   ];
