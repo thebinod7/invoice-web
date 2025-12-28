@@ -10,7 +10,7 @@ import InvoiceSummary from '@/app/components/Invoice/InvoiceSummary';
 import {
   DEFAULT_CURRENCY,
   MAX_FILE_SIZE,
-  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_SIZE_PRO,
 } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { useAppContext } from '@/app/context/useAppContext';
@@ -26,6 +26,7 @@ import {
   calculateInvoiceTotals,
   downloadFromBlobUrl,
   getFilenameFromS3Url,
+  getMaxFileSizeInBytes,
 } from '@/app/helpers/helper';
 import {
   getS3SignedUrl,
@@ -78,13 +79,15 @@ export default function page() {
   const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     const fileSize = +calculateFileSizeInMB(file?.size || 0);
-    if (fileSize > MAX_FILE_SIZE) {
-      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
-    }
 
     // Only if user is logged in
     if (isLoggedIn) {
       console.log('=====Private Request=====');
+      if (fileSize > MAX_FILE_SIZE_PRO) {
+        return toast.error(
+          `File size must be less than ${MAX_FILE_SIZE_PRO} MB.`
+        );
+      }
       try {
         setProcessing(true);
         const { presignedUrl, fileUrl } = await getS3SignedUrl({
@@ -105,6 +108,10 @@ export default function page() {
       } finally {
         setProcessing(false);
       }
+    }
+
+    if (fileSize > MAX_FILE_SIZE) {
+      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
 
     console.log('=====Public Request=====');
@@ -290,7 +297,7 @@ export default function page() {
                             ) : (
                               <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
                                 <input
-                                  max={MAX_FILE_SIZE_BYTES}
+                                  max={getMaxFileSizeInBytes(isLoggedIn)}
                                   type="file"
                                   onChange={handleLogoChange}
                                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -301,7 +308,8 @@ export default function page() {
                             )}
                           </div>
                           <p className="text-xs text-slate-500">
-                            PNG, JPG up to {MAX_FILE_SIZE} MB
+                            PNG, JPG up to{' '}
+                            {isLoggedIn ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE} MB
                           </p>
                         </div>
                       )}

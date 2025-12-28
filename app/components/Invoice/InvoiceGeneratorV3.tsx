@@ -1,6 +1,6 @@
 'use client';
 
-import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_PRO } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { useAppContext } from '@/app/context/useAppContext';
 import {
@@ -12,6 +12,7 @@ import {
 import {
   calculateInvoiceTotals,
   getFilenameFromS3Url,
+  getMaxFileSizeInBytes,
 } from '@/app/helpers/helper';
 import {
   getS3SignedUrl,
@@ -31,6 +32,7 @@ import InvoiceDetailsBox from './InvoiceDetailsBox';
 import InvoiceDownloadAction from './InvoiceDownloadAction';
 import InvoiceHeaderSection from './InvoiceHeaderSection';
 import InvoiceSummary from './InvoiceSummary';
+import { useAuthContext } from '@/app/context/useAuthContext';
 
 export default function InvoiceGeneratorV3({
   invoiceId,
@@ -52,7 +54,7 @@ export default function InvoiceGeneratorV3({
   addListItem: () => void;
 }) {
   //=====================================================
-
+  const { isLoggedIn } = useAuthContext();
   const { isProcessing, setProcessing } = useAppContext();
 
   const clearUploadedLogo = () => {
@@ -201,7 +203,7 @@ export default function InvoiceGeneratorV3({
                             ) : (
                               <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
                                 <input
-                                  max={MAX_FILE_SIZE_BYTES}
+                                  max={getMaxFileSizeInBytes(isLoggedIn)}
                                   type="file"
                                   onChange={handleLogoChange}
                                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -212,7 +214,8 @@ export default function InvoiceGeneratorV3({
                             )}
                           </div>
                           <p className="text-xs text-slate-500">
-                            PNG, JPG up to {MAX_FILE_SIZE} MB
+                            PNG, JPG up to{' '}
+                            {isLoggedIn ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE} MB
                           </p>
                         </div>
                       )}

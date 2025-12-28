@@ -1,3 +1,4 @@
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_PRO } from '../constants';
 import { InvoiceItemInput } from '../types';
 
 export const downloadFromBlobUrl = (blobUrl: string, fileName: string) => {
@@ -103,4 +104,10 @@ export const getFilenameFromS3Url = (fileUrl: string) => {
 
   // Join remaining parts in case filename itself has underscores
   return parts.slice(1).join('_');
+};
+
+export const getMaxFileSizeInBytes = (isLoogedIn: boolean) => {
+  let max = MAX_FILE_SIZE;
+  if (isLoogedIn) max = MAX_FILE_SIZE_PRO;
+  return max * 1024 * 1024;
 };

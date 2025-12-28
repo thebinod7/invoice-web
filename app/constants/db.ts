@@ -85,6 +85,7 @@ export const PRICING = {
       { text: 'Edit Past Invoices', enabled: false },
       { text: 'Overdue & Payment Status', enabled: false },
       { text: 'Unlimited Downloads', enabled: false },
+      { text: 'Upload logo upto 1MB', enabled: false },
     ],
   },
   STARTER: {
@@ -97,6 +98,7 @@ export const PRICING = {
       { text: 'Overdue & Payment Status', enabled: true },
       { text: 'Save Clients & Business Details', enabled: true },
       { text: 'Unlimited Downloads', enabled: true },
+      { text: 'Upload logo upto 5MB', enabled: true },
     ],
   },
 };
