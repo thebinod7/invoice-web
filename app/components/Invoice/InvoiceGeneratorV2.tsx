@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  DEFAULT_CURRENCY,
-  MAX_FILE_SIZE,
-  MAX_FILE_SIZE_BYTES,
-} from '@/app/constants';
+import { DEFAULT_CURRENCY, MAX_FILE_SIZE } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import {
@@ -295,7 +291,7 @@ export default function InvoiceGeneratorV2() {
                           <div>
                             <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
                               <input
-                                max={MAX_FILE_SIZE_BYTES}
+                                max={MAX_FILE_SIZE * 1024 * 1024}
                                 type="file"
                                 onChange={handleLogoChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
