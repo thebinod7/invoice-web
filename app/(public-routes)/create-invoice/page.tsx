@@ -13,6 +13,7 @@ import {
   MAX_FILE_SIZE_BYTES,
 } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
+import { useAppContext } from '@/app/context/useAppContext';
 import { useAuthContext } from '@/app/context/useAuthContext';
 import {
   calculateFileSizeInMB,
@@ -24,6 +25,7 @@ import {
 import {
   calculateInvoiceTotals,
   downloadFromBlobUrl,
+  getFilenameFromS3Url,
 } from '@/app/helpers/helper';
 import {
   getS3SignedUrl,
@@ -31,6 +33,7 @@ import {
   uploadUsingSignedUrl,
 } from '@/app/helpers/request';
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
+import MiniLoader from '@/ui/MiniLoader';
 import { useMutation } from '@tanstack/react-query';
 import { Building, FileText, Trash2, Upload, X } from 'lucide-react';
 import type React from 'react';
@@ -40,6 +43,7 @@ import { toast } from 'sonner';
 export default function page() {
   //=====================================================
   const { isLoggedIn } = useAuthContext();
+  const { isProcessing, setProcessing } = useAppContext();
 
   const [logoPreview, setLogoPreview] = useState('');
   const [fileName, setFileName] = useState('');
@@ -61,6 +65,12 @@ export default function page() {
   });
 
   const clearUploadedLogo = () => {
+    if (isLoggedIn) {
+      setCurrentInvoice({
+        ...currentInvoice,
+        companyLogoUrl: '',
+      });
+    }
     setLogoPreview('');
     setFileName('');
   };
@@ -75,18 +85,25 @@ export default function page() {
     // Only if user is logged in
     if (isLoggedIn) {
       console.log('=====Private Request=====');
-      const { presignedUrl, fileUrl } = await getS3SignedUrl({
-        fileName: file?.name || '',
-        mimeType: file?.type || '',
-        fileSize: file?.size || 0,
-      });
-      if (presignedUrl) {
-        await uploadUsingSignedUrl(presignedUrl, file);
-        setLogoPreview(fileUrl);
-        return setCurrentInvoice({
-          ...currentInvoice,
-          companyLogoUrl: fileUrl,
+      try {
+        setProcessing(true);
+        const { presignedUrl, fileUrl } = await getS3SignedUrl({
+          fileName: file?.name || '',
+          mimeType: file?.type || '',
+          fileSize: file?.size || 0,
         });
+        if (presignedUrl) {
+          await uploadUsingSignedUrl(presignedUrl, file);
+          setLogoPreview(fileUrl);
+          return setCurrentInvoice({
+            ...currentInvoice,
+            companyLogoUrl: fileUrl,
+          });
+        }
+      } catch (err) {
+        toast.error('Failed to upload logo.');
+      } finally {
+        setProcessing(false);
       }
     }
 
@@ -256,26 +273,32 @@ export default function page() {
                           >
                             <X className="h-3 w-3" />
                           </button>
-                          {fileName && (
-                            <p className="text-xs text-slate-600 mt-2 truncate">
-                              {fileName}
-                            </p>
-                          )}
+                          <p className="text-xs text-slate-600 mt-2 truncate">
+                            {isLoggedIn
+                              ? getFilenameFromS3Url(
+                                  currentInvoice?.companyLogoUrl || ''
+                                )
+                              : fileName}
+                          </p>
                         </div>
                       ) : (
                         <div className="space-y-2">
                           <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-slate-400 mx-auto" />
                           <div>
-                            <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
-                              <input
-                                max={MAX_FILE_SIZE_BYTES}
-                                type="file"
-                                onChange={handleLogoChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                accept="image/png, image/jpeg, image/jpg"
-                              />
-                              Choose File
-                            </button>
+                            {isProcessing ? (
+                              <MiniLoader />
+                            ) : (
+                              <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
+                                <input
+                                  max={MAX_FILE_SIZE_BYTES}
+                                  type="file"
+                                  onChange={handleLogoChange}
+                                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                  accept="image/png, image/jpeg, image/jpg"
+                                />
+                                Choose File
+                              </button>
+                            )}
                           </div>
                           <p className="text-xs text-slate-500">
                             PNG, JPG up to {MAX_FILE_SIZE} MB

@@ -2,19 +2,24 @@
 
 import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
+import { useAppContext } from '@/app/context/useAppContext';
 import {
   calculateFileSizeInMB,
   formatCurrency,
   getCurrencySymbolByName,
   isMobile,
 } from '@/app/helpers';
-import { calculateInvoiceTotals } from '@/app/helpers/helper';
+import {
+  calculateInvoiceTotals,
+  getFilenameFromS3Url,
+} from '@/app/helpers/helper';
 import {
   getS3SignedUrl,
   postRequest,
   uploadUsingSignedUrl,
 } from '@/app/helpers/request';
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types';
+import MiniLoader from '@/ui/MiniLoader';
 import { useMutation } from '@tanstack/react-query';
 import { Building, FileText, Trash2, Upload, X } from 'lucide-react';
 import type React from 'react';
@@ -48,6 +53,8 @@ export default function InvoiceGeneratorV3({
 }) {
   //=====================================================
 
+  const { isProcessing, setProcessing } = useAppContext();
+
   const clearUploadedLogo = () => {
     setCurrentInvoice({
       ...currentInvoice,
@@ -63,17 +70,24 @@ export default function InvoiceGeneratorV3({
       return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
     }
 
-    const { presignedUrl, fileUrl } = await getS3SignedUrl({
-      fileName: file?.name || '',
-      mimeType: file?.type || '',
-      fileSize: file?.size || 0,
-    });
-    if (presignedUrl) {
-      await uploadUsingSignedUrl(presignedUrl, file);
-      return setCurrentInvoice({
-        ...currentInvoice,
-        companyLogoUrl: fileUrl,
+    try {
+      setProcessing(true);
+      const { presignedUrl, fileUrl } = await getS3SignedUrl({
+        fileName: file?.name || '',
+        mimeType: file?.type || '',
+        fileSize: file?.size || 0,
       });
+      if (presignedUrl) {
+        await uploadUsingSignedUrl(presignedUrl, file);
+        return setCurrentInvoice({
+          ...currentInvoice,
+          companyLogoUrl: fileUrl,
+        });
+      }
+    } catch (err) {
+      toast.error('Failed to upload logo.');
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -173,23 +187,29 @@ export default function InvoiceGeneratorV3({
                             <X className="h-3 w-3" />
                           </button>
                           <p className="text-xs text-slate-600 mt-2 truncate">
-                            {currentInvoice.companyLogoUrl}
+                            {getFilenameFromS3Url(
+                              currentInvoice?.companyLogoUrl || ''
+                            )}
                           </p>
                         </div>
                       ) : (
                         <div className="space-y-2">
                           <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-slate-400 mx-auto" />
                           <div>
-                            <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
-                              <input
-                                max={MAX_FILE_SIZE_BYTES}
-                                type="file"
-                                onChange={handleLogoChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                accept="image/png, image/jpeg, image/jpg"
-                              />
-                              Choose File
-                            </button>
+                            {isProcessing ? (
+                              <MiniLoader />
+                            ) : (
+                              <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
+                                <input
+                                  max={MAX_FILE_SIZE_BYTES}
+                                  type="file"
+                                  onChange={handleLogoChange}
+                                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                  accept="image/png, image/jpeg, image/jpg"
+                                />
+                                Choose File
+                              </button>
+                            )}
                           </div>
                           <p className="text-xs text-slate-500">
                             PNG, JPG up to {MAX_FILE_SIZE} MB

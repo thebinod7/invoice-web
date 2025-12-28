@@ -90,3 +90,17 @@ export function isValidName(name: string) {
   const parts = name.trim().replace(/\s+/g, ' ').split(' ');
   return parts.length >= 2;
 }
+
+export const getFilenameFromS3Url = (fileUrl: string) => {
+  // Extract the last part of the path
+  const fileName = fileUrl.split('/').pop();
+  if (!fileName) return null;
+
+  // Split by underscore and remove the timestamp prefix
+  const parts = fileName.split('_');
+  console.log(parts);
+  if (parts.length < 2) return fileName; // no timestamp found
+
+  // Join remaining parts in case filename itself has underscores
+  return parts.slice(1).join('_');
+};
