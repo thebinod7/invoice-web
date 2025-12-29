@@ -80,7 +80,7 @@ export default function Sidebar({ sidebarOpen, pathname }: any) {
                   w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg`}
               >
                 <FileStack className="w-5 h-5" />
-                <span className="flex-1 text-left">Invoice History</span>
+                <span className="flex-1 text-left">My Invoices</span>
               </Link>
             </div>
 
