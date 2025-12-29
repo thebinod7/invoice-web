@@ -56,7 +56,7 @@ export default function MagicLoginForm() {
             <span className="font-medium text-black">{email}</span>
           </p>
           <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
-            Please check an email.
+            It can take few minutes to arrive.
           </p>
         </div>
       </div>

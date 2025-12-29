@@ -106,7 +106,7 @@ export default function page() {
               <span className="font-medium text-black">{formData.email}</span>
             </p>
             <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
-              You can close this tab now.
+              It can take few minutes to arrive.
             </p>
           </div>
         ) : (
@@ -126,7 +126,7 @@ export default function page() {
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="John Snow"
+                  placeholder="Jon Snow"
                   className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${
                     errorField.name
                       ? 'border-red-300 bg-red-50'

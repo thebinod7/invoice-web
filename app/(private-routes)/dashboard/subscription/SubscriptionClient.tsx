@@ -4,7 +4,7 @@ import { SubAlertBox } from '@/ui/SubAlertBox';
 
 export default function SubscriptionClient() {
   return (
-    <div className="min-h-screen px-40 md:px-48 lg:px-80 py-14">
+    <div className="min-h-screen px-40 md:px-48 2xl:px-72 py-14">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 text-center">
           <h1 className="text-xl font-bold tracking-tight text-foreground md:text-2xl lg:text-3xl">

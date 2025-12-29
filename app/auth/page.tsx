@@ -68,7 +68,7 @@ export default function MagicLinkLogin() {
           <div className="flex justify-end items-center mb-2">
             <ChevronLeft className="cursor-pointer ml-4 z-10 w-6 h-6 text-black" />
             <button className="text-sm" onClick={() => setStatus('idle')}>
-              Take me back
+              Resend Magic Link
             </button>
           </div>
         )}
@@ -84,7 +84,7 @@ export default function MagicLinkLogin() {
               <span className="font-medium text-black">{email}</span>
             </p>
             <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
-              You can close this tab now.
+              It can take few minutes to arrive.
             </p>
           </div>
         ) : (
