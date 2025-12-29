@@ -8,9 +8,7 @@ import { toast } from 'sonner';
 import { API_ROUTES } from '../constants/api-routes';
 import { sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
-
-const FIRST_NAME = 'Early';
-const LAST_NAME = 'Adopter';
+import { DEF_FIRST_NAME, DEF_LAST_NAME } from '../constants';
 
 export default function MagicLoginForm() {
   const [email, setEmail] = useState('');
@@ -38,8 +36,8 @@ export default function MagicLoginForm() {
     e.preventDefault();
     setIsSubmitting(true);
     const payload = {
-      firstName: FIRST_NAME,
-      lastName: LAST_NAME,
+      firstName: DEF_FIRST_NAME,
+      lastName: DEF_LAST_NAME,
       email,
     };
     magicLinkMutation.mutate(payload);

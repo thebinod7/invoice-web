@@ -8,6 +8,7 @@ import { postRequest } from '../helpers/request';
 import { sanitizeError } from '../helpers';
 import { toast } from 'sonner';
 import { API_ROUTES } from '../constants/api-routes';
+import { DEF_FIRST_NAME, DEF_LAST_NAME } from '../constants';
 
 const FEATURES_LIST = [
   'Invoice history',
@@ -48,8 +49,8 @@ export default function EarlyAdopterForm() {
     e.preventDefault();
     setIsSubmitting(true);
     const payload = {
-      firstName: 'Early',
-      lastName: 'Adopter',
+      firstName: DEF_FIRST_NAME,
+      lastName: DEF_LAST_NAME,
       email,
     };
     earlyAdopterMutation.mutate(payload);

@@ -89,7 +89,7 @@ export const GENDER = {
   UNKNOWN: 'UNKNOWN',
 };
 
-export const PAZE_SIZE = 8;
+export const PAZE_SIZE = 10;
 export const INVOICE_STATUS = {
   CREATED: 'CREATED',
   SENT: 'SENT',
@@ -97,3 +97,6 @@ export const INVOICE_STATUS = {
   CANCELLED: 'CANCELLED',
 };
 export const DEFAULT_CURRENCY = 'USD';
+
+export const DEF_FIRST_NAME = 'User';
+export const DEF_LAST_NAME = 'Invomaker';

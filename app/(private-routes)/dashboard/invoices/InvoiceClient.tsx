@@ -1,5 +1,6 @@
 'use client';
 import { invoiceColumns } from '@/app/components/Invoice/invoice.columns';
+import { PAZE_SIZE } from '@/app/constants';
 import { useListMyInvoices } from '@/app/hooks/backend/invoice.hook';
 import { useDebounce } from '@/app/hooks/ui/debounce';
 import { TanstackTable } from '@/ui/TanstackTable';
@@ -17,6 +18,7 @@ export default function InvoiceClient() {
 
   const queryParams = useMemo(() => {
     const params = new URLSearchParams();
+    params.set('perPage', PAZE_SIZE.toString());
     if (status) params.set('status', status);
     if (currentPage) params.set('page', currentPage.toString());
     if (debouncedSearch) params.set('search', debouncedSearch);
