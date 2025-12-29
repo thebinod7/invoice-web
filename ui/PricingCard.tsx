@@ -37,7 +37,7 @@ export function PricingCard({
         borderColor: isHighlighted ? 'black' : '',
       }}
       className={`relative flex flex-col rounded-s-lg p-8 transition-all border text-black bg-white
-                ${isHighlighted ? 'shadow-xl' : 'shadow-sm'}
+                ${isHighlighted ? 'border-2 shadow-xl' : 'shadow-sm'}
           `}
     >
       <div className="mb-8">

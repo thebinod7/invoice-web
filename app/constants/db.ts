@@ -1,3 +1,5 @@
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_PRO } from '.';
+
 export const CATEGORIES = ['All', 'Insights', 'Guide'];
 
 export const BLOG_ARTICLES = [
@@ -85,7 +87,7 @@ export const PRICING = {
       { text: 'Edit Past Invoices', enabled: false },
       { text: 'Overdue & Payment Status', enabled: false },
       { text: 'Unlimited Downloads', enabled: false },
-      { text: 'Upload logo upto 1MB', enabled: false },
+      { text: `Upload logo upto ${MAX_FILE_SIZE}MB`, enabled: false },
     ],
   },
   STARTER: {
@@ -98,7 +100,7 @@ export const PRICING = {
       { text: 'Overdue & Payment Status', enabled: true },
       { text: 'Save Clients & Business Details', enabled: true },
       { text: 'Unlimited Downloads', enabled: true },
-      { text: 'Upload logo upto 5MB', enabled: true },
+      { text: `Upload logo upto ${MAX_FILE_SIZE_PRO}MB`, enabled: true },
     ],
   },
 };

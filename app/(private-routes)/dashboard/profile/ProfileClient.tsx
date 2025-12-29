@@ -21,6 +21,7 @@ import { patchRequest } from '@/app/helpers/request';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { sanitizeError } from '@/app/helpers';
 import { toast } from 'sonner';
+import { Info } from 'lucide-react';
 
 export default function ProfileClient() {
   const { data } = useGetMeQuery();
@@ -67,9 +68,10 @@ export default function ProfileClient() {
 
   return (
     <Card className="w-full max-w-md mx-auto mt-16">
-      <div className="p-4 md:p-12">
-        <div className="mb-4">
-          <p className="text-muted-foreground text-pretty leading-relaxed">
+      <div className="p-4 md:p-8">
+        <div className="mb-4 flex items-center text-sm">
+          <Info className="w-4 h-4 mr-2" />
+          <p className="text-muted-foreground text-pretty">
             Keep your information current and accurate
           </p>
         </div>
