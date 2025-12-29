@@ -1,3 +1,5 @@
+import { MAX_FILE_SIZE, MAX_FILE_SIZE_PRO } from '.';
+
 export const CATEGORIES = ['All', 'Insights', 'Guide'];
 
 export const BLOG_ARTICLES = [
@@ -71,3 +73,34 @@ export const BLOG_ARTICLES = [
     tags: ['Freelancers', 'Invoice', 'Templates'],
   },
 ];
+
+export const PRICING = {
+  FREE: {
+    plan: 'Free',
+    price: 'Free',
+    features: [
+      { text: 'Create Invoices Instantly', enabled: true },
+      { text: 'No Signup Required', enabled: true },
+      { text: 'Multiple Currency Support', enabled: true },
+      { text: 'Download PDF', enabled: true },
+      { text: 'Invoice History', enabled: false },
+      { text: 'Edit Past Invoices', enabled: false },
+      { text: 'Overdue & Payment Status', enabled: false },
+      { text: 'Unlimited Downloads', enabled: false },
+      { text: `Upload logo upto ${MAX_FILE_SIZE}MB`, enabled: false },
+    ],
+  },
+  STARTER: {
+    price: 'xx.xx',
+    plan: 'Starter',
+    features: [
+      { text: 'Everything in Free', enabled: true },
+      { text: 'Invoice History & Cloud Storage', enabled: true },
+      { text: 'Edit Past Invoices', enabled: true },
+      { text: 'Overdue & Payment Status', enabled: true },
+      { text: 'Save Clients & Business Details', enabled: true },
+      { text: 'Unlimited Downloads', enabled: true },
+      { text: `Upload logo upto ${MAX_FILE_SIZE_PRO}MB`, enabled: true },
+    ],
+  },
+};

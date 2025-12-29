@@ -59,7 +59,7 @@ export default function HomeHero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
                 href="/create-invoice"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-500 hover:bg-emerald-400 rounded-lg transition-colors  focus:ring-offset-2"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors  focus:ring-offset-2"
               >
                 Create an Invoice
                 <FileText className="ml-2 h-5 w-5" />

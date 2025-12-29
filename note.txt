@@ -2,4 +2,33 @@
 - Request submit from website
 - Save data inside DB and notify admin
 - Update status=>ACTIVE and hasPaid=>true if payment recieved
-- Ad should autmatically fetched and displayed
+- Ad should autmatically fetched and 
+
+========================================================================
+======PAID MVP ($3.99)===========
+=> Invoice History 
+    - Never lose an invoice again
+    - View list, Download again
+    - Status based on dueDate (auto)
+    - Manual mark as done
+    - Export to CSV (Optional)
+    - Clone Invoice
+
+=====What your Pro value proposition=====
+Pro = Get paid & stay organized
+
+- Never lose invoices
+- Track what’s paid or overdue
+- Look professional to clients
+
+
+========Lifetime Access=======
+- Limit to 10–30 users max
+- Offer manually via email or DM
+- Price: $49–$79 one-time
+
+Users who:
+- Already use the product
+- Give feedback
+- Report bugs
+- Are active

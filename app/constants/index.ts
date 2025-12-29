@@ -5,9 +5,9 @@ export const APP = {
     'Easily create and customize professional invoices with our Free Invoice Generator. Whether you are a freelancer, small business owner, or entrepreneur, our tool helps you create accurate, professional invoices for free. Simply input your details, customize the invoice to fit your needs, and download it in PDF format—ready to send to your clients. No sign-up required',
 };
 
-export const APP_NAME = 'Invomaker.com';
-export const MAX_FILE_SIZE = 5; // MB
-export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE * 1024 * 1024;
+export const APP_NAME = 'invomaker.com';
+export const MAX_FILE_SIZE = 1;
+export const MAX_FILE_SIZE_PRO = 5;
 
 export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/logo.png';
 export const WEBSITE_URL = process?.env?.NEXT_PUBLIC_APP_URL;
@@ -34,15 +34,21 @@ export const NAV_LINKS = [
 ];
 
 export const APP_PATHS = {
+  AUTH: '/auth',
+  SIGNUP: '/signup',
   HOME: '/',
   ABOUT: '/about',
+  BLOG: '/blog',
   CREATE_INVOICE: '/create-invoice',
   SERVICES: '/services',
   CONTACT: '/contact',
-  APPLICATION_FORM: '/application-form',
-  SUBMISSIONS: '/dashboard/submissions',
-  DASHBOARD: '/dashboard',
-  LOGIN: '/login',
+  DASHBOARD: {
+    FEEDBACK: '/dashboard/feedback',
+    HOME: '/dashboard',
+    INVOICES: '/dashboard/invoices',
+    PROFILE: '/dashboard/profile',
+    SUBSCRIPTION: '/dashboard/subscription',
+  },
 };
 
 export const SONNER_CONFIG = {
@@ -75,3 +81,22 @@ export const SEO_KEYWORDS = [
 export const AD_PRICE = {
   SEVEN_DAYS: 14.43,
 };
+
+export const GENDER = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER',
+  UNKNOWN: 'UNKNOWN',
+};
+
+export const PAZE_SIZE = 10;
+export const INVOICE_STATUS = {
+  CREATED: 'CREATED',
+  SENT: 'SENT',
+  PAID: 'PAID',
+  CANCELLED: 'CANCELLED',
+};
+export const DEFAULT_CURRENCY = 'USD';
+
+export const DEF_FIRST_NAME = 'User';
+export const DEF_LAST_NAME = 'Invomaker';

@@ -1,46 +1,58 @@
 'use client';
 
+import { useMutation } from '@tanstack/react-query';
+import {
+  AlertCircle,
+  CheckCircle2,
+  ChevronLeft,
+  Home,
+  Loader2,
+  Mail,
+} from 'lucide-react';
+import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
-import { Mail, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { API_ROUTES } from '../constants/api-routes';
+import { emailValidator } from '../helpers';
+import { postRequest } from '../helpers/request';
+import { APP_PATHS } from '../constants';
 
 export default function MagicLinkLogin() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<
-    'idle' | 'loading' | 'success' | 'error'
-  >('idle');
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  const useSendMagicLinkMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(`${API_ROUTES.AUTH}/magic-login`, payload);
+    },
+    onError: () => {
+      setStatus('success');
+    },
+    onSuccess: () => {
+      setStatus('success');
+    },
+  });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!email.trim()) {
       setStatus('error');
-      setErrorMessage('Email address is required');
-      return;
+      return setErrorMessage('Email address is required');
     }
-
-    if (!validateEmail(email)) {
+    if (!emailValidator(email)) {
       setStatus('error');
-      setErrorMessage('Please enter a valid email address');
-      return;
+      return setErrorMessage('Please enter a valid email address');
     }
-
-    setStatus('loading');
     setErrorMessage('');
-
-    // Simulate API call
-    setTimeout(() => {
-      setStatus('success');
-    }, 1500);
+    return useSendMagicLinkMutation.mutateAsync({ email });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
+      {/* Write a fixed Home button to navigate to the home page */}
+      <Link href="/" title="Go Home">
+        <Home className="absolute top-10 left-10 cursor-pointer z-10 w-6 h-6 text-black" />
+      </Link>
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-semibold text-black mb-3 tracking-tight text-balance">
@@ -50,6 +62,16 @@ export default function MagicLinkLogin() {
             Enter your email to receive a magic link
           </p>
         </div>
+
+        {/* Go back button if status is success */}
+        {status === 'success' && (
+          <div className="flex justify-end items-center mb-2">
+            <ChevronLeft className="cursor-pointer ml-4 z-10 w-6 h-6 text-black" />
+            <button className="text-sm" onClick={() => setStatus('idle')}>
+              Resend Magic Link
+            </button>
+          </div>
+        )}
 
         {status === 'success' ? (
           <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-6 text-center">
@@ -62,7 +84,7 @@ export default function MagicLinkLogin() {
               <span className="font-medium text-black">{email}</span>
             </p>
             <p className="text-sm text-neutral-600 mt-4 leading-relaxed">
-              Click the link in your email to sign in
+              It can take few minutes to arrive.
             </p>
           </div>
         ) : (
@@ -93,7 +115,7 @@ export default function MagicLinkLogin() {
                       ? 'border-red-300 bg-red-50'
                       : 'border-neutral-300 bg-white'
                   }`}
-                  disabled={status === 'loading'}
+                  disabled={useSendMagicLinkMutation.isPending}
                 />
               </div>
               {status === 'error' && (
@@ -104,12 +126,19 @@ export default function MagicLinkLogin() {
               )}
             </div>
 
+            {/* <div className="mt-4 flex items-center justify-center">
+              <Lock className="w-4 h-4 mr-1" />
+              <p className="text-sm text-neutral-500">
+                Secure and easy to use. Password-less login.
+              </p>
+            </div> */}
+
             <button
               type="submit"
-              disabled={status === 'loading'}
+              disabled={useSendMagicLinkMutation.isPending}
               className="w-full bg-emerald-500 hover:bg-emerald-500 text-white font-medium py-3.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {status === 'loading' ? (
+              {useSendMagicLinkMutation.isPending ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Sending magic link...
@@ -118,14 +147,17 @@ export default function MagicLinkLogin() {
                 'Send magic link'
               )}
             </button>
+
+            <div className="flex justify-center">
+              <Link
+                href={APP_PATHS.SIGNUP}
+                className="text-sm text-neutral-600 hover:underline transition-colors"
+              >
+                Don't have an account? Register
+              </Link>
+            </div>
           </form>
         )}
-
-        <div className="mt-8 text-center">
-          <p className="text-sm text-neutral-500">
-            Password-less login. Secure and easy to use.
-          </p>
-        </div>
       </div>
     </div>
   );

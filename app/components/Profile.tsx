@@ -1,19 +1,22 @@
 'use client';
 
-import { deleteCookie } from 'cookies-next/client';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import {
-  clearLocalStorage,
-  getLocalUser,
-  LOCAL_KEYS,
-} from '../helpers/local-storage';
+import { APP_PATHS } from '../constants';
+import { useAuthContext } from '../context/useAuthContext';
 
-export default function Profile() {
+const MENU_ITEMS = [
+  {
+    label: 'My Dashboard',
+    href: APP_PATHS.DASHBOARD.HOME,
+  },
+];
+
+export default function Profile({}) {
+  const { authStatus, currentUser } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
-  const [currentUser, setCurrentUser] = useState<any>(null);
 
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef?.current.contains(event.target)) {
@@ -32,17 +35,13 @@ export default function Profile() {
     };
   }, []);
 
-  useEffect(() => {
-    setCurrentUser(getLocalUser());
-  }, []);
-
-  const handleLogoutClick = () => {
-    clearLocalStorage();
-    deleteCookie(LOCAL_KEYS.ACCESS_TOKEN);
-    window.location.href = '/';
+  const handleItemClick = () => {
+    setIsDropdownOpen(false);
   };
 
-  const handleItemClick = () => setIsDropdownOpen(false);
+  if (authStatus === 'loading') {
+    return <div className="h-7 w-24 animate-pulse rounded bg-slate-100" />;
+  }
 
   return (
     <div ref={dropdownRef}>
@@ -53,7 +52,16 @@ export default function Profile() {
         type="button"
         onClick={toggleDropdown}
       >
-        {currentUser ? `👋 ${currentUser.name}` : '👋 Hello Guest'}
+        {currentUser ? (
+          `Hi, ${currentUser.firstName}`
+        ) : (
+          <Link
+            className="outline bg-emerald-500 hover:bg-emerald-600 text-white outline-1 px-5 py-2 rounded-sm outline-offset-2"
+            href={APP_PATHS.AUTH}
+          >
+            Sign In
+          </Link>
+        )}
         {currentUser && <ChevronDown size={16} className="ml-2" />}
       </button>
 
@@ -66,15 +74,19 @@ export default function Profile() {
           }`}
         >
           <ul className="py-2 text-sm" aria-labelledby="dropdownDefaultButton">
-            <li>
-              <Link
-                onClick={handleLogoutClick}
-                href="#logout"
-                className="block px-4 py-2 hover:bg-gray-600 dark:hover:text-white"
-              >
-                Logout
-              </Link>
-            </li>
+            {MENU_ITEMS.map((item, index) => {
+              return (
+                <li key={index}>
+                  <Link
+                    onClick={handleItemClick}
+                    href={item.href}
+                    className="block px-4 py-2 hover:bg-slate-200 dark:hover:text-white"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

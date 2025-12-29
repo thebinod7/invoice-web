@@ -1,7 +1,27 @@
-import { APP_NAME } from '@/app/constants';
-import { FileText } from 'lucide-react';
+import { APP, APP_NAME, APP_PATHS } from '@/app/constants';
+import { FileText, X } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import Profile from '../Profile';
+
+const NAV_LINKS = [
+  {
+    label: 'Blog',
+    href: APP_PATHS.BLOG,
+  },
+  {
+    label: 'Features',
+    href: '/#features',
+  },
+  {
+    label: 'How it works',
+    href: '/#how-it-works',
+  },
+  {
+    label: 'Get Started',
+    href: APP_PATHS.CREATE_INVOICE,
+  },
+];
 
 export default function Header2() {
   return (
@@ -14,37 +34,18 @@ export default function Header2() {
           </div>
         </Link>
         <nav className="hidden sm:flex space-x-6">
-          <Link
-            href="/tools"
-            className="relative group flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 font-semibold text-sm hover:from-emerald-100 hover:to-teal-100 transition-all duration-200 shadow-sm hover:shadow-md border border-emerald-200"
-          >
-            More Tools
-          </Link>
-          <Link
-            href="/blog"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Blog
-          </Link>
-          <Link
-            href="/#features"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Features
-          </Link>
-          {/* <a
-            href="/#how-it-works"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            How it Works
-          </a> */}
-          <Link
-            href="/create-invoice"
-            className="text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            Get Started
-          </Link>
+          {NAV_LINKS.map((item, index: number) => (
+            <Link
+              key={index}
+              href={item.href}
+              className="text-sm font-medium text-gray-700 hover:text-gray-900"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
+
+        <Profile />
       </div>
     </header>
   );

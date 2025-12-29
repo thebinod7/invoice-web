@@ -1,13 +1,15 @@
 export const QUERY_KEYS = {
   APP: {
     ACTIVE_AD: 'ACTIVE_AD',
+    MY_STATS: 'MY_STATS',
   },
   GOOGLE_LOGIN: 'GOOGLE_LOGIN',
   USER: {
-    ME: 'USER_ME',
+    GET_ME: 'GET_ME',
+    UPDATE_ME: 'UPDATE_ME',
   },
-  VISA: {
-    BY_COUNTRY: 'VISA_BY_COUNTRY',
-    BY_ID: 'VISA_BY_ID',
+  INVOICE: {
+    MY_LIST: 'MY_LIST',
+    GET_BY_ID: 'GET_BY_ID',
   },
 };

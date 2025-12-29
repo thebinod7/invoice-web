@@ -1,5 +1,7 @@
 export const API_ROUTES = {
-  GENERATE_INVOICE: '/app/generate-invoice',
-  USERS: '/users',
   APP: '/app',
+  AUTH: '/auth',
+  GENERATE_INVOICE: '/app/generate-invoice',
+  INVOICES: '/invoices',
+  USERS: '/users',
 };

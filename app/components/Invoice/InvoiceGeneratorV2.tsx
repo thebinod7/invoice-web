@@ -1,6 +1,6 @@
 'use client';
 
-import { MAX_FILE_SIZE, MAX_FILE_SIZE_BYTES } from '@/app/constants';
+import { DEFAULT_CURRENCY, MAX_FILE_SIZE } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { SUPPORTED_CURRENCIES } from '@/app/constants/currency';
 import {
@@ -8,6 +8,7 @@ import {
   calculatePercentAmountOfTotal,
   formatCurrency,
   getCurrencySymbolByName,
+  isMobile,
 } from '@/app/helpers';
 import {
   getInvoiceDetails,
@@ -35,8 +36,6 @@ import {
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-
-const DEFAULT_CURRENCY = 'USD';
 
 const invoiceInitial = {
   companyLogo: '',
@@ -135,13 +134,11 @@ export default function InvoiceGeneratorV2() {
         currency: invoice.currency,
         companyLogo: invoice.companyLogo,
       });
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      console.log({ isMobile });
-
+      const mobile = isMobile();
       const blob = new Blob([data.data], { type: 'application/pdf' });
       const blobUrl = window.URL.createObjectURL(blob);
 
-      if (isMobile) {
+      if (mobile) {
         window.open(blobUrl, '_blank'); // Open instead of download
       } else {
         const link = document.createElement('a');
@@ -294,7 +291,7 @@ export default function InvoiceGeneratorV2() {
                           <div>
                             <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
                               <input
-                                max={MAX_FILE_SIZE_BYTES}
+                                max={MAX_FILE_SIZE * 1024 * 1024}
                                 type="file"
                                 onChange={handleLogoChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"

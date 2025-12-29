@@ -1,9 +1,39 @@
 import * as currencyFormatter from 'currency-formatter';
 
+export const isoToDateInput = (iso: string) => {
+  return new Date(iso).toISOString().split('T')[0];
+};
+
+export const isMobile = () => {
+  return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+};
+export const truncateString = (str: string, textLimit?: number) => {
+  if (!textLimit) textLimit = 16;
+  if (!str) return '';
+  if (str.length > textLimit) {
+    return str.slice(0, textLimit) + '...';
+  }
+  return str;
+};
+
+export const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
+export const getNameInitials = (firstName: string, lastName: string) => {
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`;
+};
+
+export const emailValidator = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 import {
   SUPPORTED_CURRENCIES,
   SYMBOL_SUPPORTED_CURRENCIES,
 } from '../constants/currency';
+import { DEFAULT_CURRENCY } from '../constants';
 
 export const sanitizeError = (error: any) => {
   if (error?.response?.data?.message) {
@@ -40,7 +70,7 @@ export const getCurrencyLocaleByName = (currency: string) => {
 
 export const formatDate = (inputDate: string) => {
   if (!inputDate) return '';
-  new Date(inputDate).toLocaleDateString('en-US', {
+  return new Date(inputDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -53,7 +83,10 @@ export const calculateFileSizeInMB = (bytes: number) => {
   return mb.toFixed(2);
 };
 
-export const formatCurrency = (amount: number, currencyCode = 'USD') => {
+export const formatCurrency = (
+  amount: number,
+  currencyCode = DEFAULT_CURRENCY
+) => {
   try {
     const options: {
       code: string;

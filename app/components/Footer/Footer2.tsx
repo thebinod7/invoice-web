@@ -1,4 +1,4 @@
-import { APP_NAME, SOCIAL_LINKS, TOOLS_LIST } from '@/app/constants';
+import { APP_NAME, TOOLS_LIST } from '@/app/constants';
 import { FileText } from 'lucide-react';
 import Link from 'next/link';
 
@@ -31,7 +31,7 @@ export default function Footer2() {
               </Link>
             </div>
             <div>
-              <h3 className="text-lg font-semibold mb-4">Tools</h3>
+              <h3 className="text-lg font-semibold mb-4">More Tools</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <Link
