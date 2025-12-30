@@ -43,7 +43,23 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
   {
     accessorKey: 'receiverDetails',
     header: 'Client',
-    cell: ({ getValue }) => truncateString(getValue<string>(), 15),
+    cell: ({ getValue }) => {
+      const client = getValue<string>();
+      if (client.length < 20) return client;
+      return (
+        <TooltipBox>
+          <TooltipTrigger asChild>
+            <div className="flex items-center gap-2">
+              {truncateString(client, 20)}
+              <Info color="oklch(70.7% 0.165 254.624)" size={16} />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{client}</p>
+          </TooltipContent>
+        </TooltipBox>
+      );
+    },
   },
   {
     accessorKey: 'invoiceNumber',

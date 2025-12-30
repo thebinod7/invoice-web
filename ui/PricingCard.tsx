@@ -64,12 +64,19 @@ export function PricingCard({
 
           {isHighlighted ? (
             <Button
+              style={{
+                borderColor: isHighlighted ? 'oklch(69.6% 0.17 162.48)' : '',
+              }}
               disabled={true}
-              className="w-full py-4 font-semibold"
+              className="w-full py-4 font-bold text-emerald-500"
               variant="outline"
               size="sm"
             >
-              <CheckCircle /> Active
+              <CheckCircle
+                className="mr-2 h-5 w-5"
+                color="oklch(59.6% 0.145 163.225)"
+              />{' '}
+              Active
             </Button>
           ) : (
             <Button
