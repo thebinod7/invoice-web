@@ -149,7 +149,7 @@ export default function DashboardClientV2() {
       </div>
 
       {/* Currency Details Table */}
-      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-4 mt-4">
+      <div className="grid grid-cols-1 gap-4 mt-4">
         <Card className="border border-slate-200 bg-white">
           <CardHeader>
             <CardTitle className="text-slate-900">Currency Details</CardTitle>
@@ -258,8 +258,8 @@ export default function DashboardClientV2() {
                       data={invoiceStatusData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={55}
-                      outerRadius={84}
+                      innerRadius={65}
+                      outerRadius={85}
                       paddingAngle={0}
                       dataKey="value"
                       label={({ name, percent = 0 }) =>

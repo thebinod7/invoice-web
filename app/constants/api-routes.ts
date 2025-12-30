@@ -1,3 +1,12 @@
+import {
+  ChartNoAxesColumn,
+  FileStack,
+  Lightbulb,
+  LucideIcon,
+  Plus,
+} from 'lucide-react';
+import { APP_PATHS } from '.';
+
 export const API_ROUTES = {
   APP: '/app',
   AUTH: '/auth',
@@ -5,3 +14,39 @@ export const API_ROUTES = {
   INVOICES: '/invoices',
   USERS: '/users',
 };
+
+interface SidebarItemConfig {
+  key: string;
+  label: string;
+  href: string;
+  icon: LucideIcon;
+  external?: boolean;
+}
+
+export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
+  {
+    key: 'dashboard',
+    label: 'Dashboard',
+    href: APP_PATHS.DASHBOARD.HOME,
+    icon: ChartNoAxesColumn,
+  },
+  {
+    key: 'new-invoice',
+    label: 'New Invoice',
+    href: APP_PATHS.CREATE_INVOICE,
+    icon: Plus,
+    external: true,
+  },
+  {
+    key: 'invoices',
+    label: 'My Invoices',
+    href: APP_PATHS.DASHBOARD.INVOICES,
+    icon: FileStack,
+  },
+  {
+    key: 'feedback',
+    label: 'Feedback',
+    href: APP_PATHS.DASHBOARD.FEEDBACK,
+    icon: Lightbulb,
+  },
+];
