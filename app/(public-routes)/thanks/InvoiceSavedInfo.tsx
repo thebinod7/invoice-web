@@ -7,8 +7,8 @@ export default function InvoiceSavedInfo() {
             Invoice Saved
           </h3>
           <p className="text-sm text-gray-600 leading-relaxed">
-            Your invoice has been automatically saved in your account. You can
-            find it in your dashboard.
+            Your invoice details have been automatically saved in your account.
+            You can find it in your dashboard.
           </p>
         </div>
         {/* <div className="flex-shrink-0">
