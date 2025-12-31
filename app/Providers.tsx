@@ -6,21 +6,24 @@ import { AppContextProvider } from './context/useAppContext';
 import { AuthContextProvider } from './context/useAuthContext';
 import { PostHogProvider } from './PosthogProvider';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const Providers = ({ children }: { readonly children: React.ReactNode }) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <TooltipProvider delayDuration={200}>
-      <AuthContextProvider>
-        <AppContextProvider>
-          <QueryClientProvider client={queryClient}>
-            <PostHogProvider>{children}</PostHogProvider>
-          </QueryClientProvider>
-        </AppContextProvider>
-      </AuthContextProvider>
-    </TooltipProvider>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}>
+      <TooltipProvider delayDuration={200}>
+        <AuthContextProvider>
+          <AppContextProvider>
+            <QueryClientProvider client={queryClient}>
+              <PostHogProvider>{children}</PostHogProvider>
+            </QueryClientProvider>
+          </AppContextProvider>
+        </AuthContextProvider>
+      </TooltipProvider>
+    </GoogleOAuthProvider>
   );
 };
 
