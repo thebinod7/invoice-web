@@ -17,6 +17,7 @@ import { API_ROUTES } from '../constants/api-routes';
 import { emailValidator, sanitizeError } from '../helpers';
 import { isValidName, splitFullName } from '../helpers/helper';
 import { postRequest } from '../helpers/request';
+import GoogleLogin from '@/ui/GoogleLogin';
 
 export default function page() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -189,6 +190,8 @@ export default function page() {
                 'Sign Up'
               )}
             </button>
+
+            <GoogleLogin btnText="Sign up with Google" />
 
             <div className="flex justify-center">
               <Link

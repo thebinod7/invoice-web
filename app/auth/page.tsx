@@ -1,5 +1,6 @@
 'use client';
 
+import GoogleLogin from '@/ui/GoogleLogin';
 import { useMutation } from '@tanstack/react-query';
 import {
   AlertCircle,
@@ -11,10 +12,11 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, type FormEvent } from 'react';
-import { API_ROUTES } from '../constants/api-routes';
-import { emailValidator } from '../helpers';
-import { postRequest } from '../helpers/request';
+import { toast } from 'sonner';
 import { APP_PATHS } from '../constants';
+import { API_ROUTES } from '../constants/api-routes';
+import { emailValidator, sanitizeError } from '../helpers';
+import { postRequest } from '../helpers/request';
 
 export default function MagicLinkLogin() {
   const [email, setEmail] = useState('');
@@ -25,8 +27,10 @@ export default function MagicLinkLogin() {
     mutationFn: (payload: any) => {
       return postRequest(`${API_ROUTES.AUTH}/magic-login`, payload);
     },
-    onError: () => {
-      setStatus('success');
+    onError: (err) => {
+      setStatus('error');
+      toast.error(sanitizeError(err));
+      setErrorMessage('Email does not exist! Please sign up.');
     },
     onSuccess: () => {
       setStatus('success');
@@ -147,6 +151,8 @@ export default function MagicLinkLogin() {
                 'Send magic link'
               )}
             </button>
+
+            <GoogleLogin btnText="Login with Google" />
 
             <div className="flex justify-center">
               <Link
