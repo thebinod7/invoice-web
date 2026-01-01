@@ -1,8 +1,10 @@
 'use client';
 
 import { API_ROUTES } from '@/app/constants/api-routes';
-import { isMobile, sanitizeError } from '@/app/helpers';
+import { QUERY_KEYS } from '@/app/constants/query-keys';
+import { sanitizeError } from '@/app/helpers';
 import { API_BASE_URL } from '@/app/helpers/config';
+import { delRequest } from '@/app/helpers/request';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,17 +14,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import axios from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Archive, Download, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { delRequest } from '@/app/helpers/request';
-import { QUERY_KEYS } from '@/app/constants/query-keys';
 
 export function InvoiceActionDropdown({
   rowId,
-  invoiceNumber,
 }: {
   rowId: string;
   invoiceNumber: string;
@@ -31,30 +29,7 @@ export function InvoiceActionDropdown({
 
   const handleDownload = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}${API_ROUTES.INVOICES}/${rowId}/download`,
-        {
-          responseType: 'blob',
-          withCredentials: true,
-        }
-      );
-
-      const blob = new Blob([response.data], {
-        type: 'application/pdf',
-      });
-
-      const blobUrl = window.URL.createObjectURL(blob);
-      const mobile = isMobile();
-      if (mobile) {
-        window.open(blobUrl, '_blank');
-      }
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = `invoice-${invoiceNumber}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
+      window.location.href = `${API_BASE_URL}/invoices/${rowId}/download`;
     } catch (error) {
       toast.error('Failed to download invoice! Please try after some time.');
     }

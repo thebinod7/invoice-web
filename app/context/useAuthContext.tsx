@@ -43,6 +43,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       setIsLoggedIn(isAuthenticated);
       setAuthStatus(isAuthenticated ? 'authenticated' : 'unauthenticated');
     } catch {
+      setCurrentUser(null);
       setAuthStatus('unauthenticated');
       setIsLoggedIn(false);
     }
