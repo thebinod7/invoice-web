@@ -9,6 +9,7 @@ import { API_ROUTES } from '../constants/api-routes';
 import { sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
 import { DEF_FIRST_NAME, DEF_LAST_NAME } from '../constants';
+import GoogleLogin from '@/ui/GoogleLogin';
 
 export default function MagicLoginForm() {
   const [email, setEmail] = useState('');
@@ -106,6 +107,10 @@ export default function MagicLoginForm() {
         >
           {isSubmitting ? 'Sending...' : 'Get a magic link'}
         </button>
+
+        <hr />
+
+        <GoogleLogin btnText="Continue with Google" />
 
         <p className="text-muted-foreground text-xs">
           Invoice saving and tracking are part of Pro and will be paid when Pro

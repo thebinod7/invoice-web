@@ -152,6 +152,8 @@ export default function MagicLinkLogin() {
               )}
             </button>
 
+            <hr />
+
             <GoogleLogin btnText="Login with Google" />
 
             <div className="flex justify-center">
