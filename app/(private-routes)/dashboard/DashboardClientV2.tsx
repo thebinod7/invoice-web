@@ -2,6 +2,9 @@
 
 import type React from 'react';
 
+import CurrencyDetailsTable from '@/app/components/CurrencyDetailsTable';
+import InvoiceStatusPieChart from '@/app/components/InvoiceStatusPieChart';
+import { useMyStatsQuery } from '@/app/hooks/backend/user.hook';
 import {
   Card,
   CardContent,
@@ -9,16 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
-import { CheckCircle2, FileText, Send } from 'lucide-react';
-import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
-import { useMyStatsQuery } from '@/app/hooks/backend/user.hook';
-import { formatCurrency } from '@/app/helpers';
 import { PageSpinner } from '@/ui/PageSpinner';
+import { CheckCircle2, FileText, Send } from 'lucide-react';
 
 // Type definitions
 interface InvoiceData {
@@ -148,135 +143,12 @@ export default function DashboardClientV2() {
         ))}
       </div>
 
-      {/* Currency Details Table */}
       <div className="grid grid-cols-1 gap-4 mt-4">
-        <Card className="border border-slate-200 bg-white">
-          <CardHeader>
-            <CardTitle className="text-slate-900">Currency Details</CardTitle>
-            <CardDescription>
-              Detailed breakdown of invoiced amounts by currency
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="min-w-full table-auto text-sm">
-                <thead>
-                  <tr className="border-b border-slate-200">
-                    <th className="px-4 py-3 text-left font-semibold text-slate-900">
-                      Currency
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-slate-900">
-                      Total
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-slate-900">
-                      Unpaid
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-slate-900">
-                      Overdue
-                    </th>
-                    <th className="px-4 py-3 text-right font-semibold text-slate-900">
-                      Collection %
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currencyChartData.length > 0 ? (
-                    currencyChartData.map((row, idx) => (
-                      <tr
-                        key={idx}
-                        className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
-                      >
-                        <td className="px-4 py-3 font-medium text-slate-900">
-                          {row.currency}
-                        </td>
-                        <td className="px-4 py-3 text-right text-slate-900 font-semibold">
-                          {formatCurrency(row.total, row.currency)}
-                        </td>
-                        <td className="px-4 py-3 text-right text-amber-600">
-                          {formatCurrency(row.unpaid, row.currency)}
-                        </td>
-                        <td className="px-4 py-3 text-right text-red-600">
-                          {formatCurrency(row.overdue, row.currency)}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <div className="w-16 bg-slate-200 rounded-full h-2">
-                              <div
-                                className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full"
-                                style={{
-                                  width: `${
-                                    ((row.total - row.unpaid) / row.total) * 100
-                                  }%`,
-                                }}
-                              ></div>
-                            </div>
-                            <span className="text-xs font-medium text-slate-600">
-                              {(
-                                ((row.total - row.unpaid) / row.total) *
-                                100
-                              ).toFixed(0)}
-                              %
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={5} className="text-center py-4">
-                        No data available
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Currency Details Table */}
+        <CurrencyDetailsTable currencyChartData={currencyChartData} />
 
         {/* Invoice Status Pie */}
-        <Card className="min-w-0 border border-slate-200 bg-white">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-slate-900 mb-1">
-              <CheckCircle2 className="w-5 h-5" />
-              Invoice Status
-            </CardTitle>
-            <CardDescription>Payment completion rate</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="w-full max-w-full">
-              <ChartContainer
-                config={{
-                  paid: { label: 'Paid', color: '#10b981' },
-                  unpaid: { label: 'Unpaid', color: '#f59e0b' },
-                }}
-                className="h-[250px] w-full"
-              >
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={invoiceStatusData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={65}
-                      outerRadius={85}
-                      paddingAngle={0}
-                      dataKey="value"
-                      label={({ name, percent = 0 }) =>
-                        `${name} ${(percent * 100).toFixed(0)}%`
-                      }
-                    >
-                      {invoiceStatusData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                      ))}
-                    </Pie>
-                    <ChartTooltip content={<ChartTooltipContent />} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartContainer>
-            </div>
-          </CardContent>
-        </Card>
+        <InvoiceStatusPieChart invoiceStatusData={invoiceStatusData} />
       </div>
 
       {/* Footer Info */}
