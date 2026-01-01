@@ -191,6 +191,8 @@ export default function page() {
               )}
             </button>
 
+            <hr />
+
             <GoogleLogin btnText="Sign up with Google" />
 
             <div className="flex justify-center">

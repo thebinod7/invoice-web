@@ -58,7 +58,7 @@ export default function GoogleLogin({ btnText }: { btnText: string }) {
         </svg>
       </div>
       <span>{btnText}</span>
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/0 via-blue-600/0 to-purple-600/0 transition-all duration-300"></div>
+      {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/0 via-blue-600/0 to-purple-600/0 transition-all duration-300"></div> */}
     </button>
   );
 }
