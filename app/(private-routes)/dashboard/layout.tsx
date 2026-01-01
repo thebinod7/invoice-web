@@ -17,13 +17,13 @@ export default function DashboardLayout({
   const pathsInArray = pathname.split('/');
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen md:bg-gray-50">
       <Sidebar sidebarOpen={sidebarOpen} pathname={pathname} />
 
       <main className="flex-1 flex flex-col min-h-0">
         <header className="bg-white h-14 border-b border-gray-200 px-6 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="cursor-default p-2 rounded-lg"
@@ -34,13 +34,16 @@ export default function DashboardLayout({
             </div>
             <button
               title="No notifications!"
-              className="p-2 hover:bg-gray-100 rounded-lg"
+              className="p-2 hover:bg-gray-100 rounded-lg flex-shrink-0"
             >
               <Bell className="w-5 h-5 text-gray-600" />
             </button>
           </div>
         </header>
-        <div className="overflow-y-auto">{children}</div>
+
+        <div className="flex-1 flex flex-col min-h-0 overflow-auto">
+          {children}
+        </div>
       </main>
     </div>
   );
