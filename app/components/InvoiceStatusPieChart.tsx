@@ -13,12 +13,15 @@ import {
 import { CheckCircle2 } from 'lucide-react';
 import React from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
+import { useIsMobile } from '../hooks/ui/isMobile';
 
 export default function InvoiceStatusPieChart({
   invoiceStatusData,
 }: {
   invoiceStatusData: { name: string; value: number; fill: string }[];
 }) {
+  const isMobile = useIsMobile();
+  console.log({ isMobile });
   return (
     <Card className="min-w-0 border border-slate-200 bg-white">
       <CardHeader>
@@ -43,8 +46,8 @@ export default function InvoiceStatusPieChart({
                   data={invoiceStatusData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={65}
-                  outerRadius={85}
+                  innerRadius={isMobile ? 40 : 65}
+                  outerRadius={isMobile ? 65 : 85}
                   paddingAngle={0}
                   dataKey="value"
                   label={({ name, percent = 0 }) =>
