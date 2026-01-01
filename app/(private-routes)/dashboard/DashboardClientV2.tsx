@@ -159,7 +159,7 @@ export default function DashboardClientV2() {
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full table-fixed text-sm">
+              <table className="min-w-full table-auto text-sm">
                 <thead>
                   <tr className="border-b border-slate-200">
                     <th className="px-4 py-3 text-left font-semibold text-slate-900">

@@ -158,8 +158,8 @@ export function TanstackTable<TData, TValue>({
           </DropdownMenu>
         )}
       </div>
-      <div className="overflow-hidden rounded-md border">
-        <Table>
+      <div className="w-full overflow-x-auto rounded-md border">
+        <Table className="min-w-full table-auto">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
