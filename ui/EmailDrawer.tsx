@@ -1,5 +1,9 @@
 'use client';
 
+import { API_ROUTES } from '@/app/constants/api-routes';
+import { QUERY_KEYS } from '@/app/constants/query-keys';
+import { sanitizeError } from '@/app/helpers';
+import { postRequest } from '@/app/helpers/request';
 import { Button } from '@/components/ui/button';
 import {
   Drawer,
@@ -13,9 +17,13 @@ import {
 } from '@/components/ui/drawer';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
-export default function EmailDrawer() {
+export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
+  const queryClient = useQueryClient();
+
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
@@ -26,10 +34,32 @@ export default function EmailDrawer() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const emailInvoiceMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return postRequest(`${API_ROUTES.INVOICES}/send-to-client`, payload);
+    },
+    onError: (error) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
+      });
+      toast.success('Invoice sent successfully!');
+    },
+    onSettled: () => {
+      setFormData({ clientName: '', clientEmail: '' });
+      toast.dismiss();
+    },
+  });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log('FormData', formData);
+    const payload = {
+      ...formData,
+      invoiceId,
+    };
+    return emailInvoiceMutation.mutate(payload);
   };
 
   return (
@@ -82,7 +112,12 @@ export default function EmailDrawer() {
                   required
                 />
               </div>
-              <Button className="w-full">Submit</Button>
+              <Button
+                disabled={emailInvoiceMutation.isPending}
+                className="w-full"
+              >
+                {emailInvoiceMutation.isPending ? 'Sending...' : 'Send Invoice'}
+              </Button>
             </form>
           </div>
           <DrawerFooter>

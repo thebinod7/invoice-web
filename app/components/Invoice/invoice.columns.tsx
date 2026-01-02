@@ -120,7 +120,7 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
     header: '',
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        <EmailDrawer />
+        <EmailDrawer invoiceId={row.original._id} />
 
         <InvoiceActionDropdown
           rowId={row.original._id}
