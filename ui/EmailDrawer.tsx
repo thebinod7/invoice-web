@@ -28,6 +28,7 @@ export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
     clientName: '',
     clientEmail: '',
   });
+  const [open, setOpen] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -46,6 +47,7 @@ export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
         queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
       });
       toast.success('Invoice sent successfully!');
+      setOpen(false);
     },
     onSettled: () => {
       setFormData({ clientName: '', clientEmail: '' });
@@ -63,9 +65,9 @@ export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
   };
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button size={'sm'} variant="default">
+        <Button size={'sm'} variant="default" onClick={() => setOpen(true)}>
           Send
         </Button>
       </DrawerTrigger>
@@ -122,7 +124,9 @@ export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
           </div>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button onClick={() => setOpen(false)} variant="outline">
+                Cancel
+              </Button>
             </DrawerClose>
           </DrawerFooter>
         </div>
