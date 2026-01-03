@@ -1,8 +1,9 @@
 'use client';
 
+import { useIsMobile } from '@/app/hooks/ui/isMobile';
 import { BreadcrumbMenu } from '@/ui/Breadcrumb';
 import Sidebar from '@/ui/Sidebar';
-import { Bell, Sprout } from 'lucide-react';
+import { Bell, Menu, Sprout } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -11,14 +12,16 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isMobile = useIsMobile();
+
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(isMobile);
 
   const pathsInArray = pathname.split('/');
 
   return (
     <div className="flex h-screen md:bg-gray-50">
-      <Sidebar sidebarOpen={sidebarOpen} pathname={pathname} />
+      <Sidebar collapsed={sidebarOpen} pathname={pathname} />
 
       <main className="flex-1 flex flex-col min-h-0">
         <header className="bg-white h-14 border-b border-gray-200 px-6 py-3">
@@ -26,9 +29,9 @@ export default function DashboardLayout({
             <div className="flex items-center gap-4 flex-shrink-0">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="cursor-default p-2 rounded-lg"
+                className="cursor-pointer p-2 rounded-lg"
               >
-                <Sprout className="w-6 h-6" />
+                <Menu className="w-4 h-4" />
               </button>
               <BreadcrumbMenu items={pathsInArray} />
             </div>

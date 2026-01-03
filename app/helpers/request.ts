@@ -58,7 +58,6 @@ const uploadUsingSignedUrl = async (signedUrl: string, file: any) => {
       'Content-Type': file.type,
     },
   });
-  console.log('Response==>', response);
   if (!response.data) return null;
   return response.data.result;
 };

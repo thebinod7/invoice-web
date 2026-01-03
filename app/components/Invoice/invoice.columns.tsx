@@ -4,6 +4,7 @@ import { INVOICE_STATUS } from '@/app/constants';
 import { formatCurrency, formatDate, truncateString } from '@/app/helpers';
 import { checkIsOverdue } from '@/app/helpers/date';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import EmailDrawer from '@/ui/EmailDrawer';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
 import { InvoiceStatusSelect } from '@/ui/InvoiceStatusSelect';
 import { TooltipBox } from '@/ui/TooltipBox';
@@ -117,10 +118,14 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
     id: 'action',
     header: '',
     cell: ({ row }) => (
-      <InvoiceActionDropdown
-        rowId={row.original._id}
-        invoiceNumber={row.original.invoiceNumber}
-      />
+      <div className="flex items-center gap-2">
+        {/* <EmailDrawer invoiceId={row.original._id} /> */}
+
+        <InvoiceActionDropdown
+          rowId={row.original._id}
+          invoiceNumber={row.original.invoiceNumber}
+        />
+      </div>
     ),
   },
 ];
