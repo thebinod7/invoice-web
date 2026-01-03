@@ -1,28 +1,24 @@
 import { APP_NAME } from '@/app/constants';
 import { DASHBOARD_SIDEBAR_ITEMS } from '@/app/constants/api-routes';
 import { useAuthContext } from '@/app/context/useAuthContext';
-import { useIsMobile } from '@/app/hooks/ui/isMobile';
 import { ICurrentUser } from '@/app/types';
 import { ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { ProfileDropdown } from './ProfileDropdown';
 
 interface SidebarProps {
-  sidebarOpen: boolean;
+  collapsed: boolean;
   pathname: string;
 }
 
-export default function Sidebar({ sidebarOpen, pathname }: SidebarProps) {
+export default function Sidebar({ pathname, collapsed }: SidebarProps) {
   const { currentUser } = useAuthContext();
-  const isMobile = useIsMobile();
-  const collapsed = isMobile;
-
   const activePath = pathname.split('/').pop();
 
   return (
     <aside
       className={`
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${collapsed ? 'translate-x-0' : '-translate-x-full'}
         inset-y-0 left-0 z-50
         ${collapsed ? 'w-16' : 'w-80'}
         bg-white border-r border-gray-200
