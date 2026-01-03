@@ -33,7 +33,7 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, SearchX } from 'lucide-react';
 import * as React from 'react';
 
 interface DataTableProps<TData, TValue> {
@@ -55,6 +55,8 @@ interface DataTableProps<TData, TValue> {
   onPreviousPage?: () => void;
   currentPage?: number;
   handleStatusChange?: (status: string) => void;
+  clearFilter?: () => void;
+  status?: string;
 }
 
 export function TanstackTable<TData, TValue>({
@@ -76,6 +78,8 @@ export function TanstackTable<TData, TValue>({
   onPreviousPage,
   currentPage,
   handleStatusChange,
+  clearFilter,
+  status,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -114,7 +118,7 @@ export function TanstackTable<TData, TValue>({
           />
         )}
         {/* Add status filter here */}
-        <Select onValueChange={handleStatusChange}>
+        <Select value={status} onValueChange={handleStatusChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
@@ -129,6 +133,13 @@ export function TanstackTable<TData, TValue>({
             </SelectGroup>
           </SelectContent>
         </Select>
+
+        <SearchX
+          onClick={clearFilter}
+          className="cursor-pointer outline-2 p-2"
+          size={36}
+        />
+
         {showColumnToggle && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

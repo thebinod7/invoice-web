@@ -13,7 +13,6 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const isMobile = useIsMobile();
-  console.log({ isMobile });
 
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(isMobile);

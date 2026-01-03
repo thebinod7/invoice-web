@@ -28,6 +28,12 @@ export default function InvoiceClient() {
   const { data, isLoading, refetch } = useListMyInvoices(queryParams);
   const result = data?.data?.result || null;
 
+  const clearFilter = () => {
+    setStatus('');
+    setSearch('');
+    setCurrentPage(1);
+  };
+
   useEffect(() => {
     refetch();
   }, [currentPage, search]);
@@ -51,6 +57,8 @@ export default function InvoiceClient() {
         onPreviousPage={() => setCurrentPage(currentPage - 1)}
         currentPage={result?.meta?.currentPage}
         handleStatusChange={(status) => setStatus(status)}
+        clearFilter={clearFilter}
+        status={status}
       />
     </div>
   );

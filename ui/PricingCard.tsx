@@ -30,7 +30,6 @@ export function PricingCard({
   features,
   isHighlighted = false,
 }: PricingCardProps) {
-  console.log({ isHighlighted });
   return (
     <div
       style={{

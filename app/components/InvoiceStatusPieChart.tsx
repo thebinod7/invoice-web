@@ -21,7 +21,6 @@ export default function InvoiceStatusPieChart({
   invoiceStatusData: { name: string; value: number; fill: string }[];
 }) {
   const isMobile = useIsMobile();
-  console.log({ isMobile });
   return (
     <Card className="min-w-0 border border-slate-200 bg-white">
       <CardHeader>
