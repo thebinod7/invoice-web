@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from './config';
+import { APP_PATHS } from '../constants';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -15,9 +16,9 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error: any) => {
-    if (error.response && error.response.status === 403) {
+    if (error.status === 401) {
       localStorage.clear();
-      // window.location.href = ROUTES.HOME;
+      window.location.href = `${APP_PATHS.AUTH}?session=expired`;
     }
     return Promise.reject(error);
   }

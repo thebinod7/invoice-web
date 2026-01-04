@@ -1,19 +1,15 @@
 'use client';
-import axios from 'axios';
 import React, { useEffect } from 'react';
-import { API_BASE_URL } from '../helpers/config';
 import { API_ROUTES } from '../constants/api-routes';
+import { API_BASE_URL } from '../helpers/config';
+import { getRequest } from '../helpers/request';
 
 export default function page() {
   const [stats, setStats] = React.useState<any>(null);
 
   useEffect(() => {
     async function fetchStatss() {
-      const data = await axios.get(`${API_BASE_URL}${API_ROUTES.APP}/stats`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      });
+      const data = await getRequest(`${API_BASE_URL}${API_ROUTES.APP}/stats`);
       setStats(data?.data.result);
     }
 
