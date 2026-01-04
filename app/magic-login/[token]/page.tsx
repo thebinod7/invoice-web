@@ -2,7 +2,7 @@
 
 import { APP_PATHS } from '@/app/constants';
 import { API_BASE_URL } from '@/app/helpers/config';
-import axios from 'axios';
+import { getRequest } from '@/app/helpers/request';
 import { CheckCircle2, Loader2, Mail, XCircle } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -23,11 +23,13 @@ export default function VerifyMagicLinkPage() {
   useEffect(() => {
     const verifyMagicLink = async () => {
       try {
-        await axios.get(`${API_BASE_URL}/auth/verify-magic-login/${token}`, {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        });
+        // await axios.get(`${API_BASE_URL}/auth/verify-magic-login/${token}`, {
+        //   method: 'GET',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   withCredentials: true,
+        // });
+
+        await getRequest(`${API_BASE_URL}/auth/verify-magic-login/${token}`);
 
         setState('success');
         // Redirect to dashboard after 2 seconds

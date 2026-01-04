@@ -17,8 +17,12 @@ import { APP_PATHS } from '../constants';
 import { API_ROUTES } from '../constants/api-routes';
 import { emailValidator, sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
+import { useSearchParams } from 'next/navigation';
 
 export default function MagicLinkLogin() {
+  const searchParams = useSearchParams();
+  const session = searchParams.get('session');
+
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -92,79 +96,86 @@ export default function MagicLinkLogin() {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-black mb-2"
-              >
-                Email address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (status === 'error') {
-                      setStatus('idle');
-                      setErrorMessage('');
-                    }
-                  }}
-                  placeholder="you@example.com"
-                  className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${
-                    status === 'error'
-                      ? 'border-red-300 bg-red-50'
-                      : 'border-neutral-300 bg-white'
-                  }`}
-                  disabled={useSendMagicLinkMutation.isPending}
-                />
-              </div>
-              {status === 'error' && (
-                <div className="flex items-center gap-2 mt-2 text-sm text-red-600">
-                  <AlertCircle className="w-4 h-4" />
-                  <span>{errorMessage}</span>
+          <>
+            {session === 'expired' && (
+              <p className="text-xs text-center text-red-500 font-semibold mb-2">
+                Session expired! Please login again
+              </p>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-black mb-2"
+                >
+                  Email address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400" />
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (status === 'error') {
+                        setStatus('idle');
+                        setErrorMessage('');
+                      }
+                    }}
+                    placeholder="you@example.com"
+                    className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${
+                      status === 'error'
+                        ? 'border-red-300 bg-red-50'
+                        : 'border-neutral-300 bg-white'
+                    }`}
+                    disabled={useSendMagicLinkMutation.isPending}
+                  />
                 </div>
-              )}
-            </div>
+                {status === 'error' && (
+                  <div className="flex items-center gap-2 mt-2 text-sm text-red-600">
+                    <AlertCircle className="w-4 h-4" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+              </div>
 
-            {/* <div className="mt-4 flex items-center justify-center">
+              {/* <div className="mt-4 flex items-center justify-center">
               <Lock className="w-4 h-4 mr-1" />
               <p className="text-sm text-neutral-500">
                 Secure and easy to use. Password-less login.
               </p>
             </div> */}
 
-            <button
-              type="submit"
-              disabled={useSendMagicLinkMutation.isPending}
-              className="w-full bg-emerald-500 hover:bg-emerald-500 text-white font-medium py-3.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {useSendMagicLinkMutation.isPending ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Sending magic link...
-                </>
-              ) : (
-                'Send magic link'
-              )}
-            </button>
-
-            <hr />
-
-            <GoogleLogin btnText="Login with Google" />
-
-            <div className="flex justify-center">
-              <Link
-                href={APP_PATHS.SIGNUP}
-                className="text-sm text-neutral-600 hover:underline transition-colors"
+              <button
+                type="submit"
+                disabled={useSendMagicLinkMutation.isPending}
+                className="w-full bg-emerald-500 hover:bg-emerald-500 text-white font-medium py-3.5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Don't have an account? Register
-              </Link>
-            </div>
-          </form>
+                {useSendMagicLinkMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Sending magic link...
+                  </>
+                ) : (
+                  'Send magic link'
+                )}
+              </button>
+
+              <hr />
+
+              <GoogleLogin btnText="Login with Google" />
+
+              <div className="flex justify-center">
+                <Link
+                  href={APP_PATHS.SIGNUP}
+                  className="text-sm text-neutral-600 hover:underline transition-colors"
+                >
+                  Don't have an account? Register
+                </Link>
+              </div>
+            </form>
+          </>
         )}
       </div>
     </div>
