@@ -11,7 +11,7 @@ export default {
     extend: {
       screens: {
         'sm-md': { min: '768px', max: '1080px' },
-        'xs-sm': { min: '350px', max: '768px' },
+        'xs-sm': { min: '420px', max: '768px' },
       },
       colors: {
         background: 'hsl(var(--background))',
