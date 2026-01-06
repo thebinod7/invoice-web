@@ -134,11 +134,15 @@ export function TanstackTable<TData, TValue>({
           </SelectContent>
         </Select>
 
-        <SearchX
-          onClick={clearFilter}
-          className="cursor-pointer outline-2 p-2"
-          size={36}
-        />
+        {globalFilter || status ? (
+          <SearchX
+            onClick={clearFilter}
+            className="cursor-pointer outline-2 p-2"
+            size={36}
+          />
+        ) : (
+          ''
+        )}
 
         {showColumnToggle && (
           <DropdownMenu>
