@@ -42,7 +42,7 @@ export default function DashboardLayout({
             </div>
             <button
               title="No notifications!"
-              className="p-2 hover:bg-gray-100 rounded-lg flex-shrink-0"
+              className="hidden md:block p-2 hover:bg-gray-100 rounded-lg flex-shrink-0"
             >
               <Bell className="w-5 h-5 text-gray-600" />
             </button>
