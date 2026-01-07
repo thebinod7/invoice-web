@@ -67,12 +67,33 @@ export default function MagicLoginForm() {
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 max-w-lg mx-auto">
       <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-        Save and manage invoices
+        Want to save invoices?
       </h3>
       {/* Sub-text */}
-      <p className="text-gray-600 mb-2 leading-relaxed text-sm">
-        Get a magic link to access more features like saving invoices, track
-        payment status, and re-download anytime.
+      <p className="text-gray-600 mb-2 leading-relaxed text-sm font-medium">
+        Get instant access via magic link to:
+        <ul className="space-y-1 text-sm py-3 px-3 text-slate-700">
+          <li className="flex items-center gap-3">
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+              ✓
+            </span>
+            <span className="font-medium">Save invoices & access anytime</span>
+          </li>
+
+          <li className="flex items-center gap-3">
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+              ✓
+            </span>
+            <span className="font-medium">Visual dashboard insights</span>
+          </li>
+
+          <li className="flex items-center gap-3">
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+              ✓
+            </span>
+            <span className="font-medium">Track payments & overdue status</span>
+          </li>
+        </ul>
       </p>
 
       {/* Form */}
@@ -112,9 +133,9 @@ export default function MagicLoginForm() {
 
         <GoogleLogin btnText="Continue with Google" />
 
-        <p className="text-muted-foreground text-xs">
-          Invoice saving and tracking are part of Pro and will be paid when Pro
-          launches. Early users get special pricing.{' '}
+        <p className="text-muted-foreground text-xs px-2">
+          Creating an account is only required to access these features. You can
+          continue without signing up if you prefer. {''}
           <span className="font-semibold">It's completely optional</span>.
         </p>
       </form>
