@@ -17,6 +17,7 @@ interface PricingCardProps {
   buttonVariant: 'default' | 'secondary';
   features: Feature[];
   isHighlighted?: boolean;
+  loading: boolean;
 }
 
 export function PricingCard({
@@ -29,6 +30,7 @@ export function PricingCard({
   buttonVariant,
   features,
   isHighlighted = false,
+  loading,
 }: PricingCardProps) {
   return (
     <div
@@ -87,7 +89,7 @@ export function PricingCard({
                   : 'bg-white text-black hover:bg-gray-50 border border-black'
               )}
             >
-              {buttonText}
+              {loading ? '...' : buttonText}
             </Button>
           )}
         </div>
