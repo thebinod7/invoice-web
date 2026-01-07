@@ -22,7 +22,6 @@ export default function DashboardLayout({
   }, [isMobile]);
 
   const pathsInArray = pathname.split('/');
-  console.log({ isCollapsed });
 
   return (
     <div className="flex h-screen md:bg-gray-50">

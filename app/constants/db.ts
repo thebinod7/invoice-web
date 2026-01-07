@@ -76,7 +76,7 @@ export const BLOG_ARTICLES = [
 
 export const PRICING = {
   FREE: {
-    plan: 'Free',
+    plan: 'FREE',
     price: 'Free',
     features: [
       { text: 'Create Invoices Instantly', enabled: true },
@@ -90,7 +90,7 @@ export const PRICING = {
   },
   STARTER: {
     price: 'xx.xx',
-    plan: 'Starter',
+    plan: 'STARTER',
     features: [
       { text: 'Everything in Free', enabled: true },
       { text: 'Send Invoices via Email', enabled: true },
