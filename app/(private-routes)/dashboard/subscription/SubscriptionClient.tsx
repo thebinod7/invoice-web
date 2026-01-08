@@ -1,5 +1,5 @@
 'use client';
-import { PRICING } from '@/app/constants/db';
+import { SUBSCRIPTION_PLANS } from '@/app/constants/plan';
 import { useGetMeQuery } from '@/app/hooks/backend/user.hook';
 import { PricingCard } from '@/ui/PricingCard';
 
@@ -18,27 +18,29 @@ export default function SubscriptionClient() {
         <div className="grid gap-8 grid-cols-1 xl:grid-cols-2 mt-2 py-10">
           <PricingCard
             loading={isLoading}
-            plan={PRICING.FREE.plan}
+            plan={SUBSCRIPTION_PLANS.FREE.plan}
             price="Free Forever"
             priceDetail=""
             buttonText="No subscription"
             buttonVariant="secondary"
-            features={PRICING.FREE.features}
+            features={SUBSCRIPTION_PLANS.FREE.features}
             isHighlighted={
-              result?.activeSubscription?.planCode === PRICING.FREE.plan
+              result?.activeSubscription?.planCode ===
+              SUBSCRIPTION_PLANS.FREE.plan
             }
           />
 
           <PricingCard
             loading={isLoading}
-            plan={PRICING.STARTER.plan}
+            plan={SUBSCRIPTION_PLANS.STARTER.plan}
             price="Pricing soon"
             priceDetail=""
             buttonText="Upgrade"
             buttonVariant="secondary"
-            features={PRICING.STARTER.features}
+            features={SUBSCRIPTION_PLANS.STARTER.features}
             isHighlighted={
-              result?.activeSubscription?.planCode === PRICING.STARTER.plan
+              result?.activeSubscription?.planCode ===
+              SUBSCRIPTION_PLANS.STARTER.plan
             }
             badge=""
           />
