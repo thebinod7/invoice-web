@@ -1,6 +1,7 @@
 'use client';
 import { invoiceColumns } from '@/app/components/Invoice/invoice.columns';
 import { PAZE_SIZE } from '@/app/constants';
+import { useAuthContext } from '@/app/context/useAuthContext';
 import { useListMyInvoices } from '@/app/hooks/backend/invoice.hook';
 import { useDebounce } from '@/app/hooks/ui/debounce';
 import { TanstackTable } from '@/ui/TanstackTable';
@@ -9,7 +10,9 @@ import { useEffect, useMemo, useState } from 'react';
 const DEBOUNCE_DELAY = 1000;
 
 export default function InvoiceClient() {
-  const columns = useMemo(() => invoiceColumns(), []);
+  const { currentUser } = useAuthContext();
+  console.log('CURRENT USER', currentUser);
+  const columns = useMemo(() => invoiceColumns(currentUser), []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');

@@ -12,8 +12,12 @@ export interface ICurrentUser {
   email: string;
   gender: string;
   role: string;
-  createdAt: Date;
-  updatedAt: Date;
+  activeSubscription?: Record<string, any>;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+  lastLogin?: Date;
+  _v?: number;
 }
 
 export interface IInvoiceDetails {

@@ -54,7 +54,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       method: 'POST',
       credentials: 'include',
     });
-    const json = await res.json();
+    await res.json();
     clearLocalStorage();
     setIsLoggedIn(false);
     setCurrentUser(null);

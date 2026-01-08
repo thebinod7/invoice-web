@@ -3,6 +3,7 @@
 import { INVOICE_STATUS } from '@/app/constants';
 import { formatCurrency, formatDate, truncateString } from '@/app/helpers';
 import { checkIsOverdue } from '@/app/helpers/date';
+import { ICurrentUser } from '@/app/types';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import EmailDrawer from '@/ui/EmailDrawer';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
@@ -40,7 +41,9 @@ const STATUS_OPTIONS = [
   },
 ];
 
-export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
+export const invoiceColumns = (
+  cu: ICurrentUser | null
+): ColumnDef<InvoiceRow>[] => [
   {
     accessorKey: 'receiverDetails',
     header: 'Client',
@@ -119,7 +122,12 @@ export const invoiceColumns = (): ColumnDef<InvoiceRow>[] => [
     header: '',
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
-        {/* <EmailDrawer invoiceId={row.original._id} /> */}
+        {cu?.activeSubscription && (
+          <EmailDrawer
+            allowedFeatures={cu.activeSubscription.allowedFeatures}
+            invoiceId={row.original._id}
+          />
+        )}
 
         <InvoiceActionDropdown
           rowId={row.original._id}

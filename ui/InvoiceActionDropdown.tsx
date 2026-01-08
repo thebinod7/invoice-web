@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Archive, Download, Pencil } from 'lucide-react';
+import { Archive, Check, Download, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
 
@@ -61,6 +61,8 @@ export function InvoiceActionDropdown({
     window.open(`/edit-invoice/${rowId}`, '_blank');
   };
 
+  const handleMarkAsPaid = () => {};
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -84,6 +86,13 @@ export function InvoiceActionDropdown({
           >
             <Pencil className="h-4 w-4" />
             <span>Edit & Download</span>
+          </DropdownMenuItem>{' '}
+          <DropdownMenuItem
+            onClick={handleMarkAsPaid}
+            className="flex items-center gap-2 cursor-pointer"
+          >
+            <Check className="h-4 w-4" />
+            <span>Mark as Paid</span>
           </DropdownMenuItem>{' '}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

@@ -1,6 +1,7 @@
 'use client';
 
 import { API_ROUTES } from '@/app/constants/api-routes';
+import { FeatureKey } from '@/app/constants/plan';
 import { QUERY_KEYS } from '@/app/constants/query-keys';
 import { sanitizeError } from '@/app/helpers';
 import { postRequest } from '@/app/helpers/request';
@@ -21,7 +22,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
+export default function EmailDrawer({
+  invoiceId,
+  allowedFeatures,
+}: {
+  invoiceId: string;
+  allowedFeatures: Record<string, any>;
+}) {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
@@ -74,7 +81,10 @@ export default function EmailDrawer({ invoiceId }: { invoiceId: string }) {
       <DrawerContent>
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
-            <DrawerTitle>Send Invoice by Email</DrawerTitle>
+            <DrawerTitle>
+              Send Invoice by Email (2/
+              {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]})
+            </DrawerTitle>
             <DrawerDescription>
               Your invoice will be sent as a PDF attachment. Client details
               won't be saved.
