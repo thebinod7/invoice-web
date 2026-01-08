@@ -4,7 +4,7 @@ import { API_ROUTES } from '@/app/constants/api-routes';
 import { QUERY_KEYS } from '@/app/constants/query-keys';
 import { sanitizeError } from '@/app/helpers';
 import { API_BASE_URL } from '@/app/helpers/config';
-import { delRequest } from '@/app/helpers/request';
+import { delRequest, patchRequest } from '@/app/helpers/request';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,6 +18,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Archive, Check, Download, Pencil } from 'lucide-react';
 import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
+import { INVOICE_STATUS } from '@/app/constants';
 
 export function InvoiceActionDropdown({
   rowId,
@@ -61,7 +62,34 @@ export function InvoiceActionDropdown({
     window.open(`/edit-invoice/${rowId}`, '_blank');
   };
 
-  const handleMarkAsPaid = () => {};
+  const markAsPaidMutation = useMutation({
+    mutationFn: (payload: any) => {
+      return patchRequest(
+        `${API_ROUTES.INVOICES}/${payload.invoiceId}/status`,
+        payload
+      );
+    },
+    onError: (error) => {
+      toast.error(sanitizeError(error));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.INVOICE.MY_LIST],
+      });
+      toast.success('Invoice marked as paid!');
+    },
+    onSettled: () => {
+      toast.dismiss();
+    },
+  });
+
+  const handleMarkAsPaid = () => {
+    toast.loading('Updating status...');
+    return markAsPaidMutation.mutate({
+      invoiceId: rowId,
+      status: INVOICE_STATUS.PAID,
+    });
+  };
 
   return (
     <DropdownMenu>
