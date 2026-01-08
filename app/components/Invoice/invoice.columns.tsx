@@ -7,7 +7,7 @@ import { ICurrentUser } from '@/app/types';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import EmailDrawer from '@/ui/EmailDrawer';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
-import { InvoiceStatusSelect } from '@/ui/InvoiceStatusSelect';
+import { StatusBadge } from '@/ui/StatusBadge';
 import { TooltipBox } from '@/ui/TooltipBox';
 import { ColumnDef } from '@tanstack/react-table';
 import { Info } from 'lucide-react';
@@ -21,25 +21,6 @@ export type InvoiceRow = {
   dueDate: string;
   status: string;
 };
-
-const STATUS_OPTIONS = [
-  {
-    label: 'Created',
-    value: INVOICE_STATUS.CREATED,
-  },
-  {
-    label: 'Sent',
-    value: INVOICE_STATUS.SENT,
-  },
-  {
-    label: 'Paid',
-    value: INVOICE_STATUS.PAID,
-  },
-  {
-    label: 'Cancelled',
-    value: INVOICE_STATUS.CANCELLED,
-  },
-];
 
 export const invoiceColumns = (
   cu: ICurrentUser | null
@@ -81,12 +62,13 @@ export const invoiceColumns = (
   {
     accessorKey: 'dueDate',
     header: 'Due Date',
-    cell: ({ getValue }) => {
-      const dueDate = getValue<string>();
+    cell: ({ row }) => {
+      const dueDate = row.original.dueDate;
+      const status = row.original.status;
       if (!dueDate) return '-';
 
       const isOver = checkIsOverdue(new Date(dueDate));
-      if (!isOver) return formatDate(dueDate);
+      if (!isOver || status === INVOICE_STATUS.PAID) return formatDate(dueDate);
 
       return (
         <TooltipBox>
@@ -107,14 +89,7 @@ export const invoiceColumns = (
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => {
-      return (
-        <InvoiceStatusSelect
-          invoiceId={row.original._id}
-          selectLabel="select to update"
-          value={row.original.status}
-          options={STATUS_OPTIONS}
-        />
-      );
+      return <StatusBadge value={row.original.status} />;
     },
   },
   {

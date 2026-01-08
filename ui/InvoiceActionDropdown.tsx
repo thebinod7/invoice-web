@@ -67,7 +67,7 @@ export function InvoiceActionDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm">
-          Actions
+          Action
         </Button>
       </DropdownMenuTrigger>
 
