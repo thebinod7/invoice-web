@@ -22,9 +22,10 @@ import { INVOICE_STATUS } from '@/app/constants';
 
 export function InvoiceActionDropdown({
   rowId,
+  status,
 }: {
   rowId: string;
-  invoiceNumber: string;
+  status: string;
 }) {
   const queryClient = useQueryClient();
 
@@ -115,13 +116,15 @@ export function InvoiceActionDropdown({
             <Pencil className="h-4 w-4" />
             <span>Edit & Download</span>
           </DropdownMenuItem>{' '}
-          <DropdownMenuItem
-            onClick={handleMarkAsPaid}
-            className="flex items-center gap-2 cursor-pointer"
-          >
-            <Check className="h-4 w-4" />
-            <span>Mark as Paid</span>
-          </DropdownMenuItem>{' '}
+          {status === INVOICE_STATUS.SENT && (
+            <DropdownMenuItem
+              onClick={handleMarkAsPaid}
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <Check className="h-4 w-4" />
+              <span>Mark as Paid</span>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <ConfirmDialog

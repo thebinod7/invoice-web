@@ -4,6 +4,7 @@ import { INVOICE_STATUS } from '@/app/constants';
 import { formatCurrency, formatDate, truncateString } from '@/app/helpers';
 import { checkIsOverdue } from '@/app/helpers/date';
 import { ICurrentUser } from '@/app/types';
+import { Button } from '@/components/ui/button';
 import { TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import EmailDrawer from '@/ui/EmailDrawer';
 import { InvoiceActionDropdown } from '@/ui/InvoiceActionDropdown';
@@ -95,20 +96,32 @@ export const invoiceColumns = (
   {
     id: 'action',
     header: '',
-    cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        {cu?.activeSubscription && (
-          <EmailDrawer
-            allowedFeatures={cu.activeSubscription.allowedFeatures}
-            invoiceId={row.original._id}
-          />
-        )}
+    cell: ({ row }) => {
+      console.log('CU', cu);
+      const status = row.original.status;
+      if (status === INVOICE_STATUS.PAID || status === INVOICE_STATUS.SENT) {
+        return (
+          <div className="flex items-center gap-2">
+            <Button disabled={true} variant={'outline'} size={'sm'}>
+              Sent
+            </Button>
+            <InvoiceActionDropdown rowId={row.original._id} status={status} />
+          </div>
+        );
+      }
 
-        <InvoiceActionDropdown
-          rowId={row.original._id}
-          invoiceNumber={row.original.invoiceNumber}
-        />
-      </div>
-    ),
+      return (
+        <div className="flex items-center gap-2">
+          {cu?.activeSubscription && (
+            <EmailDrawer
+              allowedFeatures={cu.activeSubscription.allowedFeatures}
+              invoiceId={row.original._id}
+            />
+          )}
+
+          <InvoiceActionDropdown rowId={row.original._id} status={status} />
+        </div>
+      );
+    },
   },
 ];

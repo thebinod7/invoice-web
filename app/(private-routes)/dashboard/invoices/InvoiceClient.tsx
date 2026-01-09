@@ -12,7 +12,7 @@ const DEBOUNCE_DELAY = 1000;
 export default function InvoiceClient() {
   const { currentUser } = useAuthContext();
   console.log('CURRENT USER', currentUser);
-  const columns = useMemo(() => invoiceColumns(currentUser), []);
+  const columns = useMemo(() => invoiceColumns(currentUser), [currentUser]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');

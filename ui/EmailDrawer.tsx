@@ -82,7 +82,7 @@ export default function EmailDrawer({
         <div className="mx-auto w-full max-w-sm">
           <DrawerHeader>
             <DrawerTitle>
-              Send Invoice by Email (2/
+              Send Invoice by Email (0/
               {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]})
             </DrawerTitle>
             <DrawerDescription>
