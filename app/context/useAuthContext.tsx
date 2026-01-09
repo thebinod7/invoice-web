@@ -9,6 +9,7 @@ import {
 import { API_BASE_URL } from '../helpers/config';
 import { clearLocalStorage } from '../helpers/local-storage';
 import { ICurrentUser } from '../types';
+import { PLAN_CODES } from '../constants/plan';
 
 type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
 
@@ -16,6 +17,8 @@ interface AuthContextProps {
   authStatus: AuthStatus;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  isPremium: boolean;
+  setIsPremium: React.Dispatch<React.SetStateAction<boolean>>;
   refreshAuthState: () => void;
   doLogout: () => void;
 
@@ -29,6 +32,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<ICurrentUser | null>(null);
   const [authStatus, setAuthStatus] = useState<AuthStatus>('loading');
+  const [isPremium, setIsPremium] = useState<boolean>(false);
 
   const refreshAuthState = useCallback(async () => {
     try {
@@ -38,14 +42,20 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       });
 
       const json = await res.json();
-      const isAuthenticated = json.result ? true : false;
-      setCurrentUser(json.result);
+      const userData = json?.result || null;
+      const isAuthenticated = userData ? true : false;
+      setCurrentUser(userData);
       setIsLoggedIn(isAuthenticated);
       setAuthStatus(isAuthenticated ? 'authenticated' : 'unauthenticated');
+
+      if (userData?.activeSubscription?.planCode === PLAN_CODES.STARTER) {
+        setIsPremium(true);
+      }
     } catch {
       setCurrentUser(null);
       setAuthStatus('unauthenticated');
       setIsLoggedIn(false);
+      setIsPremium(false);
     }
   }, []);
 
@@ -58,6 +68,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
     clearLocalStorage();
     setIsLoggedIn(false);
     setCurrentUser(null);
+    setIsPremium(false);
     window.location.href = '/';
   }, []);
 
@@ -70,6 +81,9 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       authStatus,
       isLoggedIn,
       setIsLoggedIn,
+
+      isPremium,
+      setIsPremium,
 
       currentUser,
       setCurrentUser,

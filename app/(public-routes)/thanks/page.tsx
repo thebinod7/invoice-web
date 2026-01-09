@@ -4,14 +4,14 @@ import AdBanner from '@/app/components/AdBanner';
 import MagicLoginForm from '@/app/components/MagicSignupForm';
 import { APP_PATHS, GOOGLE_AD } from '@/app/constants';
 import { useAuthContext } from '@/app/context/useAuthContext';
+import { MoveRight } from 'lucide-react';
+import Link from 'next/link';
 import CTA from './CTA';
 import InvoiceGenSuccess from './InvoiceGenSuccess';
-import Link from 'next/link';
-import { MoveRight, Plus } from 'lucide-react';
 import InvoiceSavedInfo from './InvoiceSavedInfo';
 
 export default function ThankYouPage() {
-  const { isLoggedIn } = useAuthContext();
+  const { isLoggedIn, isPremium } = useAuthContext();
 
   return (
     <>
@@ -43,7 +43,9 @@ export default function ThankYouPage() {
 
           {/* Google Ads Section */}
           <div className="mt-8">
-            <AdBanner adSlotId={GOOGLE_AD.THANK_YOU_PAGE_SLOT} />
+            {!isPremium && (
+              <AdBanner adSlotId={GOOGLE_AD.THANK_YOU_PAGE_SLOT} />
+            )}
           </div>
         </div>
       </div>

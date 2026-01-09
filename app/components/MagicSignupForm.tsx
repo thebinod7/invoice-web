@@ -70,7 +70,7 @@ export default function MagicLoginForm() {
         Want to save invoices?
       </h3>
       {/* Sub-text */}
-      <p className="text-gray-600 mb-2 leading-relaxed text-sm font-medium">
+      <div className="text-gray-600 mb-2 leading-relaxed text-sm font-medium">
         Get instant access via magic link to:
         <ul className="space-y-1 text-sm py-3 px-3 text-slate-700">
           <li className="flex items-center gap-3">
@@ -94,7 +94,7 @@ export default function MagicLoginForm() {
             <span className="font-medium">Track payments & overdue status</span>
           </li>
         </ul>
-      </p>
+      </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">

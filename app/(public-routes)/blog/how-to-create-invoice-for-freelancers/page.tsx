@@ -1,8 +1,6 @@
 import AdBanner from '@/app/components/AdBanner';
-import { HorizontalAdBanner } from '@/app/components/Paid/HorizontalAdbanner';
 import {
   APP_CATEGORY,
-  APP_PATHS,
   DEFAULT_OG_IMAGE_URL,
   GOOGLE_AD,
   SEO_KEYWORDS,
@@ -64,8 +62,6 @@ export default function BlogArticlePage() {
         <article className="bg-white rounded-xl shadow-sm overflow-hidden">
           {/* Article Content */}
           <div className="p-6 md:p-8">
-            <HorizontalAdBanner />
-
             {/* Category Badge */}
             <div className="mb-4 p-2 rounded-md bg-blue-100 text-blue-800 hover:bg-blue-200">
               <div className="flex items-center gap-2 text-sm">
