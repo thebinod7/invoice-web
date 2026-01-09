@@ -32,9 +32,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<ICurrentUser | null>(null);
   const [isPremium, setIsPremium] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const refreshAuthState = useCallback(async () => {
+    setIsLoading(true);
     try {
       const res = await fetch(`${API_BASE_URL}/users/me`, {
         credentials: 'include',

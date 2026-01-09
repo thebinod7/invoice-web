@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { APP_PATHS } from '../constants';
 import { useAuthContext } from '../context/useAuthContext';
+import PulseLoader from '@/ui/PulseLoader';
 
 const MENU_ITEMS = [
   {
@@ -39,9 +40,7 @@ export default function Profile({}) {
     setIsDropdownOpen(false);
   };
 
-  if (isLoading) {
-    return <div className="h-7 w-24 animate-pulse rounded bg-slate-100" />;
-  }
+  if (isLoading) return <PulseLoader />;
 
   return (
     <div ref={dropdownRef}>

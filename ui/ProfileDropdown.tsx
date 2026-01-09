@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import PulseLoader from './PulseLoader';
 
 export function ProfileDropdown({
   isCollapsed,
@@ -53,13 +54,15 @@ export function ProfileDropdown({
           {!isCollapsed && (
             <>
               <div className="flex-1 min-w-0 text-left">
-                <p className="font-semibold text-sm text-gray-900 truncate">
-                  {currentUser
-                    ? truncateString(
-                        `${currentUser.firstName} ${currentUser.lastName}`
-                      )
-                    : 'Fetching profile..'}
-                </p>
+                <div className="font-semibold text-sm text-gray-900 truncate">
+                  {currentUser ? (
+                    truncateString(
+                      `${currentUser.firstName} ${currentUser.lastName}`
+                    )
+                  ) : (
+                    <PulseLoader />
+                  )}
+                </div>
                 <p className="text-xs text-gray-500 truncate">
                   {(currentUser?.email && truncateString(currentUser.email)) ||
                     '...'}
