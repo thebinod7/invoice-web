@@ -105,7 +105,6 @@ export default function InvoiceGeneratorV3({
       );
     },
     onError: (error: any) => {
-      console.error(error);
       toast.error(sanitizeError(error));
     },
     onSuccess: (data: any) => {

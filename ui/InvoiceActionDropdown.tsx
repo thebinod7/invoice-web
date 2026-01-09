@@ -33,7 +33,7 @@ export function InvoiceActionDropdown({
     try {
       window.location.href = `${API_BASE_URL}/invoices/${rowId}/download`;
     } catch (error) {
-      toast.error('Failed to download invoice! Please try after some time.');
+      toast.error(sanitizeError(error));
     }
   };
 

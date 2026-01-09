@@ -35,9 +35,12 @@ import {
 } from '../constants/currency';
 import { DEFAULT_CURRENCY } from '../constants';
 
+const LIMIT_REACH_ERR_MSG =
+  'You have reached the limit for this feature! Please upgrade your plan.';
+
 export const sanitizeError = (error: any) => {
   if (error.response.status === 403) {
-    return 'You have reached the limit for this feature! Please upgrade your plan.';
+    return LIMIT_REACH_ERR_MSG;
   }
   if (error?.response?.data?.message) {
     return error.response.data.message;
