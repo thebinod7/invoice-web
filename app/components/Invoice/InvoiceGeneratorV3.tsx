@@ -8,6 +8,7 @@ import {
   formatCurrency,
   getCurrencySymbolByName,
   isMobile,
+  sanitizeError,
 } from '@/app/helpers';
 import {
   calculateInvoiceTotals,
@@ -104,14 +105,8 @@ export default function InvoiceGeneratorV3({
       );
     },
     onError: (error: any) => {
-      if (error.code === 'ERR_NETWORK') {
-        return toast.error(
-          'We are updating our servers! Please try again later.'
-        );
-      }
-      toast.error(
-        error.message || 'We are updating our servers! Please try again later.'
-      );
+      console.error(error);
+      toast.error(sanitizeError(error));
     },
     onSuccess: (data: any) => {
       const mobile = isMobile();
