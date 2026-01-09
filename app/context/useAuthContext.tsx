@@ -11,16 +11,16 @@ import { clearLocalStorage } from '../helpers/local-storage';
 import { ICurrentUser } from '../types';
 import { PLAN_CODES } from '../constants/plan';
 
-type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated';
-
 interface AuthContextProps {
-  authStatus: AuthStatus;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   isPremium: boolean;
   setIsPremium: React.Dispatch<React.SetStateAction<boolean>>;
   refreshAuthState: () => void;
   doLogout: () => void;
+
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 
   currentUser: ICurrentUser | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<ICurrentUser | null>>;
@@ -31,8 +31,8 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthContextProvider = ({ children }: { children: any }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<ICurrentUser | null>(null);
-  const [authStatus, setAuthStatus] = useState<AuthStatus>('loading');
   const [isPremium, setIsPremium] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const refreshAuthState = useCallback(async () => {
     try {
@@ -40,22 +40,29 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         credentials: 'include',
         cache: 'no-store',
       });
+      if (!res.ok) {
+        setCurrentUser(null);
+        setIsLoggedIn(false);
+        setIsPremium(false);
+        return;
+      }
 
-      const json = await res.json();
+      const json = await res.json().catch(() => null);
       const userData = json?.result || null;
-      const isAuthenticated = userData ? true : false;
+      const isAuthenticated = !!userData;
+
       setCurrentUser(userData);
       setIsLoggedIn(isAuthenticated);
-      setAuthStatus(isAuthenticated ? 'authenticated' : 'unauthenticated');
 
-      if (userData?.activeSubscription?.planCode === PLAN_CODES.STARTER) {
-        setIsPremium(true);
-      }
+      setIsPremium(
+        userData?.activeSubscription?.planCode === PLAN_CODES.STARTER
+      );
     } catch {
       setCurrentUser(null);
-      setAuthStatus('unauthenticated');
       setIsLoggedIn(false);
       setIsPremium(false);
+    } finally {
+      setIsLoading(false);
     }
   }, []);
 
@@ -78,9 +85,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
   const values = useMemo(
     () => ({
-      authStatus,
       isLoggedIn,
       setIsLoggedIn,
+
+      isLoading,
+      setIsLoading,
 
       isPremium,
       setIsPremium,

@@ -14,7 +14,7 @@ const MENU_ITEMS = [
 ];
 
 export default function Profile({}) {
-  const { authStatus, currentUser } = useAuthContext();
+  const { isLoading, currentUser } = useAuthContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<any>(null);
 
@@ -39,7 +39,7 @@ export default function Profile({}) {
     setIsDropdownOpen(false);
   };
 
-  if (authStatus === 'loading') {
+  if (isLoading) {
     return <div className="h-7 w-24 animate-pulse rounded bg-slate-100" />;
   }
 
