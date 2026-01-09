@@ -97,13 +97,12 @@ export const invoiceColumns = (
     id: 'action',
     header: '',
     cell: ({ row }) => {
-      console.log('CU', cu);
       const status = row.original.status;
-      if (status === INVOICE_STATUS.PAID || status === INVOICE_STATUS.SENT) {
+      if (status === INVOICE_STATUS.PAID) {
         return (
           <div className="flex items-center gap-2">
             <Button disabled={true} variant={'outline'} size={'sm'}>
-              Sent
+              Done
             </Button>
             <InvoiceActionDropdown rowId={row.original._id} status={status} />
           </div>
