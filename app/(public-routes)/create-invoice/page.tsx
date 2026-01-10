@@ -83,10 +83,9 @@ export default function page() {
     // Only if user is logged in
     if (isLoggedIn) {
       console.log('=====Private Request=====');
-      if (fileSize > MAX_FILE_SIZE_PRO) {
-        return toast.error(
-          `File size must be less than ${MAX_FILE_SIZE_PRO} MB.`
-        );
+      const maxFileLimit = isPremium ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE;
+      if (fileSize > maxFileLimit) {
+        return toast.error(`File size must be less than ${maxFileLimit} MB.`);
       }
       try {
         setProcessing(true);

@@ -69,10 +69,11 @@ export default function InvoiceGeneratorV3({
 
   const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
     const fileSize = +calculateFileSizeInMB(file?.size || 0);
-    if (fileSize > MAX_FILE_SIZE) {
-      return toast.error(`File size must be less than ${MAX_FILE_SIZE} MB.`);
+    const maxFileLimit = isPremium ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE;
+
+    if (fileSize > maxFileLimit) {
+      return toast.error(`File size must be less than ${maxFileLimit} MB.`);
     }
 
     try {
