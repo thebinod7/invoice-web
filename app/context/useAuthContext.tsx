@@ -35,7 +35,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const refreshAuthState = useCallback(async () => {
-    setIsLoading(true);
     try {
       const res = await fetch(`${API_BASE_URL}/users/me`, {
         credentials: 'include',
@@ -46,6 +45,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         setCurrentUser(null);
         setIsLoggedIn(false);
         setIsPremium(false);
+        return;
       }
 
       const json = await res.json().catch(() => null);
@@ -58,13 +58,11 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         userData?.activeSubscription?.planCode === PLAN_CODES.STARTER
       );
       setIsLoading(false);
-    } catch {
+    } catch (err) {
       setIsLoading(false);
       setCurrentUser(null);
       setIsLoggedIn(false);
       setIsPremium(false);
-    } finally {
-      setIsLoading(false);
     }
   }, []);
 
@@ -82,7 +80,6 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   }, []);
 
   useEffect(() => {
-    console.log('Refreshing....');
     refreshAuthState();
   }, []);
 
@@ -103,14 +100,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
       refreshAuthState,
       doLogout,
     }),
-    [
-      isLoggedIn,
-      setIsLoggedIn,
-      currentUser,
-      setCurrentUser,
-      refreshAuthState,
-      doLogout,
-    ]
+    [isLoggedIn, isLoading, isPremium, currentUser, refreshAuthState, doLogout]
   );
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
