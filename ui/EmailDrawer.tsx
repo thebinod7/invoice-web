@@ -3,7 +3,8 @@
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { FeatureKey } from '@/app/constants/plan';
 import { QUERY_KEYS } from '@/app/constants/query-keys';
-import { sanitizeError } from '@/app/helpers';
+import { useAppContext } from '@/app/context/useAppContext';
+import { isForbidden, sanitizeError } from '@/app/helpers';
 import { postRequest } from '@/app/helpers/request';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,6 +22,7 @@ import { Label } from '@/components/ui/label';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { UpgradePlanModal } from './UpgradePlanModal';
 
 export default function EmailDrawer({
   invoiceId,
@@ -30,6 +32,7 @@ export default function EmailDrawer({
   allowedFeatures: Record<string, any>;
 }) {
   const queryClient = useQueryClient();
+  const { showModal, setShowModal } = useAppContext();
 
   const [formData, setFormData] = useState({
     clientName: '',
@@ -47,6 +50,11 @@ export default function EmailDrawer({
       return postRequest(`${API_ROUTES.INVOICES}/send-to-client`, payload);
     },
     onError: (error) => {
+      console.log('ERR:', error);
+      const forbidden = isForbidden(error);
+      if (forbidden) {
+        return setShowModal(true);
+      }
       toast.error(sanitizeError(error));
     },
     onSuccess: () => {
@@ -72,75 +80,80 @@ export default function EmailDrawer({
   };
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <Button size={'sm'} variant="default" onClick={() => setOpen(true)}>
-          Send
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
-            <DrawerTitle>
-              Send Invoice by Email (0/
-              {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]})
-            </DrawerTitle>
-            <DrawerDescription>
-              Your invoice will be sent as a PDF attachment. Client details
-              won't be saved.
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="px-4 pb-0">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="clientName" className="text-sm font-medium">
-                  Client Name
-                </Label>
-                <Input
-                  id="clientName"
-                  name="clientName"
-                  type="text"
-                  placeholder="eg: Jon Snow"
-                  className="h-10"
-                  value={formData.clientName}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
+    <>
+      <UpgradePlanModal showModal={showModal} setShowModal={setShowModal} />
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>
+          <Button size={'sm'} variant="default" onClick={() => setOpen(true)}>
+            Send
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader>
+              <DrawerTitle>
+                Send Invoice by Email (0/
+                {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]})
+              </DrawerTitle>
+              <DrawerDescription>
+                Your invoice will be sent as a PDF attachment. Client details
+                won't be saved.
+              </DrawerDescription>
+            </DrawerHeader>
+            <div className="px-4 pb-0">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="clientName" className="text-sm font-medium">
+                    Client Name
+                  </Label>
+                  <Input
+                    id="clientName"
+                    name="clientName"
+                    type="text"
+                    placeholder="eg: Jon Snow"
+                    className="h-10"
+                    value={formData.clientName}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="clientEmail" className="text-sm font-medium">
-                  Client Email{' '}
-                  <span className="text-xs">(Recipient Email)</span>
-                </Label>
-                <Input
-                  id="clientEmail"
-                  name="clientEmail"
-                  type="email"
-                  placeholder="eg: jon@example.com"
-                  className="h-10"
-                  value={formData.clientEmail}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <Button
-                disabled={emailInvoiceMutation.isPending}
-                className="w-full"
-              >
-                {emailInvoiceMutation.isPending ? 'Sending...' : 'Send Invoice'}
-              </Button>
-            </form>
+                <div className="space-y-2">
+                  <Label htmlFor="clientEmail" className="text-sm font-medium">
+                    Client Email{' '}
+                    <span className="text-xs">(Recipient Email)</span>
+                  </Label>
+                  <Input
+                    id="clientEmail"
+                    name="clientEmail"
+                    type="email"
+                    placeholder="eg: jon@example.com"
+                    className="h-10"
+                    value={formData.clientEmail}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <Button
+                  disabled={emailInvoiceMutation.isPending}
+                  className="w-full"
+                >
+                  {emailInvoiceMutation.isPending
+                    ? 'Sending...'
+                    : 'Send Invoice'}
+                </Button>
+              </form>
+            </div>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button onClick={() => setOpen(false)} variant="outline">
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
           </div>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button onClick={() => setOpen(false)} variant="outline">
-                Cancel
-              </Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 }

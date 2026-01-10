@@ -48,6 +48,13 @@ export const sanitizeError = (error: any) => {
   return 'Something went wrong!';
 };
 
+export const isForbidden = (error: any) => {
+  if (error.response?.data?.error === 'Forbidden') {
+    return true;
+  }
+  return false;
+};
+
 export const getStaleTimeInMinutes = (minutes: number) => {
   if (!minutes) return 0;
   return 1000 * 60 * minutes;

@@ -18,6 +18,8 @@ export enum PLAN_CODES {
   CUSTOM = 'CUSTOM',
 }
 
+export const STARTER_EMAIL_LIMIT = 120;
+
 // Only for reference
 export const PLAN_FEATURES = {
   [PLAN_CODES.FREE]: {
@@ -29,7 +31,7 @@ export const PLAN_FEATURES = {
     [FeatureKey.MANAGE_CLIENT_LIMIT]: 0,
   },
   [PLAN_CODES.STARTER]: {
-    [FeatureKey.INVOICE_EMAIL_LIMIT]: 100, // per year
+    [FeatureKey.INVOICE_EMAIL_LIMIT]: 120, // per year
     [FeatureKey.INVOICE_EDIT_DOWNLOAD_LIMIT]: 'UNLIMITED',
     [FeatureKey.INVOICE_STATUS_UPDATE]: true,
     [FeatureKey.LOGO_UPLOAD_SIZE_IN_MB]: 5,
@@ -53,9 +55,9 @@ export const SUBSCRIPTION_PLANS = {
     features: [
       { text: 'Invoice history', enabled: true },
       { text: `Upload logo upto ${MAX_FILE_SIZE}MB`, enabled: true },
-      { text: 'Send invoices via email utpto 6', enabled: true },
-      { text: 'Invoice edit & download upto 12', enabled: true },
-      { text: 'Update payment status upto 6', enabled: true },
+      { text: 'Send up to 6 invoices via email', enabled: true },
+      { text: `Edit & download up to 12 invoices`, enabled: true },
+      { text: 'Update up to 6 invoice payment status', enabled: true },
       { text: 'No ads', enabled: false },
     ],
   },
@@ -65,7 +67,10 @@ export const SUBSCRIPTION_PLANS = {
     features: [
       { text: 'Everything in Free', enabled: true },
       { text: `Upload logo upto ${MAX_FILE_SIZE_PRO}MB`, enabled: true },
-      { text: 'Send invoices via email upto 120', enabled: true },
+      {
+        text: `Send up to ${STARTER_EMAIL_LIMIT} invoices via email`,
+        enabled: true,
+      },
       { text: 'Customize email message', enabled: true },
       { text: 'Unlimited edit & download', enabled: true },
       { text: 'Unlimited payment status update', enabled: true },
