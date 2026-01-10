@@ -43,7 +43,7 @@ import { toast } from 'sonner';
 
 export default function page() {
   //=====================================================
-  const { isLoggedIn } = useAuthContext();
+  const { isLoggedIn, isPremium } = useAuthContext();
   const { isProcessing, setProcessing } = useAppContext();
 
   const [logoPreview, setLogoPreview] = useState('');
@@ -297,7 +297,7 @@ export default function page() {
                             ) : (
                               <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
                                 <input
-                                  max={getMaxFileSizeInBytes(isLoggedIn)}
+                                  max={getMaxFileSizeInBytes(isPremium)}
                                   type="file"
                                   onChange={handleLogoChange}
                                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -309,7 +309,7 @@ export default function page() {
                           </div>
                           <p className="text-xs text-slate-500">
                             PNG, JPG up to{' '}
-                            {isLoggedIn ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE} MB
+                            {isPremium ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE} MB
                           </p>
                         </div>
                       )}

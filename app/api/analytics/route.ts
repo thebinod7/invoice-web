@@ -6,8 +6,8 @@ const POSTHOG_API_ENDPOINT = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_ID;
 const FULL_API_URL = `${POSTHOG_API_ENDPOINT}/insights/trend/`;
 
 const PV = 330;
-const VI = 80;
-const INVOICES = 2200;
+const VI = 600;
+const INVOICES = 3200;
 
 export async function GET() {
   try {

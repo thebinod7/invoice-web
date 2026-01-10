@@ -104,7 +104,7 @@ export const invoiceColumns = (
             <Button disabled={true} variant={'outline'} size={'sm'}>
               Done
             </Button>
-            <InvoiceActionDropdown rowId={row.original._id} status={status} />
+            <InvoiceActionDropdown rowId={row.original._id} />
           </div>
         );
       }

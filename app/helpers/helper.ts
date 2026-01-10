@@ -106,8 +106,8 @@ export const getFilenameFromS3Url = (fileUrl: string) => {
   return parts.slice(1).join('_');
 };
 
-export const getMaxFileSizeInBytes = (isLoogedIn: boolean) => {
+export const getMaxFileSizeInBytes = (isPremium: boolean) => {
   let max = MAX_FILE_SIZE;
-  if (isLoogedIn) max = MAX_FILE_SIZE_PRO;
+  if (isPremium) max = MAX_FILE_SIZE_PRO;
   return max * 1024 * 1024;
 };
