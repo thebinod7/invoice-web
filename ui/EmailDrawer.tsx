@@ -92,8 +92,8 @@ export default function EmailDrawer({
           <div className="mx-auto w-full max-w-sm">
             <DrawerHeader>
               <DrawerTitle>
-                Send Invoice by Email (0/
-                {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]})
+                Send Invoice by Email ({' '}
+                {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]} only for free)
               </DrawerTitle>
               <DrawerDescription>
                 Your invoice will be sent as a PDF attachment. Client details

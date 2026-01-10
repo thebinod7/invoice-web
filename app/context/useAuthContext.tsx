@@ -32,7 +32,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<ICurrentUser | null>(null);
   const [isPremium, setIsPremium] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const refreshAuthState = useCallback(async () => {
     setIsLoading(true);
@@ -42,10 +42,10 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
         cache: 'no-store',
       });
       if (!res.ok) {
+        setIsLoading(false);
         setCurrentUser(null);
         setIsLoggedIn(false);
         setIsPremium(false);
-        return;
       }
 
       const json = await res.json().catch(() => null);
@@ -54,11 +54,12 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
 
       setCurrentUser(userData);
       setIsLoggedIn(isAuthenticated);
-
       setIsPremium(
         userData?.activeSubscription?.planCode === PLAN_CODES.STARTER
       );
+      setIsLoading(false);
     } catch {
+      setIsLoading(false);
       setCurrentUser(null);
       setIsLoggedIn(false);
       setIsPremium(false);
@@ -81,6 +82,7 @@ export const AuthContextProvider = ({ children }: { children: any }) => {
   }, []);
 
   useEffect(() => {
+    console.log('Refreshing....');
     refreshAuthState();
   }, []);
 
