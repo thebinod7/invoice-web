@@ -118,7 +118,7 @@ export const invoiceColumns = (
             />
           )}
 
-          <InvoiceActionDropdown rowId={row.original._id} status={status} />
+          <InvoiceActionDropdown rowId={row.original._id} />
         </div>
       );
     },
