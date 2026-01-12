@@ -22,7 +22,6 @@ export default function SubscriptionClient() {
       toast.error(sanitizeError(error));
     },
     onSuccess: ({ data }) => {
-      console.log('Data==>', data);
       if (!data.result.checkout_url) {
         return toast.error('Failed to checkout! Please try again.');
       }
@@ -66,11 +65,10 @@ export default function SubscriptionClient() {
             buttonText="Upgrade"
             buttonVariant="default"
             features={SUBSCRIPTION_PLANS.STARTER.features}
-            isHighlighted={false}
-            // isHighlighted={
-            //   result?.activeSubscription?.planCode ===
-            //   SUBSCRIPTION_PLANS.STARTER.plan
-            // }
+            isHighlighted={
+              result?.activeSubscription?.planCode ===
+              SUBSCRIPTION_PLANS.STARTER.plan
+            }
             badge=""
           />
         </div>

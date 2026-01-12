@@ -18,6 +18,7 @@ import { emailValidator, sanitizeError } from '../helpers';
 import { isValidName, splitFullName } from '../helpers/helper';
 import { postRequest } from '../helpers/request';
 import GoogleLogin from '@/ui/GoogleLogin';
+import StickyHomeButton from '@/ui/StickyHomeButton';
 
 export default function page() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -82,10 +83,7 @@ export default function page() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      {/* Write a fixed Home button to navigate to the home page */}
-      <Link href="/" title="Go Home">
-        <Home className="absolute top-10 left-10 cursor-pointer z-10 w-6 h-6 text-black" />
-      </Link>
+      <StickyHomeButton />
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-semibold text-black mb-3 tracking-tight text-balance">
