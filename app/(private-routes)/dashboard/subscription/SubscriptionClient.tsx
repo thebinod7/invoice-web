@@ -45,7 +45,7 @@ export default function SubscriptionClient() {
           <PricingCard
             loading={isLoading}
             plan={SUBSCRIPTION_PLANS.FREE.plan}
-            price="Free Forever"
+            price="Free forever"
             priceDetail=""
             buttonText="No subscription"
             buttonVariant="secondary"
