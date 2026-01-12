@@ -12,6 +12,7 @@ export const API_ROUTES = {
   AUTH: '/auth',
   GENERATE_INVOICE: '/app/generate-invoice',
   INVOICES: '/invoices',
+  SUBSCRIPTIONS: '/subscriptions',
   USERS: '/users',
 };
 

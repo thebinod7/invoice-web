@@ -19,6 +19,7 @@ export enum PLAN_CODES {
 }
 
 export const STARTER_EMAIL_LIMIT = 120;
+export const STARTER_PRICE = 24.99;
 
 // Only for reference
 export const PLAN_FEATURES = {
@@ -62,7 +63,7 @@ export const SUBSCRIPTION_PLANS = {
     ],
   },
   STARTER: {
-    price: 'xx.xx',
+    price: `$${STARTER_PRICE}`,
     plan: 'STARTER',
     features: [
       { text: 'Everything in Free', enabled: true },

@@ -1,6 +1,8 @@
+import { PLAN_CODES } from '@/app/constants/plan';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Check, CheckCircle, X } from 'lucide-react';
+import { SpinnerButton } from './SpinnerButton';
 
 interface Feature {
   text: string;
@@ -18,6 +20,7 @@ interface PricingCardProps {
   features: Feature[];
   isHighlighted?: boolean;
   loading: boolean;
+  handleButtonClick?: () => void;
 }
 
 export function PricingCard({
@@ -31,6 +34,7 @@ export function PricingCard({
   features,
   isHighlighted = false,
   loading,
+  handleButtonClick,
 }: PricingCardProps) {
   return (
     <div
@@ -80,17 +84,24 @@ export function PricingCard({
               Active
             </Button>
           ) : (
-            <Button
-              disabled={true}
-              className={cn(
-                'w-full rounded-xl py-2 text-base font-semibold transition-colors',
-                buttonVariant === 'default'
-                  ? 'bg-black text-white hover:bg-black/90'
-                  : 'bg-white text-black hover:bg-gray-50 border border-black'
+            <>
+              {loading ? (
+                <SpinnerButton />
+              ) : (
+                <Button
+                  onClick={handleButtonClick}
+                  disabled={plan === PLAN_CODES.FREE}
+                  className={cn(
+                    'w-full rounded-xl py-2 text-base font-semibold transition-colors',
+                    buttonVariant === 'default'
+                      ? 'bg-black text-white hover:bg-black/90'
+                      : 'bg-white text-black hover:bg-gray-50 border border-black'
+                  )}
+                >
+                  {buttonText}
+                </Button>
               )}
-            >
-              {loading ? '...' : buttonText}
-            </Button>
+            </>
           )}
         </div>
       </div>
