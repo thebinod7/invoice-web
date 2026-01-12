@@ -58,7 +58,9 @@ export default function MagicLinkLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <StickyHomeButton />
+      <Link href="/" title="Go Home">
+        <Home className="absolute top-10 left-10 cursor-pointer z-10 w-6 h-6 text-black" />
+      </Link>{' '}
       <div className="w-full max-w-md">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-semibold text-black mb-3 tracking-tight text-balance">

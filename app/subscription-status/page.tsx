@@ -1,10 +1,9 @@
 'use client';
 
-import { Check, AlertCircle } from 'lucide-react';
+import { AlertCircle, Check, Home } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { APP_PATHS } from '../constants';
-import StickyHomeButton from '@/ui/StickyHomeButton';
 
 const PAYMENT_STATUS = {
   FAILED: 'failed',
@@ -30,7 +29,9 @@ export default function SubscriptionSuccessPage() {
   if (status === PAYMENT_STATUS.SUCCESS || status === PAYMENT_STATUS.ACTIVE) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-emerald-50 to-emerald-100 flex items-center justify-center p-4">
-        <StickyHomeButton />
+        <Link href="/" title="Go Home">
+          <Home className="absolute top-10 left-10 cursor-pointer z-10 w-6 h-6 text-black" />
+        </Link>{' '}
         <div className="w-full max-w-2xl">
           <div className="flex justify-center mb-8">
             <div className="relative w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center animate-in fade-in zoom-in duration-500">
@@ -146,7 +147,9 @@ export default function SubscriptionSuccessPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-red-50 to-red-100 flex items-center justify-center p-4">
-      <StickyHomeButton />
+      <Link href="/" title="Go Home">
+        <Home className="absolute top-10 left-10 cursor-pointer z-10 w-6 h-6 text-black" />
+      </Link>{' '}
       <div className="w-full max-w-2xl">
         {/* Error Icon */}
         <div className="flex justify-center mb-8">
