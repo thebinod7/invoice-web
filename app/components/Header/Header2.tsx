@@ -3,6 +3,7 @@ import { FileText, X } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Profile from '../Profile';
+import Image from 'next/image';
 
 const NAV_LINKS = [
   {
@@ -28,8 +29,9 @@ export default function Header2() {
     <header className="border-b border-gray-100">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href={'/'}>
-          <div className="flex items-center space-x-2">
-            <FileText className="h-8 w-8 text-emerald-600" />
+          <div className="flex items-center space-x-0">
+            {/* <FileText className="h-8 w-8 text-emerald-600" /> */}
+            <Image src="/images/logo.jpg" alt="logo" width={50} height={50} />
             <span className="text-xl font-bold text-gray-900">{APP_NAME}</span>
           </div>
         </Link>
