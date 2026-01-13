@@ -72,7 +72,7 @@ export const SUBSCRIPTION_PLANS = {
         text: `Send up to ${STARTER_EMAIL_LIMIT} invoices via email`,
         enabled: true,
       },
-      { text: 'Customize email message', enabled: true },
+      { text: 'Personalized email message', enabled: true },
       { text: 'Unlimited edit & download', enabled: true },
       { text: 'Unlimited payment status update', enabled: true },
       { text: 'No ads', enabled: true },

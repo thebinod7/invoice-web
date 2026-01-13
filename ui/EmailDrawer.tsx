@@ -23,6 +23,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { UpgradePlanModal } from './UpgradePlanModal';
+import { Textarea } from '@/components/ui/textarea';
+import { useAuthContext } from '@/app/context/useAuthContext';
+
+const MAX_MESSAGE_LENGTH = 150;
 
 export default function EmailDrawer({
   invoiceId,
@@ -33,10 +37,13 @@ export default function EmailDrawer({
 }) {
   const queryClient = useQueryClient();
   const { showModal, setShowModal } = useAppContext();
+  const { isPremium } = useAuthContext();
 
   const [formData, setFormData] = useState({
     clientName: '',
     clientEmail: '',
+    subject: '',
+    message: '',
   });
   const [open, setOpen] = useState(false);
 
@@ -65,7 +72,12 @@ export default function EmailDrawer({
       setOpen(false);
     },
     onSettled: () => {
-      setFormData({ clientName: '', clientEmail: '' });
+      setFormData({
+        clientName: '',
+        clientEmail: '',
+        subject: '',
+        message: '',
+      });
       toast.dismiss();
     },
   });
@@ -93,16 +105,15 @@ export default function EmailDrawer({
             <DrawerHeader>
               <DrawerTitle>
                 Send Invoice by Email ({' '}
-                {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]} only for free)
+                {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]} / year)
               </DrawerTitle>
               <DrawerDescription>
-                Your invoice will be sent as a PDF attachment. Client details
-                won't be saved.
+                Your invoice will be sent as a PDF attachment.
               </DrawerDescription>
             </DrawerHeader>
             <div className="px-4 pb-0">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
+              <form onSubmit={handleSubmit} className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="clientName" className="text-sm font-medium">
                     Client Name
                   </Label>
@@ -118,10 +129,9 @@ export default function EmailDrawer({
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="clientEmail" className="text-sm font-medium">
                     Client Email{' '}
-                    <span className="text-xs">(Recipient Email)</span>
                   </Label>
                   <Input
                     id="clientEmail"
@@ -134,6 +144,50 @@ export default function EmailDrawer({
                     required
                   />
                 </div>
+
+                {isPremium && (
+                  <>
+                    <div className="space-y-1">
+                      <Label htmlFor="subject" className="text-sm font-medium">
+                        Email Subject{' '}
+                        <span className="text-xs">(optional)</span>
+                      </Label>
+                      <Input
+                        id="subject"
+                        name="subject"
+                        type="text"
+                        placeholder="eg: You have a new invoice"
+                        className="h-10"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label htmlFor="message" className="text-sm font-medium">
+                        Personal Message{' '}
+                        <span className="text-xs">(optional)</span>
+                      </Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        rows={3}
+                        value={formData.message}
+                        placeholder="Eg: Thanks for working with us! Let me know if you have any questions."
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            message: e.target.value,
+                          })
+                        }
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Max character limit: {formData.message.length}/
+                        {MAX_MESSAGE_LENGTH}
+                      </p>
+                    </div>
+                  </>
+                )}
                 <Button
                   disabled={emailInvoiceMutation.isPending}
                   className="w-full"
