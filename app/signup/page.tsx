@@ -18,7 +18,6 @@ import { emailValidator, sanitizeError } from '../helpers';
 import { isValidName, splitFullName } from '../helpers/helper';
 import { postRequest } from '../helpers/request';
 import GoogleLogin from '@/ui/GoogleLogin';
-import StickyHomeButton from '@/ui/StickyHomeButton';
 
 export default function page() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');

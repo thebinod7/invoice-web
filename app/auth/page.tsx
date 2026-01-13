@@ -18,7 +18,6 @@ import { API_ROUTES } from '../constants/api-routes';
 import { emailValidator, sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
 import { useSearchParams } from 'next/navigation';
-import StickyHomeButton from '@/ui/StickyHomeButton';
 
 export default function MagicLinkLogin() {
   const searchParams = useSearchParams();
