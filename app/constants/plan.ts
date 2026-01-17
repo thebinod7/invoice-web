@@ -59,7 +59,7 @@ export const SUBSCRIPTION_PLANS = {
       { text: 'Send up to 6 invoices via email', enabled: true },
       { text: `Edit & download up to 12 invoices`, enabled: true },
       { text: 'Update up to 6 invoice payment status', enabled: true },
-      { text: 'No ads', enabled: false },
+      { text: 'Ads', enabled: true },
     ],
   },
   STARTER: {
@@ -73,6 +73,7 @@ export const SUBSCRIPTION_PLANS = {
         enabled: true,
       },
       { text: 'Personalized email message', enabled: true },
+      { text: 'Reminder email notification', enabled: true },
       { text: 'Unlimited edit & download', enabled: true },
       { text: 'Unlimited payment status update', enabled: true },
       { text: 'No ads', enabled: true },
