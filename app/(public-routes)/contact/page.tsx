@@ -14,7 +14,6 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
     message: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -31,15 +30,15 @@ export default function ContactForm() {
 
   const useContactMutation = useMutation({
     mutationFn: (payload: any) => {
-      return postRequest(API_ROUTES.APP + '/contact', payload);
+      return postRequest(API_ROUTES.APP + '/feedback', payload);
     },
     onError: (error) => {
       toast.error(sanitizeError(error));
     },
     onSuccess: () => {
-      toast.success('Your message has been sent successfully!');
+      toast.success('success!');
       setFormSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', message: '' });
     },
   });
 
@@ -114,31 +113,6 @@ export default function ContactForm() {
                   required
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg  transition-colors"
                   placeholder="Enter your email address"
-                />
-              </div>
-            </div>
-
-            {/* Subject Field */}
-            <div>
-              <label
-                htmlFor="subject"
-                className="block text-sm font-medium text-gray-600 mb-2"
-              >
-                Subject
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <MessageSquare className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg  transition-colors"
-                  placeholder="What's this about?"
                 />
               </div>
             </div>
