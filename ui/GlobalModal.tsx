@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import type { ReactNode } from 'react';
+import { LoadingButton } from './LoadingButton';
 
 export interface GlobalModalAction {
   label: string;
@@ -35,6 +36,7 @@ export interface GlobalModalProps {
 
   size?: 'sm' | 'md' | 'lg';
   closeOnOutsideClick?: boolean;
+  processing?: boolean;
 }
 
 export function GlobalModal({
@@ -46,6 +48,7 @@ export function GlobalModal({
   actions = [],
   size = 'md',
   closeOnOutsideClick = true,
+  processing = false,
 }: GlobalModalProps) {
   const sizeClasses = {
     sm: 'sm:max-w-[350px]',
@@ -70,17 +73,22 @@ export function GlobalModal({
 
         {actions.length > 0 && (
           <DialogFooter className="flex gap-2 justify-center">
-            {actions.map((action, index) => (
-              <Button
-                key={index}
-                variant={action.variant || 'default'}
-                onClick={() => {
-                  action.onClick();
-                }}
-              >
-                {action.label}
-              </Button>
-            ))}
+            {processing ? (
+              <LoadingButton message="Please wait" />
+            ) : (
+              actions.map((action, index) => (
+                <Button
+                  disabled={processing}
+                  key={index}
+                  variant={action.variant || 'default'}
+                  onClick={() => {
+                    action.onClick();
+                  }}
+                >
+                  {action.label}
+                </Button>
+              ))
+            )}
           </DialogFooter>
         )}
         {/* <div className="text-xs text-muted-foreground text-center pt-2">
