@@ -1,8 +1,8 @@
-import { APP_NAME } from '@/app/constants';
+import { APP_NAME, APP_PATHS } from '@/app/constants';
 import { DASHBOARD_SIDEBAR_ITEMS } from '@/app/constants/api-routes';
 import { useAuthContext } from '@/app/context/useAuthContext';
 import { ICurrentUser } from '@/app/types';
-import { ExternalLink } from 'lucide-react';
+import { Check, CircleAlert, ExternalLink, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { ProfileDropdown } from './ProfileDropdown';
 
@@ -67,6 +67,44 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
         })}
       </nav>
       {/* User Profile */}
+      <Link
+        href={APP_PATHS.DASHBOARD.SUBSCRIPTION}
+        className="hidden md:block w-30 mb-2 rounded-lg border border-border bg-card px-2 py-4 shadow-md"
+      >
+        {/* Header */}
+        <div className="mb-2 flex items-center gap-2">
+          <CircleAlert className="h-5 w-5 text-yellow-500" />
+          <p className="text-sm font-semibold text-foreground">
+            Early access price live
+          </p>
+        </div>
+
+        {/* Main Price - Subtle and Linkable */}
+        <button
+          type="button"
+          className="mb-2 w-full text-left transition-opacity hover:opacity-75"
+        >
+          <p className="text-sm text-muted-foreground">
+            Lock at <strong>$24.99/year</strong>
+          </p>
+        </button>
+
+        {/* Warning */}
+        <div className="mb-2 rounded-md bg-muted p-3">
+          <p className="flex items-start gap-2 text-xs text-muted-foreground">
+            <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+            <span>Future plans will cost more.</span>
+          </p>
+        </div>
+
+        {/* Subscribe Link */}
+        {/* <Link
+          href={APP_PATHS.DASHBOARD.SUBSCRIPTION}
+          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Subscribe now →
+        </Link> */}
+      </Link>
       <ProfileDropdown
         currentUser={currentUser as ICurrentUser | undefined}
         isCollapsed={collapsed}
