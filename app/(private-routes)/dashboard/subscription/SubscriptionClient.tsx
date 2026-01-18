@@ -6,6 +6,7 @@ import { postRequest } from '@/app/helpers/request';
 import { useGetMeQuery } from '@/app/hooks/backend/user.hook';
 import { PricingCard } from '@/ui/PricingCard';
 import { useMutation } from '@tanstack/react-query';
+import { AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function SubscriptionClient() {
@@ -36,12 +37,19 @@ export default function SubscriptionClient() {
   return (
     <div className="min-h-screen px-4 xs-sm:px-16 md:px-32 lg:px-48 2xl:px-72 py-14">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-4 text-center">
+        <div className="mb-6 text-center">
           <h1 className="text-xl font-bold tracking-tight text-foreground md:text-2xl lg:text-3xl">
             Save time. Get paid faster. Stay organized.
           </h1>
         </div>
-        <div className="grid gap-8 grid-cols-1 xl:grid-cols-2 mt-2 py-10">
+        <div className=" bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <p className="font-semibold text-sm text-amber-900">
+            This is an early access price while we improve the product. Price
+            will go up as the product matures.
+          </p>
+        </div>
+        <div className="grid gap-8 grid-cols-1 xl:grid-cols-2  py-6">
           <PricingCard
             loading={isLoading}
             plan={SUBSCRIPTION_PLANS.FREE.plan}
