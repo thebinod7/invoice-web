@@ -25,6 +25,7 @@ import { toast } from 'sonner';
 import { UpgradePlanModal } from './UpgradePlanModal';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuthContext } from '@/app/context/useAuthContext';
+import { LoadingButton } from './LoadingButton';
 
 const MAX_MESSAGE_LENGTH = 150;
 
@@ -188,14 +189,19 @@ export default function EmailDrawer({
                     </div>
                   </>
                 )}
-                <Button
-                  disabled={emailInvoiceMutation.isPending}
-                  className="w-full"
-                >
-                  {emailInvoiceMutation.isPending
-                    ? 'Sending...'
-                    : 'Send Invoice'}
-                </Button>
+                {emailInvoiceMutation.isPending ? (
+                  <LoadingButton
+                    clsName="w-full"
+                    message="Sending invoice..."
+                  />
+                ) : (
+                  <Button
+                    disabled={emailInvoiceMutation.isPending}
+                    className="w-full"
+                  >
+                    Send Invoice
+                  </Button>
+                )}
               </form>
             </div>
             <DrawerFooter>
