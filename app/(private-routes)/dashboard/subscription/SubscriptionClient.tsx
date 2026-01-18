@@ -45,8 +45,8 @@ export default function SubscriptionClient() {
         <div className=" bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <p className="font-semibold text-sm text-amber-900">
-            This is an early access price while we improve the product. Price
-            will go up as the product matures.
+            This is an early access price for limited time while we improve the
+            product. Early users keep this price even after increases.
           </p>
         </div>
         <div className="grid gap-8 grid-cols-1 xl:grid-cols-2  py-6">
