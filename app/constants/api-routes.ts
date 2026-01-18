@@ -36,7 +36,6 @@ export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
     label: 'New Invoice',
     href: APP_PATHS.CREATE_INVOICE,
     icon: Plus,
-    external: true,
   },
   {
     key: 'invoices',

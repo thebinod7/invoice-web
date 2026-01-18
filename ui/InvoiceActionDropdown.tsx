@@ -1,11 +1,14 @@
 'use client';
 
+import { INVOICE_STATUS } from '@/app/constants';
 import { API_ROUTES } from '@/app/constants/api-routes';
 import { QUERY_KEYS } from '@/app/constants/query-keys';
+import { useAppContext } from '@/app/context/useAppContext';
 import { isForbidden, sanitizeError } from '@/app/helpers';
 import { API_BASE_URL } from '@/app/helpers/config';
 import { delRequest, patchRequest } from '@/app/helpers/request';
 import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,11 +18,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Archive, Check, Download, Pencil } from 'lucide-react';
+import {
+  AlarmClock,
+  Archive,
+  CheckCheckIcon,
+  Download,
+  MoreHorizontalIcon,
+  Pencil,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
-import { INVOICE_STATUS } from '@/app/constants';
-import { useAppContext } from '@/app/context/useAppContext';
 import { UpgradePlanModal } from './UpgradePlanModal';
 
 export function InvoiceActionDropdown({ rowId }: { rowId: string }) {
@@ -97,53 +105,68 @@ export function InvoiceActionDropdown({ rowId }: { rowId: string }) {
     <>
       <UpgradePlanModal showModal={showModal} setShowModal={setShowModal} />
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+      <ButtonGroup>
+        <ButtonGroup>
           <Button variant="outline" size="sm">
             Action
           </Button>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent className="w-56" align="start">
-          <DropdownMenuGroup>
-            <DropdownMenuItem
-              onClick={handleDownload}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Download className="h-4 w-4" />
-              <span>Download Now</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={handleEditClick}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Pencil className="h-4 w-4" />
-              <span>Edit & Download</span>
-            </DropdownMenuItem>{' '}
-            <DropdownMenuItem
-              onClick={handleMarkAsPaid}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Check className="h-4 w-4" />
-              <span>Mark as Paid</span>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <ConfirmDialog
-            message="Are you sure you want to delete this invoice?"
-            handleConfirm={handleDeleteClick}
-            triggerButton={
-              <Button
-                variant="secondary"
-                className="flex bg-white text-red-600 items-center gap-2 cursor-pointer"
-              >
-                <Archive className="h-4 w-4" />
-                <span>Delete</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" aria-label="More Options">
+                <MoreHorizontalIcon />
               </Button>
-            }
-          />
-        </DropdownMenuContent>
-      </DropdownMenu>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-52">
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleMarkAsPaid}
+                >
+                  <CheckCheckIcon />
+                  Mark as Paid
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <AlarmClock />
+                  Send Reminder
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleDownload}
+                >
+                  <Download />
+                  Download Now
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={handleEditClick}
+                >
+                  <Pencil />
+                  Edit & Download
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <ConfirmDialog
+                  message="Are you sure you want to delete this invoice?"
+                  handleConfirm={handleDeleteClick}
+                  triggerButton={
+                    <Button
+                      variant="secondary"
+                      className="flex w-full text-sm bg-white text-red-600 items-center gap-2 cursor-pointer"
+                    >
+                      <Archive className="h-4 w-4" />
+                      <span>Delete</span>
+                    </Button>
+                  }
+                />
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ButtonGroup>
+      </ButtonGroup>
     </>
   );
 }
