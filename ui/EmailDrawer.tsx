@@ -26,6 +26,8 @@ import { UpgradePlanModal } from './UpgradePlanModal';
 import { Textarea } from '@/components/ui/textarea';
 import { useAuthContext } from '@/app/context/useAuthContext';
 import { LoadingButton } from './LoadingButton';
+import Image from 'next/image';
+import { MoveRight } from 'lucide-react';
 
 const MAX_MESSAGE_LENGTH = 150;
 
@@ -102,115 +104,139 @@ export default function EmailDrawer({
           </Button>
         </DrawerTrigger>
         <DrawerContent>
-          <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader>
-              <DrawerTitle>
-                Send Invoice by Email ({' '}
-                {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]} / year)
-              </DrawerTitle>
-              <DrawerDescription>
-                Your invoice will be sent as a PDF attachment.
-              </DrawerDescription>
-            </DrawerHeader>
-            <div className="px-4 pb-0">
-              <form onSubmit={handleSubmit} className="space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="clientName" className="text-sm font-medium">
-                    Client Name
-                  </Label>
-                  <Input
-                    id="clientName"
-                    name="clientName"
-                    type="text"
-                    placeholder="eg: Jon Snow"
-                    className="h-10"
-                    value={formData.clientName}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+          <div className="flex justify-center">
+            <div className="w-full max-w-sm">
+              <DrawerHeader>
+                <DrawerTitle>
+                  Send Invoice by Email ({' '}
+                  {allowedFeatures[FeatureKey.INVOICE_EMAIL_LIMIT]} / year)
+                </DrawerTitle>
+                <DrawerDescription>
+                  Your invoice will be sent as a PDF attachment.{' '}
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm">
+                      Here’s how the email will appear to your client
+                    </span>
+                    <MoveRight size={18} />
+                  </div>
+                </DrawerDescription>
+              </DrawerHeader>
+              <div className="px-4 pb-0">
+                <form onSubmit={handleSubmit} className="space-y-2">
+                  <div className="space-y-1">
+                    <Label htmlFor="clientName" className="text-sm font-medium">
+                      Client Name
+                    </Label>
+                    <Input
+                      id="clientName"
+                      name="clientName"
+                      type="text"
+                      placeholder="eg: Jon Snow"
+                      className="h-10"
+                      value={formData.clientName}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="clientEmail" className="text-sm font-medium">
-                    Client Email{' '}
-                  </Label>
-                  <Input
-                    id="clientEmail"
-                    name="clientEmail"
-                    type="email"
-                    placeholder="eg: jon@example.com"
-                    className="h-10"
-                    value={formData.clientEmail}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+                  <div className="space-y-1">
+                    <Label
+                      htmlFor="clientEmail"
+                      className="text-sm font-medium"
+                    >
+                      Client Email{' '}
+                    </Label>
+                    <Input
+                      id="clientEmail"
+                      name="clientEmail"
+                      type="email"
+                      placeholder="eg: jon@example.com"
+                      className="h-10"
+                      value={formData.clientEmail}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
 
-                {isPremium && (
-                  <>
-                    <div className="space-y-1">
-                      <Label htmlFor="subject" className="text-sm font-medium">
-                        Email Subject{' '}
-                        <span className="text-xs">(optional)</span>
-                      </Label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        type="text"
-                        placeholder="eg: You have a new invoice"
-                        className="h-10"
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                      />
-                    </div>
+                  {isPremium && (
+                    <>
+                      <div className="space-y-1">
+                        <Label
+                          htmlFor="subject"
+                          className="text-sm font-medium"
+                        >
+                          Email Subject{' '}
+                          <span className="text-xs">(optional)</span>
+                        </Label>
+                        <Input
+                          id="subject"
+                          name="subject"
+                          type="text"
+                          placeholder="eg: You have a new invoice"
+                          className="h-10"
+                          value={formData.subject}
+                          onChange={handleInputChange}
+                        />
+                      </div>
 
-                    <div className="space-y-1">
-                      <Label htmlFor="message" className="text-sm font-medium">
-                        Personal Message{' '}
-                        <span className="text-xs">(optional)</span>
-                      </Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        rows={3}
-                        value={formData.message}
-                        placeholder="Eg: Thanks for working with us! Let me know if you have any questions."
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            message: e.target.value,
-                          })
-                        }
-                      />
-                      <p className="text-xs text-muted-foreground">
-                        Max character limit: {formData.message.length}/
-                        {MAX_MESSAGE_LENGTH}
-                      </p>
-                    </div>
-                  </>
-                )}
-                {emailInvoiceMutation.isPending ? (
-                  <LoadingButton
-                    clsName="w-full"
-                    message="Sending invoice..."
-                  />
-                ) : (
-                  <Button
-                    disabled={emailInvoiceMutation.isPending}
-                    className="w-full"
-                  >
-                    Send Invoice
+                      <div className="space-y-1">
+                        <Label
+                          htmlFor="message"
+                          className="text-sm font-medium"
+                        >
+                          Personal Message{' '}
+                          <span className="text-xs">(optional)</span>
+                        </Label>
+                        <Textarea
+                          id="message"
+                          name="message"
+                          rows={3}
+                          value={formData.message}
+                          placeholder="Eg: Thanks for working with us! Let me know if you have any questions."
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              message: e.target.value,
+                            })
+                          }
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Max character limit: {formData.message.length}/
+                          {MAX_MESSAGE_LENGTH}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {emailInvoiceMutation.isPending ? (
+                    <LoadingButton
+                      clsName="w-full"
+                      message="Sending invoice..."
+                    />
+                  ) : (
+                    <Button
+                      disabled={emailInvoiceMutation.isPending}
+                      className="w-full"
+                    >
+                      Send Invoice
+                    </Button>
+                  )}
+                </form>
+              </div>
+              <DrawerFooter>
+                <DrawerClose asChild>
+                  <Button onClick={() => setOpen(false)} variant="outline">
+                    Cancel
                   </Button>
-                )}
-              </form>
+                </DrawerClose>
+              </DrawerFooter>
             </div>
-            <DrawerFooter>
-              <DrawerClose asChild>
-                <Button onClick={() => setOpen(false)} variant="outline">
-                  Cancel
-                </Button>
-              </DrawerClose>
-            </DrawerFooter>
+            <Image
+              src="/images/invoice_email.png"
+              alt="Email Template"
+              width={500}
+              height={100}
+              className="hidden md:block mt-8"
+            />
           </div>
         </DrawerContent>
       </Drawer>
