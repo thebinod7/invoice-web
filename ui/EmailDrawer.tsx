@@ -49,10 +49,16 @@ export default function EmailDrawer({
     message: '',
   });
   const [open, setOpen] = useState(false);
+  const [sendInvoiceToMe, setSendInvoiceToMe] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setSendInvoiceToMe(checked);
   };
 
   const emailInvoiceMutation = useMutation({
@@ -90,6 +96,7 @@ export default function EmailDrawer({
     const payload = {
       ...formData,
       invoiceId,
+      ccToMe: sendInvoiceToMe,
     };
     return emailInvoiceMutation.mutate(payload);
   };
@@ -207,6 +214,16 @@ export default function EmailDrawer({
                       </div>
                     </>
                   )}
+
+                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      className="h-3.5 w-3.5 rounded border-gray-300"
+                      onChange={handleCheckboxChange}
+                    />
+                    <span className="text-sm">Send a copy to me</span>
+                  </label>
+
                   {emailInvoiceMutation.isPending ? (
                     <LoadingButton
                       clsName="w-full"
