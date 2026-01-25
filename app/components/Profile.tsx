@@ -9,8 +9,16 @@ import PulseLoader from '@/ui/PulseLoader';
 
 const MENU_ITEMS = [
   {
-    label: 'My Dashboard',
+    label: 'Dashboard',
     href: APP_PATHS.DASHBOARD.HOME,
+  },
+  {
+    label: 'My Invoices',
+    href: APP_PATHS.DASHBOARD.INVOICES,
+  },
+  {
+    label: 'My Profile',
+    href: APP_PATHS.DASHBOARD.PROFILE,
   },
 ];
 
