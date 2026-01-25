@@ -221,7 +221,7 @@ export default function EmailDrawer({
                       className="h-3.5 w-3.5 rounded border-gray-300"
                       onChange={handleCheckboxChange}
                     />
-                    <span className="text-sm">Send a copy to me</span>
+                    <span className="text-xs">Send a copy to me</span>
                   </label>
 
                   {emailInvoiceMutation.isPending ? (
