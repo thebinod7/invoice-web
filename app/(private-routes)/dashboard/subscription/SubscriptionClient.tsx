@@ -40,6 +40,9 @@ export default function SubscriptionClient() {
           <h1 className="text-xl font-bold tracking-tight text-foreground md:text-2xl lg:text-3xl">
             Save time. Get paid faster. Stay organized.
           </h1>
+          <p className="mt-4 text-md font-bold text-orange-600">
+            Early access price is live!
+          </p>
         </div>
         <div className="grid gap-8 grid-cols-1 xl:grid-cols-2  py-8">
           <PricingCard
