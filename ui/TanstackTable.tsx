@@ -1,13 +1,8 @@
 'use client';
 
 import { INVOICE_STATUS } from '@/app/constants';
+import { useIsMobile } from '@/app/hooks/ui/isMobile';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import {
   Select,
@@ -31,9 +26,8 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-  VisibilityState,
 } from '@tanstack/react-table';
-import { ChevronDown, SearchX } from 'lucide-react';
+import { SearchX } from 'lucide-react';
 import * as React from 'react';
 
 interface DataTableProps<TData, TValue> {
@@ -67,7 +61,6 @@ export function TanstackTable<TData, TValue>({
   isLoading = false,
   loadingComponent,
   emptyMessage = 'No results.',
-  showColumnToggle = true,
   showPagination = true,
   onGlobalFilterChange,
   globalFilter,
@@ -81,11 +74,11 @@ export function TanstackTable<TData, TValue>({
   clearFilter,
   status,
 }: DataTableProps<TData, TValue>) {
+  const isMobile = useIsMobile();
+
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
@@ -97,11 +90,14 @@ export function TanstackTable<TData, TValue>({
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
-    onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
       columnFilters,
-      columnVisibility,
+      columnVisibility: {
+        invoiceNumber: !isMobile,
+        dueDate: isMobile ? false : true,
+        grandTotal: isMobile ? false : true,
+      },
       rowSelection,
     },
   });
@@ -114,7 +110,7 @@ export function TanstackTable<TData, TValue>({
             placeholder={searchPlaceholder}
             value={globalFilter ?? ''}
             onChange={(event) => onGlobalFilterChange?.(event.target.value)}
-            className="max-w-sm"
+            className="hidden md:block max-w-sm"
           />
         )}
         {/* Add status filter here */}
@@ -143,37 +139,8 @@ export function TanstackTable<TData, TValue>({
         ) : (
           ''
         )}
-
-        {showColumnToggle && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Columns <ChevronDown className="ml-2 h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
       </div>
-      <div className="w-full overflow-x-auto rounded-md border">
+      <div className="w-full overflow-auto rounded-md border">
         <Table className="min-w-full table-auto">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -234,7 +201,7 @@ export function TanstackTable<TData, TValue>({
       </div>
       {showPagination && (
         <div className="flex items-center justify-between space-x-2 py-4">
-          <div className="text-muted-foreground text-sm">
+          <div className="hidden md:block text-muted-foreground text-sm">
             {totalCount ? (
               <>
                 Page {currentPage || 1} - Showing {data.length} of {totalCount}{' '}
