@@ -27,6 +27,12 @@ const NAV_LINKS = [
 export default function Header2() {
   return (
     <header className="border-b border-gray-100">
+      <div className="bg-yellow-100 text-yellow-800 text-center py-2 px-4">
+        <span className="font-semibold">
+          ⚠️ Site is under maintenance and may be unavailable for up to 24
+          hours.
+        </span>
+      </div>
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href={'/'}>
           <div className="flex items-center space-x-0">
