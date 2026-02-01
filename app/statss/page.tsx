@@ -16,6 +16,8 @@ export default function page() {
     fetchStatss();
   }, []);
 
+  console.log('STATS', stats);
+
   return (
     <div className="flex items-center justify-center h-screen">
       {stats ? (
@@ -28,6 +30,18 @@ export default function page() {
             Total Invoices:{' '}
             <span className="font-semibold">{stats?.totalInvoice || 0}</span>
           </p>
+          <div className="mt-4">
+            {stats.top5.length > 0
+              ? stats.top5.map((d: any, index: number) => {
+                  return (
+                    <p key={index}>
+                      {d.userId} -{' '}
+                      <span className="font-bold">{d.invoiceCount}</span>
+                    </p>
+                  );
+                })
+              : 'No data...'}
+          </div>
         </div>
       ) : (
         ''
