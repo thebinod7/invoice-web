@@ -19,7 +19,7 @@ export default function InvoiceList({ invoices }: InvoiceListProps) {
     return (
         <div className="space-y-2">
             {invoices.map((invoice) => (
-                <InvoiceCard key={invoice.id} invoice={invoice} />
+                <InvoiceCard key={invoice._id} invoice={invoice} />
             ))}
         </div>
     )

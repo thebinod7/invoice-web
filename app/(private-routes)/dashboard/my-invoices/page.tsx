@@ -4,39 +4,42 @@ import { useState, useMemo } from 'react'
 import FiltersSection from './FiltersSection'
 import InvoiceList from './InvoiceList'
 import { invoices } from './invoices'
+import { useListMyInvoices } from '@/app/hooks/backend/invoice.hook'
+import { PAZE_SIZE } from '@/app/constants'
+import { useDebounce } from '@/app/hooks/ui/debounce'
+
+const DEBOUNCE_DELAY = 1000
 
 export default function InvoicesPage() {
+    const [currentPage, setCurrentPage] = useState(1)
     const [search, setSearch] = useState('')
     const [status, setStatus] = useState('')
+    const debouncedSearch = useDebounce(search, DEBOUNCE_DELAY)
 
-    const filtered = useMemo(() => {
-        return invoices.filter((invoice) => {
-            const q = search.toLowerCase()
-            const matchesSearch =
-                !search ||
-                invoice.invoiceNumber.toLowerCase().includes(q) ||
-                invoice.client.toLowerCase().includes(q)
+    const queryParams = useMemo(() => {
+        const params = new URLSearchParams()
+        params.set('perPage', PAZE_SIZE.toString())
+        if (status) params.set('status', status)
+        if (currentPage) params.set('page', currentPage.toString())
+        if (debouncedSearch) params.set('search', debouncedSearch)
+        return params.toString()
+    }, [status, debouncedSearch, currentPage])
 
-            const matchesStatus =
-                !status ||
-                status === 'All' ||
-                invoice.status === status ||
-                (status === 'OVERDUE' && invoice.isOverdue)
+    const { data, isLoading, refetch } = useListMyInvoices(queryParams)
+    const result = data?.data?.result || null
 
-            return matchesSearch && matchesStatus
-        })
-    }, [search, status])
+    console.log('RESULT: ', result)
 
     return (
         <div className="min-h-screen bg-slate-50">
             <div className="mx-auto px-4 md:px-6 py-6 md:py-10">
                 {/* Header */}
-                <div className="mb-6 md:mb-8">
+                {/* <div className="mb-6 md:mb-8">
                     <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Invoices</h1>
                     <p className="text-sm md:text-base text-slate-600 mt-1">
                         Manage and track your invoices
                     </p>
-                </div>
+                </div> */}
 
                 {/* Filters */}
                 <FiltersSection
@@ -47,7 +50,7 @@ export default function InvoicesPage() {
                 />
 
                 {/* Invoice List */}
-                <InvoiceList invoices={filtered} />
+                <InvoiceList invoices={result?.rows || []} />
             </div>
         </div>
     )

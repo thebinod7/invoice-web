@@ -2,13 +2,20 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { INVOICE_STATUS } from '@/app/constants'
 
 interface StatusFilterProps {
     value: string
     onChange: (value: string) => void
 }
 
-const statuses = ['All', 'PAID', 'SENT', 'OVERDUE']
+const statuses = [
+    'All',
+    INVOICE_STATUS.CREATED,
+    INVOICE_STATUS.SENT,
+    INVOICE_STATUS.PAID,
+    INVOICE_STATUS.CANCELLED,
+]
 
 export default function StatusFilter({ value, onChange }: StatusFilterProps) {
     const [isOpen, setIsOpen] = useState(false)

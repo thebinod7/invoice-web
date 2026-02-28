@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { MoreHorizontal, Copy, Eye, Download, Trash2, Pencil, AlarmClock } from 'lucide-react'
+import { AlarmClock, CheckCheck, Download, MoreHorizontal, Pencil, Trash2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 const actionItems = [
+    { icon: CheckCheck, label: 'Mark as Paid' },
     { icon: Download, label: 'Download' },
     { icon: AlarmClock, label: 'Send Reminder' },
-    { icon: Pencil, label: 'Edit & Download' },
+    { icon: Pencil, label: 'Edit Invoice' },
 ]
 
 export default function InvoiceActionMenu() {
