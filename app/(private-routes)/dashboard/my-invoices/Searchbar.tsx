@@ -12,7 +12,7 @@ interface SearchBarProps {
 export default function SearchBar({
     value,
     onChange,
-    placeholder = 'Search invoices...',
+    placeholder = 'Search by invoice number...',
 }: SearchBarProps) {
     const handleClear = useCallback(() => {
         onChange('')

@@ -1,17 +1,15 @@
 'use client'
 
-import { Invoice } from './invoices'
-import InvoiceCard from './InvoiceCard'
 import { useAuthContext } from '@/app/context/useAuthContext'
-import { LoadMore } from '@/app/components/LoadMore'
+import InvoiceCard from './InvoiceCard'
+import { Invoice } from './invoices'
 
 interface InvoiceListProps {
     invoices: Invoice[]
     isLoading: boolean
-    handleLoadMore: () => void
 }
 
-export default function InvoiceList({ invoices, isLoading, handleLoadMore }: InvoiceListProps) {
+export default function InvoiceList({ invoices, isLoading }: InvoiceListProps) {
     const { currentUser } = useAuthContext()
 
     if (invoices.length === 0 && !isLoading) {
@@ -27,8 +25,6 @@ export default function InvoiceList({ invoices, isLoading, handleLoadMore }: Inv
             {invoices.map((invoice) => (
                 <InvoiceCard key={invoice._id} invoice={invoice} cu={currentUser} />
             ))}
-
-            <LoadMore handleLoadMoreClick={handleLoadMore} isLoading={isLoading} />
         </div>
     )
 }

@@ -1,10 +1,7 @@
-import React from 'react';
-import InvoiceClient from './InvoiceClient';
-
 export const metadata = {
-  title: 'Invoice History - Invomaker',
-};
+    title: 'Invoice History - Invomaker',
+}
 
 export default function page() {
-  return <InvoiceClient />;
+    return <div className="text-center py-30">Not Implemented!</div>
 }
