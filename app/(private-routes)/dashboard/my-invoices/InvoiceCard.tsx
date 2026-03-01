@@ -14,7 +14,9 @@ interface InvoiceCardProps {
 
 export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
     const statusKey = invoice.status
-    const styles = getStatusStyles(statusKey as 'PAID' | 'SENT' | 'CREATED' | 'OVERDUE')
+    const styles = getStatusStyles(
+        statusKey as 'PAID' | 'SENT' | 'CREATED' | 'OVERDUE' | 'CANCELLED',
+    )
 
     return (
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-3.5 md:p-4 bg-white border border-slate-200 rounded-xl hover:shadow-md transition-shadow">
@@ -46,7 +48,7 @@ export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
                     className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold w-fit ${styles.bg} ${styles.text}`}
                 >
                     <span className={`w-1.5 h-1.5 rounded-full ${styles.dot}`} />
-                    {capitalizeFirstLetter(invoice.status.toLowerCase())}
+                    {capitalizeFirstLetter(invoice?.status.toLowerCase() || 'NA')}
                 </div>
             </div>
 
