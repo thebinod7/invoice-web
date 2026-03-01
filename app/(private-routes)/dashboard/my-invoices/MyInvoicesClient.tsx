@@ -53,7 +53,7 @@ export default function MyInvoicesClient() {
                     <InvoiceList invoices={invoices} isLoading={isLoading} />
                 )}
 
-                {!isLoading && (
+                {!isLoading && invoices.length > 0 && (
                     <LoadMore
                         shownCount={shownCount}
                         totalCount={totalCount}
