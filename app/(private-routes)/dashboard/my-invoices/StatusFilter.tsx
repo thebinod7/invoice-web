@@ -41,7 +41,7 @@ export default function StatusFilter({ value, onChange }: StatusFilterProps) {
         <div className="relative" ref={menuRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-3 md:px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors whitespace-nowrap"
+                className="flex items-center justify-between gap-2 px-3 md:px-3.5 py-2 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors w-full"
             >
                 <span>{value || 'Status'}</span>
                 <ChevronDown

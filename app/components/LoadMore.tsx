@@ -30,7 +30,8 @@ export function LoadMore({
                     </>
                 ) : (
                     <>
-                        Load More <ChevronDown className="w-4 h-4" />
+                        <span className="hidden sm:block">Load</span> More
+                        <ChevronDown className="w-4 h-4" />
                     </>
                 )}
             </button>
