@@ -242,14 +242,14 @@ export default function EmailDrawer({
                             </DrawerFooter>
                         </div>
 
-                        <div>
+                        <div className="hidden md:block">
                             <p className="mt-2 text-center text-sm font-semibold">Email Preview</p>
                             <Image
                                 src="/images/invoice_email.png"
                                 alt="Email Template"
                                 width={500}
                                 height={100}
-                                className="hidden md:block mt-8"
+                                className="mt-8"
                             />
                         </div>
                     </div>
