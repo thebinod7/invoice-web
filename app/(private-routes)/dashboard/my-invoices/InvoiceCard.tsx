@@ -4,12 +4,15 @@ import { capitalizeFirstLetter, formatCurrency, formatDate } from '@/app/helpers
 import InvoiceActionMenu from './InvoiceActionMenu'
 import { Invoice, getStatusStyles } from './invoices'
 import { INVOICE_STATUS } from '@/app/constants'
+import { ICurrentUser } from '@/app/types'
+import EmailDrawer from '@/ui/EmailDrawer'
 
 interface InvoiceCardProps {
     invoice: Invoice
+    cu: ICurrentUser | null
 }
 
-export default function InvoiceCard({ invoice }: InvoiceCardProps) {
+export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
     const statusKey = invoice.status
     const styles = getStatusStyles(statusKey as 'PAID' | 'SENT' | 'CREATED' | 'OVERDUE')
 
@@ -57,9 +60,12 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps) {
                         Done
                     </button>
                 ) : (
-                    <button className="px-3 py-1.5 text-xs font-medium bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors whitespace-nowrap">
-                        Send
-                    </button>
+                    cu?.activeSubscription && (
+                        <EmailDrawer
+                            allowedFeatures={cu.activeSubscription.allowedFeatures}
+                            invoiceId={invoice._id}
+                        />
+                    )
                 )}
 
                 <InvoiceActionMenu rowId={invoice._id} />
