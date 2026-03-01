@@ -50,7 +50,11 @@ export default function InvoicesPage() {
                 />
 
                 {/* Invoice List */}
-                <InvoiceList invoices={result?.rows || []} />
+                {isLoading ? (
+                    <div className="text-center py-10">Loading invoices...</div>
+                ) : (
+                    <InvoiceList invoices={result?.rows || []} />
+                )}
             </div>
         </div>
     )

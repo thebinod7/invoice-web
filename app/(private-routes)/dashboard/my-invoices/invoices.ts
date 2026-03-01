@@ -11,13 +11,6 @@ export interface Invoice {
     dueDate: string
 }
 
-export const formatCurrency = (amount: number): string => {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    }).format(amount)
-}
-
 export const getStatusStyles = (status: 'PAID' | 'SENT' | 'CREATED' | 'OVERDUE') => {
     const styles = {
         PAID: { bg: 'bg-green-50', text: 'text-green-700', dot: 'bg-green-500' },

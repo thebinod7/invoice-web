@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 
 const actionItems = [
     { icon: CheckCheck, label: 'Mark as Paid' },
-    { icon: Download, label: 'Download' },
+    { icon: Download, label: 'Download Now' },
     { icon: AlarmClock, label: 'Send Reminder' },
     { icon: Pencil, label: 'Edit Invoice' },
 ]

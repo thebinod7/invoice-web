@@ -3,6 +3,7 @@
 import { capitalizeFirstLetter, formatCurrency, formatDate } from '@/app/helpers'
 import InvoiceActionMenu from './InvoiceActionMenu'
 import { Invoice, getStatusStyles } from './invoices'
+import { INVOICE_STATUS } from '@/app/constants'
 
 interface InvoiceCardProps {
     invoice: Invoice
@@ -48,14 +49,16 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps) {
 
             {/* Right: Action Buttons */}
             <div className="flex items-center gap-2">
-                {invoice.status === 'SENT' && (
+                {invoice.status === INVOICE_STATUS.PAID ? (
+                    <button
+                        disabled={true}
+                        className="px-3 py-1.5 text-xs font-medium bg-white text-slate-600 border border-slate-200 rounded-lg transition-colors whitespace-nowrap"
+                    >
+                        Done
+                    </button>
+                ) : (
                     <button className="px-3 py-1.5 text-xs font-medium bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors whitespace-nowrap">
                         Send
-                    </button>
-                )}
-                {invoice.status === 'PAID' && (
-                    <button className="px-3 py-1.5 text-xs font-medium bg-white text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors whitespace-nowrap">
-                        Done
                     </button>
                 )}
 
