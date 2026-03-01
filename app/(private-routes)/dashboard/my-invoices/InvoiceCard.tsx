@@ -22,7 +22,7 @@ export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 p-3.5 md:p-4 bg-white border border-slate-200 rounded-xl hover:shadow-md transition-shadow">
             {/* Left: Client + Invoice Number */}
             <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold text-slate-900 truncate">
+                <div className="text-sm font-semibold text-slate-900 line-clamp-2">
                     {invoice.receiverDetails}
                 </div>
                 <div className="text-xs text-slate-400 font-mono mt-1">{invoice.invoiceNumber}</div>
