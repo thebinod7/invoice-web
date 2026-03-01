@@ -62,7 +62,7 @@ export default function InvoiceCard({ invoice }: InvoiceCardProps) {
                     </button>
                 )}
 
-                <InvoiceActionMenu />
+                <InvoiceActionMenu rowId={invoice._id} />
             </div>
         </div>
     )
