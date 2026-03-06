@@ -45,6 +45,7 @@ export const APP_PATHS = {
         HOME: '/dashboard',
         INVOICES: '/dashboard/my-invoices',
         PROFILE: '/dashboard/profile',
+        MY_REFERRALS: '/dashboard/my-referrals',
         SUBSCRIPTION: '/dashboard/subscription',
     },
 }
