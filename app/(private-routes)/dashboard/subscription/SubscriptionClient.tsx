@@ -63,7 +63,7 @@ export default function SubscriptionClient() {
                         loading={isLoading || createCheckoutSessionMutation.isPending}
                         plan={SUBSCRIPTION_PLANS.STARTER.plan}
                         price={SUBSCRIPTION_PLANS.STARTER.price}
-                        priceDetail="per year (only $2/mo.)"
+                        priceDetail="per year ($2/mo.)"
                         buttonText="Upgrade"
                         buttonVariant="default"
                         features={SUBSCRIPTION_PLANS.STARTER.features}
