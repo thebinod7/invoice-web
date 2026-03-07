@@ -9,7 +9,7 @@ export const WEBSITE_URL = process?.env?.NEXT_PUBLIC_APP_URL
 export default function ReferralCard({ referralCode }: { referralCode: string }) {
     const [copied, setCopied] = useState(false)
 
-    const referralLink = `${WEBSITE_URL}?ref=${referralCode}`
+    const referralLink = `${WEBSITE_URL}?refCode=${referralCode}`
 
     const handleCopy = () => {
         navigator.clipboard.writeText(referralLink).then(() => {
