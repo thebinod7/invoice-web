@@ -1,7 +1,7 @@
 'use client'
 import { API_ROUTES } from '@/app/constants/api-routes'
 import { PLAN_CODES, SUBSCRIPTION_PLANS } from '@/app/constants/plan'
-import { sanitizeError } from '@/app/helpers'
+import { formatDate, sanitizeError } from '@/app/helpers'
 import { postRequest } from '@/app/helpers/request'
 import { useGetMeQuery } from '@/app/hooks/backend/user.hook'
 import { PricingCard } from '@/ui/PricingCard'
@@ -41,7 +41,10 @@ export default function SubscriptionClient() {
                         Save time. Get paid faster. Stay organized.
                     </h1>
                     <p className="mt-4 text-md font-bold text-orange-600">
-                        Early access price is live!
+                        {result?.activeSubscription.planCode == SUBSCRIPTION_PLANS.STARTER.plan
+                            ? 'Expires On: ' +
+                              formatDate(result?.activeSubscription.currentPeriodEnd)
+                            : ''}
                     </p>
                 </div>
                 <div className="grid gap-8 grid-cols-1 xl:grid-cols-2  py-8">

@@ -8,7 +8,7 @@ import { useMyStatsQuery } from '@/app/hooks/backend/user.hook'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageSpinner } from '@/ui/PageSpinner'
 import { CheckCircle2, FileText, Send } from 'lucide-react'
-import ReferralCard from '@/app/components/Referral/ReferralCard'
+import ReferralAlert from '@/app/components/Referral/ReferralAlert'
 import { useAuthContext } from '@/app/context/useAuthContext'
 
 // Type definitions
@@ -101,7 +101,7 @@ export default function DashboardClientV2() {
 
     return (
         <div className="flex-1 overflow-auto p-6">
-            {currentUser?.referralCode && <ReferralCard referralCode={currentUser.referralCode} />}
+            {currentUser?.referralCode && <ReferralAlert referralCode={currentUser.referralCode} />}
 
             {/* Stat Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 mt-4 gap-4">

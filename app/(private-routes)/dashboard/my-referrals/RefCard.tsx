@@ -15,10 +15,17 @@ interface ReferralCardProps {
     referrerUserId: string
     status: string
     createdAt: string
-    onClaim?: () => void
+    handleClaim?: () => void
+    isClaiming: boolean
 }
 
-export default function RefCard({ referredUserId, status, createdAt, onClaim }: ReferralCardProps) {
+export default function RefCard({
+    referredUserId,
+    status,
+    createdAt,
+    isClaiming,
+    handleClaim,
+}: ReferralCardProps) {
     const statusConfig: Record<
         ReferralStatus,
         {
@@ -80,14 +87,18 @@ export default function RefCard({ referredUserId, status, createdAt, onClaim }: 
 
             {/* CTA Button - only for qualified users */}
             {isQualified && (
-                <Button disabled={false} onClick={onClaim} className="w-full h-10 mt-8">
-                    Claim
+                <Button disabled={isClaiming} onClick={handleClaim} className="w-full h-10 mt-8">
+                    {isClaiming ? 'Claiming..' : 'Claim'}
                 </Button>
             )}
 
             {/* Disabled state for non-qualified */}
             {!isQualified && (
-                <Button variant={'default'} disabled className="w-full mt-8 cursor-not-allowed">
+                <Button
+                    variant={'outline'}
+                    disabled={isClaiming}
+                    className="w-full mt-8 cursor-not-allowed"
+                >
                     {status === REFERRAL_STATUS.REWARDED ? 'Claimed' : 'Not Qualified'}
                 </Button>
             )}
