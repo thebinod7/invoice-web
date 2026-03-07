@@ -1,47 +1,64 @@
+import { formatDate } from '@/app/helpers'
 import { Button } from '@/components/ui/button'
 import { CheckCircle, Clock, User } from 'lucide-react'
 
+const REFERRAL_STATUS = {
+    PENDING: 'PENDING',
+    QUALIFIED: 'QUALIFIED',
+    REWARDED: 'REWARDED',
+}
+
+type ReferralStatus = 'QUALIFIED' | 'PENDING' | 'REWARDED'
+
 interface ReferralCardProps {
-    id: string
-    name: string
-    status: 'qualified' | 'pending' | 'claimed'
-    dateReferred: string
+    referredUserId: Record<string, any>
+    referrerUserId: string
+    status: string
+    createdAt: string
     onClaim?: () => void
 }
 
-export default function RefCard({ id, name, status, dateReferred, onClaim }: ReferralCardProps) {
-    const statusConfig = {
-        qualified: {
+export default function RefCard({ referredUserId, status, createdAt, onClaim }: ReferralCardProps) {
+    const statusConfig: Record<
+        ReferralStatus,
+        {
+            label: string
+            color: string
+            icon: any
+        }
+    > = {
+        QUALIFIED: {
             label: 'Qualified',
             color: 'bg-green-50 text-green-700 border-green-200',
             icon: CheckCircle,
         },
-        pending: {
+        PENDING: {
             label: 'Pending',
             color: 'bg-yellow-50 text-yellow-700 border-yellow-200',
             icon: Clock,
         },
-        claimed: {
-            label: 'Claimed',
+        REWARDED: {
+            label: 'Rewarded',
             color: 'bg-gray-50 text-gray-700 border-gray-200',
             icon: CheckCircle,
         },
     }
 
-    const config = statusConfig[status]
+    const config = statusConfig[status as ReferralStatus]
     const StatusIcon = config.icon
-
-    const isQualified = status === 'qualified'
+    const isQualified = status === REFERRAL_STATUS.QUALIFIED
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
             {/* Header with icon and name */}
             <div className="flex items-start gap-3 mb-4">
                 <div className="bg-blue-100 rounded-full p-2">
                     <User className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold text-gray-900 truncate">{name}</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 truncate">
+                        {referredUserId.firstName} {referredUserId.lastName}
+                    </h3>
                 </div>
             </div>
 
@@ -56,9 +73,9 @@ export default function RefCard({ id, name, status, dateReferred, onClaim }: Ref
             </div>
 
             {/* Date referred */}
-            <div className="mb-6">
-                <p className="text-sm text-gray-600">Date Referred</p>
-                <p className="text-sm font-medium text-gray-900">{dateReferred}</p>
+            <div className="mb-4">
+                <p className="text-xs font-medium text-gray-600">Joined On</p>
+                <p className="text-xs font-medium text-gray-900">{formatDate(createdAt)}</p>
             </div>
 
             {/* CTA Button - only for qualified users */}
@@ -71,7 +88,7 @@ export default function RefCard({ id, name, status, dateReferred, onClaim }: Ref
             {/* Disabled state for non-qualified */}
             {!isQualified && (
                 <Button variant={'default'} disabled className="w-full mt-8 cursor-not-allowed">
-                    {status === 'claimed' ? 'Claimed' : 'Not Qualified'}
+                    {status === REFERRAL_STATUS.REWARDED ? 'Claimed' : 'Not Qualified'}
                 </Button>
             )}
         </div>
