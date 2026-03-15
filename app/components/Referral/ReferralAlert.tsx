@@ -22,7 +22,7 @@ export default function ReferralAlert({ referralCode }: { referralCode: string }
             <div className="h-12 flex items-center gap-3 px-4 rounded-lg border border-blue-200 bg-blue-50 hover:bg-blue-100 transition-colors">
                 <div className="flex-1 flex items-center gap-3 min-w-0">
                     <span className="text-sm font-medium text-blue-900">
-                        <span>Invite friends</span>.{' '}
+                        <span>Invite & Earn</span>.{' '}
                         <span className="hidden md:inline-block">
                             Earn 3 months of PRO for free.
                         </span>
