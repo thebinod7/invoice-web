@@ -10,8 +10,12 @@ import { toast } from 'sonner'
 import RefCard from './RefCard'
 import { useRouter } from 'next/navigation'
 import { APP_PATHS } from '@/app/constants'
+import { useAuthContext } from '@/app/context/useAuthContext'
+import ReferralAlert from '@/app/components/Referral/ReferralAlert'
 
 export default function MyReferralsClient() {
+    const { currentUser } = useAuthContext()
+
     const { data, isLoading } = useListMyReferralQuery()
     const router = useRouter()
 
@@ -39,8 +43,11 @@ export default function MyReferralsClient() {
     return (
         <div className="min-h-screen bg-slate-50">
             <div className="mx-auto px-4 md:px-6 py-6 md:py-10">
+                {currentUser?.referralCode && (
+                    <ReferralAlert referralCode={currentUser.referralCode} />
+                )}
                 {/* Header Section */}
-                <div className="bg-white border-b border-gray-200">
+                <div className="bg-white border-b border-gray-200 mt-4">
                     <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
                         <div className="flex items-center gap-3 mb-2">
                             <Award className="w-8 h-8 text-blue-600" />

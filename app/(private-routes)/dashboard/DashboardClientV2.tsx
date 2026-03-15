@@ -4,12 +4,11 @@ import type React from 'react'
 
 import CurrencyDetailsTable from '@/app/components/CurrencyDetailsTable'
 import InvoiceStatusPieChart from '@/app/components/InvoiceStatusPieChart'
+import { useAuthContext } from '@/app/context/useAuthContext'
 import { useMyStatsQuery } from '@/app/hooks/backend/user.hook'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PageSpinner } from '@/ui/PageSpinner'
 import { CheckCircle2, FileText, Send } from 'lucide-react'
-import ReferralAlert from '@/app/components/Referral/ReferralAlert'
-import { useAuthContext } from '@/app/context/useAuthContext'
 
 // Type definitions
 interface InvoiceData {
@@ -101,8 +100,6 @@ export default function DashboardClientV2() {
 
     return (
         <div className="flex-1 overflow-auto p-6">
-            {currentUser?.referralCode && <ReferralAlert referralCode={currentUser.referralCode} />}
-
             {/* Stat Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 mt-4 gap-4">
                 {statCards.map((stat, idx) => (
