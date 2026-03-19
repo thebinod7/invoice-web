@@ -1,21 +1,25 @@
-import { PlusCircle } from 'lucide-react';
-import React from 'react';
+import { PlusCircle } from 'lucide-react'
+import React from 'react'
 
-export default function AddInvoiceItem({
-  addListItem,
-}: {
-  addListItem: () => void;
-}) {
-  return (
-    <div className="mt-4">
-      <button
-        type="button"
-        onClick={addListItem}
-        className="border-2 border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50 text-slate-700 hover:text-blue-700 bg-transparent w-full sm:w-auto px-4 py-2 rounded-md font-medium flex items-center justify-center gap-2 transition-colors duration-150"
-      >
-        <PlusCircle className="h-4 w-4" />
-        Add Item
-      </button>
-    </div>
-  );
+export default function AddInvoiceItem({ addListItem }: { addListItem: () => void }) {
+    return (
+        <div className="mt-3">
+            <button
+                type="button"
+                onClick={addListItem}
+                className="
+          border border-dashed border-stone-200 hover:border-stone-300
+          bg-transparent hover:bg-stone-50
+          text-stone-700 hover:text-stone-800
+          w-full px-4 py-2.5 rounded-md
+          text-[11px] font-medium tracking-widest uppercase
+          flex items-center justify-center gap-2
+          transition-colors duration-150
+        "
+            >
+                <PlusCircle className="h-3.5 w-3.5" />
+                Add Item
+            </button>
+        </div>
+    )
 }

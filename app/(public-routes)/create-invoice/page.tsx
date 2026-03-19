@@ -244,11 +244,12 @@ export default function page() {
                             <div className="p-6">
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                                     {/* Logo Upload - Full width on mobile */}
+                                    {/* Logo Upload */}
                                     <div className="lg:col-span-1">
-                                        <label className="text-sm font-medium text-slate-700 mb-3 block">
+                                        <label className="text-[11px] font-medium tracking-widest text-stone-500 uppercase mb-3 block">
                                             Company Logo
                                         </label>
-                                        <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 sm:p-6 text-center hover:border-blue-400 transition-colors duration-200">
+                                        <div className="border border-dashed border-stone-200 rounded-xl p-5 sm:p-7 text-center bg-stone-50 hover:bg-white hover:border-stone-300 transition-colors duration-150">
                                             {logoPreview ? (
                                                 <div className="relative">
                                                     <img
@@ -257,12 +258,12 @@ export default function page() {
                                                         className="max-h-20 sm:max-h-24 mx-auto rounded-lg"
                                                     />
                                                     <button
-                                                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center"
+                                                        className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-stone-800 hover:bg-stone-900 text-white flex items-center justify-center transition-colors duration-150"
                                                         onClick={clearUploadedLogo}
                                                     >
-                                                        <X className="h-3 w-3" />
+                                                        <X className="h-2.5 w-2.5" />
                                                     </button>
-                                                    <p className="text-xs text-slate-600 mt-2 truncate">
+                                                    <p className="text-[11px] text-stone-400 mt-2 truncate">
                                                         {isLoggedIn
                                                             ? getFilenameFromS3Url(
                                                                   currentInvoice?.companyLogoUrl ||
@@ -272,13 +273,13 @@ export default function page() {
                                                     </p>
                                                 </div>
                                             ) : (
-                                                <div className="space-y-2">
-                                                    <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-slate-400 mx-auto" />
+                                                <div className="space-y-3">
+                                                    <Upload className="h-5 w-5 sm:h-6 sm:w-6 text-stone-500 mx-auto" />
                                                     <div>
                                                         {isProcessing ? (
                                                             <MiniLoader />
                                                         ) : (
-                                                            <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
+                                                            <button className="relative bg-transparent border border-stone-200 hover:bg-stone-100 px-4 py-1.5 rounded-md text-xs font-medium text-stone-700 transition-colors duration-150">
                                                                 <input
                                                                     max={getMaxFileSizeInBytes(
                                                                         isPremium,
@@ -292,7 +293,7 @@ export default function page() {
                                                             </button>
                                                         )}
                                                     </div>
-                                                    <p className="text-xs text-slate-500">
+                                                    <p className="text-[11px] text-stone-400 tracking-wide">
                                                         PNG, JPG up to{' '}
                                                         {isPremium
                                                             ? MAX_FILE_SIZE_PRO
@@ -325,9 +326,6 @@ export default function page() {
                                     <span className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
                                         <FileText className="h-5 w-5 text-emerald-600" />
                                         Invoice Items{' '}
-                                        <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                                            Required
-                                        </span>
                                     </span>
                                 </h3>
                             </div>
@@ -336,29 +334,29 @@ export default function page() {
                                 <div className="hidden lg:block overflow-x-auto">
                                     <table className="w-full">
                                         <thead>
-                                            <tr className="border-b border-slate-200">
-                                                <th className="text-left py-3 px-2 text-sm font-semibold text-slate-700">
+                                            <tr className="border-b border-stone-100">
+                                                <th className="text-left py-2.5 px-2 pl-1 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
                                                     Description
                                                 </th>
-                                                <th className="text-center py-3 px-4 text-sm font-semibold text-slate-700">
+                                                <th className="text-center py-2.5 px-4 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
                                                     Qty
                                                 </th>
-                                                <th className="text-center py-3 px-2 text-sm font-semibold text-slate-700">
+                                                <th className="text-center py-2.5 px-2 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
                                                     Rate
                                                 </th>
-                                                <th className="text-right py-3 px-6 text-sm font-semibold text-slate-700">
+                                                <th className="text-right py-2.5 px-6 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
                                                     Amount
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-slate-100">
+                                        <tbody className="divide-y divide-stone-100">
                                             {currentInvoice.invoiceItems.map(
                                                 (item: InvoiceItemInput, index) => (
                                                     <tr
                                                         key={index}
-                                                        className="hover:bg-slate-50/50 transition-colors duration-150"
+                                                        className="hover:bg-stone-50/50 transition-colors duration-150"
                                                     >
-                                                        <td width={'50%'} className="px-2 py-4">
+                                                        <td width="50%" className="px-2 pl-1 py-3">
                                                             <input
                                                                 type="text"
                                                                 value={item.description}
@@ -369,11 +367,11 @@ export default function page() {
                                                                         e.target.value,
                                                                     )
                                                                 }
-                                                                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
                                                                 placeholder="Item description"
                                                             />
                                                         </td>
-                                                        <td width={'15%'} className="px-4 py-4">
+                                                        <td width="15%" className="px-4 py-3">
                                                             <input
                                                                 type="number"
                                                                 value={item.quantity}
@@ -384,12 +382,12 @@ export default function page() {
                                                                         e.target.value,
                                                                     )
                                                                 }
-                                                                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
+                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
                                                                 placeholder="0"
                                                                 step="1"
                                                             />
                                                         </td>
-                                                        <td width={'15%'} className="px-2 py-4">
+                                                        <td width="15%" className="px-2 py-3">
                                                             <input
                                                                 type="number"
                                                                 value={item.unitPrice || ''}
@@ -400,19 +398,19 @@ export default function page() {
                                                                         e.target.value,
                                                                     )
                                                                 }
-                                                                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center"
+                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
                                                                 placeholder="0.00"
                                                                 min="0"
                                                                 step="1"
                                                             />
                                                         </td>
                                                         <td
-                                                            width={'20%'}
-                                                            className="px-6 py-4 text-right"
+                                                            width="20%"
+                                                            className="px-6 pr-1 py-3 text-right"
                                                         >
-                                                            <div className="flex justify-end gap-4 items-center">
-                                                                <div className="font-medium text-slate-900">
-                                                                    <span className="text-sm text-slate-600">
+                                                            <div className="flex justify-end gap-3 items-center">
+                                                                <div className="text-xs font-medium text-stone-800">
+                                                                    <span className="text-[11px] text-stone-400">
                                                                         {currencySymbol}
                                                                     </span>
                                                                     {(
@@ -424,9 +422,9 @@ export default function page() {
                                                                     onClick={() =>
                                                                         removeListItem(index)
                                                                     }
-                                                                    className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors duration-150"
+                                                                    className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
                                                                 >
-                                                                    <Trash2 className="h-4 w-4" />
+                                                                    <Trash2 className="h-3.5 w-3.5" />
                                                                 </button>
                                                             </div>
                                                         </td>
@@ -438,105 +436,101 @@ export default function page() {
                                 </div>
 
                                 {/* Mobile/Tablet Card View */}
-                                <div className="lg:hidden space-y-4">
+                                <div className="lg:hidden space-y-2.5">
                                     {currentInvoice?.invoiceItems.map(
                                         (item: InvoiceItemInput, index) => (
                                             <div
                                                 key={index}
-                                                className="bg-white border border-slate-200 rounded-lg shadow-sm"
+                                                className="bg-white border border-stone-100 rounded-xl overflow-hidden"
                                             >
-                                                <div className="p-4 space-y-4">
-                                                    <div className="flex justify-between items-start">
-                                                        <h4 className="font-medium text-slate-900">
-                                                            Item #{index + 1}
-                                                        </h4>
-                                                        <button
-                                                            onClick={() => removeListItem(index)}
-                                                            className="text-red-600 hover:text-red-700 hover:bg-red-50 p-2 rounded-md transition-colors duration-150"
-                                                        >
-                                                            <Trash2 className="h-4 w-4" />
-                                                        </button>
+                                                {/* Card Header */}
+                                                <div className="flex justify-between items-center px-4 py-3 border-b border-stone-100">
+                                                    <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                        Item #{index + 1}
+                                                    </span>
+                                                    <button
+                                                        onClick={() => removeListItem(index)}
+                                                        className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
+                                                    >
+                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                    </button>
+                                                </div>
+
+                                                {/* Fields */}
+                                                <div className="p-4 space-y-3">
+                                                    <div className="flex flex-col gap-1.5">
+                                                        <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                            Description
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            value={item.description}
+                                                            onChange={(e) =>
+                                                                updateListItem(
+                                                                    index,
+                                                                    'description',
+                                                                    e.target.value,
+                                                                )
+                                                            }
+                                                            className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                            placeholder="Item description"
+                                                        />
                                                     </div>
 
-                                                    <div className="space-y-3">
-                                                        <div>
-                                                            <label className="text-sm font-medium text-slate-700 mb-1 block">
-                                                                Description
+                                                    <div className="grid grid-cols-2 gap-3">
+                                                        <div className="flex flex-col gap-1.5">
+                                                            <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                Quantity
                                                             </label>
                                                             <input
-                                                                type="text"
-                                                                value={item.description}
+                                                                type="number"
+                                                                value={item.quantity}
                                                                 onChange={(e) =>
                                                                     updateListItem(
                                                                         index,
-                                                                        'description',
+                                                                        'quantity',
                                                                         e.target.value,
                                                                     )
                                                                 }
-                                                                className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
-                                                                placeholder="Item description"
+                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                placeholder="0"
+                                                                step="1"
                                                             />
                                                         </div>
-
-                                                        <div className="grid grid-cols-2 gap-3">
-                                                            <div>
-                                                                <label className="text-sm font-medium text-slate-700 mb-1 block">
-                                                                    Quantity
-                                                                </label>
-                                                                <input
-                                                                    type="number"
-                                                                    value={item.quantity}
-                                                                    onChange={(e) =>
-                                                                        updateListItem(
-                                                                            index,
-                                                                            'quantity',
-                                                                            e.target.value,
-                                                                        )
-                                                                    }
-                                                                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
-                                                                    placeholder="0"
-                                                                    step="1"
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label className="text-sm font-medium text-slate-700 mb-1 block">
-                                                                    Rate
-                                                                </label>
-                                                                <input
-                                                                    type="number"
-                                                                    value={item.unitPrice || ''}
-                                                                    onChange={(e) =>
-                                                                        updateListItem(
-                                                                            index,
-                                                                            'unitPrice',
-                                                                            e.target.value,
-                                                                        )
-                                                                    }
-                                                                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-10"
-                                                                    placeholder="0.00"
-                                                                    min="0"
-                                                                    step="1"
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="pt-2 border-t border-slate-200">
-                                                            <div className="flex justify-between items-center">
-                                                                <span className="text-sm font-medium text-slate-700">
-                                                                    Amount:
-                                                                </span>
-                                                                <span className="text-lg font-bold text-slate-900">
-                                                                    {
-                                                                        (formatCurrency(
-                                                                            item.quantity *
-                                                                                item.unitPrice,
-                                                                        ),
-                                                                        currencySymbol)
-                                                                    }
-                                                                </span>
-                                                            </div>
+                                                        <div className="flex flex-col gap-1.5">
+                                                            <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                Rate
+                                                            </label>
+                                                            <input
+                                                                type="number"
+                                                                value={item.unitPrice || ''}
+                                                                onChange={(e) =>
+                                                                    updateListItem(
+                                                                        index,
+                                                                        'unitPrice',
+                                                                        e.target.value,
+                                                                    )
+                                                                }
+                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                placeholder="0.00"
+                                                                min="0"
+                                                                step="1"
+                                                            />
                                                         </div>
                                                     </div>
+                                                </div>
+
+                                                {/* Amount Footer */}
+                                                <div className="border-t border-stone-100 px-4 py-3 flex justify-between items-center">
+                                                    <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                        Amount
+                                                    </span>
+                                                    <span className="text-sm font-medium text-stone-900 tracking-tight">
+                                                        {formatCurrency(
+                                                            item.quantity * item.unitPrice,
+                                                            currencySymbol,
+                                                        )}
+                                                    </span>
                                                 </div>
                                             </div>
                                         ),
