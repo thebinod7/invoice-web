@@ -15,6 +15,7 @@ import {
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import PulseLoader from './PulseLoader'
+import { googleLogout } from '@react-oauth/google'
 
 export function ProfileDropdown({
     isCollapsed,
@@ -27,6 +28,11 @@ export function ProfileDropdown({
 
     const getNameInitials = (first: string, last: string) =>
         `${first?.[0] ?? ''}${last?.[0] ?? ''}`.toUpperCase()
+
+    const handleLogout = () => {
+        googleLogout()
+        doLogout()
+    }
 
     return (
         <DropdownMenu>
@@ -93,7 +99,7 @@ export function ProfileDropdown({
 
                 <DropdownMenuItem
                     className="cursor-pointer text-red-600 focus:text-red-600"
-                    onClick={doLogout}
+                    onClick={handleLogout}
                 >
                     Log out
                 </DropdownMenuItem>
