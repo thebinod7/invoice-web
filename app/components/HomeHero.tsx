@@ -9,8 +9,10 @@ import { API_ROUTES } from '../constants/api-routes'
 import { toast } from 'sonner'
 import { APP_PATHS } from '../constants'
 import { getReferralCode } from '../helpers/local-storage'
+import { useAuthContext } from '../context/useAuthContext'
 
 export default function HomeHero() {
+    const { isLoading, currentUser } = useAuthContext()
     const [stats, setStats] = useState({
         pageViews: 0,
         visitors: 0,
@@ -60,7 +62,10 @@ export default function HomeHero() {
         },
     })
 
+    const showOneTap = !isLoading && !currentUser
+
     useGoogleOneTapLogin({
+        disabled: !showOneTap,
         auto_select: false,
         onSuccess: (response) => {
             const refCode = getReferralCode()
