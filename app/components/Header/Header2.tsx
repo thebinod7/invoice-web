@@ -5,6 +5,10 @@ import Profile from '../Profile'
 
 const NAV_LINKS = [
     {
+        label: 'Pricing',
+        href: APP_PATHS.PRICING,
+    },
+    {
         label: 'Blog',
         href: APP_PATHS.BLOG,
     },
@@ -13,11 +17,7 @@ const NAV_LINKS = [
         href: '/#features',
     },
     {
-        label: 'How it works',
-        href: '/#how-it-works',
-    },
-    {
-        label: 'Get Started',
+        label: 'Create',
         href: APP_PATHS.CREATE_INVOICE,
     },
 ]
