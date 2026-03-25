@@ -31,7 +31,7 @@ const actionItems = [
     { icon: Pencil, label: 'Edit Invoice', action: ACTIONS.EDIT_INVOICE },
 ]
 
-export default function InvoiceActionMenu({ rowId }: { rowId: string }) {
+export default function InvoiceActionMenu({ rowId, status }: { rowId: string; status: string }) {
     const queryClient = useQueryClient()
     const { showModal, setShowModal } = useAppContext()
     const [showReminderModal, setShowReminderModal] = useState<boolean>(false)
@@ -110,6 +110,8 @@ export default function InvoiceActionMenu({ rowId }: { rowId: string }) {
     }
 
     const handleEditClick = () => {
+        if (status !== INVOICE_STATUS.CREATED)
+            return toast.error('Invoice is not editable! Its already ' + status)
         window.open(`/edit-invoice/${rowId}`, '_blank')
     }
 
