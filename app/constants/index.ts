@@ -37,6 +37,7 @@ export const APP_PATHS = {
     HOME: '/',
     ABOUT: '/about',
     BLOG: '/blog',
+    PRICING: '/pricing',
     CREATE_INVOICE: '/create-invoice',
     SERVICES: '/services',
     CONTACT: '/contact',
