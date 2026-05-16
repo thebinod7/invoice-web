@@ -142,32 +142,37 @@ export default function HomeHero() {
                         </div>
 
 
-                        <div className="text-center lg:text-left">
-                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 mb-4">
-                                100% Free |<span className="ml-1">No Sign-Up Required</span>
-                            </span>
-                            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                                Create Professional Invoices for{' '}
-                                <span className="text-emerald-500">Free</span>
-                            </h1>
-                            <p className="text-xl text-gray-600 mb-8 leading-relaxed ">
-                                No sign-up needed. Generate and download beautiful, ready-to-send
-                                invoices in seconds.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <div className="space-y-5 text-center lg:text-left">
+                            <div className="space-y-3">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                    Invoice maker
+                                </p>
+                                <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+                                    Free · No sign-up
+                                </span>
+                                <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl lg:leading-tight">
+                                    Create professional invoices for{' '}
+                                    <span className="text-emerald-600">free</span>
+                                </h1>
+                                <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-600 lg:mx-0">
+                                    Generate and download ready-to-send invoices in seconds—no
+                                    account required.
+                                </p>
+                            </div>
+                            <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                                 <Link
                                     href="/create-invoice"
-                                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors  focus:ring-offset-2"
+                                    className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                                 >
-                                    Create an Invoice
-                                    <FileText className="ml-2 h-5 w-5" />
+                                    Create an invoice
+                                    <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden />
                                 </Link>
                                 <a
                                     href="#seo"
-                                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                                 >
-                                    Why Us?
-                                    <Sparkles className="ml-2 h-5 w-5" />
+                                    Why us?
+                                    <Sparkles className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </a>
                             </div>
                         </div>
