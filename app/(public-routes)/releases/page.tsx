@@ -8,6 +8,7 @@ import {
     Image,
     LayoutTemplate,
     List,
+    Lock,
     Newspaper,
     Search,
     ShieldAlert,
@@ -27,13 +28,22 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
     {
+        id: '188',
+        title: 'UI Improvements',
+        description: 'Improved the UI for a more intuitive experience, and improved navigation.',
+        date: '2026-05-16',
+        version: 'v2.2.0',
+        icon: Home,
+        isNew: true,
+    },
+    {
         id: '189',
         title: 'Google one tap login',
         description: 'You can now login with one tap using your Google account.',
         date: '2026-03-24',
         version: 'v2.1.0',
-        icon: List,
-        isNew: true,
+        icon: Lock,
+        isNew: false,
     },
     {
         id: '190',
