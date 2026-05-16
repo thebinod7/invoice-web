@@ -47,7 +47,7 @@ export default function PricingPage() {
             <div className="relative w-full max-w-4xl">
                 <div className="text-center mb-14">
                     <div className="inline-flex items-center gap-2 border border-emerald-200 bg-emerald-50 text-emerald-700 text-xs font-['DM_Mono'] tracking-widest uppercase px-4 py-2 rounded-full mb-7">
-                        <Sparkles size={11} className="text-emerald-500" />
+                        {/* <Sparkles size={11} className="text-emerald-500" /> */}
                         <span>Simple pricing, no hidden fees</span>
                     </div>
 
@@ -182,10 +182,6 @@ export default function PricingPage() {
                         </div>
                     </div>
                 </div>
-
-                <p className="text-center mt-10 text-gray-400 font-['DM_Mono'] text-xs tracking-wide">
-                    SSL security included · No extra charges
-                </p>
             </div>
         </main>
     )
