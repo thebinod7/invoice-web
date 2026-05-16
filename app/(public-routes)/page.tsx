@@ -59,62 +59,62 @@ export default function LandingPage() {
                 <HomeHero />
 
                 {/* Features Section */}
-                <section id="features" className="py-20 bg-gray-50">
+                <section id="features" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
                     <div className="container mx-auto px-4">
-                        <div className="text-center mb-16">
-                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                                Everything You Need to Create Perfect Invoices
+                        <div className="mb-10 space-y-3 text-center lg:mb-12">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                Features
+                            </p>
+                            <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                                Everything you need for professional invoices
                             </h2>
-                            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                                Our free invoice generator includes all the features you need to
-                                create professional invoices that get you paid faster.
+                            <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600">
+                                A free invoice generator with the essentials so you can send polished
+                                invoices and get paid faster.
                             </p>
                         </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center">
-                                <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                                    <Zap className="h-6 w-6 text-emerald-600" />
+                        <div className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
+                                    <Zap className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                                    Simple and Fast
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Simple and fast
                                 </h3>
-                                <p className="text-gray-600">
-                                    Create professional invoices in under 60 seconds with our
-                                    intuitive interface.
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Create invoices in under a minute with a clear, focused flow.
                                 </p>
                             </div>
-                            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center">
-                                <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                                    <DollarSign className="h-6 w-6 text-teal-600" />
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50">
+                                    <DollarSign className="h-4 w-4 text-emerald-700" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                                    100% Free
-                                </h3>
-                                <p className="text-gray-600">
-                                    Create unlimited invoices free of cost. No account required.
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">100% free</h3>
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Unlimited invoices at no cost. No account required to start.
                                 </p>
                             </div>
-                            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center">
-                                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                                    <MessageCircle className="h-6 w-6 text-purple-600" />
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
+                                    <MessageCircle className="h-4 w-4 text-gray-700" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                                    Email & Reminders
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Email & reminders
                                 </h3>
-                                <p className="text-gray-600">
-                                    Send invoices directly to your clients via email. Send reminders
-                                    to keep them on track.
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Send invoices by email and nudge clients with reminders when it
+                                    helps.
                                 </p>
                             </div>
-                            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 text-center">
-                                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                                    <Smartphone className="h-6 w-6 text-orange-600" />
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
+                                    <Smartphone className="h-4 w-4 text-gray-700" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                                    Mobile Friendly
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Mobile friendly
                                 </h3>
-                                <p className="text-gray-600">
-                                    Create and download invoices on any device, anywhere, anytime.
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Works on phones and tablets so you can bill from anywhere.
                                 </p>
                             </div>
                         </div>
@@ -122,52 +122,63 @@ export default function LandingPage() {
                 </section>
 
                 {/* How It Works Section */}
-                <section id="how-it-works" className="py-20">
+                <section id="how-it-works" className="border-t border-gray-100 bg-white py-16 lg:py-20">
                     <div className="container mx-auto px-4">
-                        <div className="text-center mb-16">
-                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                                How It Works
+                        <div className="mb-10 space-y-3 text-center lg:mb-12">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                How it works
+                            </p>
+                            <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                                Three quick steps
                             </h2>
-                            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                                Create professional invoices in three simple steps. No registration
+                            <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600">
+                                Build a polished invoice from start to finish—no registration
                                 required.
                             </p>
                         </div>
-                        <div className="grid md:grid-cols-3 gap-8">
-                            <div className="text-center">
-                                <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <Edit3 className="h-8 w-8 text-white" />
+                        <div className="grid gap-4 md:grid-cols-3 md:gap-5">
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <span className="mb-3 inline-flex rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gray-600">
+                                    Step 1
+                                </span>
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
+                                    <Edit3 className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                                    1. Fill Your Details
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Fill your details
                                 </h3>
-                                <p className="text-gray-600">
-                                    Enter your business information, client details, invoice items,
-                                    and your logo.
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Add your business info, client, line items, and logo.
                                 </p>
                             </div>
-                            <div className="text-center">
-                                <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <Eye className="h-8 w-8 text-white" />
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <span className="mb-3 inline-flex rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gray-600">
+                                    Step 2
+                                </span>
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
+                                    <Eye className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                                    2. Preview and Customize
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Preview & tweak
                                 </h3>
-                                <p className="text-gray-600">
-                                    Review your invoice in real-time. Make adjustments to tax,
-                                    discounts, and content until it's perfect.
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Review live, then adjust tax, discounts, and wording until it
+                                    looks right.
                                 </p>
                             </div>
-                            <div className="text-center">
-                                <div className="w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <Share2 className="h-8 w-8 text-white" />
+                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
+                                <span className="mb-3 inline-flex rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-gray-600">
+                                    Step 3
+                                </span>
+                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
+                                    <Share2 className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                                    3. Download or Share
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Download or share
                                 </h3>
-                                <p className="text-gray-600">
-                                    Download your invoice as a PDF and share it with your client via
-                                    email.
+                                <p className="text-sm leading-relaxed text-gray-600">
+                                    Export a PDF and send it to your client by email when you are
+                                    ready.
                                 </p>
                             </div>
                         </div>
@@ -180,37 +191,61 @@ export default function LandingPage() {
                 </div>
 
                 {/* SEO Section */}
-                <section id="seo" className="py-20 mt-4">
+                <section id="seo" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
                     <div className="container mx-auto px-4">
-                        <div className="max-w-4xl mx-auto text-center">
-                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">
-                                The Best Free Invoice Generator Online
-                            </h2>
-                            <div className="text-lg text-gray-600 space-y-4 text-left">
-                                <p>
-                                    Our <strong>free invoice generator</strong> is the perfect
-                                    solution for freelancers, small business owners, and
-                                    entrepreneurs who need to create professional invoices quickly
-                                    and easily. As a comprehensive{' '}
-                                    <strong>PDF invoice maker</strong>, our tool allows you to
-                                    generate unlimited invoices without any cost or registration
-                                    requirements.
+                        <div className="mx-auto max-w-3xl space-y-6 text-center">
+                            <div className="space-y-3">
+                                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                    Free invoice generator
                                 </p>
-                                <p>
-                                    Whether you're looking for an{' '}
-                                    <strong>invoice creator online</strong> or a reliable{' '}
-                                    <strong>invoice generator free</strong> solution, our platform
-                                    provides all the features you need. Create customized invoices
-                                    with your logo, add multiple line items, calculate taxes
-                                    automatically, and download professional PDF invoices that you
-                                    can send to clients immediately.
-                                </p>
-                                <p>
-                                    Join thousands of professionals who trust our{' '}
-                                    <strong>free invoice maker</strong> to handle their billing
-                                    needs. Start creating professional invoices today with our
-                                    easy-to-use <strong>online invoice generator</strong>.
-                                </p>
+                                <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
+                                    The best free invoice generator online
+                                </h2>
+                            </div>
+                            <div className="rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm md:p-6">
+                                <div className="space-y-3 text-sm leading-relaxed text-gray-600">
+                                    <p>
+                                        Our{' '}
+                                        <strong className="font-semibold text-gray-900">
+                                            free invoice generator
+                                        </strong>{' '}
+                                        is the perfect solution for freelancers, small business owners,
+                                        and entrepreneurs who need to create professional invoices
+                                        quickly and easily. As a comprehensive{' '}
+                                        <strong className="font-semibold text-gray-900">
+                                            PDF invoice maker
+                                        </strong>
+                                        {', our tool allows you to generate unlimited invoices without '}
+                                        any cost or registration requirements.
+                                    </p>
+                                    <p>
+                                        Whether you are looking for an{' '}
+                                        <strong className="font-semibold text-gray-900">
+                                            invoice creator online
+                                        </strong>{' '}
+                                        or a reliable{' '}
+                                        <strong className="font-semibold text-gray-900">
+                                            invoice generator free
+                                        </strong>{' '}
+                                        solution, our platform provides all the features you need.
+                                        Create customized invoices with your logo, add multiple line
+                                        items, calculate taxes automatically, and download
+                                        professional PDF invoices that you can send to clients
+                                        immediately.
+                                    </p>
+                                    <p>
+                                        Join thousands of professionals who trust our{' '}
+                                        <strong className="font-semibold text-gray-900">
+                                            free invoice maker
+                                        </strong>{' '}
+                                        to handle their billing needs. Start creating professional
+                                        invoices today with our easy-to-use{' '}
+                                        <strong className="font-semibold text-gray-900">
+                                            online invoice generator
+                                        </strong>
+                                        {'.'}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -218,22 +253,29 @@ export default function LandingPage() {
             </div>
 
             {/* CTA Section */}
-            <section className="py-20 bg-emerald-500">
-                <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-                        Ready to Create Your First Invoice?
-                    </h2>
-                    <p className="text-xl text-emerald-100 mb-8 max-w-2xl mx-auto">
-                        Join thousands of professionals who use our free invoice generator to get
-                        paid faster.
-                    </p>
-                    <Link
-                        href="/create-invoice"
-                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-emerald-600 bg-white hover:bg-gray-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-600"
-                    >
-                        Start Creating Invoices
-                        <FileText className="ml-2 h-5 w-5" />
-                    </Link>
+            <section className="border-t border-gray-200 bg-gray-50/80 py-16 lg:py-20">
+                <div className="container mx-auto px-4">
+                    <div className="mx-auto max-w-xl space-y-4 text-center">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Get started
+                        </p>
+                        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl">
+                            Ready to create your first invoice?
+                        </h2>
+                        <p className="text-sm leading-relaxed text-gray-600">
+                            Join thousands of professionals who use our free invoice generator to
+                            get paid faster.
+                        </p>
+                        <div className="pt-1">
+                            <Link
+                                href="/create-invoice"
+                                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                            >
+                                Start creating invoices
+                                <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
