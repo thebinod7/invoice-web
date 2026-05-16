@@ -1,5 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /auth
+Disallow: /signup
+Disallow: /statss
+Disallow: /subscription-status
 
 # Host
 Host: https://invomaker.com
