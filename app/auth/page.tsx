@@ -98,7 +98,7 @@ export default function MagicLinkLogin() {
           <>
             {session === 'expired' && (
               <p className="text-xs text-center text-red-500 font-semibold mb-2">
-                Session expired! Please login again
+                Session expired! Please login to continue
               </p>
             )}
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -123,11 +123,10 @@ export default function MagicLinkLogin() {
                       }
                     }}
                     placeholder="you@example.com"
-                    className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${
-                      status === 'error'
+                    className={`w-full pl-12 pr-4 py-3.5 border rounded-lg text-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all ${status === 'error'
                         ? 'border-red-300 bg-red-50'
                         : 'border-neutral-300 bg-white'
-                    }`}
+                      }`}
                     disabled={useSendMagicLinkMutation.isPending}
                   />
                 </div>

@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { APP_PATHS } from '../constants'
 import { getReferralCode } from '../helpers/local-storage'
 import { useAuthContext } from '../context/useAuthContext'
+import HomeHeroPricing from './HomeHeroPricing'
 
 export default function HomeHero() {
     const { isLoading, currentUser } = useAuthContext()
@@ -165,38 +166,7 @@ export default function HomeHero() {
                             </div>
                         )}
 
-                        <div className="bg-gradient-to-br from-emerald-50 to-teal-100 rounded-2xl p-8 shadow-2xl">
-                            <div className="bg-white rounded-lg shadow-lg p-6">
-                                <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-8 h-8 bg-emerald-500 rounded"></div>
-                                        <span className="font-semibold text-gray-900">
-                                            Your Company
-                                        </span>
-                                    </div>
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        Invoice #001
-                                    </span>
-                                </div>
-                                <div className="space-y-3">
-                                    <div className="pt-3">
-                                        <div className="flex justify-between text-sm text-gray-500">
-                                            <span>Web Design Services</span>
-                                            <span>$1,000.00</span>
-                                        </div>
-                                        <div className="flex justify-between text-sm text-gray-500">
-                                            <span>Tax (25%)</span>
-                                            <span>$250.00</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-between border-t">
-                                        <span className="text-gray-600">Due Amount</span>
-                                        <span className="font-semibold">$1,250.00</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <HomeHeroPricing />
                     </div>
                 </div>
             </div>
