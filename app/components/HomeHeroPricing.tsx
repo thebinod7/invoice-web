@@ -79,10 +79,10 @@ export default function HomeHeroPricing() {
 
                 <Link
                     href={APP_PATHS.DASHBOARD.SUBSCRIPTION}
-                    className="mb-4 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                    className="mb-4 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 focus:outline-none"
                 >
                     <MoveRight className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
-                    View Subscription
+                    View Starter Plan
                 </Link>
 
                 <div className="flex items-start gap-2 border-t border-gray-100 pt-3">

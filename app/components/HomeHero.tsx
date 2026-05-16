@@ -84,88 +84,96 @@ export default function HomeHero() {
     return (
         <section className="py-10 lg:py-16">
             <div className="container mx-auto px-4">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="text-center lg:text-left">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 mb-4">
-                            100% Free |<span className="ml-1">No Sign-Up Required</span>
-                        </span>
-                        <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                            Create Professional Invoices for{' '}
-                            <span className="text-emerald-500">Free</span>
-                        </h1>
-                        <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                            No sign-up needed. Generate and download beautiful, ready-to-send
-                            invoices in seconds.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <Link
-                                href="/create-invoice"
-                                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors  focus:ring-offset-2"
-                            >
-                                Create an Invoice
-                                <FileText className="ml-2 h-5 w-5" />
-                            </Link>
-                            <a
-                                href="#seo"
-                                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                            >
-                                Why Us?
-                                <Sparkles className="ml-2 h-5 w-5" />
-                            </a>
+                <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
+                    <div className="min-w-0 space-y-10 lg:space-y-12">
+                        <div className="relative" id="stats">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center lg:text-left">
+                                Monthly Stats
+                            </h3>
+
+                            {stats.loading ? (
+                                <div className="mb-4 space-y-2">
+                                    <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+                                    <div className="h-3 bg-gray-100 rounded animate-pulse w-16"></div>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-1.5 bg-emerald-100 rounded-md">
+                                                <FileText className="h-3 w-3 text-emerald-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-gray-500">Invoices</p>
+                                                <p className="text-sm font-semibold text-gray-900">
+                                                    {formatNumber(stats.invoices) + '+'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-1.5 bg-blue-100 rounded-md">
+                                                <Users className="h-3 w-3 text-blue-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-gray-500">Unique Visits</p>
+                                                <p className="text-sm font-semibold text-gray-900">
+                                                    {formatNumber(stats.visitors) + '+'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                                        <div className="flex items-center gap-2">
+                                            <div className="p-1.5 bg-purple-100 rounded-md">
+                                                <Eye className="h-3 w-3 text-purple-600" />
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-gray-500">Views</p>
+                                                <p className="text-sm font-semibold text-gray-900">
+                                                    {formatNumber(stats.pageViews) + '+'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
+
+
+                        <div className="text-center lg:text-left">
+                            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 mb-4">
+                                100% Free |<span className="ml-1">No Sign-Up Required</span>
+                            </span>
+                            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                                Create Professional Invoices for{' '}
+                                <span className="text-emerald-500">Free</span>
+                            </h1>
+                            <p className="text-xl text-gray-600 mb-8 leading-relaxed ">
+                                No sign-up needed. Generate and download beautiful, ready-to-send
+                                invoices in seconds.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                <Link
+                                    href="/create-invoice"
+                                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg transition-colors  focus:ring-offset-2"
+                                >
+                                    Create an Invoice
+                                    <FileText className="ml-2 h-5 w-5" />
+                                </Link>
+                                <a
+                                    href="#seo"
+                                    className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                                >
+                                    Why Us?
+                                    <Sparkles className="ml-2 h-5 w-5" />
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
-                    <div className="relative" id="stats">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Monthly Stats</h3>
-
-                        {stats.loading ? (
-                            <div className="mb-4 space-y-2">
-                                <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
-                                <div className="h-3 bg-gray-100 rounded animate-pulse w-16"></div>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-                                <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-1.5 bg-emerald-100 rounded-md">
-                                            <FileText className="h-3 w-3 text-emerald-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-gray-500">Invoices</p>
-                                            <p className="text-sm font-semibold text-gray-900">
-                                                {formatNumber(stats.invoices) + '+'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-1.5 bg-blue-100 rounded-md">
-                                            <Users className="h-3 w-3 text-blue-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-gray-500">Unique Visits</p>
-                                            <p className="text-sm font-semibold text-gray-900">
-                                                {formatNumber(stats.visitors) + '+'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-1.5 bg-purple-100 rounded-md">
-                                            <Eye className="h-3 w-3 text-purple-600" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-gray-500">Views</p>
-                                            <p className="text-sm font-semibold text-gray-900">
-                                                {formatNumber(stats.pageViews) + '+'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
+                    <div className="min-w-0 w-full lg:max-w-lg lg:justify-self-end">
                         <HomeHeroPricing />
                     </div>
                 </div>
