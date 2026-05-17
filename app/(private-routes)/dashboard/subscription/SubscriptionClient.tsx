@@ -45,7 +45,7 @@ export default function SubscriptionClient() {
                             Lock in early access pricing
                         </span>
                         {' — '}
-                        Pricing will go up soon.
+                        Pricing goes up soon.
                     </p>}
 
                     {result?.activeSubscription.planCode ===
