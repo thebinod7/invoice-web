@@ -71,10 +71,20 @@ export default function HomeHeroPricing() {
 
                 <div className="mb-4">
                     <h3 className="text-sm font-semibold text-gray-900">Starter</h3>
-                    <div className="mt-1 flex items-baseline gap-1">
-                        <span className="text-2xl font-bold text-gray-900">${STARTER_PRICE}</span>
-                        <span className="text-xs text-gray-500">/ year</span>
+                    <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-2xl font-bold text-gray-900">${STARTER_PRICE}</span>
+                            <span className="text-xs text-gray-500">/ year</span>
+                        </div>
+                        <span className="inline-flex rounded-full border border-orange-200/90 bg-orange-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-orange-800">
+                            Early access
+                        </span>
                     </div>
+                    <p className="mt-1.5 text-[11px] leading-snug text-orange-700">
+                        <span className="font-semibold">Lock in this rate</span>
+                        {' — '}
+                        pricing goes up soon.
+                    </p>
                 </div>
 
                 <Link
