@@ -38,6 +38,7 @@ export default function page() {
     //=====================================================
     const { isLoggedIn, isPremium } = useAuthContext()
     const { isProcessing, setProcessing } = useAppContext()
+    const [fetchingInvoice, setFetchingInvoice] = useState(false)
 
     const [logoPreview, setLogoPreview] = useState('')
     const [fileName, setFileName] = useState('')
@@ -132,7 +133,8 @@ export default function page() {
         if (!prompt) {
             return toast.error('Please describe the invoice you want to create')
         }
-        toast.loading('Generating invoice details...')
+        setFetchingInvoice(true)
+        toast.loading('Preparing your invoice...')
         const response: any = await postRequest(`${API_ROUTES.INVOICES}/generate-with-ai`, { prompt })
         toast.dismiss()
         setAiPrompt('')
@@ -142,9 +144,11 @@ export default function page() {
                 ...currentInvoice,
                 ...resData,
             })
-            return toast.success('Invoice details generated successfully')
+            setFetchingInvoice(false)
+            return toast.success('Invoice details filled successfully')
         }
-        else return toast.error('Failed to generate invoice details')
+        else toast.error('Failed to fill invoice details')
+        setFetchingInvoice(false)
     }
 
     const updateListItem = (index: number, field: string, value: string) => {
@@ -256,7 +260,7 @@ export default function page() {
                         handleInputChange={handleInputChange}
                     />
 
-                    <AiPromptField aiPrompt={aiPrompt} setAiPrompt={setAiPrompt} handleFetchByPrompt={handleFetchByPrompt} />
+                    <AiPromptField fetchingInvoice={fetchingInvoice} aiPrompt={aiPrompt} setAiPrompt={setAiPrompt} handleFetchByPrompt={handleFetchByPrompt} />
 
                     <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
                         {/* Company Information Section - Responsive Grid */}
