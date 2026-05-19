@@ -4,15 +4,15 @@ import React from 'react'
 const SAMPLE_PROMPTS = [
     {
         label: 'Consulting',
-        prompt: 'From Summit Consulting, 100 Market St, San Francisco, (415) 555-0123 to invoice Acme Corp in San Francisco for 10 hours of consulting at $150/hr, due in 30 days',
+        prompt: 'From Summit Consulting, 100 Market St, San Francisco, CA 94105, (415) 555-0123, billing@summitconsulting.com — invoice Acme Corp, 200 Broadway, New York, NY 10007 for 10 hours of strategic consulting at $150/hr. Payment due in 30 days.',
     },
     {
-        label: 'Web design',
-        prompt: 'From Lightbox Design, 123 Main St, New York, (212) 555-0123 to invoice Bright Studio for a website redesign project, $4,500 flat fee, net 15 payment terms',
+        label: 'Web Design',
+        prompt: 'From Lightbox Design, 123 Main St, New York, NY 10001, (212) 555-0123, hello@lightboxdesign.com — invoice Bright Studio, 456 Park Ave, New York, NY 10022 for website redesign project (flat fee $4,500) and brand guidelines ($800). Net 15 payment terms.',
     },
     {
-        label: 'Product sale',
-        prompt: 'From Global Teach Manhattan Invoice Tech Supplies Ltd for 5 laptops at $899 each and 2 monitors at $249, plus 8% tax, due upon receipt',
+        label: 'Product Sale',
+        prompt: 'From Global Tech Supply, 789 Commerce Blvd, Manhattan, NY 10001, (646) 555-0199 — invoice Tech Supplies Ltd, 321 Industrial Way, Chicago, IL 60601 for 5 laptops at $899 each and 2 monitors at $249 each. Apply 8% sales tax. Payment due upon receipt.',
     },
 ] as const
 

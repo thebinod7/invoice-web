@@ -247,7 +247,6 @@ export default function page() {
     }
 
     const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency)
-
     console.log('=====Current Invoice=====', currentInvoice)
 
     return (

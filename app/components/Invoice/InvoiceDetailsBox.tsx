@@ -44,9 +44,7 @@ export default function InvoiceDetailsBox({
                         <input
                             type="date"
                             name="dueDate"
-                            value={
-                                currentInvoice.dueDate ? isoToDateInput(currentInvoice.dueDate) : ''
-                            }
+                            value={isoToDateInput(currentInvoice.dueDate)}
                             onChange={(e) => handleInputChange(e)}
                             className="w-full px-3 py-2 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 h-9 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
                         />
