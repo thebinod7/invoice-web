@@ -18,19 +18,24 @@ const SAMPLE_PROMPTS = [
 
 export default function AiPromptField({ fetchingInvoice, aiPrompt, setAiPrompt, handleFetchByPrompt }: { fetchingInvoice: boolean, aiPrompt: string, setAiPrompt: (value: string) => void, handleFetchByPrompt: () => void }) {
     const fieldInputClass =
-        'w-full px-3 py-2 h-10 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
+        'w-full px-3 py-2 min-h-[72px] resize-y bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
 
     return (
         <div className="px-6 sm:px-10 py-4 border-b border-stone-100">
             <label className="text-[11px] font-medium tracking-widest text-stone-500 uppercase mb-2 block">
                 Describe your invoice
             </label>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                <input
-                    type="text"
+            <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
+                <textarea
+                    rows={4}
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleFetchByPrompt()}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                            e.preventDefault()
+                            handleFetchByPrompt()
+                        }
+                    }}
                     className={`flex-1 min-w-0 ${fieldInputClass}`}
                     placeholder="e.g. Invoice Acme Corp for 10 hours of consulting at $150/hr, due in 30 days"
                 />
