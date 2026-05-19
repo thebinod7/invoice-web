@@ -12,5 +12,6 @@ export const QUERY_KEYS = {
     INVOICE: {
         MY_LIST: 'MY_LIST',
         GET_BY_ID: 'GET_BY_ID',
+        FETCH_BY_PROMPT: 'FETCH_BY_PROMPT',
     },
 }

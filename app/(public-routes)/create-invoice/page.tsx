@@ -127,12 +127,24 @@ export default function page() {
         setCurrentInvoice((prev: any) => ({ ...prev, [name]: value }))
     }
 
-    const handleFetchByPrompt = () => {
+    const handleFetchByPrompt = async () => {
         const prompt = aiPrompt.trim()
         if (!prompt) {
             return toast.error('Please describe the invoice you want to create')
         }
-        toast.info('AI invoice generation is coming soon')
+        toast.loading('Generating invoice details...')
+        const response: any = await postRequest(`${API_ROUTES.INVOICES}/generate-with-ai`, { prompt })
+        toast.dismiss()
+        setAiPrompt('')
+        const resData = response?.data?.result || null
+        if (resData) {
+            setCurrentInvoice({
+                ...currentInvoice,
+                ...resData,
+            })
+            return toast.success('Invoice details generated successfully')
+        }
+        else return toast.error('Failed to generate invoice details')
     }
 
     const updateListItem = (index: number, field: string, value: string) => {
@@ -231,6 +243,8 @@ export default function page() {
     }
 
     const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency)
+
+    console.log('=====Current Invoice=====', currentInvoice)
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">

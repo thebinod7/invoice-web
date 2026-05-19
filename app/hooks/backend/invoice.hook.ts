@@ -2,7 +2,7 @@ import { PAZE_SIZE } from '@/app/constants'
 import { API_ROUTES } from '@/app/constants/api-routes'
 import { QUERY_KEYS } from '@/app/constants/query-keys'
 import { getStaleTimeInMinutes } from '@/app/helpers'
-import { getRequest } from '@/app/helpers/request'
+import { getRequest, postRequest } from '@/app/helpers/request'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
 export const useGetActiveAd = () => {
@@ -30,6 +30,15 @@ export const useListMyInvoices = (query: any) => {
         queryFn: () => getRequest(`${API_ROUTES.INVOICES}/me?${queryString}`),
         enabled: true,
         staleTime: getStaleTimeInMinutes(2),
+    })
+}
+
+export const useFetchInvoiceByPrompt = (prompt: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.INVOICE.FETCH_BY_PROMPT, prompt],
+        queryFn: () => postRequest(`${API_ROUTES.GENERATE_INVOICE}/generate-with-ai`, { prompt }),
+        enabled: true,
+        staleTime: getStaleTimeInMinutes(0),
     })
 }
 
