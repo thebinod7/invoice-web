@@ -32,7 +32,7 @@ export default function InvoiceDetailsBox({
                             value={currentInvoice.invoiceNumber || ''}
                             onChange={(e) => handleInputChange(e)}
                             className="w-full px-3 py-2 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 h-9 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                            placeholder="INV-001"
+                            placeholder="Eg: INV-001"
                         />
                     </div>
 
@@ -63,7 +63,7 @@ export default function InvoiceDetailsBox({
                             value={currentInvoice.poNumber || ''}
                             onChange={(e) => handleInputChange(e)}
                             className="w-full px-3 py-2 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 h-9 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                            placeholder="PO-12345"
+                            placeholder="Eg: PO-12345"
                         />
                     </div>
 
@@ -78,7 +78,7 @@ export default function InvoiceDetailsBox({
                             value={currentInvoice.paymentTerms || ''}
                             onChange={(e) => handleInputChange(e)}
                             className="w-full px-3 py-2 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 h-9 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                            placeholder="Payment due within 7 days"
+                            placeholder="Eg: Payment due within 7 days"
                         />
                     </div>
                 </div>

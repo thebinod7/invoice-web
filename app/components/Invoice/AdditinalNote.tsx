@@ -33,7 +33,7 @@ export default function AdditinalNote({
             transition-colors duration-150
             focus:outline-none focus:bg-white focus:border-stone-400
           "
-                    placeholder="e.g. Notes for the client (bank info, instructions, or thank you note.)"
+                    placeholder="Eg: Notes for the client (bank info, instructions, or thank you note.)"
                 />
             </div>
         </div>

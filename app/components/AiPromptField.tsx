@@ -37,7 +37,7 @@ export default function AiPromptField({ fetchingInvoice, aiPrompt, setAiPrompt, 
                         }
                     }}
                     className={`flex-1 min-w-0 ${fieldInputClass}`}
-                    placeholder="e.g. Invoice Acme Corp for 10 hours of consulting at $150/hr, due in 30 days"
+                    placeholder="Eg: Invoice Acme Corp for 10 hours of consulting at $150/hr, due in 30 days"
                 />
                 <button
                     disabled={fetchingInvoice}

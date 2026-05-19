@@ -38,7 +38,7 @@ export default function CompanyDetails({
               transition-colors duration-150
               focus:outline-none focus:bg-white focus:border-stone-400
             "
-                        placeholder={`XYZ Corporation\n123 Main Street, Suite 400\n(555) 123-4567\nbilling@xyz.com`}
+                        placeholder={`Eg: XYZ Corporation\n123 Main Street, Suite 400\n(555) 123-4567\nbilling@xyz.com`}
                     />
                 </div>
 
@@ -67,7 +67,7 @@ export default function CompanyDetails({
               transition-colors duration-150
               focus:outline-none focus:bg-white focus:border-stone-400
             "
-                        placeholder={`ABC Inc\n123 Main Street, Suite 400\n(555) 123-5678\nbilling@abc.com`}
+                        placeholder={`Eg: ABC Inc\n123 Main Street, Suite 400\n(555) 123-5678\nbilling@abc.com`}
                     />
                 </div>
             </div>
