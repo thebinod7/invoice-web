@@ -19,7 +19,7 @@ export default function InvoiceHeaderSection({
                         Invoice Generator
                     </h1>
                     <div className="w-px h-4 bg-stone-200" />
-                    <p className="text-xs text-stone-400">Create professional invoices</p>
+                    {/* <p className="text-xs text-stone-400">Create professional invoices</p> */}
                 </div>
 
                 {/* Currency Selector */}
