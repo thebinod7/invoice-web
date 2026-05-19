@@ -1,5 +1,6 @@
 'use client'
 
+import AiPromptField from '@/app/components/AiPromptField'
 import AddInvoiceItem from '@/app/components/Invoice/AddInvoiceItem'
 import AdditinalNote from '@/app/components/Invoice/AdditinalNote'
 import CompanyDetails from '@/app/components/Invoice/CompanyDetails'
@@ -28,7 +29,7 @@ import { getS3SignedUrl, postRequest, uploadUsingSignedUrl } from '@/app/helpers
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types'
 import MiniLoader from '@/ui/MiniLoader'
 import { useMutation } from '@tanstack/react-query'
-import { Building, FileText, Trash2, Upload, X } from 'lucide-react'
+import { Building, FileText, Sparkles, Trash2, Upload, X } from 'lucide-react'
 import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -56,6 +57,7 @@ export default function page() {
         subTotal: 0,
         grandTotal: 0,
     })
+    const [aiPrompt, setAiPrompt] = useState('')
 
     const clearUploadedLogo = () => {
         if (isLoggedIn) {
@@ -123,6 +125,14 @@ export default function page() {
     ) => {
         const { name, value } = e.target
         setCurrentInvoice((prev: any) => ({ ...prev, [name]: value }))
+    }
+
+    const handleFetchByPrompt = () => {
+        const prompt = aiPrompt.trim()
+        if (!prompt) {
+            return toast.error('Please describe the invoice you want to create')
+        }
+        toast.info('AI invoice generation is coming soon')
     }
 
     const updateListItem = (index: number, field: string, value: string) => {
@@ -222,6 +232,9 @@ export default function page() {
 
     const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency)
 
+    const fieldInputClass =
+        'w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto">
@@ -231,6 +244,8 @@ export default function page() {
                         currency={currentInvoice?.currency}
                         handleInputChange={handleInputChange}
                     />
+
+                    <AiPromptField aiPrompt={aiPrompt} setAiPrompt={setAiPrompt} handleFetchByPrompt={handleFetchByPrompt} />
 
                     <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
                         {/* Company Information Section - Responsive Grid */}
@@ -266,9 +281,9 @@ export default function page() {
                                                     <p className="text-[11px] text-stone-400 mt-2 truncate">
                                                         {isLoggedIn
                                                             ? getFilenameFromS3Url(
-                                                                  currentInvoice?.companyLogoUrl ||
-                                                                      '',
-                                                              )
+                                                                currentInvoice?.companyLogoUrl ||
+                                                                '',
+                                                            )
                                                             : fileName}
                                                     </p>
                                                 </div>
