@@ -16,7 +16,17 @@ const SAMPLE_PROMPTS = [
     },
 ] as const
 
-export default function AiPromptField({ fetchingInvoice, aiPrompt, setAiPrompt, handleFetchByPrompt }: { fetchingInvoice: boolean, aiPrompt: string, setAiPrompt: (value: string) => void, handleFetchByPrompt: () => void }) {
+export default function AiPromptField({
+    fetchingInvoice,
+    aiPrompt,
+    setAiPrompt,
+    handleFetchByPrompt,
+}: {
+    fetchingInvoice: boolean
+    aiPrompt: string
+    setAiPrompt: (value: string) => void
+    handleFetchByPrompt: () => void
+}) {
     const fieldInputClass =
         'w-full px-3 py-2 min-h-[52px] resize-y bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
 
@@ -27,7 +37,7 @@ export default function AiPromptField({ fetchingInvoice, aiPrompt, setAiPrompt, 
             </label>
             <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
                 <textarea
-                    rows={2}
+                    rows={4}
                     value={aiPrompt}
                     onChange={(e) => setAiPrompt(e.target.value)}
                     onKeyDown={(e) => {
@@ -45,7 +55,11 @@ export default function AiPromptField({ fetchingInvoice, aiPrompt, setAiPrompt, 
                     onClick={handleFetchByPrompt}
                     className="w-full mt-1 sm:w-auto shrink-0 flex items-center justify-center gap-2 px-5 py-3 rounded-md text-xs font-medium tracking-wide bg-stone-900 hover:opacity-80 active:opacity-70 text-white transition-opacity duration-150"
                 >
-                    {fetchingInvoice ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
+                    {fetchingInvoice ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                    ) : (
+                        <Sparkles className="h-3.5 w-3.5" />
+                    )}
                     {fetchingInvoice ? 'Please wait...' : 'Fill Form'}
                 </button>
             </div>
@@ -55,10 +69,11 @@ export default function AiPromptField({ fetchingInvoice, aiPrompt, setAiPrompt, 
                         key={label}
                         type="button"
                         onClick={() => setAiPrompt(prompt)}
-                        className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors duration-150 ${aiPrompt === prompt
-                            ? 'bg-stone-900 text-white border-stone-900'
-                            : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-white hover:border-stone-300 hover:text-stone-800'
-                            }`}
+                        className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors duration-150 ${
+                            aiPrompt === prompt
+                                ? 'bg-stone-900 text-white border-stone-900'
+                                : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-white hover:border-stone-300 hover:text-stone-800'
+                        }`}
                     >
                         {label}
                     </button>
