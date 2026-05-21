@@ -20,7 +20,10 @@ export enum PLAN_CODES {
 }
 
 export const STARTER_EMAIL_LIMIT = 120
-export const STARTER_PRICE = 24.99
+export const STARTER_PRICE = {
+    monthly: 5,
+    yearly: 49.99,
+}
 
 // Only for reference
 export const PLAN_FEATURES = {
@@ -58,6 +61,7 @@ export const SUBSCRIPTION_PLANS = {
         plan: 'FREE',
         price: 'Free',
         features: [
+            { text: 'Prompt to Invoice AI (3 free credits)', enabled: true },
             { text: 'Invoice history', enabled: true },
             { text: `Upload logo upto ${MAX_FILE_SIZE}MB`, enabled: true },
             { text: 'Send up to 6 invoices via email', enabled: true },
@@ -67,10 +71,11 @@ export const SUBSCRIPTION_PLANS = {
         ],
     },
     STARTER: {
-        price: `$${STARTER_PRICE}`,
+        price: `$${STARTER_PRICE.monthly}`,
         plan: 'STARTER',
         features: [
             { text: 'Everything in Free', enabled: true },
+            { text: 'Prompt to Invoice AI (100 credits / month)', enabled: true },
             { text: `Upload logo upto ${MAX_FILE_SIZE_PRO}MB`, enabled: true },
             {
                 text: `Send up to ${STARTER_EMAIL_LIMIT} invoices via email`,

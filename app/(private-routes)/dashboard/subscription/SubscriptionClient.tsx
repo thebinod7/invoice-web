@@ -40,21 +40,21 @@ export default function SubscriptionClient() {
                     <h1 className="text-xl font-bold tracking-tight text-foreground md:text-2xl lg:text-3xl">
                         Save time. Get paid faster. Stay organized.
                     </h1>
-                    {result?.activeSubscription.planCode === SUBSCRIPTION_PLANS.FREE.plan && <p className="mt-3 text-sm text-muted-foreground">
-                        <span className="font-medium text-orange-600">
-                            Lock in early access pricing
-                        </span>
-                        {' — '}
-                        Pricing goes up soon.
-                    </p>}
+                    {result?.activeSubscription.planCode === SUBSCRIPTION_PLANS.FREE.plan && (
+                        <p className="mt-3 text-sm text-muted-foreground">
+                            <span className="font-medium text-orange-600">
+                                Lock in early access pricing
+                            </span>
+                            {' — '}
+                            Pricing goes up soon.
+                        </p>
+                    )}
 
-                    {result?.activeSubscription.planCode ===
-                        SUBSCRIPTION_PLANS.STARTER.plan && (
-                            <p className="mt-4 text-sm italic text-muted-foreground text-red-500">
-                                Expires on{' '}
-                                {formatDate(result.activeSubscription.currentPeriodEnd)}
-                            </p>
-                        )}
+                    {result?.activeSubscription.planCode === SUBSCRIPTION_PLANS.STARTER.plan && (
+                        <p className="mt-4 text-sm italic text-muted-foreground text-red-500">
+                            Expires on {formatDate(result.activeSubscription.currentPeriodEnd)}
+                        </p>
+                    )}
                 </div>
                 <div className="grid gap-8 grid-cols-1 xl:grid-cols-2  py-8">
                     <PricingCard
@@ -62,7 +62,7 @@ export default function SubscriptionClient() {
                         plan={SUBSCRIPTION_PLANS.FREE.plan}
                         price="Free forever"
                         priceDetail=""
-                        buttonText="No subscription"
+                        buttonText="-"
                         buttonVariant="secondary"
                         features={SUBSCRIPTION_PLANS.FREE.features}
                         isHighlighted={
@@ -75,7 +75,7 @@ export default function SubscriptionClient() {
                         loading={isLoading || createCheckoutSessionMutation.isPending}
                         plan={SUBSCRIPTION_PLANS.STARTER.plan}
                         price={SUBSCRIPTION_PLANS.STARTER.price}
-                        priceDetail="per year ($2/mo.)"
+                        priceDetail="/ month"
                         buttonText="Upgrade"
                         buttonVariant="default"
                         features={SUBSCRIPTION_PLANS.STARTER.features}

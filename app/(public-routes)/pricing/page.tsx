@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 const freeFeatures = [
+    'Prompt to Invoice AI (3 free credits)',
     'Invoice history',
     'Upload logo up to 1MB',
     'Send up to 6 invoices via email',
@@ -18,6 +19,7 @@ const freeFeatures = [
 
 const starterFeatures = [
     'Everything in Free',
+    'Prompt to Invoice AI (100 credits / month)',
     'Upload logo up to 5MB',
     'Send up to 120 invoices via email',
     'Personalized email message',
@@ -49,9 +51,7 @@ function FeatureList({
                     />
                     <span
                         className={`text-sm leading-relaxed ${
-                            firstItemMuted && i === 0
-                                ? 'italic text-gray-500'
-                                : textClassName
+                            firstItemMuted && i === 0 ? 'italic text-gray-500' : textClassName
                         }`}
                     >
                         {feature}
@@ -87,8 +87,7 @@ export default function PricingPage() {
                             Simple · No hidden fees
                         </span>
                         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl lg:leading-tight">
-                            Save time and{' '}
-                            <span className="text-emerald-600">get paid faster</span>
+                            Save time and <span className="text-emerald-600">get paid faster</span>
                         </h1>
                         <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-600">
                             Start free, then upgrade when you need more sends, reminders, and an
@@ -108,8 +107,12 @@ export default function PricingPage() {
                             </div>
 
                             <div className="mb-6 rounded-xl border border-gray-100 bg-gray-50/80 p-4">
-                                <p className="text-base font-semibold text-gray-900">Free forever</p>
-                                <p className="mt-1 text-xs text-gray-500">No credit card required</p>
+                                <p className="text-base font-semibold text-gray-900">
+                                    Free forever
+                                </p>
+                                <p className="mt-1 text-xs text-gray-500">
+                                    No credit card required
+                                </p>
                                 <p className="mt-4 rounded-lg border border-gray-200 bg-white py-2.5 text-center text-xs font-semibold text-gray-500">
                                     No subscription
                                 </p>
@@ -142,13 +145,13 @@ export default function PricingPage() {
                             <div className="mb-6 rounded-xl border border-gray-100 bg-gray-50/80 p-4">
                                 <div className="flex items-baseline gap-1">
                                     <span className="text-2xl font-bold text-gray-900">
-                                        ${STARTER_PRICE}
+                                        ${STARTER_PRICE.monthly}
                                     </span>
-                                    <span className="text-xs text-gray-500">/ year</span>
+                                    <span className="text-xs text-gray-500">/ month</span>
                                 </div>
-                                <p className="mt-1 text-xs text-gray-600">
+                                {/* <p className="mt-1 text-xs text-gray-600">
                                     Billed annually · about $2/mo
-                                </p>
+                                </p> */}
                                 <button
                                     type="button"
                                     onClick={handleGetStarted}
