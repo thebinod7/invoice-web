@@ -19,6 +19,11 @@ export enum PLAN_CODES {
     CUSTOM = 'CUSTOM',
 }
 
+export const SUBSCRIPTION_INTERVALS = {
+    MONTHLY: 'monthly',
+    YEARLY: 'yearly',
+} as const
+
 export const STARTER_EMAIL_LIMIT = 120
 export const STARTER_PRICE = {
     monthly: 5,
