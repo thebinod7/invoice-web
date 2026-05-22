@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import type { ReactNode } from 'react'
 
@@ -42,6 +43,7 @@ type PricingPlanCardProps = {
     badge?: ReactNode
     firstItemMuted?: boolean
     footer?: ReactNode
+    className?: string
 }
 
 export default function PricingPlanCard({
@@ -52,14 +54,17 @@ export default function PricingPlanCard({
     badge,
     firstItemMuted,
     footer,
+    className,
 }: PricingPlanCardProps) {
     return (
         <section
-            className={
+            className={cn(
+                'flex h-full flex-col rounded-2xl bg-white p-5 shadow-sm sm:p-6',
                 highlighted
-                    ? 'relative flex flex-col rounded-2xl border-2 border-emerald-500 bg-white p-5 pt-7 shadow-sm sm:p-6 sm:pt-8'
-                    : 'flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-colors hover:border-gray-300 sm:p-6'
-            }
+                    ? 'relative border-2 border-emerald-500 pt-7 sm:pt-8'
+                    : 'border border-gray-200 transition-colors hover:border-gray-300',
+                className
+            )}
         >
             {badge}
 
@@ -67,14 +72,18 @@ export default function PricingPlanCard({
                 <h2 className="text-xl font-semibold tracking-tight text-gray-900">{title}</h2>
             </div>
 
-            <div className="mb-6 rounded-xl border border-gray-100 bg-gray-50/80 p-4">{pricing}</div>
+            <div className="mb-6 min-h-[8.75rem] rounded-xl border border-gray-100 bg-gray-50/80 p-4">
+                {pricing}
+            </div>
 
-            <FeatureList
-                items={features}
-                checkClassName="text-emerald-600"
-                textClassName="text-gray-900"
-                firstItemMuted={firstItemMuted}
-            />
+            <div className="flex-1">
+                <FeatureList
+                    items={features}
+                    checkClassName="text-emerald-600"
+                    textClassName="text-gray-900"
+                    firstItemMuted={firstItemMuted}
+                />
+            </div>
 
             {footer}
         </section>
