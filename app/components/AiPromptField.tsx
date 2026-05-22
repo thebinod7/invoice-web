@@ -3,16 +3,33 @@ import React from 'react'
 
 const SAMPLE_PROMPTS = [
     {
-        label: 'Consulting',
-        prompt: 'From Summit Consulting, 100 Market St, San Francisco, CA 94105, (415) 555-0123, billing@summitconsulting.com — invoice Acme Corp, 200 Broadway, New York, NY 10007 for 10 hours of strategic consulting at $150/hr. Payment due in 30 days.',
+        label: 'Freelance Developer',
+        prompt:
+            'Create an invoice from PixelForge Studio to GreenLeaf Media for 32 hours of full-stack development at $85/hour. Include API integration ($400) and bug fixes ($180). Apply 10% tax and make payment due in 14 days.',
     },
+
     {
-        label: 'Web Design',
-        prompt: 'From Lightbox Design, 123 Main St, New York, NY 10001, (212) 555-0123, hello@lightboxdesign.com — invoice Bright Studio, 456 Park Ave, New York, NY 10022 for website redesign project (flat fee $4,500) and brand guidelines ($800). Net 15 payment terms.',
+        label: 'Marketing Agency',
+        prompt:
+            'Invoice Nova Marketing Agency to Elevate Fitness for social media management ($1200), Facebook ads setup ($350), and content creation ($600). Apply 5% discount and set payment terms to Net 30.',
     },
+
     {
-        label: 'Product Sale',
-        prompt: 'From Global Tech Supply, 789 Commerce Blvd, Manhattan, NY 10001, (646) 555-0199 — invoice Tech Supplies Ltd, 321 Industrial Way, Chicago, IL 60601 for 5 laptops at $899 each and 2 monitors at $249 each. Apply 8% sales tax. Payment due upon receipt.',
+        label: 'E-commerce Order',
+        prompt:
+            'Create invoice from Urban Gadgets to Michael Lee for 2 wireless keyboards at $79 each, 1 USB-C dock at $129, and 3 laptop stands at $35 each. Add shipping fee $25 and apply 8.5% sales tax.',
+    },
+
+    {
+        label: 'Consulting Retainer',
+        prompt:
+            'Invoice BrightPath Consulting to Apex Ventures for monthly business consulting retainer for September 2026 at $3500. Include additional workshop session ($600). Net 15 terms.',
+    },
+
+    {
+        label: 'Simple Natural Prompt',
+        prompt:
+            'Need an invoice for John Smith to charge Acme Inc for website maintenance and hosting for August. Hosting is $50, maintenance work was 6 hours at $70/hour. Add tax and Due date September 15, 2026.',
     },
 ] as const
 
@@ -28,7 +45,7 @@ export default function AiPromptField({
     handleFetchByPrompt: () => void
 }) {
     const fieldInputClass =
-        'w-full px-3 py-2 min-h-[52px] resize-y bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
+        'w-full px-3 py-2 min-h-[52px] resize-y bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-400 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
 
     return (
         <div className="px-6 sm:px-10 py-4 border-b border-stone-100">
@@ -69,11 +86,10 @@ export default function AiPromptField({
                         key={label}
                         type="button"
                         onClick={() => setAiPrompt(prompt)}
-                        className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors duration-150 ${
-                            aiPrompt === prompt
-                                ? 'bg-stone-900 text-white border-stone-900'
-                                : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-white hover:border-stone-300 hover:text-stone-800'
-                        }`}
+                        className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors duration-150 ${aiPrompt === prompt
+                            ? 'bg-stone-900 text-white border-stone-900'
+                            : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-white hover:border-stone-300 hover:text-stone-800'
+                            }`}
                     >
                         {label}
                     </button>

@@ -28,7 +28,7 @@ export default function AdditinalNote({
             border border-stone-200
             rounded-md
             text-xs text-stone-800 leading-relaxed
-            placeholder:text-stone-500
+            placeholder:text-stone-400
             resize-vertical
             transition-colors duration-150
             focus:outline-none focus:bg-white focus:border-stone-400

@@ -273,12 +273,14 @@ export default function page() {
                             handleInputChange={handleInputChange}
                         />
 
-                        <AiPromptField
+                        {isLoggedIn && <AiPromptField
                             fetchingInvoice={fetchingInvoice}
                             aiPrompt={aiPrompt}
                             setAiPrompt={setAiPrompt}
                             handleFetchByPrompt={handleFetchByPrompt}
-                        />
+                        />}
+
+
 
                         <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
                             {/* Company Information Section - Responsive Grid */}
@@ -294,7 +296,7 @@ export default function page() {
                                         {/* Logo Upload - Full width on mobile */}
                                         {/* Logo Upload */}
                                         <div className="lg:col-span-1">
-                                            <label className="text-[11px] font-medium tracking-widest text-stone-500 uppercase mb-3 block">
+                                            <label className="text-[11px] font-medium tracking-widest text-black-500 uppercase mb-3 block">
                                                 Company Logo
                                             </label>
                                             <div className="border border-dashed border-stone-200 rounded-xl p-5 sm:p-7 text-center bg-stone-50 hover:bg-white hover:border-stone-300 transition-colors duration-150">
@@ -314,9 +316,9 @@ export default function page() {
                                                         <p className="text-[11px] text-stone-400 mt-2 truncate">
                                                             {isLoggedIn
                                                                 ? getFilenameFromS3Url(
-                                                                      currentInvoice?.companyLogoUrl ||
-                                                                          '',
-                                                                  )
+                                                                    currentInvoice?.companyLogoUrl ||
+                                                                    '',
+                                                                )
                                                                 : fileName}
                                                         </p>
                                                     </div>

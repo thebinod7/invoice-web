@@ -82,11 +82,11 @@ export default function HomeHeroPricing() {
                             <span className="text-xs text-gray-500">/ month</span>
                         </div>
                     </div>
-                    <p className="mt-1.5 text-[11px] leading-snug text-orange-700">
+                    {/* <p className="mt-1.5 text-[11px] leading-snug text-orange-700">
                         <span className="font-semibold">Lock in this rate</span>
                         {' — '}
                         pricing goes up soon.
-                    </p>
+                    </p> */}
                 </div>
 
                 <Link
