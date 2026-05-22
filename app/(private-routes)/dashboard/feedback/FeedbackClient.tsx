@@ -7,7 +7,13 @@ import { useAuthContext } from '@/app/context/useAuthContext';
 import { sanitizeError } from '@/app/helpers';
 import { postRequest } from '@/app/helpers/request';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -50,45 +56,43 @@ export default function FeedbackClient() {
   };
 
   return (
-    <div className="flex justify-center mt-4 md:mt-8 lg:mt-12">
-      <Card className="w-full md:w-[60%]">
-        <div className="p-4 md:p-6">
-          <div>
-            <p className="text-muted-foreground font-semibold">
-              We would love to hear your feedback!
-            </p>
-            <p className="hidden md:block text-xs mt-4 mb-4 text-gray-700">
-              It can be a feature requests, bug reports, or anything else you
-              want to share with us.
-            </p>
-          </div>
+    <div className="grid min-h-full w-full flex-1 place-items-center p-4 sm:p-6">
+      <Card className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl">
+        <CardHeader className="space-y-2 p-4 text-center sm:p-6 sm:pb-4">
+          <CardTitle className="text-lg font-semibold sm:text-xl">
+            We would love to hear your feedback!
+          </CardTitle>
+          <CardDescription className="hidden md:block mx-auto max-w-md text-sm leading-relaxed">
+            Share feature requests, bug reports, or anything else on your mind.
+          </CardDescription>
+        </CardHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-            <div className="grid w-full gap-2">
-              <Textarea
-                required={true}
-                rows={10}
-                value={formData.message}
-                placeholder="Type your message here. "
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    message: e.target.value,
-                  })
-                }
-              />
-            </div>
+        <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <Textarea
+              required={true}
+              rows={8}
+              value={formData.message}
+              placeholder="Type your message here..."
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  message: e.target.value,
+                })
+              }
+              className="min-h-[160px] resize-y sm:min-h-[200px] md:min-h-[240px]"
+            />
 
-            <p className="text-xs text-muted-foreground">
-              Max character limit: {formData.message.length}/{MSG_LIMIT}
+            <p className="text-right text-xs tabular-nums text-muted-foreground">
+              {formData.message.length}/{MSG_LIMIT}
             </p>
 
             {submitted ? (
               <Button
                 disabled={true}
                 type="button"
-                variant={'secondary'}
-                className="w-full h-10 mt-8"
+                variant="secondary"
+                className="h-10 w-full"
               >
                 Feedback Sent
               </Button>
@@ -96,13 +100,13 @@ export default function FeedbackClient() {
               <Button
                 disabled={sendFeedbackMutation.isPending}
                 type="submit"
-                className="w-full h-10 mt-8"
+                className="h-10 w-full"
               >
                 {sendFeedbackMutation.isPending ? 'Sending...' : 'Send Message'}
               </Button>
             )}
           </form>
-        </div>
+        </CardContent>
       </Card>
     </div>
   );
