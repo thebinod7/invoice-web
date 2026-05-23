@@ -8,6 +8,7 @@ export const QUERY_KEYS = {
         GET_ME: 'GET_ME',
         UPDATE_ME: 'UPDATE_ME',
         MY_REFERRALS: 'MY_REFERRALS',
+        MY_FEATURE_USAGE: 'MY_FEATURE_USAGE',
     },
     INVOICE: {
         MY_LIST: 'MY_LIST',

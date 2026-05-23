@@ -30,3 +30,13 @@ export const useListMyReferralQuery = () => {
         staleTime: 0,
     })
 }
+
+
+export const myFeatureUsageQuery = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.USER.MY_FEATURE_USAGE],
+        queryFn: () => getRequest(`${API_ROUTES.USERS}/me/feature-usage`),
+        enabled: true,
+        staleTime: 0,
+    })
+}

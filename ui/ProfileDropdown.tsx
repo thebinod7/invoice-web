@@ -90,8 +90,8 @@ export function ProfileDropdown({
                         <DropdownMenuItem className="cursor-pointer">My Referrals</DropdownMenuItem>
                     </Link>
 
-                    <Link href={APP_PATHS.DASHBOARD.SUBSCRIPTION}>
-                        <DropdownMenuItem className="cursor-pointer">Subscription</DropdownMenuItem>
+                    <Link href={APP_PATHS.DASHBOARD.MY_USAGE}>
+                        <DropdownMenuItem className="cursor-pointer">My Usage</DropdownMenuItem>
                     </Link>
                 </DropdownMenuGroup>
 
