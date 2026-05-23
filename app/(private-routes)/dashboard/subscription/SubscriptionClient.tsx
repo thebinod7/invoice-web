@@ -1,21 +1,38 @@
 'use client'
+import PricingPlanCard from '@/app/components/PricingPlanCard'
 import { API_ROUTES } from '@/app/constants/api-routes'
-import { PLAN_CODES, SUBSCRIPTION_PLANS } from '@/app/constants/plan'
+import { PLAN_CODES, STARTER_PRICE, SUBSCRIPTION_INTERVALS, SUBSCRIPTION_PLANS } from '@/app/constants/plan'
 import { formatDate, sanitizeError } from '@/app/helpers'
 import { postRequest } from '@/app/helpers/request'
 import { useGetMeQuery } from '@/app/hooks/backend/user.hook'
-import { PricingCard } from '@/ui/PricingCard'
+import { cn } from '@/lib/utils'
+import { SpinnerButton } from '@/ui/SpinnerButton'
 import { useMutation } from '@tanstack/react-query'
+import { CheckCircle2 } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
+type BillingInterval = typeof SUBSCRIPTION_INTERVALS[keyof typeof SUBSCRIPTION_INTERVALS]
+
+const freeFeatureTexts = SUBSCRIPTION_PLANS.FREE.features.map((feature) => feature.text)
+const starterFeatureTexts = SUBSCRIPTION_PLANS.STARTER.features.map((feature) => feature.text)
+
 export default function SubscriptionClient() {
+    const [billingInterval, setBillingInterval] = useState<BillingInterval>(SUBSCRIPTION_INTERVALS.MONTHLY)
     const { data, isLoading } = useGetMeQuery()
     const result = data?.data?.result || null
 
+    const isYearly = billingInterval === 'yearly'
+    const starterPrice = isYearly ? STARTER_PRICE.yearly : STARTER_PRICE.monthly
+    const yearlySavingsPercent = Math.round(
+        (1 - STARTER_PRICE.yearly / (STARTER_PRICE.monthly * 12)) * 100
+    )
+
     const createCheckoutSessionMutation = useMutation({
-        mutationFn: () => {
+        mutationFn: (interval: BillingInterval) => {
             return postRequest(`${API_ROUTES.SUBSCRIPTIONS}/checkout`, {
                 planCode: PLAN_CODES.STARTER,
+                interval: interval,
             })
         },
         onError: (error) => {
@@ -30,60 +47,156 @@ export default function SubscriptionClient() {
     })
 
     const handleUpgradeClick = () => {
-        return createCheckoutSessionMutation.mutate()
+        return createCheckoutSessionMutation.mutate(billingInterval)
     }
+
+    const activePlanCode = result?.activeSubscription?.planCode
+    const isFreeActive = activePlanCode === SUBSCRIPTION_PLANS.FREE.plan
+    const isStarterActive = activePlanCode === SUBSCRIPTION_PLANS.STARTER.plan
+    const isCheckoutLoading = createCheckoutSessionMutation.isPending
 
     return (
         <div className="min-h-screen px-4 xs-sm:px-16 md:px-32 lg:px-48 2xl:px-72 py-14">
-            <div className="mx-auto max-w-7xl">
-                <div className="mb-6 text-center">
-                    <h1 className="text-xl font-bold tracking-tight text-foreground md:text-2xl lg:text-3xl">
-                        Save time. Get paid faster. Stay organized.
-                    </h1>
-                    {result?.activeSubscription.planCode === SUBSCRIPTION_PLANS.FREE.plan && <p className="mt-3 text-sm text-muted-foreground">
-                        <span className="font-medium text-orange-600">
-                            Lock in early access pricing
+            <div className="mx-auto max-w-7xl min-w-0">
+                <header className="mb-10 space-y-4 text-center lg:mb-12">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                        Subscription
+                    </p>
+                    {isStarterActive && result?.activeSubscription && (
+                        <span className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+                            Expires {formatDate(result.activeSubscription.currentPeriodEnd)}
                         </span>
-                        {' — '}
-                        Pricing goes up soon.
-                    </p>}
+                    )}
+                    <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:leading-tight">
+                        Save time. <span className="text-emerald-600">Get paid faster.</span> Stay
+                        organized.
+                    </h1>
+                    <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-600">
+                        {isFreeActive
+                            ? 'Start free, then upgrade when you need more sends, reminders, and an ad-free workflow.'
+                            : 'Manage your plan and billing preferences below.'}
+                    </p>
+                </header>
 
-                    {result?.activeSubscription.planCode ===
-                        SUBSCRIPTION_PLANS.STARTER.plan && (
-                            <p className="mt-4 text-sm italic text-muted-foreground text-red-500">
-                                Expires on{' '}
-                                {formatDate(result.activeSubscription.currentPeriodEnd)}
-                            </p>
-                        )}
-                </div>
-                <div className="grid gap-8 grid-cols-1 xl:grid-cols-2  py-8">
-                    <PricingCard
-                        loading={isLoading}
-                        plan={SUBSCRIPTION_PLANS.FREE.plan}
-                        price="Free forever"
-                        priceDetail=""
-                        buttonText="No subscription"
-                        buttonVariant="secondary"
-                        features={SUBSCRIPTION_PLANS.FREE.features}
-                        isHighlighted={
-                            result?.activeSubscription?.planCode === SUBSCRIPTION_PLANS.FREE.plan
-                        }
-                    />
+                <div className="grid min-w-0 grid-cols-1 items-stretch gap-6 py-4 xl:grid-cols-2 xl:gap-8">
+                    <div className="flex min-w-0 h-full">
+                        <PricingPlanCard
+                            className="w-full"
+                            title="Free Plan"
+                            features={freeFeatureTexts}
+                            highlighted={isFreeActive}
+                            pricing={
+                                <>
+                                    <p className="text-base font-semibold text-gray-900">
+                                        Free forever
+                                    </p>
+                                    <p className="mt-1 text-xs text-gray-500">
+                                        No credit card required
+                                    </p>
+                                    {isLoading ? (
+                                        <div className="mt-4">
+                                            <SpinnerButton />
+                                        </div>
+                                    ) : isFreeActive ? (
+                                        <p className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 py-2.5 text-xs font-semibold text-emerald-700">
+                                            <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
+                                            Active
+                                        </p>
+                                    ) : (
+                                        <p className="mt-4 rounded-lg border border-gray-200 bg-white py-2.5 text-center text-xs font-semibold text-gray-400">
+                                            —
+                                        </p>
+                                    )}
+                                </>
+                            }
+                        />
+                    </div>
 
-                    <PricingCard
-                        handleButtonClick={handleUpgradeClick}
-                        loading={isLoading || createCheckoutSessionMutation.isPending}
-                        plan={SUBSCRIPTION_PLANS.STARTER.plan}
-                        price={SUBSCRIPTION_PLANS.STARTER.price}
-                        priceDetail="per year ($2/mo.)"
-                        buttonText="Upgrade"
-                        buttonVariant="default"
-                        features={SUBSCRIPTION_PLANS.STARTER.features}
-                        isHighlighted={
-                            result?.activeSubscription?.planCode === SUBSCRIPTION_PLANS.STARTER.plan
-                        }
-                        badge=""
-                    />
+                    <div className="flex min-w-0 h-full">
+                        <PricingPlanCard
+                            className="w-full"
+                            title="Starter Plan"
+                            features={starterFeatureTexts}
+                            highlighted={isStarterActive}
+                            firstItemMuted
+                            pricing={
+                                <>
+                                    <div className="mb-3 inline-flex rounded-lg border border-gray-200 bg-white p-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => setBillingInterval(SUBSCRIPTION_INTERVALS.MONTHLY)}
+                                            className={cn(
+                                                'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
+                                                billingInterval === SUBSCRIPTION_INTERVALS.MONTHLY
+                                                    ? 'bg-emerald-600 text-white'
+                                                    : 'text-gray-600 hover:text-gray-900'
+                                            )}
+                                        >
+                                            Monthly
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setBillingInterval(SUBSCRIPTION_INTERVALS.YEARLY)}
+                                            className={cn(
+                                                'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
+                                                billingInterval === SUBSCRIPTION_INTERVALS.YEARLY
+                                                    ? 'bg-emerald-600 text-white'
+                                                    : 'text-gray-600 hover:text-gray-900'
+                                            )}
+                                        >
+                                            Yearly
+                                            <span
+                                                className={cn(
+                                                    'rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide',
+                                                    billingInterval === SUBSCRIPTION_INTERVALS.YEARLY
+                                                        ? 'bg-emerald-500 text-white'
+                                                        : 'bg-emerald-50 text-emerald-700'
+                                                )}
+                                            >
+                                                Save {yearlySavingsPercent}%
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-2xl font-bold text-gray-900">
+                                            ${starterPrice}
+                                        </span>
+                                        <span className="text-xs text-gray-500">
+                                            / {billingInterval === SUBSCRIPTION_INTERVALS.YEARLY ? SUBSCRIPTION_INTERVALS.YEARLY : SUBSCRIPTION_INTERVALS.MONTHLY}
+                                        </span>
+                                    </div>
+                                    {billingInterval === SUBSCRIPTION_INTERVALS.YEARLY && (
+                                        <p className="mt-1 text-xs text-gray-500">
+                                            ${(STARTER_PRICE.yearly / 12).toFixed(2)} / month billed
+                                            annually
+                                        </p>
+                                    )}
+                                    {isLoading || isCheckoutLoading ? (
+                                        <div className="mt-4">
+                                            <SpinnerButton
+                                                message={
+                                                    isCheckoutLoading ? 'Redirecting…' : undefined
+                                                }
+                                            />
+                                        </div>
+                                    ) : isStarterActive ? (
+                                        <p className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 py-2.5 text-xs font-semibold text-emerald-700">
+                                            <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
+                                            Active
+                                        </p>
+                                    ) : (
+                                        <button
+                                            type="button"
+                                            onClick={handleUpgradeClick}
+                                            className="mt-4 w-full rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                                        >
+                                            Upgrade
+                                        </button>
+                                    )}
+                                </>
+                            }
+                        />
+                    </div>
                 </div>
             </div>
         </div>

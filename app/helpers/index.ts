@@ -1,7 +1,10 @@
 import * as currencyFormatter from 'currency-formatter'
 
-export const isoToDateInput = (iso: string) => {
-    return new Date(iso).toISOString().split('T')[0]
+export const isoToDateInput = (iso?: string | null) => {
+    if (!iso) return ''
+    const date = new Date(iso)
+    if (Number.isNaN(date.getTime())) return ''
+    return date.toISOString().split('T')[0]
 }
 
 export const isMobile = () => {

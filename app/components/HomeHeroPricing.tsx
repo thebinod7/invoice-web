@@ -10,7 +10,7 @@ const freeIncluded = [
 ] as const
 
 const starterPreviewLocked = [
-    'Unlimited edit & download',
+    'Prompt to Invoice AI (100 credits / month)',
     'Reminder email notifications',
     'Custom email messages',
     'Send up to 120 invoices via email',
@@ -31,7 +31,10 @@ export default function HomeHeroPricing() {
                 </div>
                 <div className="divide-y divide-gray-100">
                     {freeIncluded.map((label) => (
-                        <div key={label} className="flex items-start gap-2.5 py-2.5 first:pt-0 last:pb-0">
+                        <div
+                            key={label}
+                            className="flex items-start gap-2.5 py-2.5 first:pt-0 last:pb-0"
+                        >
                             <Check
                                 className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600"
                                 strokeWidth={2.5}
@@ -73,18 +76,17 @@ export default function HomeHeroPricing() {
                     <h3 className="text-sm font-semibold text-gray-900">Starter</h3>
                     <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                         <div className="flex items-baseline gap-1">
-                            <span className="text-2xl font-bold text-gray-900">${STARTER_PRICE}</span>
-                            <span className="text-xs text-gray-500">/ year</span>
+                            <span className="text-2xl font-bold text-gray-900">
+                                ${STARTER_PRICE.monthly}
+                            </span>
+                            <span className="text-xs text-gray-500">/ month</span>
                         </div>
-                        <span className="inline-flex rounded-full border border-orange-200/90 bg-orange-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-orange-800">
-                            Early access
-                        </span>
                     </div>
-                    <p className="mt-1.5 text-[11px] leading-snug text-orange-700">
+                    {/* <p className="mt-1.5 text-[11px] leading-snug text-orange-700">
                         <span className="font-semibold">Lock in this rate</span>
                         {' — '}
                         pricing goes up soon.
-                    </p>
+                    </p> */}
                 </div>
 
                 <Link
@@ -96,7 +98,10 @@ export default function HomeHeroPricing() {
                 </Link>
 
                 <div className="flex items-start gap-2 border-t border-gray-100 pt-3">
-                    <ShieldCheck className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600" aria-hidden />
+                    <ShieldCheck
+                        className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-600"
+                        aria-hidden
+                    />
                     <p className="text-xs leading-relaxed text-gray-600">
                         Most popular for freelancers & small teams
                     </p>

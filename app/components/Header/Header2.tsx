@@ -36,7 +36,7 @@ export default function Header2() {
                     <div className="flex items-center space-x-0">
                         {/* <FileText className="h-8 w-8 text-emerald-600" /> */}
                         <Image src="/images/logo.jpg" alt="logo" width={50} height={50} />
-                        <span className="text-xl font-bold text-gray-900">{APP_NAME}</span>
+                        <span className="hidden md:block text-xl font-bold text-gray-900">{APP_NAME}</span>
                     </div>
                 </Link>
                 <nav className="hidden sm:flex space-x-6">

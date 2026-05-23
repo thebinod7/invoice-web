@@ -30,7 +30,7 @@ export interface IInvoiceDetails {
     invoiceItems: InvoiceItemInput[]
     subTotal: number
     grandTotal: number
-    dueDate?: string
+    dueDate?: string | null
     poNumber?: string
     paymentTerms?: string
     tax?: number

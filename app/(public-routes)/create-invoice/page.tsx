@@ -1,5 +1,6 @@
 'use client'
 
+import AiPromptField from '@/app/components/AiPromptField'
 import AddInvoiceItem from '@/app/components/Invoice/AddInvoiceItem'
 import AdditinalNote from '@/app/components/Invoice/AdditinalNote'
 import CompanyDetails from '@/app/components/Invoice/CompanyDetails'
@@ -27,6 +28,7 @@ import {
 import { getS3SignedUrl, postRequest, uploadUsingSignedUrl } from '@/app/helpers/request'
 import { IInvoiceDetails, InvoiceItemInput } from '@/app/types'
 import MiniLoader from '@/ui/MiniLoader'
+import { UpgradePlanModal } from '@/ui/UpgradePlanModal'
 import { useMutation } from '@tanstack/react-query'
 import { Building, FileText, Trash2, Upload, X } from 'lucide-react'
 import type React from 'react'
@@ -36,7 +38,8 @@ import { toast } from 'sonner'
 export default function page() {
     //=====================================================
     const { isLoggedIn, isPremium } = useAuthContext()
-    const { isProcessing, setProcessing } = useAppContext()
+    const { isProcessing, setProcessing, showModal, setShowModal } = useAppContext()
+    const [fetchingInvoice, setFetchingInvoice] = useState(false)
 
     const [logoPreview, setLogoPreview] = useState('')
     const [fileName, setFileName] = useState('')
@@ -49,13 +52,14 @@ export default function page() {
         dueDate: '',
         paymentTerms: '',
         poNumber: '',
-        invoiceItems: [{ description: 'Item 1', quantity: 1, unitPrice: 100 }],
+        invoiceItems: [],
         additionalNote: '',
         tax: 0,
         discount: 0,
         subTotal: 0,
         grandTotal: 0,
     })
+    const [aiPrompt, setAiPrompt] = useState('')
 
     const clearUploadedLogo = () => {
         if (isLoggedIn) {
@@ -123,6 +127,40 @@ export default function page() {
     ) => {
         const { name, value } = e.target
         setCurrentInvoice((prev: any) => ({ ...prev, [name]: value }))
+    }
+
+    const handleFetchByPrompt = async () => {
+        try {
+            const prompt = aiPrompt.trim()
+            if (!prompt) {
+                return toast.error('Please describe the invoice you want to create')
+            }
+            setFetchingInvoice(true)
+            toast.loading('Preparing your invoice...')
+            const response: any = await postRequest(`${API_ROUTES.INVOICES}/generate-with-ai`, {
+                prompt,
+            })
+            toast.dismiss()
+            setAiPrompt('')
+            const resData = response?.data?.result || null
+            if (resData) {
+                setCurrentInvoice({
+                    ...currentInvoice,
+                    ...resData,
+                })
+                setFetchingInvoice(false)
+                return toast.success('Invoice details filled successfully')
+            } else toast.error('Failed to fill invoice details')
+            setFetchingInvoice(false)
+        } catch (err: any) {
+            toast.dismiss()
+            setFetchingInvoice(false)
+            if (err?.response?.status === 403) {
+                return setShowModal(true)
+            }
+            const errorMsg = sanitizeError(err)
+            toast.error(errorMsg)
+        }
     }
 
     const updateListItem = (index: number, field: string, value: string) => {
@@ -223,140 +261,260 @@ export default function page() {
     const currencySymbol = getCurrencySymbolByName(currentInvoice?.currency)
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
-            <div className="max-w-5xl mx-auto">
-                <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
-                    {/* Header Section - Fully Responsive */}
-                    <InvoiceHeaderSection
-                        currency={currentInvoice?.currency}
-                        handleInputChange={handleInputChange}
-                    />
+        <>
+            <UpgradePlanModal showModal={showModal} setShowModal={setShowModal} />
 
-                    <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
-                        {/* Company Information Section - Responsive Grid */}
-                        <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-                            <div className="px-6 py-4 border-b border-slate-200">
-                                <h3 className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
-                                    <Building className="h-5 w-5 text-blue-600" />
-                                    Basic Information
-                                </h3>
-                            </div>
-                            <div className="p-6">
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-                                    {/* Logo Upload - Full width on mobile */}
-                                    {/* Logo Upload */}
-                                    <div className="lg:col-span-1">
-                                        <label className="text-[11px] font-medium tracking-widest text-stone-500 uppercase mb-3 block">
-                                            Company Logo
-                                        </label>
-                                        <div className="border border-dashed border-stone-200 rounded-xl p-5 sm:p-7 text-center bg-stone-50 hover:bg-white hover:border-stone-300 transition-colors duration-150">
-                                            {logoPreview ? (
-                                                <div className="relative">
-                                                    <img
-                                                        src={logoPreview || '/placeholder.svg'}
-                                                        alt="Logo preview"
-                                                        className="max-h-20 sm:max-h-24 mx-auto rounded-lg"
-                                                    />
-                                                    <button
-                                                        className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-stone-800 hover:bg-stone-900 text-white flex items-center justify-center transition-colors duration-150"
-                                                        onClick={clearUploadedLogo}
-                                                    >
-                                                        <X className="h-2.5 w-2.5" />
-                                                    </button>
-                                                    <p className="text-[11px] text-stone-400 mt-2 truncate">
-                                                        {isLoggedIn
-                                                            ? getFilenameFromS3Url(
-                                                                  currentInvoice?.companyLogoUrl ||
-                                                                      '',
-                                                              )
-                                                            : fileName}
-                                                    </p>
-                                                </div>
-                                            ) : (
-                                                <div className="space-y-3">
-                                                    <Upload className="h-5 w-5 sm:h-6 sm:w-6 text-stone-500 mx-auto" />
-                                                    <div>
-                                                        {isProcessing ? (
-                                                            <MiniLoader />
-                                                        ) : (
-                                                            <button className="relative bg-transparent border border-stone-200 hover:bg-stone-100 px-4 py-1.5 rounded-md text-xs font-medium text-stone-700 transition-colors duration-150">
-                                                                <input
-                                                                    max={getMaxFileSizeInBytes(
-                                                                        isPremium,
-                                                                    )}
-                                                                    type="file"
-                                                                    onChange={handleLogoChange}
-                                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                                                    accept="image/png, image/jpeg, image/jpg"
-                                                                />
-                                                                Choose File
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                    <p className="text-[11px] text-stone-400 tracking-wide">
-                                                        PNG, JPG up to{' '}
-                                                        {isPremium
-                                                            ? MAX_FILE_SIZE_PRO
-                                                            : MAX_FILE_SIZE}{' '}
-                                                        MB
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <CompanyDetails
-                                        senderDetails={currentInvoice.senderDetails}
-                                        receiverDetails={currentInvoice.receiverDetails}
-                                        handleInputChange={handleInputChange}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <InvoiceDetailsBox
-                            currentInvoice={currentInvoice}
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
+                <div className="max-w-5xl mx-auto">
+                    <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
+                        {/* Header Section - Fully Responsive */}
+                        <InvoiceHeaderSection
+                            currency={currentInvoice?.currency}
                             handleInputChange={handleInputChange}
                         />
 
-                        {/* Line Items Section - Fully Responsive Table */}
-                        <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-                            <div className="px-6 py-4 border-b border-slate-200">
-                                <h3 className="flex items-center justify-between">
-                                    <span className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
-                                        <FileText className="h-5 w-5 text-emerald-600" />
-                                        Invoice Items{' '}
-                                    </span>
-                                </h3>
+                        {isLoggedIn && <AiPromptField
+                            fetchingInvoice={fetchingInvoice}
+                            aiPrompt={aiPrompt}
+                            setAiPrompt={setAiPrompt}
+                            handleFetchByPrompt={handleFetchByPrompt}
+                        />}
+
+
+
+                        <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
+                            {/* Company Information Section - Responsive Grid */}
+                            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
+                                <div className="px-6 py-4 border-b border-slate-200">
+                                    <h3 className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
+                                        <Building className="h-5 w-5 text-blue-600" />
+                                        Basic Information
+                                    </h3>
+                                </div>
+                                <div className="p-6">
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                                        {/* Logo Upload - Full width on mobile */}
+                                        {/* Logo Upload */}
+                                        <div className="lg:col-span-1">
+                                            <label className="text-[11px] font-medium tracking-widest text-black-500 uppercase mb-3 block">
+                                                Company Logo
+                                            </label>
+                                            <div className="border border-dashed border-stone-200 rounded-xl p-5 sm:p-7 text-center bg-stone-50 hover:bg-white hover:border-stone-300 transition-colors duration-150">
+                                                {logoPreview ? (
+                                                    <div className="relative">
+                                                        <img
+                                                            src={logoPreview || '/placeholder.svg'}
+                                                            alt="Logo preview"
+                                                            className="max-h-20 sm:max-h-24 mx-auto rounded-lg"
+                                                        />
+                                                        <button
+                                                            className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-stone-800 hover:bg-stone-900 text-white flex items-center justify-center transition-colors duration-150"
+                                                            onClick={clearUploadedLogo}
+                                                        >
+                                                            <X className="h-2.5 w-2.5" />
+                                                        </button>
+                                                        <p className="text-[11px] text-stone-400 mt-2 truncate">
+                                                            {isLoggedIn
+                                                                ? getFilenameFromS3Url(
+                                                                    currentInvoice?.companyLogoUrl ||
+                                                                    '',
+                                                                )
+                                                                : fileName}
+                                                        </p>
+                                                    </div>
+                                                ) : (
+                                                    <div className="space-y-3">
+                                                        <Upload className="h-5 w-5 sm:h-6 sm:w-6 text-stone-500 mx-auto" />
+                                                        <div>
+                                                            {isProcessing ? (
+                                                                <MiniLoader />
+                                                            ) : (
+                                                                <button className="relative bg-transparent border border-stone-200 hover:bg-stone-100 px-4 py-1.5 rounded-md text-xs font-medium text-stone-700 transition-colors duration-150">
+                                                                    <input
+                                                                        max={getMaxFileSizeInBytes(
+                                                                            isPremium,
+                                                                        )}
+                                                                        type="file"
+                                                                        onChange={handleLogoChange}
+                                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                                        accept="image/png, image/jpeg, image/jpg"
+                                                                    />
+                                                                    Choose File
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-[11px] text-stone-400 tracking-wide">
+                                                            PNG, JPG up to{' '}
+                                                            {isPremium
+                                                                ? MAX_FILE_SIZE_PRO
+                                                                : MAX_FILE_SIZE}{' '}
+                                                            MB
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <CompanyDetails
+                                            senderDetails={currentInvoice.senderDetails}
+                                            receiverDetails={currentInvoice.receiverDetails}
+                                            handleInputChange={handleInputChange}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="p-6">
-                                {/* Desktop Table View */}
-                                <div className="hidden lg:block overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead>
-                                            <tr className="border-b border-stone-100">
-                                                <th className="text-left py-2.5 px-2 pl-1 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                    Description
-                                                </th>
-                                                <th className="text-center py-2.5 px-4 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                    Qty
-                                                </th>
-                                                <th className="text-center py-2.5 px-2 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                    Rate
-                                                </th>
-                                                <th className="text-right py-2.5 px-6 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                    Amount
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-stone-100">
-                                            {currentInvoice.invoiceItems.map(
-                                                (item: InvoiceItemInput, index) => (
-                                                    <tr
-                                                        key={index}
-                                                        className="hover:bg-stone-50/50 transition-colors duration-150"
-                                                    >
-                                                        <td width="50%" className="px-2 pl-1 py-3">
+
+                            <InvoiceDetailsBox
+                                currentInvoice={currentInvoice}
+                                handleInputChange={handleInputChange}
+                            />
+
+                            {/* Line Items Section - Fully Responsive Table */}
+                            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
+                                <div className="px-6 py-4 border-b border-slate-200">
+                                    <h3 className="flex items-center justify-between">
+                                        <span className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
+                                            <FileText className="h-5 w-5 text-emerald-600" />
+                                            Invoice Items{' '}
+                                        </span>
+                                    </h3>
+                                </div>
+                                <div className="p-6">
+                                    {/* Desktop Table View */}
+                                    <div className="hidden lg:block overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead>
+                                                <tr className="border-b border-stone-100">
+                                                    <th className="text-left py-2.5 px-2 pl-1 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                        Description
+                                                    </th>
+                                                    <th className="text-center py-2.5 px-4 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                        Qty
+                                                    </th>
+                                                    <th className="text-center py-2.5 px-2 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                        Rate
+                                                    </th>
+                                                    <th className="text-right py-2.5 px-6 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                        Amount
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-stone-100">
+                                                {currentInvoice.invoiceItems.map(
+                                                    (item: InvoiceItemInput, index) => (
+                                                        <tr
+                                                            key={index}
+                                                            className="hover:bg-stone-50/50 transition-colors duration-150"
+                                                        >
+                                                            <td
+                                                                width="50%"
+                                                                className="px-2 pl-1 py-3"
+                                                            >
+                                                                <input
+                                                                    type="text"
+                                                                    value={item.description}
+                                                                    onChange={(e) =>
+                                                                        updateListItem(
+                                                                            index,
+                                                                            'description',
+                                                                            e.target.value,
+                                                                        )
+                                                                    }
+                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    placeholder="Item description"
+                                                                />
+                                                            </td>
+                                                            <td width="15%" className="px-4 py-3">
+                                                                <input
+                                                                    type="number"
+                                                                    value={item.quantity}
+                                                                    onChange={(e) =>
+                                                                        updateListItem(
+                                                                            index,
+                                                                            'quantity',
+                                                                            e.target.value,
+                                                                        )
+                                                                    }
+                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    placeholder="0"
+                                                                    step="1"
+                                                                />
+                                                            </td>
+                                                            <td width="15%" className="px-2 py-3">
+                                                                <input
+                                                                    type="number"
+                                                                    value={item.unitPrice || ''}
+                                                                    onChange={(e) =>
+                                                                        updateListItem(
+                                                                            index,
+                                                                            'unitPrice',
+                                                                            e.target.value,
+                                                                        )
+                                                                    }
+                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    placeholder="0.00"
+                                                                    min="0"
+                                                                    step="1"
+                                                                />
+                                                            </td>
+                                                            <td
+                                                                width="20%"
+                                                                className="px-6 pr-1 py-3 text-right"
+                                                            >
+                                                                <div className="flex justify-end gap-3 items-center">
+                                                                    <div className="text-xs font-medium text-stone-800">
+                                                                        <span className="text-[11px] text-stone-400">
+                                                                            {currencySymbol}
+                                                                        </span>
+                                                                        {(
+                                                                            item.quantity *
+                                                                            item.unitPrice
+                                                                        ).toFixed(2)}
+                                                                    </div>
+                                                                    <button
+                                                                        onClick={() =>
+                                                                            removeListItem(index)
+                                                                        }
+                                                                        className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
+                                                                    >
+                                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ),
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    {/* Mobile/Tablet Card View */}
+                                    <div className="lg:hidden space-y-2.5">
+                                        {currentInvoice?.invoiceItems.map(
+                                            (item: InvoiceItemInput, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="bg-white border border-stone-100 rounded-xl overflow-hidden"
+                                                >
+                                                    {/* Card Header */}
+                                                    <div className="flex justify-between items-center px-4 py-3 border-b border-stone-100">
+                                                        <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                            Item #{index + 1}
+                                                        </span>
+                                                        <button
+                                                            onClick={() => removeListItem(index)}
+                                                            className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
+                                                        >
+                                                            <Trash2 className="h-3.5 w-3.5" />
+                                                        </button>
+                                                    </div>
+
+                                                    {/* Fields */}
+                                                    <div className="p-4 space-y-3">
+                                                        <div className="flex flex-col gap-1.5">
+                                                            <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                Description
+                                                            </label>
                                                             <input
                                                                 type="text"
                                                                 value={item.description}
@@ -370,200 +528,97 @@ export default function page() {
                                                                 className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
                                                                 placeholder="Item description"
                                                             />
-                                                        </td>
-                                                        <td width="15%" className="px-4 py-3">
-                                                            <input
-                                                                type="number"
-                                                                value={item.quantity}
-                                                                onChange={(e) =>
-                                                                    updateListItem(
-                                                                        index,
-                                                                        'quantity',
-                                                                        e.target.value,
-                                                                    )
-                                                                }
-                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                                                                placeholder="0"
-                                                                step="1"
-                                                            />
-                                                        </td>
-                                                        <td width="15%" className="px-2 py-3">
-                                                            <input
-                                                                type="number"
-                                                                value={item.unitPrice || ''}
-                                                                onChange={(e) =>
-                                                                    updateListItem(
-                                                                        index,
-                                                                        'unitPrice',
-                                                                        e.target.value,
-                                                                    )
-                                                                }
-                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                                                                placeholder="0.00"
-                                                                min="0"
-                                                                step="1"
-                                                            />
-                                                        </td>
-                                                        <td
-                                                            width="20%"
-                                                            className="px-6 pr-1 py-3 text-right"
-                                                        >
-                                                            <div className="flex justify-end gap-3 items-center">
-                                                                <div className="text-xs font-medium text-stone-800">
-                                                                    <span className="text-[11px] text-stone-400">
-                                                                        {currencySymbol}
-                                                                    </span>
-                                                                    {(
-                                                                        item.quantity *
-                                                                        item.unitPrice
-                                                                    ).toFixed(2)}
-                                                                </div>
-                                                                <button
-                                                                    onClick={() =>
-                                                                        removeListItem(index)
+                                                        </div>
+
+                                                        <div className="grid grid-cols-2 gap-3">
+                                                            <div className="flex flex-col gap-1.5">
+                                                                <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                    Quantity
+                                                                </label>
+                                                                <input
+                                                                    type="number"
+                                                                    value={item.quantity}
+                                                                    onChange={(e) =>
+                                                                        updateListItem(
+                                                                            index,
+                                                                            'quantity',
+                                                                            e.target.value,
+                                                                        )
                                                                     }
-                                                                    className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
-                                                                >
-                                                                    <Trash2 className="h-3.5 w-3.5" />
-                                                                </button>
+                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    placeholder="0"
+                                                                    step="1"
+                                                                />
                                                             </div>
-                                                        </td>
-                                                    </tr>
-                                                ),
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                {/* Mobile/Tablet Card View */}
-                                <div className="lg:hidden space-y-2.5">
-                                    {currentInvoice?.invoiceItems.map(
-                                        (item: InvoiceItemInput, index) => (
-                                            <div
-                                                key={index}
-                                                className="bg-white border border-stone-100 rounded-xl overflow-hidden"
-                                            >
-                                                {/* Card Header */}
-                                                <div className="flex justify-between items-center px-4 py-3 border-b border-stone-100">
-                                                    <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                        Item #{index + 1}
-                                                    </span>
-                                                    <button
-                                                        onClick={() => removeListItem(index)}
-                                                        className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
-                                                    >
-                                                        <Trash2 className="h-3.5 w-3.5" />
-                                                    </button>
-                                                </div>
-
-                                                {/* Fields */}
-                                                <div className="p-4 space-y-3">
-                                                    <div className="flex flex-col gap-1.5">
-                                                        <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                            Description
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            value={item.description}
-                                                            onChange={(e) =>
-                                                                updateListItem(
-                                                                    index,
-                                                                    'description',
-                                                                    e.target.value,
-                                                                )
-                                                            }
-                                                            className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                                                            placeholder="Item description"
-                                                        />
-                                                    </div>
-
-                                                    <div className="grid grid-cols-2 gap-3">
-                                                        <div className="flex flex-col gap-1.5">
-                                                            <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                                Quantity
-                                                            </label>
-                                                            <input
-                                                                type="number"
-                                                                value={item.quantity}
-                                                                onChange={(e) =>
-                                                                    updateListItem(
-                                                                        index,
-                                                                        'quantity',
-                                                                        e.target.value,
-                                                                    )
-                                                                }
-                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                                                                placeholder="0"
-                                                                step="1"
-                                                            />
-                                                        </div>
-                                                        <div className="flex flex-col gap-1.5">
-                                                            <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                                Rate
-                                                            </label>
-                                                            <input
-                                                                type="number"
-                                                                value={item.unitPrice || ''}
-                                                                onChange={(e) =>
-                                                                    updateListItem(
-                                                                        index,
-                                                                        'unitPrice',
-                                                                        e.target.value,
-                                                                    )
-                                                                }
-                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
-                                                                placeholder="0.00"
-                                                                min="0"
-                                                                step="1"
-                                                            />
+                                                            <div className="flex flex-col gap-1.5">
+                                                                <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                    Rate
+                                                                </label>
+                                                                <input
+                                                                    type="number"
+                                                                    value={item.unitPrice || ''}
+                                                                    onChange={(e) =>
+                                                                        updateListItem(
+                                                                            index,
+                                                                            'unitPrice',
+                                                                            e.target.value,
+                                                                        )
+                                                                    }
+                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    placeholder="0.00"
+                                                                    min="0"
+                                                                    step="1"
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                {/* Amount Footer */}
-                                                <div className="border-t border-stone-100 px-4 py-3 flex justify-between items-center">
-                                                    <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
-                                                        Amount
-                                                    </span>
-                                                    <span className="text-sm font-medium text-stone-900 tracking-tight">
-                                                        {formatCurrency(
-                                                            item.quantity * item.unitPrice,
-                                                            currencySymbol,
-                                                        )}
-                                                    </span>
+                                                    {/* Amount Footer */}
+                                                    <div className="border-t border-stone-100 px-4 py-3 flex justify-between items-center">
+                                                        <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                            Amount
+                                                        </span>
+                                                        <span className="text-sm font-medium text-stone-900 tracking-tight">
+                                                            {formatCurrency(
+                                                                item.quantity * item.unitPrice,
+                                                                currencySymbol,
+                                                            )}
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ),
-                                    )}
+                                            ),
+                                        )}
+                                    </div>
+
+                                    <AddInvoiceItem addListItem={addListItem} />
+
+                                    <InvoiceSummary
+                                        tax={currentInvoice.tax}
+                                        discount={currentInvoice.discount}
+                                        subTotal={subTotal}
+                                        grandTotal={grandTotal}
+                                        currencySymbol={currencySymbol}
+                                        handleInputChange={handleInputChange}
+                                    />
                                 </div>
-
-                                <AddInvoiceItem addListItem={addListItem} />
-
-                                <InvoiceSummary
-                                    tax={currentInvoice.tax}
-                                    discount={currentInvoice.discount}
-                                    subTotal={subTotal}
-                                    grandTotal={grandTotal}
-                                    currencySymbol={currencySymbol}
-                                    handleInputChange={handleInputChange}
-                                />
                             </div>
+
+                            <AdditinalNote
+                                value={currentInvoice.additionalNote || ''}
+                                handleInputChange={handleInputChange}
+                            />
+
+                            <InvoiceDownloadAction
+                                handleDownloadClick={downloadInvoice}
+                                isPending={
+                                    downloadAndSaveMutation.isPending ||
+                                    downloadOnlyMutation.isPending
+                                }
+                            />
                         </div>
-
-                        <AdditinalNote
-                            value={currentInvoice.additionalNote || ''}
-                            handleInputChange={handleInputChange}
-                        />
-
-                        <InvoiceDownloadAction
-                            handleDownloadClick={downloadInvoice}
-                            isPending={
-                                downloadAndSaveMutation.isPending || downloadOnlyMutation.isPending
-                            }
-                        />
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
