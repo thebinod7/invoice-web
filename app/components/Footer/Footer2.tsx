@@ -1,4 +1,5 @@
 import { APP_NAME, APP_PATHS, TOOLS_LIST } from '@/app/constants'
+import LaunchLlamaBadge from '@/components/ui/llamaBadge'
 import { FileText } from 'lucide-react'
 import Link from 'next/link'
 
@@ -17,7 +18,8 @@ export default function Footer2() {
                                 The AI invoice maker that sends, tracks, and reminds.
                                 Free to get started.
                             </p>
-                            <Link
+                            <LaunchLlamaBadge />
+                            {/* <Link
                                 href="https://superlaun.ch/products/456"
                                 target="_blank"
                                 rel="noopener"
@@ -28,7 +30,7 @@ export default function Footer2() {
                                     width="200"
                                     height="200"
                                 />
-                            </Link>
+                            </Link> */}
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold mb-4">More Tools</h3>
