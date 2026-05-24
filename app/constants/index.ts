@@ -1,8 +1,8 @@
 export const APP = {
     NAME: 'Invomaker.com',
-    TITLE: 'Invomaker — AI Invoice Generator with Smart Reminders & Email Sending',
+    TITLE: 'Invomaker — AI Invoice Generator with Reminders & Email Sending',
     DESCRIPTION:
-        'Create professional invoices using AI prompts. Send invoices instantly, automate reminders, track payment status, and manage billing in one smart invoicing platform.',
+        'Create professional invoices using AI prompts. Send invoices instantly, send reminders to clients, track payment status, and more in one smart invoicing platform.',
 }
 
 export const APP_NAME = 'invomaker.com'
