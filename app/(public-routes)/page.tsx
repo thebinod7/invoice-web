@@ -1,12 +1,15 @@
 import {
-    DollarSign,
+    BellRing,
     Edit3,
     Eye,
     FileText,
     MessageCircle,
+    Rocket,
+    Send,
     Share2,
     Smartphone,
-    Zap,
+    Sparkles,
+    Zap
 } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
@@ -66,11 +69,10 @@ export default function LandingPage() {
                                 Features
                             </p>
                             <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-                                Everything you need for professional invoices
+                                From Prompt to Paid In Under a Minute
                             </h2>
                             <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600">
-                                A free invoice generator with the essentials so you can send polished
-                                invoices and get paid faster.
+                                Stop filling out forms. Just describe the job and let AI do the admin.
                             </p>
                         </div>
                         <div className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
@@ -79,19 +81,19 @@ export default function LandingPage() {
                                     <Zap className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
-                                    Simple and fast
+                                    Create Invoices from AI Prompts.
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Create invoices in under a minute with a clear, focused flow.
+                                    AI reads your prompt and generates a complete, professional invoice.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50">
-                                    <DollarSign className="h-4 w-4 text-emerald-700" strokeWidth={2.5} aria-hidden />
+                                    <Send className="h-4 w-4 text-emerald-700" strokeWidth={2.5} aria-hidden />
                                 </div>
-                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">100% free</h3>
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">Send Directly. No Email Client Needed</h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Unlimited invoices at no cost. No account required to start.
+                                    Hit send from inside Invomaker. Your client gets a clean, personalized invoice email.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
@@ -99,11 +101,10 @@ export default function LandingPage() {
                                     <MessageCircle className="h-4 w-4 text-gray-700" strokeWidth={2.5} aria-hidden />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
-                                    Email & reminders
+                                    One-Click Payment Reminders
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Send invoices by email and nudge clients with reminders when it
-                                    helps.
+                                    Send a polite, branded follow-up with one click. No awkward wording required.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
@@ -132,8 +133,7 @@ export default function LandingPage() {
                                 Three quick steps
                             </h2>
                             <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600">
-                                Build a polished invoice from start to finish—no registration
-                                required.
+                                Build a polished invoice from start to finish. No signup required.
                             </p>
                         </div>
                         <div className="grid gap-4 md:grid-cols-3 md:gap-5">
@@ -145,7 +145,7 @@ export default function LandingPage() {
                                     <Edit3 className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
-                                    Fill your details
+                                    Fill your details with just one prompt
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
                                     Add your business info, client, line items, and logo.
@@ -174,11 +174,11 @@ export default function LandingPage() {
                                     <Share2 className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
-                                    Download or share
+                                    Download or Send
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Export a PDF and send it to your client by email when you are
-                                    ready.
+                                    Download a PDF or send directly to your client from the app dashboard.
+
                                 </p>
                             </div>
                         </div>
@@ -196,55 +196,58 @@ export default function LandingPage() {
                         <div className="mx-auto max-w-3xl space-y-6 text-center">
                             <div className="space-y-3">
                                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Free invoice generator
+                                    Why Invomaker
                                 </p>
                                 <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-                                    The best free invoice generator online
+                                    Stop building invoices. Start getting paid.
                                 </h2>
                             </div>
-                            <div className="rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm md:p-6">
-                                <div className="space-y-3 text-sm leading-relaxed text-gray-600">
-                                    <p>
-                                        Our{' '}
-                                        <strong className="font-semibold text-gray-900">
-                                            free invoice generator
-                                        </strong>{' '}
-                                        is the perfect solution for freelancers, small business owners,
-                                        and entrepreneurs who need to create professional invoices
-                                        quickly and easily. As a comprehensive{' '}
-                                        <strong className="font-semibold text-gray-900">
-                                            PDF invoice maker
-                                        </strong>
-                                        {', our tool allows you to generate unlimited invoices without '}
-                                        any cost or registration requirements.
+                            <div className="rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm md:p-8">
+                                <div className="space-y-8">
+                                    <p className="text-sm leading-relaxed text-gray-600 md:text-base">
+                                        Invomaker is an AI invoicing platform built for freelancers and small businesses who are tired of forms, forgotten follow-ups, and wondering if a client has actually seen their invoice.
+
+                                        Most invoice tools hand you a blank form. Invomaker gives you a
+                                        complete workflow from first prompt to payment confirmed without
+                                        switching apps, hunting for templates, or writing awkward
+                                        &ldquo;just following up&rdquo; emails.
                                     </p>
-                                    <p>
-                                        Whether you are looking for an{' '}
-                                        <strong className="font-semibold text-gray-900">
-                                            invoice creator online
-                                        </strong>{' '}
-                                        or a reliable{' '}
-                                        <strong className="font-semibold text-gray-900">
-                                            invoice generator free
-                                        </strong>{' '}
-                                        solution, our platform provides all the features you need.
-                                        Create customized invoices with your logo, add multiple line
-                                        items, calculate taxes automatically, and download
-                                        professional PDF invoices that you can send to clients
-                                        immediately.
-                                    </p>
-                                    <p>
-                                        Join thousands of professionals who trust our{' '}
-                                        <strong className="font-semibold text-gray-900">
-                                            free invoice maker
-                                        </strong>{' '}
-                                        to handle their billing needs. Start creating professional
-                                        invoices today with our easy-to-use{' '}
-                                        <strong className="font-semibold text-gray-900">
-                                            online invoice generator
-                                        </strong>
-                                        {'.'}
-                                    </p>
+                                    <ul className="divide-y divide-gray-100">
+                                        {[
+                                            {
+                                                icon: Sparkles,
+                                                label: 'No templates to fill out',
+                                            },
+                                            {
+                                                icon: Send,
+                                                label: 'No PDF downloads required',
+                                            },
+                                            {
+                                                icon: BellRing,
+                                                label: 'No manual payment chasing',
+                                            },
+                                            {
+                                                icon: Rocket,
+                                                label: 'No signup to get started',
+                                            },
+                                        ].map(({ icon: Icon, label }) => (
+                                            <li
+                                                key={label}
+                                                className="flex items-center gap-3.5 py-3.5 first:pt-0 last:pb-0"
+                                            >
+                                                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
+                                                    <Icon
+                                                        className="h-4 w-4 text-emerald-600"
+                                                        strokeWidth={2.5}
+                                                        aria-hidden
+                                                    />
+                                                </div>
+                                                <span className="text-sm font-medium text-gray-900">
+                                                    {label}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
                         </div>

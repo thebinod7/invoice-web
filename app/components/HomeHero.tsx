@@ -145,18 +145,17 @@ export default function HomeHero() {
                         <div className="space-y-5 text-center lg:text-left">
                             <div className="space-y-3">
                                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    Invoice maker
+                                    AI Invoice Generator
                                 </p>
                                 <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-                                    Free · No sign-up
+                                    Free to get started · No credit card required
                                 </span>
                                 <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl lg:leading-tight">
-                                    Create professional invoices for{' '}
-                                    <span className="text-emerald-600">free</span>
+                                    From prompt to invoice in{' '}
+                                    <span className="text-emerald-600">seconds</span>
                                 </h1>
                                 <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-600 lg:mx-0">
-                                    Generate and download ready-to-send invoices in seconds—no
-                                    account required.
+                                    Generate professional invoices for freelancers and small businesses.
                                 </p>
                             </div>
                             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">

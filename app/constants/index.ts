@@ -1,8 +1,8 @@
 export const APP = {
     NAME: 'Invomaker.com',
-    TITLE: 'Free Invoice Generator | No Signup Required',
+    TITLE: 'Invomaker — AI Invoice Generator with Reminders & Email Sending',
     DESCRIPTION:
-        'Easily create and customize professional invoices with our Free Invoice Generator. Whether you are a freelancer, small business owner, or entrepreneur, our tool helps you create accurate, professional invoices for free. Simply input your details, customize the invoice to fit your needs, and download it in PDF format—ready to send to your clients. No sign-up required',
+        'Create professional invoices using AI prompts. Send invoices instantly, send reminders to clients, track payment status, and more in one smart invoicing platform.',
 }
 
 export const APP_NAME = 'invomaker.com'

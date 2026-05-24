@@ -131,6 +131,7 @@ export default function page() {
 
     const handleFetchByPrompt = async () => {
         try {
+            if (!isLoggedIn) return toast.error('You must be logged in to use AI feature.')
             const prompt = aiPrompt.trim()
             if (!prompt) {
                 return toast.error('Please describe the invoice you want to create')
@@ -273,7 +274,7 @@ export default function page() {
                             handleInputChange={handleInputChange}
                         />
 
-                        {isLoggedIn && <AiPromptField
+                        {<AiPromptField
                             fetchingInvoice={fetchingInvoice}
                             aiPrompt={aiPrompt}
                             setAiPrompt={setAiPrompt}
