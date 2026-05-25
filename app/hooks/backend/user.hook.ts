@@ -40,3 +40,13 @@ export const myFeatureUsageQuery = () => {
         staleTime: 0,
     })
 }
+
+
+export const useMyPromptsListQuery = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.USER.MY_PROMPTS_LIST],
+        queryFn: () => getRequest(`${API_ROUTES.PROMPTS}/me`),
+        enabled: true,
+        staleTime: 0,
+    })
+}

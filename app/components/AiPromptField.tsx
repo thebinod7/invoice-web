@@ -1,31 +1,10 @@
+'use client'
+
 import { Loader2, Sparkles } from 'lucide-react'
-import React from 'react'
+import { useMyPromptsListQuery } from '../hooks/backend/user.hook'
+import PulseLoader from '@/ui/PulseLoader'
 
 const SAMPLE_PROMPTS = [
-    {
-        label: 'Freelance Developer',
-        prompt:
-            'Create an invoice from PixelForge Studio to GreenLeaf Media for 32 hours of full-stack development at $85/hour. Include API integration ($400) and bug fixes ($180). Apply 10% tax and make payment due in 14 days.',
-    },
-
-    {
-        label: 'Marketing Agency',
-        prompt:
-            'Invoice Nova Marketing Agency to Elevate Fitness for social media management ($1200), Facebook ads setup ($350), and content creation ($600). Apply 5% discount and set payment terms to Net 30.',
-    },
-
-    {
-        label: 'E-commerce Order',
-        prompt:
-            'Create invoice from Urban Gadgets to Michael Lee for 2 wireless keyboards at $79 each, 1 USB-C dock at $129, and 3 laptop stands at $35 each. Add shipping fee $25 and apply 8.5% sales tax.',
-    },
-
-    {
-        label: 'Consulting Retainer',
-        prompt:
-            'Invoice BrightPath Consulting to Apex Ventures for monthly business consulting retainer for September 2026 at $3500. Include additional workshop session ($600). Net 15 terms.',
-    },
-
     {
         label: 'Simple Natural Prompt',
         prompt:
@@ -44,6 +23,17 @@ export default function AiPromptField({
     setAiPrompt: (value: string) => void
     handleFetchByPrompt: () => void
 }) {
+
+    const { data, isLoading } = useMyPromptsListQuery()
+
+    const result = data?.data?.result ?? []
+    const promptsList = result.map((item: any) => ({
+        label: item.title,
+        prompt: item.description,
+    }))
+
+    const all_prompts = [...promptsList, ...SAMPLE_PROMPTS]
+
     const fieldInputClass =
         'w-full px-3 py-2 min-h-[52px] resize-y bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-400 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
 
@@ -81,7 +71,8 @@ export default function AiPromptField({
                 </button>
             </div>
             <div className="flex flex-wrap gap-2 mt-3">
-                {SAMPLE_PROMPTS.map(({ label, prompt }) => (
+                {isLoading && <PulseLoader />}
+                {all_prompts.map(({ label, prompt }) => (
                     <button
                         key={label}
                         type="button"

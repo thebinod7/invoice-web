@@ -14,6 +14,7 @@ export const API_ROUTES = {
   INVOICES: '/invoices',
   SUBSCRIPTIONS: '/subscriptions',
   USERS: '/users',
+  PROMPTS: '/prompts',
 };
 
 interface SidebarItemConfig {
