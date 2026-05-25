@@ -24,16 +24,15 @@ const SAMPLE_PROMPTS = [
 
 const DEFAULT_PROMPT = `Generate an invoice with the following details:
 
-From: Apex Solutions, 45 New York, USA | contact@apexsolutions.com | +1-202-555-0123
+From: Apex Solutions, 45 New York, USA | contact@apexsolutions.com
 
-Client: Global Trade Co., 12, New York, USA | billing@globaltrade.com | +1-202-555-0123
+Client: Global Trade Co., 12, New York, USA | billing@globaltrade.com
 
 Due date: June 15, 2026
 Payment terms: Pay within 7 days of invoice date
 
 Items:
 - Web Development Services — 40 hrs @ $50/hr
-- UI/UX Design — 20 hrs @ $35/hr
 - Domain & Hosting Setup — 1 unit @ $120
 
 Tax: 13% VAT
@@ -109,61 +108,75 @@ export default function AiPromptField({
     }
 
     return (
-        <div className="px-6 sm:px-10 py-4 border-b border-stone-100">
-            <label className="text-[11px] font-medium tracking-widest text-stone-500 uppercase mb-2 block">
-                Describe your invoice
-            </label>
-            <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3">
-                <textarea
-                    rows={4}
-                    value={aiPrompt}
-                    onChange={(e) => setAiPrompt(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                            e.preventDefault()
-                            handleFetchByPrompt()
-                        }
-                    }}
-                    className={`flex-1 min-w-0 ${fieldInputClass}`}
-                    placeholder="Eg: Invoice Acme Corp for 10 hours of consulting at $150/hr, due in 30 days"
-                />
-                <button
-                    disabled={fetchingInvoice}
-                    type="button"
-                    onClick={handleFetchByPrompt}
-                    className="w-full mt-1 sm:w-auto shrink-0 flex items-center justify-center gap-2 px-5 py-3 rounded-md text-xs font-medium tracking-wide bg-stone-900 hover:opacity-80 active:opacity-70 text-white transition-opacity duration-150"
-                >
-                    {fetchingInvoice ? (
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                    ) : (
-                        <Sparkles className="h-3.5 w-3.5" />
-                    )}
-                    {fetchingInvoice ? 'Please wait...' : 'Fill Form'}
-                </button>
-            </div>
-            <div className="flex flex-wrap gap-2 mt-3">
-                {isLoading && <PulseLoader />}
-                {all_prompts.map(({ label, prompt }) => (
+        <div className="border-b border-stone-100 px-6 py-4 sm:px-10">
+            <div className="rounded-lg border border-stone-200 bg-stone-50 px-4 py-4">
+                <div className="mb-3">
+                    <div className="flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-stone-600" />
+                        <span className="text-sm font-medium text-stone-900">Fill with AI</span>
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-stone-500">
+                        Describe your invoice in plain text.{' '}
+                        <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700">
+                            Saves time
+                        </span>{' '}
+                        over filling each field manually.
+                    </p>
+                </div>
+
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
+                    <textarea
+                        rows={4}
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                                e.preventDefault()
+                                handleFetchByPrompt()
+                            }
+                        }}
+                        className={`min-w-0 flex-1 ${fieldInputClass}`}
+                        placeholder="Eg: Invoice Acme Corp for 10 hours of consulting at $150/hr, due in 30 days"
+                    />
                     <button
-                        key={label}
+                        disabled={fetchingInvoice}
                         type="button"
-                        onClick={() => setAiPrompt(prompt)}
-                        className={`px-3 py-1 rounded-full text-[11px] font-medium border transition-colors duration-150 ${aiPrompt === prompt
-                            ? 'bg-stone-900 text-white border-stone-900'
-                            : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-white hover:border-stone-300 hover:text-stone-800'
-                            }`}
+                        onClick={handleFetchByPrompt}
+                        className="mt-1 flex w-full shrink-0 items-center justify-center gap-2 rounded-md bg-stone-900 px-5 py-3 text-xs font-medium tracking-wide text-white transition-opacity duration-150 hover:opacity-80 active:opacity-70 disabled:opacity-60 sm:mt-0 sm:w-auto"
                     >
-                        {label}
+                        {fetchingInvoice ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                            <Sparkles className="h-3.5 w-3.5" />
+                        )}
+                        {fetchingInvoice ? 'Please wait...' : 'Fill form'}
                     </button>
-                ))}
-                <button
-                    type="button"
-                    onClick={() => setShowAddPromptModal(true)}
-                    aria-label="Add new prompt"
-                    className="inline-flex items-center justify-center h-[26px] w-[26px] rounded-full text-[11px] font-medium border border-stone-200 bg-stone-50 text-stone-600 transition-colors duration-150 hover:bg-white hover:border-stone-300 hover:text-stone-800"
-                >
-                    <Plus className="h-3.5 w-3.5" />
-                </button>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                    {isLoading && <PulseLoader />}
+                    {all_prompts.map(({ label, prompt }) => (
+                        <button
+                            key={label}
+                            type="button"
+                            onClick={() => setAiPrompt(prompt)}
+                            className={`rounded-full border px-3 py-1 text-[11px] font-medium transition-colors duration-150 ${aiPrompt === prompt
+                                ? 'border-stone-900 bg-stone-900 text-white'
+                                : 'border-stone-200 bg-white text-stone-600 hover:border-stone-300 hover:text-stone-800'
+                                }`}
+                        >
+                            {label}
+                        </button>
+                    ))}
+                    <button
+                        type="button"
+                        onClick={() => setShowAddPromptModal(true)}
+                        aria-label="Add new prompt"
+                        className="inline-flex h-[26px] w-[26px] items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 transition-colors duration-150 hover:border-stone-300 hover:text-stone-800"
+                    >
+                        <Plus className="h-3.5 w-3.5" />
+                    </button>
+                </div>
             </div>
 
             <GlobalModal
