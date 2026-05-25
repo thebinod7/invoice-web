@@ -1,8 +1,18 @@
 'use client'
 
-import { Loader2, Sparkles } from 'lucide-react'
+import { useState } from 'react'
+import { Loader2, Plus, Sparkles } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useMyPromptsListQuery } from '../hooks/backend/user.hook'
+import { GlobalModal } from '@/ui/GlobalModal'
 import PulseLoader from '@/ui/PulseLoader'
+import { toast } from 'sonner'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { postRequest } from '../helpers/request'
+import { API_ROUTES } from '../constants/api-routes'
+import { sanitizeError } from '../helpers'
+import { QUERY_KEYS } from '../constants/query-keys'
 
 const SAMPLE_PROMPTS = [
     {
@@ -11,6 +21,25 @@ const SAMPLE_PROMPTS = [
             'Need an invoice for John Smith to charge Acme Inc for website maintenance and hosting for August. Hosting is $50, maintenance work was 6 hours at $70/hour. Add tax and Due date September 15, 2026.',
     },
 ] as const
+
+const DEFAULT_PROMPT = `Generate an invoice with the following details:
+
+From: Apex Solutions, 45 New York, USA | contact@apexsolutions.com | +1-202-555-0123
+
+Client: Global Trade Co., 12, New York, USA | billing@globaltrade.com | +1-202-555-0123
+
+Due date: June 15, 2026
+Payment terms: Pay within 7 days of invoice date
+
+Items:
+- Web Development Services — 40 hrs @ $50/hr
+- UI/UX Design — 20 hrs @ $35/hr
+- Domain & Hosting Setup — 1 unit @ $120
+
+Tax: 13% VAT
+Discount: 5% on subtotal
+
+Note: Thank you for your business! Please transfer payment to our bank account.`
 
 export default function AiPromptField({
     fetchingInvoice,
@@ -23,8 +52,12 @@ export default function AiPromptField({
     setAiPrompt: (value: string) => void
     handleFetchByPrompt: () => void
 }) {
+    const [showAddPromptModal, setShowAddPromptModal] = useState(false)
+    const [newPromptTitle, setNewPromptTitle] = useState('Sample Prompt')
+    const [newPromptText, setNewPromptText] = useState(DEFAULT_PROMPT)
 
     const { data, isLoading } = useMyPromptsListQuery()
+    const queryClient = useQueryClient()
 
     const result = data?.data?.result ?? []
     const promptsList = result.map((item: any) => ({
@@ -36,6 +69,44 @@ export default function AiPromptField({
 
     const fieldInputClass =
         'w-full px-3 py-2 min-h-[52px] resize-y bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-400 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400'
+
+    const resetAddPromptForm = () => {
+        setNewPromptTitle('')
+        setNewPromptText('')
+    }
+
+    const handleCloseAddPromptModal = () => {
+        setShowAddPromptModal(false)
+    }
+
+    const savePromptMutation = useMutation({
+        mutationFn: (payload: any) => {
+            return postRequest(`${API_ROUTES.PROMPTS}`, payload)
+        },
+        onError: (error: any) => {
+            toast.error(sanitizeError(error))
+        },
+        onSuccess: () => {
+            toast.success('Prompt saved successfully')
+            resetAddPromptForm()
+            setShowAddPromptModal(false)
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.USER.MY_PROMPTS_LIST],
+            })
+        },
+    })
+
+    const handleSavePrompt = () => {
+        if (!newPromptTitle || !newPromptText) {
+            return toast.error('Title and prompt are required')
+        }
+        const payload = {
+            title: newPromptTitle,
+            description: newPromptText,
+        }
+
+        savePromptMutation.mutate(payload)
+    }
 
     return (
         <div className="px-6 sm:px-10 py-4 border-b border-stone-100">
@@ -85,7 +156,70 @@ export default function AiPromptField({
                         {label}
                     </button>
                 ))}
+                <button
+                    type="button"
+                    onClick={() => setShowAddPromptModal(true)}
+                    aria-label="Add new prompt"
+                    className="inline-flex items-center justify-center h-[26px] w-[26px] rounded-full text-[11px] font-medium border border-stone-200 bg-stone-50 text-stone-600 transition-colors duration-150 hover:bg-white hover:border-stone-300 hover:text-stone-800"
+                >
+                    <Plus className="h-3.5 w-3.5" />
+                </button>
             </div>
+
+            <GlobalModal
+                processing={savePromptMutation.isPending}
+                isOpen={showAddPromptModal}
+                onOpenChange={(open) => {
+                    if (!open) handleCloseAddPromptModal()
+                    else setShowAddPromptModal(true)
+                }}
+                title="Add Prompt"
+                description="Save a reusable prompt for filling invoice forms."
+                size="md"
+                actions={[
+                    {
+                        label: 'Cancel',
+                        onClick: handleCloseAddPromptModal,
+                        variant: 'outline',
+                    },
+                    {
+                        label: 'Save Prompt',
+                        onClick: handleSavePrompt,
+                        variant: 'default',
+                    },
+                ]}
+            >
+                <form className="space-y-3">
+                    <div className="space-y-1">
+                        <Label htmlFor="promptTitle" className="text-sm font-medium">
+                            Title (Update it to your own)
+                        </Label>
+                        <Input
+                            id="promptTitle"
+                            name="promptTitle"
+                            type="text"
+                            placeholder="eg: Invoice to client name"
+                            className="h-10"
+                            value={newPromptTitle}
+                            onChange={(e) => setNewPromptTitle(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-1">
+                        <Label htmlFor="promptText" className="text-sm font-medium">
+                            Prompt (Update the details to your own)
+                        </Label>
+                        <textarea
+                            id="promptText"
+                            name="promptText"
+                            rows={10}
+                            placeholder="Describe the invoice details you want to reuse..."
+                            className={fieldInputClass}
+                            value={newPromptText}
+                            onChange={(e) => setNewPromptText(e.target.value)}
+                        />
+                    </div>
+                </form>
+            </GlobalModal>
         </div>
     )
 }
