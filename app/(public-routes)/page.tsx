@@ -9,13 +9,14 @@ import {
     Share2,
     Smartphone,
     Sparkles,
-    Zap
+    Zap,
 } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import AdBanner from '../components/AdBanner'
 import HomeHero from '../components/HomeHero'
 import { APP, DEFAULT_METADATA, DEFAULT_OG_IMAGE_URL, GOOGLE_AD, SEO_KEYWORDS } from '../constants'
+import ZohoInvoiceComparisonTable from '../components/ZohoInvoiceCompare'
 
 export const generateMetadata = async (): Promise<Metadata> => {
     const title = APP.TITLE
@@ -62,7 +63,10 @@ export default function LandingPage() {
                 <HomeHero />
 
                 {/* Features Section */}
-                <section id="features" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
+                <section
+                    id="features"
+                    className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20"
+                >
                     <div className="container mx-auto px-4">
                         <div className="mb-10 space-y-3 text-center lg:mb-12">
                             <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -72,44 +76,66 @@ export default function LandingPage() {
                                 From Prompt to Paid In Under a Minute
                             </h2>
                             <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600">
-                                Stop filling out forms. Just describe the job and let AI do the admin.
+                                Stop filling out forms. Just describe the job and let AI do the
+                                admin.
                             </p>
                         </div>
                         <div className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                                    <Zap className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
+                                    <Zap
+                                        className="h-4 w-4 text-emerald-600"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
                                     Create Invoices from AI Prompts.
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    AI reads your prompt and generates a complete, professional invoice.
+                                    AI reads your prompt and generates a complete, professional
+                                    invoice.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50">
-                                    <Send className="h-4 w-4 text-emerald-700" strokeWidth={2.5} aria-hidden />
+                                    <Send
+                                        className="h-4 w-4 text-emerald-700"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
-                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">Send Directly. No Email Client Needed</h3>
+                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                    Send Directly. No Email Client Needed
+                                </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Hit send from inside Invomaker. Your client gets a clean, personalized invoice email.
+                                    Hit send from inside Invomaker. Your client gets a clean,
+                                    personalized invoice email.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
-                                    <MessageCircle className="h-4 w-4 text-gray-700" strokeWidth={2.5} aria-hidden />
+                                    <MessageCircle
+                                        className="h-4 w-4 text-gray-700"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
                                     One-Click Payment Reminders
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Send a polite, branded follow-up with one click. No awkward wording required.
+                                    Send a polite, branded follow-up with one click. No awkward
+                                    wording required.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
-                                    <Smartphone className="h-4 w-4 text-gray-700" strokeWidth={2.5} aria-hidden />
+                                    <Smartphone
+                                        className="h-4 w-4 text-gray-700"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
                                     Mobile friendly
@@ -123,7 +149,10 @@ export default function LandingPage() {
                 </section>
 
                 {/* How It Works Section */}
-                <section id="how-it-works" className="border-t border-gray-100 bg-white py-16 lg:py-20">
+                <section
+                    id="how-it-works"
+                    className="border-t border-gray-100 bg-white py-16 lg:py-20"
+                >
                     <div className="container mx-auto px-4">
                         <div className="mb-10 space-y-3 text-center lg:mb-12">
                             <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -142,7 +171,11 @@ export default function LandingPage() {
                                     Step 1
                                 </span>
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                                    <Edit3 className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
+                                    <Edit3
+                                        className="h-4 w-4 text-emerald-600"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
                                     Fill your details with just one prompt
@@ -156,7 +189,11 @@ export default function LandingPage() {
                                     Step 2
                                 </span>
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                                    <Eye className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
+                                    <Eye
+                                        className="h-4 w-4 text-emerald-600"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
                                     Preview & tweak
@@ -171,18 +208,26 @@ export default function LandingPage() {
                                     Step 3
                                 </span>
                                 <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                                    <Share2 className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
+                                    <Share2
+                                        className="h-4 w-4 text-emerald-600"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
                                     Download or Send
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    Download a PDF or send directly to your client from the app dashboard.
-
+                                    Download a PDF or send directly to your client from the app
+                                    dashboard.
                                 </p>
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <section id="faq" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
+                    <ZohoInvoiceComparisonTable />
                 </section>
 
                 {/* Google Ads Section */}
@@ -205,12 +250,14 @@ export default function LandingPage() {
                             <div className="rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm md:p-8">
                                 <div className="space-y-8">
                                     <p className="text-sm leading-relaxed text-gray-600 md:text-base">
-                                        Invomaker is an AI invoicing platform built for freelancers and small businesses who are tired of forms, forgotten follow-ups, and wondering if a client has actually seen their invoice.
-
-                                        Most invoice tools hand you a blank form. Invomaker gives you a
-                                        complete workflow from first prompt to payment confirmed without
-                                        switching apps, hunting for templates, or writing awkward
-                                        &ldquo;just following up&rdquo; emails.
+                                        Invomaker is an AI invoicing platform built for freelancers
+                                        and small businesses who are tired of forms, forgotten
+                                        follow-ups, and wondering if a client has actually seen
+                                        their invoice. Most invoice tools hand you a blank form.
+                                        Invomaker gives you a complete workflow from first prompt to
+                                        payment confirmed without switching apps, hunting for
+                                        templates, or writing awkward &ldquo;just following
+                                        up&rdquo; emails.
                                     </p>
                                     <ul className="divide-y divide-gray-100">
                                         {[
