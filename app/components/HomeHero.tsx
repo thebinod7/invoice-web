@@ -117,7 +117,9 @@ export default function HomeHero() {
                                                 <Users className="h-3 w-3 text-blue-600" />
                                             </div>
                                             <div>
-                                                <p className="text-xs text-gray-500">Unique Visits</p>
+                                                <p className="text-xs text-gray-500">
+                                                    Unique Visits
+                                                </p>
                                                 <p className="text-sm font-semibold text-gray-900">
                                                     {formatNumber(stats.visitors) + '+'}
                                                 </p>
@@ -141,29 +143,29 @@ export default function HomeHero() {
                             )}
                         </div>
 
-
                         <div className="space-y-5 text-center lg:text-left">
                             <div className="space-y-3">
                                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                                    AI Invoice Generator
+                                    how to send an invoice by email?
                                 </p>
                                 <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
                                     Free to get started · No credit card required
                                 </span>
                                 <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl lg:leading-tight">
-                                    From prompt to invoice in{' '}
+                                    Create and send invoices in{' '}
                                     <span className="text-emerald-600">seconds</span>
                                 </h1>
-                                <p className="mx-auto max-w-lg text-sm leading-relaxed text-gray-600 lg:mx-0">
-                                    Generate professional invoices for freelancers and small businesses.
-                                </p>
+                                <h2 className="mx-auto max-w-lg text-sm leading-relaxed text-gray-600 lg:mx-0">
+                                    Generate professional invoices for freelancers and small
+                                    businesses.
+                                </h2>
                             </div>
                             <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                                 <Link
                                     href="/create-invoice"
                                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                                 >
-                                    Create an invoice
+                                    Create free invoice
                                     <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden />
                                 </Link>
                                 <a
@@ -171,11 +173,14 @@ export default function HomeHero() {
                                     className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                                 >
                                     Why us?
-                                    <Sparkles className="h-4 w-4 text-emerald-600" strokeWidth={2.5} aria-hidden />
+                                    <Sparkles
+                                        className="h-4 w-4 text-emerald-600"
+                                        strokeWidth={2.5}
+                                        aria-hidden
+                                    />
                                 </a>
                             </div>
                         </div>
-
                     </div>
                     <div className="min-w-0 w-full lg:max-w-lg lg:justify-self-end">
                         <HomeHeroPricing />

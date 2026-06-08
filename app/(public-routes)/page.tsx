@@ -321,8 +321,8 @@ export default function LandingPage() {
                                 href="/create-invoice"
                                 className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                             >
-                                Start creating invoices
-                                <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                                Ready to send your first invoice? It's free.
+                                {/* <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden /> */}
                             </Link>
                         </div>
                     </div>

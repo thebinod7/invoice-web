@@ -69,9 +69,9 @@ export default function ZohoInvoiceComparisonTable() {
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                 {/* Heading */}
                 <div className="mx-auto max-w-3xl text-center">
-                    <span className="rounded-full border border-emerald-500 px-3 py-1 text-xs font-medium uppercase tracking-wider">
+                    <h1 className="rounded-full border border-emerald-500 px-3 py-1 text-xs font-medium uppercase tracking-wider">
                         Quick Comparison with Zoho Invoice
-                    </span>
+                    </h1>
 
                     <h2 className="mt-6 text-4xl font-bold tracking-tight text-black sm:text-5xl">
                         Why pay for complexity?
