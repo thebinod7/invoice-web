@@ -26,8 +26,8 @@ export const SUBSCRIPTION_INTERVALS = {
 
 export const STARTER_EMAIL_LIMIT = 120
 export const STARTER_PRICE = {
-    monthly: 7,
-    yearly: 60,
+    monthly: 4.99,
+    yearly: 48,
 }
 
 // Only for reference
