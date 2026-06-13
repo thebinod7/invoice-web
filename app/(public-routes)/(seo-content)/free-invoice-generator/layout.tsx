@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { buildPublicPageMetadata } from '../public-page-metadata'
+import { buildPublicPageMetadata } from '../../public-page-metadata'
 
 export const metadata: Metadata = buildPublicPageMetadata({
     title: 'Free Invoice Generator — No Sign Up, No Account, Instant PDF',

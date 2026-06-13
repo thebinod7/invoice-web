@@ -1,4 +1,4 @@
-import { buildPublicPageMetadata } from '../public-page-metadata'
+import { buildPublicPageMetadata } from '../../public-page-metadata'
 
 export const metadata = buildPublicPageMetadata({
     title: 'Invoice Builder – Create & Send Invoices Online in Seconds| Invomaker',
