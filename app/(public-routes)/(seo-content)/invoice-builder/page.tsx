@@ -274,15 +274,6 @@ export default function page() {
                             handleInputChange={handleInputChange}
                         />
 
-                        {isLoggedIn && (
-                            <AiPromptField
-                                fetchingInvoice={fetchingInvoice}
-                                aiPrompt={aiPrompt}
-                                setAiPrompt={setAiPrompt}
-                                handleFetchByPrompt={handleFetchByPrompt}
-                            />
-                        )}
-
                         <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
                             {/* Company Information Section - Responsive Grid */}
                             <div className="bg-white border border-slate-200 rounded-lg shadow-sm">

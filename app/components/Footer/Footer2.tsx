@@ -14,7 +14,7 @@ export default function Footer2() {
                                 <span className="text-xl font-bold">{APP_NAME}</span>
                             </div>
                             <p className="text-gray-400 mb-4">
-                                The AI invoice maker that sends, tracks, and reminds. Free to get
+                                The invoice maker that sends, tracks, and reminds. Free to get
                                 started.
                             </p>
                             {/* <LaunchLlamaBadge /> */}

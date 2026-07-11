@@ -10,7 +10,6 @@ const freeIncluded = [
 ] as const
 
 const starterPreviewLocked = [
-    'Prompt to Invoice AI (100 credits / month)',
     'Reminder email notifications',
     'Custom email messages',
     'Send up to 120 invoices via email',

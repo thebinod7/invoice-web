@@ -3,11 +3,6 @@ import { STARTER_PRICE } from '../constants/plan'
 export default function ZohoInvoiceComparisonTable() {
     const features = [
         {
-            feature: 'AI Prompt → Invoice',
-            yourProduct: '✅ Create invoices using natural language',
-            zoho: '❌ Manual form filling',
-        },
-        {
             feature: 'Invoice Creation Speed',
             yourProduct: '✅ Seconds',
             zoho: '⚠️ Multiple setup steps',

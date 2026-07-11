@@ -48,7 +48,6 @@ export function UpgradePlanModal({
                         Upgrade to unlock premium features:
                     </p>
                     <ul className="text-sm space-y-1 list-disc list-inside">
-                        <li>Prompt-to-Invoice AI Credits</li>
                         <li>Send reminders to clients</li>
                         <li>Track payment status</li>
                         <li>Send up to {STARTER_EMAIL_LIMIT} invoices via email</li>
