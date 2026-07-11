@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 const freeFeatures = [
-    'Prompt to Invoice AI (3 free credits)',
     'Invoice history',
     'Upload logo up to 1MB',
     'Send up to 6 invoices via email',
@@ -20,7 +19,6 @@ const freeFeatures = [
 
 const starterFeatures = [
     'Everything in Free',
-    'Prompt to Invoice AI (100 credits / month)',
     'Upload logo up to 5MB',
     'Send up to 120 invoices via email',
     'Personalized email message',

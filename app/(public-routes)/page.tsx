@@ -73,11 +73,11 @@ export default function LandingPage() {
                                 Features
                             </p>
                             <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl">
-                                From Prompt to Paid In Under a Minute
+                                Get Paid In Under a Minute
                             </h2>
                             <p className="mx-auto max-w-xl text-sm leading-relaxed text-gray-600">
-                                Stop filling out forms. Just describe the job and let AI do the
-                                admin.
+                                Start sending invoices in seconds. No signup required to get
+                                started.
                             </p>
                         </div>
                         <div className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
@@ -90,11 +90,11 @@ export default function LandingPage() {
                                     />
                                 </div>
                                 <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
-                                    Create Invoices from AI Prompts.
+                                    Create Professional Invoices
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
-                                    AI reads your prompt and generates a complete, professional
-                                    invoice.
+                                    Use our template and generate professional invoices in seconds.
+                                    No more awkward formatting.
                                 </p>
                             </div>
                             <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
@@ -250,8 +250,8 @@ export default function LandingPage() {
                             <div className="rounded-2xl border border-gray-200 bg-white p-6 text-left shadow-sm md:p-8">
                                 <div className="space-y-8">
                                     <p className="text-sm leading-relaxed text-gray-600 md:text-base">
-                                        Invomaker is an AI invoicing platform built for freelancers
-                                        and small businesses who are tired of forms, forgotten
+                                        Invomaker is an invoicing platform built for freelancers and
+                                        small businesses who are tired of forms, forgotten
                                         follow-ups, and wondering if a client has actually seen
                                         their invoice. Most invoice tools hand you a blank form.
                                         Invomaker gives you a complete workflow from first prompt to
