@@ -1,6 +1,9 @@
 'use client'
 
 import { APP_NAME } from '@/app/constants'
+import { API_ROUTES } from '@/app/constants/api-routes'
+import { sanitizeError } from '@/app/helpers'
+import { postRequest } from '@/app/helpers/request'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -12,8 +15,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { useMutation } from '@tanstack/react-query'
+import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const PROFESSION_OPTIONS = [
     { value: 'freelancer', label: 'Freelancer' },
@@ -126,19 +132,30 @@ export default function OnboardUser({ open, onComplete }: OnboardUserProps) {
         (heardFrom !== 'other' || heardFromOtherTrimmed.length > 0)
     const canSubmitStep2 = !!primaryGoal && !!businessSize
 
+    const onboardingMutation = useMutation({
+        mutationFn: (payload: CreateOnboardingDto) => {
+            return postRequest(`${API_ROUTES.USERS}/onboarding`, payload)
+        },
+        onError: (err) => {
+            toast.error(sanitizeError(err))
+        },
+        onSuccess: () => {
+            toast.success('Thank you for your time. Onboarding completed successfully!')
+            onComplete()
+        },
+    })
+
     function handleSubmit() {
         if (!profession || !heardFrom || !primaryGoal || !businessSize) return
 
-        // UI-only: shape matches CreateOnboardingDto for later API wiring
-        const _payload: CreateOnboardingDto = {
+        const payload: CreateOnboardingDto = {
             profession,
             heardFrom,
             primaryGoal,
             businessSize,
             ...(heardFrom === 'other' ? { heardFromOther: heardFromOtherTrimmed } : {}),
         }
-        void _payload
-        onComplete()
+        return onboardingMutation.mutateAsync(payload)
     }
 
     return (
@@ -253,6 +270,7 @@ export default function OnboardUser({ open, onComplete }: OnboardUserProps) {
                                     type="button"
                                     variant="outline"
                                     className="flex-1 border-gray-200"
+                                    disabled={onboardingMutation.isPending}
                                     onClick={() => setStep(1)}
                                 >
                                     Back
@@ -271,10 +289,17 @@ export default function OnboardUser({ open, onComplete }: OnboardUserProps) {
                                 <Button
                                     type="button"
                                     className="flex-1 bg-emerald-600 text-white hover:bg-emerald-700"
-                                    disabled={!canSubmitStep2}
+                                    disabled={!canSubmitStep2 || onboardingMutation.isPending}
                                     onClick={handleSubmit}
                                 >
-                                    Submit
+                                    {onboardingMutation.isPending ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Submitting...
+                                        </>
+                                    ) : (
+                                        'Submit'
+                                    )}
                                 </Button>
                             )}
                         </div>
