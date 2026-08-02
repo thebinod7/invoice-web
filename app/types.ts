@@ -13,6 +13,7 @@ export interface ICurrentUser {
     gender: string
     role: string
     referralCode?: string
+    isOnboarded?: boolean
     activeSubscription?: Record<string, any>
     createdAt?: Date
     updatedAt?: Date
