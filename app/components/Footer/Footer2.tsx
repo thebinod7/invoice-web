@@ -18,7 +18,7 @@ export default function Footer2() {
                                 started.
                             </p>
                             {/* <LaunchLlamaBadge /> */}
-                            <Link
+                            {/* <Link
                                 href="https://superlaun.ch/products/456"
                                 target="_blank"
                                 rel="noopener"
@@ -29,7 +29,7 @@ export default function Footer2() {
                                     width="200"
                                     height="200"
                                 />
-                            </Link>
+                            </Link> */}
                         </div>
                         <div>
                             <h3 className="text-lg font-semibold mb-4">More Tools</h3>

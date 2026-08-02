@@ -1,4 +1,5 @@
 import { STARTER_PRICE } from '../constants/plan'
+import Link from 'next/link'
 
 export default function ZohoInvoiceComparisonTable() {
     const features = [
@@ -54,7 +55,7 @@ export default function ZohoInvoiceComparisonTable() {
         },
         {
             feature: 'Monthly Price',
-            yourProduct: '$7/month',
+            yourProduct: `$${STARTER_PRICE.monthly}/month`,
             zoho: 'Higher / Ecosystem-based',
         },
     ]
@@ -64,7 +65,7 @@ export default function ZohoInvoiceComparisonTable() {
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                 {/* Heading */}
                 <div className="mx-auto max-w-3xl text-center">
-                    <h1 className="rounded-full border border-emerald-500 px-3 py-1 text-xs font-medium uppercase tracking-wider">
+                    <h1 className="rounded-full border border-emerald-500 px-3 py-2 text-xs font-medium uppercase tracking-wider">
                         Quick Comparison with Zoho Invoice
                     </h1>
 
@@ -87,7 +88,7 @@ export default function ZohoInvoiceComparisonTable() {
                                     Feature
                                 </th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold">
-                                    Your Invoice Generator
+                                    Invomaker
                                 </th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold">
                                     Zoho Invoice
@@ -129,7 +130,7 @@ export default function ZohoInvoiceComparisonTable() {
                             <div className="mt-4 space-y-3">
                                 <div>
                                     <p className="text-xs uppercase tracking-wide text-gray-500">
-                                        Your Product
+                                        Invomaker
                                     </p>
                                     <p className="mt-1 font-medium text-black">
                                         {item.yourProduct}
@@ -150,10 +151,10 @@ export default function ZohoInvoiceComparisonTable() {
                 {/* Bottom CTA */}
                 <div className="mt-12 text-center">
                     <p className="text-sm text-gray-600">
-                        Stop spending time filling forms. Start invoicing with AI.
+                        Stop getting confused by complex invoicing tools. Start with what you need.
                     </p>
                 </div>
             </div>
         </section>
-    )
+    );
 }
