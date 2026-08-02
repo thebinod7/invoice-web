@@ -44,6 +44,7 @@ interface StatCard {
 export default function DashboardClientV2() {
     const { data } = useMyStatsQuery()
     const { currentUser } = useAuthContext()
+    console.log("Current User", currentUser)
 
     const invoiceData: InvoiceData = data?.data?.result || null
 
@@ -68,22 +69,20 @@ export default function DashboardClientV2() {
         {
             title: 'Paid Invoices',
             value: `${counts.paidInvoices}`,
-            description: `${
-                counts.sentInvoices > 0
+            description: `${counts.sentInvoices > 0
                     ? ((counts.paidInvoices / counts.sentInvoices) * 100).toFixed(0)
                     : 0
-            }% paid rate`,
+                }% paid rate`,
             icon: <CheckCircle2 className="w-5 h-5" />,
             bgColor: 'from-green-50 to-emerald-50',
         },
         {
             title: 'Sent Invoices',
             value: `${counts.sentInvoices}`,
-            description: `${
-                counts.totalInvoices > 0
+            description: `${counts.totalInvoices > 0
                     ? ((counts.sentInvoices / counts.totalInvoices) * 100).toFixed(0)
                     : 0
-            }% of total`,
+                }% of total`,
             icon: <Send className="w-5 h-5" />,
             bgColor: 'from-amber-50 to-orange-50',
         },
