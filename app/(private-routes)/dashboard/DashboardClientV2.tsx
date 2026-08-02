@@ -7,6 +7,7 @@ import InvoiceStatusPieChart from '@/app/components/InvoiceStatusPieChart'
 import { useAuthContext } from '@/app/context/useAuthContext'
 import { useMyStatsQuery } from '@/app/hooks/backend/user.hook'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import OnboardUser from '@/components/ui/OnboardUser'
 import { PageSpinner } from '@/ui/PageSpinner'
 import { CheckCircle2, FileText, Send } from 'lucide-react'
 
@@ -43,7 +44,8 @@ interface StatCard {
 
 export default function DashboardClientV2() {
     const { data } = useMyStatsQuery()
-    const { currentUser } = useAuthContext()
+    const { currentUser, setCurrentUser } = useAuthContext()
+    const onboardingOpen = currentUser?.isOnboarded === false
 
     const invoiceData: InvoiceData = data?.data?.result || null
 
@@ -68,22 +70,20 @@ export default function DashboardClientV2() {
         {
             title: 'Paid Invoices',
             value: `${counts.paidInvoices}`,
-            description: `${
-                counts.sentInvoices > 0
-                    ? ((counts.paidInvoices / counts.sentInvoices) * 100).toFixed(0)
-                    : 0
-            }% paid rate`,
+            description: `${counts.sentInvoices > 0
+                ? ((counts.paidInvoices / counts.sentInvoices) * 100).toFixed(0)
+                : 0
+                }% paid rate`,
             icon: <CheckCircle2 className="w-5 h-5" />,
             bgColor: 'from-green-50 to-emerald-50',
         },
         {
             title: 'Sent Invoices',
             value: `${counts.sentInvoices}`,
-            description: `${
-                counts.totalInvoices > 0
-                    ? ((counts.sentInvoices / counts.totalInvoices) * 100).toFixed(0)
-                    : 0
-            }% of total`,
+            description: `${counts.totalInvoices > 0
+                ? ((counts.sentInvoices / counts.totalInvoices) * 100).toFixed(0)
+                : 0
+                }% of total`,
             icon: <Send className="w-5 h-5" />,
             bgColor: 'from-amber-50 to-orange-50',
         },
@@ -100,6 +100,12 @@ export default function DashboardClientV2() {
 
     return (
         <div className="flex-1 overflow-auto p-6">
+            <OnboardUser
+                open={onboardingOpen}
+                onComplete={() =>
+                    setCurrentUser((prev) => (prev ? { ...prev, isOnboarded: true } : prev))
+                }
+            />
             {/* Stat Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 mt-4 gap-4">
                 {statCards.map((stat, idx) => (
