@@ -140,7 +140,7 @@ export default function OnboardUser({ open, onComplete }: OnboardUserProps) {
             toast.error(sanitizeError(err))
         },
         onSuccess: () => {
-            toast.success('Thank you for your time. Onboarding completed successfully!')
+            toast.success('Setup complete. You can start creating your invoices!')
             onComplete()
         },
     })
