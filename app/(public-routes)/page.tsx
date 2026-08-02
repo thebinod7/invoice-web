@@ -226,7 +226,7 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                <section id="faq" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
+                <section id="zoho-comparison" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
                     <ZohoInvoiceComparisonTable />
                 </section>
 
