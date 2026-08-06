@@ -50,3 +50,12 @@ export const useMyPromptsListQuery = () => {
         staleTime: 0,
     })
 }
+
+export const useHomepagePublicDataQuery = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.USER.HOMEPAGE_PUBLIC_DATA],
+        queryFn: () => getRequest(`${API_ROUTES.USERS}/homepage-public-data`),
+        enabled: true,
+        staleTime: getStaleTimeInMinutes(5),
+    })
+}

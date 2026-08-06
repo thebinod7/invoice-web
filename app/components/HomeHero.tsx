@@ -10,10 +10,14 @@ import { toast } from 'sonner'
 import { APP_PATHS } from '../constants'
 import { getReferralCode } from '../helpers/local-storage'
 import { useAuthContext } from '../context/useAuthContext'
+import { useHomepagePublicDataQuery } from '../hooks/backend/user.hook'
 import HomeHeroPricing from './HomeHeroPricing'
 
 export default function HomeHero() {
     const { isLoading, currentUser } = useAuthContext()
+    const { data: homepageData, isLoading: isHomepageLoading } =
+        useHomepagePublicDataQuery()
+    const totalUsers = homepageData?.data?.result?.totalUsers
     const [stats, setStats] = useState({
         pageViews: 0,
         visitors: 0,
@@ -180,6 +184,35 @@ export default function HomeHero() {
                                     />
                                 </a>
                             </div>
+                            {isHomepageLoading ? (
+                                <div className="mx-auto h-9 w-56 animate-pulse rounded-lg bg-gray-200 lg:mx-0" />
+                            ) : typeof totalUsers === 'number' ? (
+                                <div className="flex items-center justify-center gap-3 lg:justify-start">
+                                    <div className="flex -space-x-2" aria-hidden>
+                                        <span className="relative z-[3] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[10px] font-semibold text-white">
+                                            A
+                                        </span>
+                                        <span className="relative z-[2] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-teal-600 text-[10px] font-semibold text-white">
+                                            M
+                                        </span>
+                                        <span className="relative z-[1] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-700 text-[10px] font-semibold text-white">
+                                            S
+                                        </span>
+                                    </div>
+                                    <div className="min-w-0 text-left">
+                                        <p className="text-sm font-semibold tracking-tight text-gray-900">
+                                            Trusted by{' '}
+                                            <span className="tabular-nums text-emerald-600">
+                                                {totalUsers.toLocaleString()}+
+                                            </span>{' '}
+                                            professionals
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            Freelancers & small businesses worldwide
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                     <div className="min-w-0 w-full lg:max-w-lg lg:justify-self-end">
