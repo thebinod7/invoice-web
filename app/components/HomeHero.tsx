@@ -18,6 +18,8 @@ export default function HomeHero() {
     const { data: homepageData, isLoading: isHomepageLoading } =
         useHomepagePublicDataQuery()
     const totalUsers = homepageData?.data?.result?.totalUsers
+    const lastThreeUsersInitial = homepageData?.data?.result?.lastThreeUsersInitial || ['A', 'M', 'S']
+
     const [stats, setStats] = useState({
         pageViews: 0,
         visitors: 0,
@@ -149,9 +151,9 @@ export default function HomeHero() {
 
                         <div className="space-y-5 text-center lg:text-left">
                             <div className="space-y-3">
-                                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                {/* <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                     how to send an invoice by email?
-                                </p>
+                                </p> */}
                                 <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
                                     Free to get started · No credit card required
                                 </span>
@@ -189,15 +191,11 @@ export default function HomeHero() {
                             ) : typeof totalUsers === 'number' ? (
                                 <div className="flex items-center justify-center gap-3 lg:justify-start">
                                     <div className="flex -space-x-2" aria-hidden>
-                                        <span className="relative z-[3] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[10px] font-semibold text-white">
-                                            A
-                                        </span>
-                                        <span className="relative z-[2] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-teal-600 text-[10px] font-semibold text-white">
-                                            M
-                                        </span>
-                                        <span className="relative z-[1] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-700 text-[10px] font-semibold text-white">
-                                            S
-                                        </span>
+                                        {lastThreeUsersInitial.map((initial: string) => (
+                                            <span key={initial} className="relative z-[3] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[10px] font-semibold text-white">
+                                                {initial}
+                                            </span>
+                                        ))}
                                     </div>
                                     <div className="min-w-0 text-left">
                                         <p className="text-sm font-semibold tracking-tight text-gray-900">
