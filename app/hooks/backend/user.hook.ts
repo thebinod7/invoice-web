@@ -22,6 +22,15 @@ export const useMyStatsQuery = () => {
     })
 }
 
+export const usePaidUsersQuery = () => {
+    return useQuery({
+        queryKey: [QUERY_KEYS.APP.PAID_USERS],
+        queryFn: () => getRequest(`${API_ROUTES.APP}/paid-users`),
+        enabled: true,
+        staleTime: 0,
+    })
+}
+
 export const useListMyReferralQuery = () => {
     return useQuery({
         queryKey: [QUERY_KEYS.USER.MY_REFERRALS],
