@@ -10,10 +10,16 @@ import { toast } from 'sonner'
 import { APP_PATHS } from '../constants'
 import { getReferralCode } from '../helpers/local-storage'
 import { useAuthContext } from '../context/useAuthContext'
+import { useHomepagePublicDataQuery } from '../hooks/backend/user.hook'
 import HomeHeroPricing from './HomeHeroPricing'
 
 export default function HomeHero() {
     const { isLoading, currentUser } = useAuthContext()
+    const { data: homepageData, isLoading: isHomepageLoading } =
+        useHomepagePublicDataQuery()
+    const totalUsers = homepageData?.data?.result?.totalUsers
+    const lastThreeUsersInitial = homepageData?.data?.result?.lastThreeUsersInitial || ['A', 'M', 'S']
+
     const [stats, setStats] = useState({
         pageViews: 0,
         visitors: 0,
@@ -145,9 +151,9 @@ export default function HomeHero() {
 
                         <div className="space-y-5 text-center lg:text-left">
                             <div className="space-y-3">
-                                <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                {/* <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                     how to send an invoice by email?
-                                </p>
+                                </p> */}
                                 <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
                                     Free to get started · No credit card required
                                 </span>
@@ -180,6 +186,31 @@ export default function HomeHero() {
                                     />
                                 </a>
                             </div>
+                            {isHomepageLoading ? (
+                                <div className="mx-auto h-9 w-56 animate-pulse rounded-lg bg-gray-200 lg:mx-0" />
+                            ) : typeof totalUsers === 'number' ? (
+                                <div className="flex items-center justify-center gap-3 lg:justify-start">
+                                    <div className="flex -space-x-2" aria-hidden>
+                                        {lastThreeUsersInitial.map((initial: string) => (
+                                            <span key={initial} className="relative z-[3] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[10px] font-semibold text-white">
+                                                {initial}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div className="min-w-0 text-left">
+                                        <p className="text-sm font-semibold tracking-tight text-gray-900">
+                                            Trusted by{' '}
+                                            <span className="tabular-nums text-emerald-600">
+                                                {totalUsers.toLocaleString()}+
+                                            </span>{' '}
+                                            professionals
+                                        </p>
+                                        <p className="text-xs text-gray-500">
+                                            Freelancers & small businesses worldwide
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                     <div className="min-w-0 w-full lg:max-w-lg lg:justify-self-end">
