@@ -2,6 +2,7 @@ export const QUERY_KEYS = {
     APP: {
         ACTIVE_AD: 'ACTIVE_AD',
         MY_STATS: 'MY_STATS',
+        PAID_USERS: 'PAID_USERS',
     },
     GOOGLE_LOGIN: 'GOOGLE_LOGIN',
     USER: {
