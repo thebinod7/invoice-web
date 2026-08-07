@@ -7,6 +7,9 @@ export type PaidUser = {
     subscriptionExpiryDate: string
     onboardedFrom: string | null
     primaryGoal: string | null
+    numberOfInvoices: number
+    numberOfEmailsSent: number
+    lastLoginDate: string | null
 }
 
 function humanize(value: string | null) {
@@ -20,6 +23,9 @@ export default function PaidUserCard({
     subscriptionExpiryDate,
     onboardedFrom,
     primaryGoal,
+    numberOfInvoices,
+    numberOfEmailsSent,
+    lastLoginDate,
 }: PaidUser) {
     return (
         <Card>
@@ -33,12 +39,22 @@ export default function PaidUserCard({
                     <p className="text-slate-900">{formatDate(subscriptionExpiryDate)}</p>
                 </div>
                 <div>
-                    <p className="text-xs font-medium text-slate-500">Onboarded from</p>
-                    <p className="text-slate-900 capitalize">{humanize(onboardedFrom)}</p>
+                    <p className="text-xs font-medium text-slate-500">Source / Goal</p>
+                    <p className="text-slate-900 capitalize">
+                        {humanize(onboardedFrom)} / {humanize(primaryGoal)}{' '}
+                    </p>
                 </div>
                 <div>
-                    <p className="text-xs font-medium text-slate-500">Primary goal</p>
-                    <p className="text-slate-900 capitalize">{humanize(primaryGoal)}</p>
+                    <p className="text-xs font-medium text-slate-500">Invoice Created / Sent</p>
+                    <p className="text-slate-900">
+                        {numberOfInvoices} / {numberOfEmailsSent}
+                    </p>
+                </div>
+                <div>
+                    <p className="text-xs font-medium text-slate-500">Last Login</p>
+                    <p className="text-slate-900">
+                        {lastLoginDate ? formatDate(lastLoginDate) : '—'}
+                    </p>
                 </div>
             </CardContent>
         </Card>
