@@ -1,5 +1,28 @@
+'use client'
+
+import { useAuthContext } from '@/app/context/useAuthContext'
+import { useListInvoiceClients } from '@/app/hooks/backend/invoice-client.hook'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { Building, User } from 'lucide-react'
 import React from 'react'
+
+function formatClientDetails(client: {
+    name?: string
+    address?: string
+    phone?: string
+    email?: string
+}) {
+    return [client.name, client.address, client.phone, client.email]
+        .map((s) => s?.trim())
+        .filter(Boolean)
+        .join('\n')
+}
 
 export default function CompanyDetails({
     senderDetails,
@@ -10,6 +33,19 @@ export default function CompanyDetails({
     receiverDetails: string
     handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
 }) {
+    const { isLoggedIn } = useAuthContext()
+    const { data, isLoading } = useListInvoiceClients(isLoggedIn)
+    const clients = data?.data?.result?.rows ?? []
+    const isEmpty = !isLoading && clients.length === 0
+
+    const handleClientSelect = (id: string) => {
+        const client = clients.find((c: { _id: string }) => c._id === id)
+        if (!client) return
+        handleInputChange({
+            target: { name: 'receiverDetails', value: formatClientDetails(client) },
+        } as React.ChangeEvent<HTMLTextAreaElement>)
+    }
+
     return (
         <div className="lg:col-span-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
@@ -51,6 +87,48 @@ export default function CompanyDetails({
                             Required
                         </span>
                     </label>
+                    {isLoggedIn && (
+                        <Select
+                            onValueChange={handleClientSelect}
+                            disabled={isLoading || isEmpty}
+                        >
+                            <SelectTrigger className="h-10 text-xs border-stone-200 bg-stone-50 shadow-none focus:ring-0 focus:border-stone-400">
+                                <SelectValue
+                                    placeholder={
+                                        isLoading
+                                            ? 'Loading…'
+                                            : isEmpty
+                                                ? 'No saved clients'
+                                                : 'Select a client'
+                                    }
+                                />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {clients.map(
+                                    (client: {
+                                        _id: string
+                                        name: string
+                                        email?: string
+                                    }) => (
+                                        <SelectItem
+                                            key={client._id}
+                                            value={client._id}
+                                            className="text-xs"
+                                        >
+                                            <span className="flex min-w-0 flex-col items-start">
+                                                <span>{client.name}</span>
+                                                {client.email ? (
+                                                    <span className="text-[10px] text-stone-400">
+                                                        {client.email}
+                                                    </span>
+                                                ) : null}
+                                            </span>
+                                        </SelectItem>
+                                    ),
+                                )}
+                            </SelectContent>
+                        </Select>
+                    )}
                     <textarea
                         name="receiverDetails"
                         value={receiverDetails || ''}

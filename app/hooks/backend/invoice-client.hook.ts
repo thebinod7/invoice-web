@@ -4,11 +4,11 @@ import { getStaleTimeInMinutes } from '@/app/helpers'
 import { getRequest } from '@/app/helpers/request'
 import { useQuery } from '@tanstack/react-query'
 
-export const useListInvoiceClients = () => {
+export const useListInvoiceClients = (enabled = true) => {
     return useQuery({
         queryKey: [QUERY_KEYS.INVOICE_CLIENT.LIST],
         queryFn: () => getRequest(`${API_ROUTES.INVOICE_CLIENTS}?page=1&perPage=100`),
-        enabled: true,
+        enabled,
         staleTime: getStaleTimeInMinutes(2),
     })
 }
