@@ -25,6 +25,7 @@ interface SidebarItemConfig {
   href: string;
   icon: LucideIcon;
   external?: boolean;
+  isNew?: boolean;
 }
 
 export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
@@ -51,6 +52,7 @@ export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
     label: 'My Clients',
     href: APP_PATHS.DASHBOARD.CLIENTS,
     icon: Users,
+    isNew: true,
   },
   {
     key: 'feedback',

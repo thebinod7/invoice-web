@@ -52,16 +52,25 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
                             key={item.key}
                             href={item.href}
                             target={item.external ? '_blank' : undefined}
-                            title={collapsed ? item.label : undefined}
+                            title={collapsed ? (item.isNew ? `${item.label} (New)` : item.label) : undefined}
                             className={`
-                flex items-center gap-3 px-3 py-2 rounded-lg
+                relative flex items-center gap-3 px-3 py-2 rounded-lg
                 text-gray-700 hover:bg-gray-100 transition
                 ${isActive ? 'bg-gray-100' : ''}
+                ${item.isNew && !isActive ? 'bg-emerald-50 hover:bg-emerald-100' : ''}
                 ${collapsed ? 'justify-center' : ''}
               `}
                         >
-                            <Icon className="w-5 h-5 shrink-0" />
+                            <Icon className={`w-5 h-5 shrink-0 ${item.isNew ? 'text-emerald-600' : ''}`} />
                             {!collapsed && <span className="flex-1">{item.label}</span>}
+                            {item.isNew && !collapsed && (
+                                <span className="inline-flex h-5 shrink-0 items-center rounded-full bg-emerald-500 px-2 text-[9px] font-medium leading-none text-white">
+                                    New
+                                </span>
+                            )}
+                            {item.isNew && collapsed && (
+                                <span className="absolute top-1.5 right-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                            )}
                         </Link>
                     )
                 })}
