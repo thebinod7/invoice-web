@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation } from '@tanstack/react-query';
+import { MessageSquare } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -56,36 +57,49 @@ export default function FeedbackClient() {
   };
 
   return (
-    <div className="grid min-h-full w-full flex-1 place-items-center p-4 sm:p-6">
-      <Card className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl">
-        <CardHeader className="space-y-2 p-4 text-center sm:p-6 sm:pb-4">
-          <CardTitle className="text-lg font-semibold sm:text-xl">
-            We would love to hear your feedback!
-          </CardTitle>
-          <CardDescription className="hidden md:block mx-auto max-w-md text-sm leading-relaxed">
-            Share feature requests, bug reports, or anything else on your mind.
-          </CardDescription>
+    <div className="flex min-h-full w-full items-center justify-center px-4 py-6 sm:px-6 sm:py-10 lg:py-16">
+      <Card className="w-full max-w-lg">
+        <CardHeader className="items-center space-y-3 px-5 pb-4 pt-6 text-center sm:px-8 sm:pt-8">
+          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-100 text-slate-700">
+            <MessageSquare className="h-5 w-5" />
+          </div>
+          <div className="space-y-1.5">
+            <CardTitle className="text-xl font-semibold tracking-tight sm:text-2xl">
+              We would love to hear your feedback!
+            </CardTitle>
+            <CardDescription className="mx-auto max-w-sm text-sm leading-relaxed">
+              Share feature requests, bug reports, or anything else on your
+              mind.
+            </CardDescription>
+          </div>
         </CardHeader>
 
-        <CardContent className="p-4 pt-0 sm:p-6 sm:pt-0">
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <Textarea
-              required={true}
-              rows={8}
-              value={formData.message}
-              placeholder="Type your message here..."
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  message: e.target.value,
-                })
-              }
-              className="min-h-[160px] resize-y sm:min-h-[200px] md:min-h-[240px]"
-            />
-
-            <p className="text-right text-xs tabular-nums text-muted-foreground">
-              {formData.message.length}/{MSG_LIMIT}
-            </p>
+        <CardContent className="px-5 pb-6 sm:px-8 sm:pb-8">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Textarea
+                required={true}
+                rows={6}
+                value={formData.message}
+                placeholder="Type your message here..."
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    message: e.target.value,
+                  })
+                }
+                className="min-h-36 resize-y sm:min-h-48"
+              />
+              <p
+                className={`mt-2 text-right text-xs tabular-nums ${
+                  formData.message.length > MSG_LIMIT
+                    ? 'text-destructive'
+                    : 'text-muted-foreground'
+                }`}
+              >
+                {formData.message.length}/{MSG_LIMIT}
+              </p>
+            </div>
 
             {submitted ? (
               <Button
