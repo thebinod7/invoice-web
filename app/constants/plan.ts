@@ -88,6 +88,7 @@ export const SUBSCRIPTION_PLANS = {
             { text: 'Reminder email notification', enabled: true },
             { text: 'Unlimited edit & download', enabled: true },
             { text: 'Unlimited payment status tracking', enabled: true },
+            { text: 'Manage multiple clients', enabled: true },
             { text: 'No ads', enabled: true },
         ],
     },
