@@ -18,4 +18,8 @@ export const QUERY_KEYS = {
         GET_BY_ID: 'GET_BY_ID',
         FETCH_BY_PROMPT: 'FETCH_BY_PROMPT',
     },
+    INVOICE_CLIENT: {
+        LIST: 'LIST',
+        GET_BY_ID: 'GET_BY_ID',
+    },
 }

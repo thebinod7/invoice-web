@@ -4,6 +4,7 @@ import {
   Lightbulb,
   LucideIcon,
   Plus,
+  Users,
 } from 'lucide-react';
 import { APP_PATHS } from '.';
 
@@ -11,6 +12,7 @@ export const API_ROUTES = {
   APP: '/app',
   AUTH: '/auth',
   GENERATE_INVOICE: '/app/generate-invoice',
+  INVOICE_CLIENTS: '/invoice-clients',
   INVOICES: '/invoices',
   SUBSCRIPTIONS: '/subscriptions',
   USERS: '/users',
@@ -23,6 +25,7 @@ interface SidebarItemConfig {
   href: string;
   icon: LucideIcon;
   external?: boolean;
+  isNew?: boolean;
 }
 
 export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
@@ -43,6 +46,13 @@ export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
     label: 'My Invoices',
     href: APP_PATHS.DASHBOARD.INVOICES,
     icon: FileStack,
+  },
+  {
+    key: 'clients',
+    label: 'My Clients',
+    href: APP_PATHS.DASHBOARD.CLIENTS,
+    icon: Users,
+    isNew: true,
   },
   {
     key: 'feedback',

@@ -11,6 +11,7 @@ const freeIncluded = [
 
 const starterPreviewLocked = [
     'Reminder email notifications',
+    'Manage multiple clients',
     'Custom email messages',
     'Send up to 120 invoices via email',
     'No ads',

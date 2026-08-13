@@ -25,6 +25,7 @@ const starterFeatures = [
     'Reminder email notifications',
     'Unlimited edit & download',
     'Unlimited payment status tracking',
+    'Manage multiple clients',
     'No ads',
 ] as const
 
@@ -50,7 +51,7 @@ export default function PricingPage() {
                             Pricing
                         </p>
                         <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-                            Simple · No hidden fees
+                            Simple & Secure · No hidden fees
                         </span>
                         <h1 className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl lg:leading-tight">
                             Save time and <span className="text-emerald-600">get paid faster</span>

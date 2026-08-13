@@ -11,7 +11,7 @@ import { capitalizeFirstLetter } from '@/app/helpers';
 import { Fragment } from 'react';
 
 export function BreadcrumbMenu({ items }: { items: string[] }) {
-  const filteredItems = items.filter((item) => item !== '');
+  const filteredItems = items.filter((item) => item !== '').slice(0, 3);
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -19,9 +19,8 @@ export function BreadcrumbMenu({ items }: { items: string[] }) {
           <Fragment key={index + 1}>
             <BreadcrumbItem>
               <BreadcrumbPage
-                className={`${
-                  index === filteredItems.length - 1 ? 'font-semibold' : ''
-                }`}
+                className={`${index === filteredItems.length - 1 ? 'font-semibold' : ''
+                  }`}
               >
                 {capitalizeFirstLetter(item)}
               </BreadcrumbPage>
