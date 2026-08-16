@@ -24,7 +24,7 @@ const starterFeatureTexts = SUBSCRIPTION_PLANS.STARTER.features.map((feature) =>
 
 export default function SubscriptionClient() {
     const [billingInterval, setBillingInterval] = useState<BillingInterval>(
-        SUBSCRIPTION_INTERVALS.YEARLY,
+        SUBSCRIPTION_INTERVALS.MONTHLY,
     )
     const { data, isLoading } = useGetMeQuery()
     const result = data?.data?.result || null
