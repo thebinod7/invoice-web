@@ -1,7 +1,12 @@
 'use client'
 import PricingPlanCard from '@/app/components/PricingPlanCard'
 import { API_ROUTES } from '@/app/constants/api-routes'
-import { PLAN_CODES, STARTER_PRICE, SUBSCRIPTION_INTERVALS, SUBSCRIPTION_PLANS } from '@/app/constants/plan'
+import {
+    PLAN_CODES,
+    STARTER_PRICE,
+    SUBSCRIPTION_INTERVALS,
+    SUBSCRIPTION_PLANS,
+} from '@/app/constants/plan'
 import { formatDate, sanitizeError } from '@/app/helpers'
 import { postRequest } from '@/app/helpers/request'
 import { useGetMeQuery } from '@/app/hooks/backend/user.hook'
@@ -12,20 +17,22 @@ import { CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-type BillingInterval = typeof SUBSCRIPTION_INTERVALS[keyof typeof SUBSCRIPTION_INTERVALS]
+type BillingInterval = (typeof SUBSCRIPTION_INTERVALS)[keyof typeof SUBSCRIPTION_INTERVALS]
 
 const freeFeatureTexts = SUBSCRIPTION_PLANS.FREE.features.map((feature) => feature.text)
 const starterFeatureTexts = SUBSCRIPTION_PLANS.STARTER.features.map((feature) => feature.text)
 
 export default function SubscriptionClient() {
-    const [billingInterval, setBillingInterval] = useState<BillingInterval>(SUBSCRIPTION_INTERVALS.MONTHLY)
+    const [billingInterval, setBillingInterval] = useState<BillingInterval>(
+        SUBSCRIPTION_INTERVALS.YEARLY,
+    )
     const { data, isLoading } = useGetMeQuery()
     const result = data?.data?.result || null
 
     const isYearly = billingInterval === 'yearly'
     const starterPrice = isYearly ? STARTER_PRICE.yearly : STARTER_PRICE.monthly
     const yearlySavingsPercent = Math.round(
-        (1 - STARTER_PRICE.yearly / (STARTER_PRICE.monthly * 12)) * 100
+        (1 - STARTER_PRICE.yearly / (STARTER_PRICE.monthly * 12)) * 100,
     )
 
     const createCheckoutSessionMutation = useMutation({
@@ -124,33 +131,38 @@ export default function SubscriptionClient() {
                                     <div className="mb-3 inline-flex rounded-lg border border-gray-200 bg-white p-1">
                                         <button
                                             type="button"
-                                            onClick={() => setBillingInterval(SUBSCRIPTION_INTERVALS.MONTHLY)}
+                                            onClick={() =>
+                                                setBillingInterval(SUBSCRIPTION_INTERVALS.MONTHLY)
+                                            }
                                             className={cn(
                                                 'rounded-md px-3 py-1.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
                                                 billingInterval === SUBSCRIPTION_INTERVALS.MONTHLY
                                                     ? 'bg-emerald-600 text-white'
-                                                    : 'text-gray-600 hover:text-gray-900'
+                                                    : 'text-gray-600 hover:text-gray-900',
                                             )}
                                         >
                                             Monthly
                                         </button>
                                         <button
                                             type="button"
-                                            onClick={() => setBillingInterval(SUBSCRIPTION_INTERVALS.YEARLY)}
+                                            onClick={() =>
+                                                setBillingInterval(SUBSCRIPTION_INTERVALS.YEARLY)
+                                            }
                                             className={cn(
                                                 'inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1',
                                                 billingInterval === SUBSCRIPTION_INTERVALS.YEARLY
                                                     ? 'bg-emerald-600 text-white'
-                                                    : 'text-gray-600 hover:text-gray-900'
+                                                    : 'text-gray-600 hover:text-gray-900',
                                             )}
                                         >
                                             Yearly
                                             <span
                                                 className={cn(
                                                     'rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide',
-                                                    billingInterval === SUBSCRIPTION_INTERVALS.YEARLY
+                                                    billingInterval ===
+                                                        SUBSCRIPTION_INTERVALS.YEARLY
                                                         ? 'bg-emerald-500 text-white'
-                                                        : 'bg-emerald-50 text-emerald-700'
+                                                        : 'bg-emerald-50 text-emerald-700',
                                                 )}
                                             >
                                                 Save {yearlySavingsPercent}%
@@ -162,7 +174,10 @@ export default function SubscriptionClient() {
                                             ${starterPrice}
                                         </span>
                                         <span className="text-xs text-gray-500">
-                                            / {billingInterval === SUBSCRIPTION_INTERVALS.YEARLY ? SUBSCRIPTION_INTERVALS.YEARLY : SUBSCRIPTION_INTERVALS.MONTHLY}
+                                            /{' '}
+                                            {billingInterval === SUBSCRIPTION_INTERVALS.YEARLY
+                                                ? SUBSCRIPTION_INTERVALS.YEARLY
+                                                : SUBSCRIPTION_INTERVALS.MONTHLY}
                                         </span>
                                     </div>
                                     {billingInterval === SUBSCRIPTION_INTERVALS.YEARLY && (
