@@ -226,7 +226,10 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                <section id="zoho-comparison" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
+                <section
+                    id="zoho-comparison"
+                    className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20"
+                >
                     <ZohoInvoiceComparisonTable />
                 </section>
 
@@ -236,7 +239,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* SEO Section */}
-                <section id="seo" className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20">
+                <section id="seo" className="py-16 lg:py-20">
                     <div className="container mx-auto px-4">
                         <div className="mx-auto max-w-3xl space-y-6 text-center">
                             <div className="space-y-3">
@@ -263,11 +266,11 @@ export default function LandingPage() {
                                         {[
                                             {
                                                 icon: Sparkles,
-                                                label: 'No templates to fill out',
+                                                label: 'Clean, and professional invoices in seconds',
                                             },
                                             {
                                                 icon: Send,
-                                                label: 'No PDF downloads required',
+                                                label: 'Send invoices directly from the app',
                                             },
                                             {
                                                 icon: BellRing,
