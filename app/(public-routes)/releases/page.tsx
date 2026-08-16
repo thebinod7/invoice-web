@@ -15,6 +15,7 @@ import {
     ShieldAlert,
     Sparkles,
     View,
+    Users,
 } from 'lucide-react'
 
 interface FeatureRelease {
@@ -29,13 +30,23 @@ interface FeatureRelease {
 
 const featureReleases: FeatureRelease[] = [
     {
+        id: '187',
+        title: 'Manage multiple clients',
+        description:
+            'Manage multiple clients and just select the client you want to send invoice to',
+        date: '2026-08-15',
+        version: 'v2.4.0',
+        icon: Users,
+        isNew: true,
+    },
+    {
         id: '188',
         title: 'UI Improvements',
         description: 'Improved the UI for a more intuitive experience, and improved navigation.',
         date: '2026-05-16',
         version: 'v2.2.0',
         icon: Home,
-        isNew: true,
+        isNew: false,
     },
     {
         id: '189',
@@ -218,7 +229,10 @@ export default function FeatureReleases() {
                                                                 />
                                                                 {formatDate(release.date)}
                                                             </span>
-                                                            <span className="text-gray-300" aria-hidden>
+                                                            <span
+                                                                className="text-gray-300"
+                                                                aria-hidden
+                                                            >
                                                                 ·
                                                             </span>
                                                             <span className="font-medium text-emerald-700">
