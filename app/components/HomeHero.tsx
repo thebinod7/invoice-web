@@ -1,7 +1,7 @@
 'use client'
 import { useGoogleOneTapLogin } from '@react-oauth/google'
 import { useMutation } from '@tanstack/react-query'
-import { Eye, FileText, Sparkles, Users } from 'lucide-react'
+import { ArrowRight, Eye, FileText, Sparkles, Users } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { postRequest } from '../helpers/request'
@@ -15,10 +15,13 @@ import HomeHeroPricing from './HomeHeroPricing'
 
 export default function HomeHero() {
     const { isLoading, currentUser } = useAuthContext()
-    const { data: homepageData, isLoading: isHomepageLoading } =
-        useHomepagePublicDataQuery()
+    const { data: homepageData, isLoading: isHomepageLoading } = useHomepagePublicDataQuery()
     const totalUsers = homepageData?.data?.result?.totalUsers
-    const lastThreeUsersInitial = homepageData?.data?.result?.lastThreeUsersInitial || ['A', 'M', 'S']
+    const lastThreeUsersInitial = homepageData?.data?.result?.lastThreeUsersInitial || [
+        'A',
+        'M',
+        'S',
+    ]
 
     const [stats, setStats] = useState({
         pageViews: 0,
@@ -171,8 +174,8 @@ export default function HomeHero() {
                                     href="/create-invoice"
                                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                                 >
-                                    Create free invoice
-                                    <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden />
+                                    Start for Free
+                                    <ArrowRight className="h-4 w-4" strokeWidth={2.5} aria-hidden />
                                 </Link>
                                 <a
                                     href="#seo"
@@ -192,7 +195,10 @@ export default function HomeHero() {
                                 <div className="flex items-center justify-center gap-3 lg:justify-start">
                                     <div className="flex -space-x-2" aria-hidden>
                                         {lastThreeUsersInitial.map((initial: string) => (
-                                            <span key={initial} className="relative z-[3] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[10px] font-semibold text-white">
+                                            <span
+                                                key={initial}
+                                                className="relative z-[3] flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-emerald-600 text-[10px] font-semibold text-white"
+                                            >
                                                 {initial}
                                             </span>
                                         ))}

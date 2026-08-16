@@ -5,7 +5,7 @@ export const APP = {
         'Create professional invoices in seconds and send them directly to clients — no signup needed. Free invoice generator trusted by freelancers and small businesses worldwide.',
 }
 
-export const APP_NAME = 'invomaker.com'
+export const APP_NAME = 'Invomaker'
 export const MAX_FILE_SIZE = 1
 export const MAX_FILE_SIZE_PRO = 5
 

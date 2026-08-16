@@ -69,7 +69,7 @@ export default function ZohoInvoiceComparisonTable() {
                         Quick Comparison with Zoho Invoice
                     </h1>
 
-                    <h2 className="mt-6 text-4xl font-bold tracking-tight text-black sm:text-5xl">
+                    <h2 className="mt-6 text-3xl font-bold tracking-tight text-black sm:text-4xl">
                         Why pay for complexity?
                     </h2>
 
@@ -96,7 +96,7 @@ export default function ZohoInvoiceComparisonTable() {
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody className="text-sm">
                             {features.map((item, index) => (
                                 <tr
                                     key={item.feature}
@@ -156,5 +156,5 @@ export default function ZohoInvoiceComparisonTable() {
                 </div>
             </div>
         </section>
-    );
+    )
 }
