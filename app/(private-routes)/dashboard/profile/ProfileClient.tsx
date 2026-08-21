@@ -66,52 +66,72 @@ export default function ProfileClient() {
     }
   }, [data]);
 
+  const initials =
+    `${formData.firstName?.[0] ?? ''}${formData.lastName?.[0] ?? ''}`.toUpperCase() ||
+    'U';
+
   return (
-    <div className="flex justify-center mt-4 md:mt-8 lg:mt-12">
-      <Card className="w-full md:w-[60%]">
-        <div className="p-4 md:p-8">
-          <div className="hidden lg:block">
-            <div className="mb-4 flex items-center text-sm">
-              <Info className="w-4 h-4 mr-2" />
-              <p className="text-muted-foreground font-semibold">
-                Keep your information current and accurate
+    <div className="flex justify-center px-4 py-6 md:py-12">
+      <Card className="w-full md:w-[640px] overflow-hidden py-0">
+        <div className="bg-muted/40 border-b px-6 py-8 sm:px-10 sm:py-10">
+          <div className="flex items-center gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary text-xl font-semibold text-primary-foreground">
+              {initials}
+            </div>
+            <div>
+              <h1 className="text-xl font-semibold tracking-tight">
+                {formData.firstName || formData.lastName
+                  ? `${formData.firstName} ${formData.lastName}`.trim()
+                  : 'Your Profile'}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {formData.email || 'Manage your personal information'}
               </p>
             </div>
           </div>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="firstName" className="text-sm font-medium">
-                First Name
-              </Label>
-              <Input
-                id="firstName"
-                type="text"
-                placeholder="Enter your first name"
-                value={formData.firstName}
-                onChange={(e) =>
-                  setFormData({ ...formData, firstName: e.target.value })
-                }
-                className="h-10"
-                required
-              />
-            </div>
+        <div className="px-6 py-8 sm:px-10 sm:py-10">
+          <div className="mb-6 flex items-start gap-2 rounded-lg bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+            <Info className="mt-0.5 h-4 w-4 shrink-0" />
+            <p>Keep your information current and accurate.</p>
+          </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="lastName" className="text-sm font-medium">
-                Last Name
-              </Label>
-              <Input
-                id="lastName"
-                type="text"
-                placeholder="Enter your last name"
-                value={formData.lastName}
-                onChange={(e) =>
-                  setFormData({ ...formData, lastName: e.target.value })
-                }
-                className="h-10"
-                required
-              />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="firstName" className="text-sm font-medium">
+                  First Name
+                </Label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="Enter your first name"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
+                  className="h-11"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="lastName" className="text-sm font-medium">
+                  Last Name
+                </Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="Enter your last name"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
+                  className="h-11"
+                  required
+                />
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -124,8 +144,11 @@ export default function ProfileClient() {
                 type="email"
                 placeholder="your.email@example.com"
                 defaultValue={formData.email}
-                className="h-10"
+                className="h-11 disabled:opacity-70"
               />
+              <p className="text-xs text-muted-foreground">
+                Your email address cannot be changed.
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -139,7 +162,7 @@ export default function ProfileClient() {
                 }
                 required
               >
-                <SelectTrigger id="gender" className="h-10 w-full">
+                <SelectTrigger id="gender" className="h-11 w-full">
                   <SelectValue placeholder="Select your gender" />
                 </SelectTrigger>
                 <SelectContent defaultValue={formData.gender}>
@@ -151,15 +174,17 @@ export default function ProfileClient() {
               </Select>
             </div>
 
-            <Button
-              disabled={updateProfileMutation.isPending}
-              type="submit"
-              className="w-full h-10 mt-8"
-            >
-              {updateProfileMutation.isPending
-                ? 'Updating...'
-                : 'Update Profile'}
-            </Button>
+            <div className="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+              <Button
+                disabled={updateProfileMutation.isPending}
+                type="submit"
+                className="h-11 w-full sm:w-auto sm:min-w-[160px]"
+              >
+                {updateProfileMutation.isPending
+                  ? 'Updating...'
+                  : 'Update Profile'}
+              </Button>
+            </div>
           </form>
         </div>
       </Card>

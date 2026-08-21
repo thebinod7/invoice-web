@@ -10,7 +10,6 @@ import {
     Infinity,
     Mail,
     RefreshCw,
-    Sparkles,
     Users,
     type LucideIcon,
 } from 'lucide-react'
@@ -39,7 +38,6 @@ const FEATURE_META: Record<string, { label: string; icon: LucideIcon }> = {
     INVOICE_EDIT_DOWNLOAD_LIMIT: { label: 'Edit & Download', icon: Download },
     INVOICE_STATUS_UPDATE_LIMIT: { label: 'Status Updates', icon: RefreshCw },
     MANAGE_CLIENT_LIMIT: { label: 'Clients', icon: Users },
-    PROMPT_TO_INVOICE: { label: 'Prompt to Invoice', icon: Sparkles },
 }
 
 const UNLIMITED_THRESHOLD = 2000
@@ -119,81 +117,83 @@ export default function MyUsageClient() {
 
                 {/* Feature usage grid */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {result.features.map((feature) => {
-                        const meta = FEATURE_META[feature.featureKey] ?? {
-                            label: feature.featureKey.replace(/_/g, ' '),
-                            icon: BarChart3,
-                        }
-                        const Icon = meta.icon
-                        const limit = toNumber(feature.limit)
-                        const used = toNumber(feature.used)
-                        const remaining = toNumber(feature.remaining)
-                        const isUnlimited = isUnlimitedLimit(limit)
-                        const percent = getUsagePercent(used, limit)
-                        const progressColor = getProgressBarColor(percent)
+                    {result.features
+                        .filter((feature) => feature.featureKey !== 'PROMPT_TO_INVOICE')
+                        .map((feature) => {
+                            const meta = FEATURE_META[feature.featureKey] ?? {
+                                label: feature.featureKey.replace(/_/g, ' '),
+                                icon: BarChart3,
+                            }
+                            const Icon = meta.icon
+                            const limit = toNumber(feature.limit)
+                            const used = toNumber(feature.used)
+                            const remaining = toNumber(feature.remaining)
+                            const isUnlimited = isUnlimitedLimit(limit)
+                            const percent = getUsagePercent(used, limit)
+                            const progressColor = getProgressBarColor(percent)
 
-                        return (
-                            <div
-                                key={feature.featureKey}
-                                className="rounded-xl border border-gray-200 bg-white p-5"
-                            >
-                                <div className="mb-4 flex items-start justify-between gap-3">
-                                    <div className="min-w-0">
-                                        <p className="truncate text-sm font-medium text-gray-900">
-                                            {meta.label}
-                                        </p>
-                                        <p className="mt-0.5 text-xs capitalize text-gray-500">
-                                            {feature.type}
-                                        </p>
-                                    </div>
-                                    <div className="rounded-lg bg-slate-100 p-2 text-slate-600">
-                                        <Icon className="h-4 w-4" />
-                                    </div>
-                                </div>
-
-                                {isUnlimited ? (
-                                    <div className="space-y-3">
-                                        <p className="text-2xl font-semibold text-gray-900">
-                                            {used}
-                                            <span className="text-base font-normal text-gray-400">
-                                                {' '}
-                                                used
-                                            </span>
-                                        </p>
-                                        <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
-                                            <Infinity className="h-3.5 w-3.5" />
-                                            Unlimited
-                                        </span>
-                                    </div>
-                                ) : (
-                                    <div className="mb-3 flex items-end justify-between gap-2">
-                                        <p className="text-2xl font-semibold text-gray-900">
-                                            {used}
-                                            <span className="text-base font-normal text-gray-400">
-                                                {' '}
-                                                / {limit}
-                                            </span>
-                                        </p>
-                                        <p className="text-xs font-medium text-gray-500">
-                                            {remaining} left
-                                        </p>
-                                    </div>
-                                )}
-
-                                {!isUnlimited && (
-                                    <>
-                                        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
-                                            <div
-                                                className={`h-full rounded-full transition-all ${progressColor}`}
-                                                style={{ width: `${percent}%` }}
-                                            />
+                            return (
+                                <div
+                                    key={feature.featureKey}
+                                    className="rounded-xl border border-gray-200 bg-white p-5"
+                                >
+                                    <div className="mb-4 flex items-start justify-between gap-3">
+                                        <div className="min-w-0">
+                                            <p className="truncate text-sm font-medium text-gray-900">
+                                                {meta.label}
+                                            </p>
+                                            <p className="mt-0.5 text-xs capitalize text-gray-500">
+                                                {feature.type}
+                                            </p>
                                         </div>
-                                        <p className="mt-2 text-xs text-gray-500">{percent}% used</p>
-                                    </>
-                                )}
-                            </div>
-                        )
-                    })}
+                                        <div className="rounded-lg bg-slate-100 p-2 text-slate-600">
+                                            <Icon className="h-4 w-4" />
+                                        </div>
+                                    </div>
+
+                                    {isUnlimited ? (
+                                        <div className="space-y-3">
+                                            <p className="text-2xl font-semibold text-gray-900">
+                                                {used}
+                                                <span className="text-base font-normal text-gray-400">
+                                                    {' '}
+                                                    used
+                                                </span>
+                                            </p>
+                                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+                                                <Infinity className="h-3.5 w-3.5" />
+                                                Unlimited
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        <div className="mb-3 flex items-end justify-between gap-2">
+                                            <p className="text-2xl font-semibold text-gray-900">
+                                                {used}
+                                                <span className="text-base font-normal text-gray-400">
+                                                    {' '}
+                                                    / {limit}
+                                                </span>
+                                            </p>
+                                            <p className="text-xs font-medium text-gray-500">
+                                                {remaining} left
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {!isUnlimited && (
+                                        <>
+                                            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                                                <div
+                                                    className={`h-full rounded-full transition-all ${progressColor}`}
+                                                    style={{ width: `${percent}%` }}
+                                                />
+                                            </div>
+                                            <p className="mt-2 text-xs text-gray-500">{percent}% used</p>
+                                        </>
+                                    )}
+                                </div>
+                            )
+                        })}
                 </div>
             </div>
         </div>
