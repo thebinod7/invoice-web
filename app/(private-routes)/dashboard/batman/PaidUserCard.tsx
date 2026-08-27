@@ -34,9 +34,17 @@ export default function PaidUserCard({
                 <p className="text-sm text-slate-500 truncate">{email}</p>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
-                <div>
-                    <p className="text-xs font-medium text-slate-500">Expiry</p>
-                    <p className="text-slate-900">{formatDate(subscriptionExpiryDate)}</p>
+                <div className="flex gap-2">
+                    <div className="flex-1 rounded-lg border border-emerald-100 bg-emerald-50 px-3 py-2">
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700">Expiry</p>
+                        <p className="font-medium text-emerald-900">{formatDate(subscriptionExpiryDate)}</p>
+                    </div>
+                    <div className="flex-1 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">Last Login</p>
+                        <p className="font-medium text-slate-900">
+                            {lastLoginDate ? formatDate(lastLoginDate) : '—'}
+                        </p>
+                    </div>
                 </div>
                 <div>
                     <p className="text-xs font-medium text-slate-500">Source / Goal</p>
@@ -48,12 +56,6 @@ export default function PaidUserCard({
                     <p className="text-xs font-medium text-slate-500">Invoice Created / Sent</p>
                     <p className="text-slate-900">
                         {numberOfInvoices} / {numberOfEmailsSent}
-                    </p>
-                </div>
-                <div>
-                    <p className="text-xs font-medium text-slate-500">Last Login</p>
-                    <p className="text-slate-900">
-                        {lastLoginDate ? formatDate(lastLoginDate) : '—'}
                     </p>
                 </div>
             </CardContent>
