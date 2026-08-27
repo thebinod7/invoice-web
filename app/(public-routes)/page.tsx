@@ -80,16 +80,12 @@ export default function LandingPage() {
                                 started.
                             </p>
                         </div>
-                        <div className="grid gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
-                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
-                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
-                                    <Zap
-                                        className="h-4 w-4 text-emerald-600"
-                                        strokeWidth={2.5}
-                                        aria-hidden
-                                    />
+                        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                            <div className="-rotate-2 rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all duration-300 ease-out hover:rotate-0 hover:border-emerald-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02]">
+                                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100">
+                                    <Zap className="h-6 w-6 text-emerald-600" strokeWidth={2} aria-hidden />
                                 </div>
-                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                <h3 className="mb-2 text-sm font-semibold text-gray-900">
                                     Create Professional Invoices
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
@@ -97,15 +93,11 @@ export default function LandingPage() {
                                     No more awkward formatting.
                                 </p>
                             </div>
-                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
-                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50">
-                                    <Send
-                                        className="h-4 w-4 text-emerald-700"
-                                        strokeWidth={2.5}
-                                        aria-hidden
-                                    />
+                            <div className="rotate-2 rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all duration-300 ease-out hover:rotate-0 hover:border-emerald-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02]">
+                                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-50">
+                                    <Send className="h-6 w-6 text-emerald-700" strokeWidth={2} aria-hidden />
                                 </div>
-                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                <h3 className="mb-2 text-sm font-semibold text-gray-900">
                                     Send Directly. No Email Client Needed
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
@@ -113,15 +105,11 @@ export default function LandingPage() {
                                     personalized invoice email.
                                 </p>
                             </div>
-                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
-                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
-                                    <MessageCircle
-                                        className="h-4 w-4 text-gray-700"
-                                        strokeWidth={2.5}
-                                        aria-hidden
-                                    />
+                            <div className="-rotate-2 rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all duration-300 ease-out hover:rotate-0 hover:border-emerald-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02]">
+                                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gray-100">
+                                    <MessageCircle className="h-6 w-6 text-gray-700" strokeWidth={2} aria-hidden />
                                 </div>
-                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                <h3 className="mb-2 text-sm font-semibold text-gray-900">
                                     One-Click Payment Reminders
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
@@ -129,15 +117,11 @@ export default function LandingPage() {
                                     wording required.
                                 </p>
                             </div>
-                            <div className="rounded-2xl border border-gray-200 bg-white p-4 text-center shadow-sm transition-colors hover:border-gray-300">
-                                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
-                                    <Smartphone
-                                        className="h-4 w-4 text-gray-700"
-                                        strokeWidth={2.5}
-                                        aria-hidden
-                                    />
+                            <div className="rotate-2 rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition-all duration-300 ease-out hover:rotate-0 hover:border-emerald-200 hover:shadow-md hover:-translate-y-1 hover:scale-[1.02]">
+                                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-gray-100">
+                                    <Smartphone className="h-6 w-6 text-gray-700" strokeWidth={2} aria-hidden />
                                 </div>
-                                <h3 className="mb-1.5 text-sm font-semibold text-gray-900">
+                                <h3 className="mb-2 text-sm font-semibold text-gray-900">
                                     Mobile friendly
                                 </h3>
                                 <p className="text-sm leading-relaxed text-gray-600">
