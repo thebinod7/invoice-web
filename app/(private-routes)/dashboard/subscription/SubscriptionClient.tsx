@@ -1,6 +1,7 @@
 'use client'
 import PricingPlanCard from '@/app/components/PricingPlanCard'
 import { API_ROUTES } from '@/app/constants/api-routes'
+import { QUERY_KEYS } from '@/app/constants/query-keys'
 import {
     PLAN_CODES,
     STARTER_PRICE,
@@ -8,11 +9,14 @@ import {
     SUBSCRIPTION_PLANS,
 } from '@/app/constants/plan'
 import { formatDate, sanitizeError } from '@/app/helpers'
-import { postRequest } from '@/app/helpers/request'
+import { getRequest, patchRequest, postRequest } from '@/app/helpers/request'
 import { useGetMeQuery } from '@/app/hooks/backend/user.hook'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
+import { GlobalModal } from '@/ui/GlobalModal'
 import { SpinnerButton } from '@/ui/SpinnerButton'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -26,6 +30,8 @@ export default function SubscriptionClient() {
     const [billingInterval, setBillingInterval] = useState<BillingInterval>(
         SUBSCRIPTION_INTERVALS.MONTHLY,
     )
+    const [showCancelModal, setShowCancelModal] = useState(false)
+    const [cancelFormData, setCancelFormData] = useState({ reason: '', improvement: '' })
     const { data, isLoading } = useGetMeQuery()
     const result = data?.data?.result || null
 
@@ -55,6 +61,49 @@ export default function SubscriptionClient() {
 
     const handleUpgradeClick = () => {
         return createCheckoutSessionMutation.mutate(billingInterval)
+    }
+
+    const queryClient = useQueryClient()
+
+    const cancelSubscriptionMutation = useMutation({
+        mutationFn: async () => {
+            // `me` doesn't expose the subscription id; fetch the current
+            // subscription to get the Dodo `customerSubscriptionId`.
+            const { data } = await getRequest(`${API_ROUTES.SUBSCRIPTIONS}/current`)
+            const subId = data?.result?.customerSubscriptionId
+            return patchRequest(`${API_ROUTES.SUBSCRIPTIONS}/cancel/${subId}`, {})
+        },
+        onError: (error) => {
+            toast.error(sanitizeError(error))
+        },
+        onSuccess: () => {
+            setShowCancelModal(false)
+            setCancelFormData({ reason: '', improvement: '' })
+            queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.USER.GET_ME],
+            })
+            toast.success(
+                'Subscription will be cancelled at the end of the billing cycle! You will still have access to the paid features until then.',
+            )
+        },
+        onSettled: () => {
+            toast.dismiss()
+        },
+    })
+
+    const handleCancelClick = () => {
+        if (!isStarterActive || !result?.activeSubscription) {
+            return toast.error('No active paid subscription to cancel.')
+        }
+        setShowCancelModal(true)
+    }
+
+    const handleCancelSubmit = () => {
+        if (!cancelFormData.reason.trim() || !cancelFormData.improvement.trim()) {
+            return toast.error('Please answer both questions before submitting.')
+        }
+        toast.loading('Cancelling subscription...')
+        return cancelSubscriptionMutation.mutate()
     }
 
     const activePlanCode = result?.activeSubscription?.planCode
@@ -212,7 +261,81 @@ export default function SubscriptionClient() {
                             }
                         />
                     </div>
+                    {/* Remove 'hidden' and add 'flex' to display button */}
+                    <div className="mt-0 justify-center xl:col-span-2 hidden">
+                        <button
+                            type="button"
+                            onClick={handleCancelClick}
+                            className="text-center text-xs font-semibold text-gray-700 underline-offset-4 transition-colors hover:text-red-600 hover:underline focus:outline-none focus-visible:underline disabled:cursor-not-allowed disabled:opacity-50"
+                            disabled={!isStarterActive || !result?.activeSubscription}
+                        >
+                            Cancel Subscription
+                        </button>
+                    </div>
                 </div>
+
+                <GlobalModal
+                    isOpen={showCancelModal}
+                    onOpenChange={setShowCancelModal}
+                    title="Cancel Subscription"
+                    description="We're sorry to see you go. Help us improve by answering two quick questions."
+                    size="md"
+                    processing={cancelSubscriptionMutation.isPending}
+                    actions={[
+                        {
+                            label: 'Keep Subscription',
+                            onClick: () => setShowCancelModal(false),
+                            variant: 'outline',
+                        },
+                        {
+                            label: 'Cancel Subscription',
+                            onClick: handleCancelSubmit,
+                            variant: 'destructive',
+                        },
+                    ]}
+                >
+                    <div className="px-4 pb-0">
+                        <form className="space-y-4">
+                            <div className="space-y-1.5">
+                                <Label htmlFor="cancelReason" className="text-sm font-medium">
+                                    Why are you cancelling? <span className="text-red-500">*</span>
+                                </Label>
+                                <Textarea
+                                    id="cancelReason"
+                                    name="cancelReason"
+                                    placeholder="Tell us what went wrong..."
+                                    className="min-h-[80px]"
+                                    value={cancelFormData.reason}
+                                    onChange={(e) =>
+                                        setCancelFormData({
+                                            ...cancelFormData,
+                                            reason: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <Label htmlFor="improvement" className="text-sm font-medium">
+                                    What can we do better? <span className="text-red-500">*</span>
+                                </Label>
+                                <Textarea
+                                    id="improvement"
+                                    name="improvement"
+                                    placeholder="Share your feedback..."
+                                    className="min-h-[80px]"
+                                    value={cancelFormData.improvement}
+                                    onChange={(e) =>
+                                        setCancelFormData({
+                                            ...cancelFormData,
+                                            improvement: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </GlobalModal>
             </div>
         </div>
     )
