@@ -26,8 +26,8 @@ import { UpgradePlanModal } from './UpgradePlanModal'
 import { Textarea } from '@/components/ui/textarea'
 import { useAuthContext } from '@/app/context/useAuthContext'
 import { LoadingButton } from './LoadingButton'
-import Image from 'next/image'
 import { MoveRight } from 'lucide-react'
+import InvoiceEmailPreview from '@/app/components/Invoice/InvoiceEmailPreview'
 
 const MAX_MESSAGE_LENGTH = 150
 
@@ -244,12 +244,10 @@ export default function EmailDrawer({
 
                         <div className="hidden md:block">
                             <p className="mt-2 text-center text-sm font-semibold">Email Preview</p>
-                            <Image
-                                src="/images/invoice_email.png"
-                                alt="Email Template"
-                                width={500}
-                                height={100}
-                                className="mt-8"
+                            <InvoiceEmailPreview
+                                invoiceId={invoiceId}
+                                clientName={formData.clientName}
+                                message={formData.message}
                             />
                         </div>
                     </div>

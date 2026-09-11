@@ -42,7 +42,7 @@ export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
     icon: Plus,
   },
   {
-    key: 'invoices',
+    key: 'my-invoices',
     label: 'My Invoices',
     href: APP_PATHS.DASHBOARD.INVOICES,
     icon: FileStack,

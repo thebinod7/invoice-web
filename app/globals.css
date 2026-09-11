@@ -87,3 +87,11 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* tailwindcss-animate enter/exit are decorative — disable for reduced-motion users */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .animate-out {
+    animation: none;
+  }
+}

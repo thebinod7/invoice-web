@@ -32,7 +32,6 @@ export default function DashboardLayout({
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-4 flex-shrink-0">
               <button
-                onClick={() => setIsCollapsed(!isCollapsed)}
                 className="cursor-pointer p-2 rounded-lg"
               >
                 <Menu className="w-4 h-4" />

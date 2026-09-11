@@ -57,3 +57,15 @@ Invomaker is a Next.js 15 (App Router) invoice generator/SaaS: public marketing 
 ### Known legacy/unused code
 
 `app/store/*.ts` (`useAppStore`, `useFilesStore`) and `app/constants/schema.ts` (`PersonalDetailsSchema`, `ContactDetailsSchema`) are leftovers from a different (passport-application) project this repo was bootstrapped from — they're about passports/personal details, not invoices, and have no importers. Don't extend or "fix" them as if they're part of the invoice domain; if touching this area, prefer deleting rather than reusing.
+
+
+## DO NOT EVER
+
+- Auto commit, let me do this
+- Hard code constants, enums, values
+
+## Commands
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm lint` - Run ESLint
