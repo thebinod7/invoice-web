@@ -1,5 +1,6 @@
-import { APP_NAME, APP_PATHS, TOOLS_LIST } from '@/app/constants'
+import { APP_NAME, APP_PATHS, LOGO_PATH, TOOLS_LIST } from '@/app/constants'
 import { FileText } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Footer2() {
@@ -10,8 +11,8 @@ export default function Footer2() {
                     <div className="grid md:grid-cols-4 gap-8">
                         <div>
                             <div className="flex items-center space-x-2 mb-4">
-                                <FileText className="h-8 w-8 text-emerald-400" />
-                                <span className="text-xl font-bold">{APP_NAME}</span>
+                                <Image className="rounded-full" src={LOGO_PATH} alt="logo" width={60} height={60} />
+                                <span className="text-xl font-bold text-white">{APP_NAME}</span>
                             </div>
                             <p className="text-gray-400 mb-4">
                                 The invoice maker that sends, tracks, and reminds. Free to get

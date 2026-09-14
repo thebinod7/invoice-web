@@ -5,11 +5,11 @@ export const APP = {
         'Create professional invoices in seconds and send them directly to clients — no signup needed. Free invoice generator trusted by freelancers and small businesses worldwide.',
 }
 
-export const APP_NAME = 'Invomaker'
+export const APP_NAME = 'invomaker'
 export const MAX_FILE_SIZE = 1
 export const MAX_FILE_SIZE_PRO = 5
 
-export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/logo.png'
+export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/invomaker.png'
 export const WEBSITE_URL = process?.env?.NEXT_PUBLIC_APP_URL
 export const APP_CATEGORY = 'Finance'
 export const GA_PUBLISHER_ID = process?.env?.NEXT_PUBLIC_GA_PUBLISHER_ID
@@ -104,3 +104,4 @@ export const DEFAULT_CURRENCY = 'USD'
 
 export const DEF_FIRST_NAME = 'User'
 export const DEF_LAST_NAME = 'Invomaker'
+export const LOGO_PATH = '/images/invomaker.png'
