@@ -1,4 +1,4 @@
-import { APP_NAME, APP_PATHS } from '@/app/constants'
+import { APP_NAME, APP_PATHS, LOGO_PATH } from '@/app/constants'
 import Image from 'next/image'
 import Link from 'next/link'
 import Profile from '../Profile'
@@ -31,12 +31,19 @@ export default function Header2() {
           hours.
         </span>
       </div> */}
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div className="container mx-auto px-4 h-16 flex justify-between items-center">
                 <Link href={'/'}>
                     <div className="flex items-center space-x-0">
                         {/* <FileText className="h-8 w-8 text-emerald-600" /> */}
-                        <Image src="/images/logo.jpg" alt="logo" width={50} height={50} />
-                        <span className="hidden md:block text-xl font-bold text-gray-900">
+                        <div className="h-10 w-10 overflow-hidden flex items-center">
+                            <Image
+                                src={LOGO_PATH}
+                                alt="logo"
+                                width={2000}
+                                height={2000}
+                                className="h-full w-full scale-150 object-contain"
+                            />
+                        </div>                      <span className="hidden md:block text-xl font-bold text-gray-900">
                             {APP_NAME}
                         </span>
                     </div>
