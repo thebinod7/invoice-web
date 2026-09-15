@@ -1,4 +1,4 @@
-import { APP_NAME, SOCIAL_LINKS } from '@/app/constants';
+import { APP_NAME, APP_PATHS, SOCIAL_LINKS } from '@/app/constants';
 import Link from 'next/link';
 import React from 'react';
 
@@ -62,7 +62,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/free-invoice-maker"
+                    href={APP_PATHS.ABOUT}
                     className="text-gray-300 hover:text-white transition-colors"
                   >
                     About Us

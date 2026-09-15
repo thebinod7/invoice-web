@@ -8,7 +8,7 @@ Disallow: /statss
 Disallow: /subscription-status
 
 # Host
-Host: https://invomaker.com
+Host: https://www.invomaker.com
 
 # Sitemaps
-Sitemap: https://invomaker.com/sitemap.xml
+Sitemap: https://www.invomaker.com/sitemap.xml

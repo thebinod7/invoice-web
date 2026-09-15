@@ -1,5 +1,6 @@
 import AdBanner from '@/app/components/AdBanner'
-import { GOOGLE_AD } from '@/app/constants'
+import SeoLanderCta from '@/app/components/SeoLanderCta'
+import { APP_PATHS, GOOGLE_AD } from '@/app/constants'
 
 export default function InvoiceGeneratorUsaCanadaPage() {
     return (
@@ -15,6 +16,8 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                     and PST. No account required, no monthly fees, and no complicated setup. Just
                     create your invoice and download a PDF in seconds.
                 </p>
+
+                <SeoLanderCta />
 
                 <div className="mt-8">
                     <AdBanner adSlotId={GOOGLE_AD.HOMEPAGE_SLOT} />
@@ -279,8 +282,21 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                 </div>
             </section>
 
+            <SeoLanderCta
+                relatedLinks={[
+                    {
+                        href: APP_PATHS.FREE_INVOICE_GENERATOR,
+                        label: 'Free invoice generator',
+                    },
+                    {
+                        href: APP_PATHS.FREELANCER_INVOICE_GENERATOR,
+                        label: 'Freelancer invoice generator',
+                    },
+                ]}
+            />
+
             {/* FAQ */}
-            <section>
+            <section className="mt-16">
                 <h2 className="mb-8 text-3xl font-semibold">Frequently Asked Questions</h2>
 
                 <div className="space-y-6">
@@ -290,7 +306,9 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         </h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            Yes. There are no subscriptions, trials, or hidden fees.
+                            Yes. US and Canadian freelancers and businesses can create and download
+                            invoices at no cost. There are no subscriptions, trials, or hidden fees
+                            to get started.
                         </p>
                     </div>
 
@@ -298,8 +316,8 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         <h3 className="font-medium">Does it support USD and CAD?</h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            Yes. You can create invoices in both US Dollars (USD) and Canadian
-                            Dollars (CAD).
+                            Yes. Choose US Dollars (USD) or Canadian Dollars (CAD) when you build
+                            the invoice. Totals and line items display in the currency you select.
                         </p>
                     </div>
 
@@ -307,7 +325,9 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         <h3 className="font-medium">Can I add GST, HST, PST, or sales tax?</h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            Yes. Tax rates can be added and calculated automatically.
+                            Yes. Enter the tax rate you need (for example GST, HST, PST, or US
+                            sales tax) and the generator calculates tax and totals for you. Adjust
+                            the rate per invoice when provinces or states differ.
                         </p>
                     </div>
 
@@ -315,8 +335,8 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         <h3 className="font-medium">Can I create invoices in both currencies?</h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            Absolutely. Each invoice is created independently, so you can use
-                            different currencies for different clients.
+                            Yes. Each invoice is independent, so you can bill one client in USD and
+                            another in CAD. Switch currency as you start each new invoice.
                         </p>
                     </div>
 
@@ -324,8 +344,9 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         <h3 className="font-medium">Is my invoice data stored?</h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            No. Your invoice data stays in your browser and is never stored on our
-                            servers.
+                            No. Invoice details stay in your browser while you work and are not
+                            stored on our servers for the free flow. Download the PDF if you need a
+                            copy after you leave the page.
                         </p>
                     </div>
 
@@ -333,8 +354,8 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         <h3 className="font-medium">Can I use this on mobile?</h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            Yes. The invoice generator works on phones, tablets, and desktop
-                            devices.
+                            Yes. The generator works on phones, tablets, and desktops, so you can
+                            issue an invoice from the office or on the go.
                         </p>
                     </div>
 
@@ -342,7 +363,8 @@ export default function InvoiceGeneratorUsaCanadaPage() {
                         <h3 className="font-medium">What format is the invoice downloaded in?</h3>
 
                         <p className="mt-2 text-muted-foreground">
-                            PDF — professional, printable, and accepted by virtually every client.
+                            Invoices download as PDF files. PDF is easy to email and print, and
+                            most US and Canadian clients accept it without extra conversion.
                         </p>
                     </div>
                 </div>

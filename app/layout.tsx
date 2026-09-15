@@ -60,7 +60,7 @@ export default function RootLayout({
                 )}
             >
                 <Providers>
-                    <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+                    {children}
                 </Providers>
                 <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
             </body>

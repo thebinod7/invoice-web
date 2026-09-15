@@ -9,8 +9,10 @@ export const APP_NAME = 'invomaker'
 export const MAX_FILE_SIZE = 1
 export const MAX_FILE_SIZE_PRO = 5
 
-export const DEFAULT_OG_IMAGE_URL = 'https://invomaker.com/images/invomaker.png'
-export const WEBSITE_URL = process?.env?.NEXT_PUBLIC_APP_URL
+export const SITE_ORIGIN =
+    process.env.NEXT_PUBLIC_APP_URL || 'https://www.invomaker.com'
+export const DEFAULT_OG_IMAGE_URL = `${SITE_ORIGIN}/images/invomaker.png`
+export const WEBSITE_URL = SITE_ORIGIN
 export const APP_CATEGORY = 'Finance'
 export const GA_PUBLISHER_ID = process?.env?.NEXT_PUBLIC_GA_PUBLISHER_ID
 
@@ -22,23 +24,20 @@ export const GOOGLE_AD = {
 }
 
 export const DEFAULT_METADATA = {
-    metadataBase: new URL(process?.env?.NEXT_PUBLIC_APP_URL || 'https://invomaker.com'),
+    metadataBase: new URL(SITE_ORIGIN),
 }
-
-export const NAV_LINKS = [
-    { href: '/support', label: 'Support' },
-    { href: '/faq', label: 'FAQs' },
-    { href: '/free-invoice-maker', label: 'About Us' },
-]
 
 export const APP_PATHS = {
     AUTH: '/auth',
     SIGNUP: '/signup',
     HOME: '/',
-    ABOUT: '/about',
+    ABOUT: '/free-invoice-maker',
     BLOG: '/blog',
     PRICING: '/pricing',
     CREATE_INVOICE: '/create-invoice',
+    FREE_INVOICE_GENERATOR: '/free-invoice-generator',
+    FREELANCER_INVOICE_GENERATOR: '/freelancer-invoice-generator',
+    CONSULTANT_INVOICE_GENERATOR: '/consultant-invoice-generator',
     SERVICES: '/services',
     CONTACT: '/contact',
     DASHBOARD: {
@@ -54,6 +53,12 @@ export const APP_PATHS = {
         SUBSCRIPTION: '/dashboard/subscription',
     },
 }
+
+export const NAV_LINKS = [
+    { href: '/support', label: 'Support' },
+    { href: '/faq', label: 'FAQs' },
+    { href: APP_PATHS.ABOUT, label: 'About Us' },
+]
 
 export const SONNER_CONFIG = {
     duration: 5000, // 5 seconds

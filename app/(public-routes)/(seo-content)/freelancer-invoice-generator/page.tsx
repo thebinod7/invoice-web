@@ -1,7 +1,8 @@
 // app/freelancer-invoice-generator/page.tsx
 
 import AdBanner from '@/app/components/AdBanner'
-import { GOOGLE_AD } from '@/app/constants'
+import SeoLanderCta from '@/app/components/SeoLanderCta'
+import { APP_PATHS, GOOGLE_AD } from '@/app/constants'
 
 export default function FreelancerInvoiceGeneratorPage() {
     return (
@@ -17,6 +18,8 @@ export default function FreelancerInvoiceGeneratorPage() {
                     professional freelancer invoice in under a minute; no account, no subscription,
                     no watermarks.
                 </p>
+
+                <SeoLanderCta />
 
                 <div className="mt-8">
                     <AdBanner adSlotId={GOOGLE_AD.HOMEPAGE_SLOT} />
@@ -240,52 +243,73 @@ export default function FreelancerInvoiceGeneratorPage() {
                 </div>
             </section>
 
+            <SeoLanderCta
+                relatedLinks={[
+                    {
+                        href: APP_PATHS.FREE_INVOICE_GENERATOR,
+                        label: 'Free invoice generator',
+                    },
+                    {
+                        href: APP_PATHS.CONSULTANT_INVOICE_GENERATOR,
+                        label: 'Consultant invoice generator',
+                    },
+                ]}
+            />
+
             {/* FAQ */}
-            <section>
+            <section className="mt-16">
                 <h2 className="mb-8 text-3xl font-semibold">Frequently Asked Questions</h2>
 
                 <div className="space-y-6">
                     <div>
                         <h3 className="font-medium">Is this freelancer invoice generator free?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. No subscriptions, no trials, and no hidden fees.
+                            Yes. Freelancers can create and download invoices without paying for a
+                            plan. There are no subscriptions, trials, or hidden fees to start
+                            billing clients.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Do I need an account?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            No. Open the page, create your invoice, and download it.
+                            No. Open the page, fill in your work and client details, then download
+                            the PDF. Sign up later only if you want saved invoices or client
+                            history.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I charge hourly or by project?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. Hourly work, fixed-price projects, retainers, and day rates are all
-                            supported.
+                            Yes. Add line items for hourly work, fixed-price projects, retainers,
+                            or day rates. Mix billing styles on the same invoice when a job spans
+                            more than one arrangement.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I add tax?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. GST, VAT, and sales tax calculations are supported.
+                            Yes. GST, VAT, and sales tax rates can be applied so totals update
+                            automatically. Use the rate your client or local rules require.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Is my data private?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. Invoice data stays in your browser and is never stored on our
-                            servers.
+                            Invoice data stays in your browser while you build the document and is
+                            not stored on our servers for the free flow. Keep a local PDF if you
+                            need a record after you leave the page.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I use it on mobile?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Absolutely. It works on phones, tablets, and desktops.
+                            Yes. The generator works on phones, tablets, and desktops, so you can
+                            send an invoice between client calls or from a laptop at home.
                         </p>
                     </div>
                 </div>

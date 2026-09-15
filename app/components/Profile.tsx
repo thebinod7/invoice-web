@@ -2,7 +2,7 @@
 
 import { ChevronDown } from 'lucide-react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { APP_PATHS } from '../constants'
 import { useAuthContext } from '../context/useAuthContext'
 import PulseLoader from '@/ui/PulseLoader'
@@ -24,7 +24,7 @@ const MENU_ITEMS = [
     },
 ]
 
-export default function Profile({}) {
+function Profile() {
     const searchParams = useSearchParams()
     const refCode = searchParams.get('refCode')
 
@@ -50,7 +50,7 @@ export default function Profile({}) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [])
+    }, [refCode])
 
     const handleItemClick = () => {
         setIsDropdownOpen(false)
@@ -106,5 +106,13 @@ export default function Profile({}) {
                 </div>
             )}
         </div>
+    )
+}
+
+export default function SuspendedProfile() {
+    return (
+        <Suspense fallback={<PulseLoader />}>
+            <Profile />
+        </Suspense>
     )
 }

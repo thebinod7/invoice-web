@@ -5,6 +5,7 @@ export const metadata: Metadata = buildPublicPageMetadata({
     title: 'Free Freelancer Invoice Generator — Create & Download PDF Instantly',
     description:
         'Generate professional freelancer invoices in seconds. No sign up, no account, no fees. Download as PDF and get paid faster.',
+    path: '/freelancer-invoice-generator',
 })
 export default function FreelancerInvoiceGeneratorLayout({
     children,

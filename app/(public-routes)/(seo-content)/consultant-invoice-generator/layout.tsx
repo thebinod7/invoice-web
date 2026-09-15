@@ -5,6 +5,7 @@ export const metadata: Metadata = buildPublicPageMetadata({
     title: 'Free Consultant Invoice Generator — Hourly, Retainer & Project Billing',
     description:
         'Create professional consulting invoices in seconds. Bill by hour, project, milestone, or retainer. Free, no sign up, instant PDF download.',
+    path: '/consultant-invoice-generator',
 })
 
 export default function ConsultantInvoiceGeneratorLayout({
