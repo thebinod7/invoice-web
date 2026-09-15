@@ -119,7 +119,7 @@ export default function Footer2() {
                                 </li>
                                 <li>
                                     <Link
-                                        href="/free-invoice-maker"
+                                        href={APP_PATHS.ABOUT}
                                         className="hover:text-white transition-colors"
                                     >
                                         About Us

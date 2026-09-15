@@ -1,29 +1,13 @@
-import { DEFAULT_METADATA, DEFAULT_OG_IMAGE_URL } from '@/app/constants';
 import { Metadata } from 'next';
+import { buildPublicPageMetadata } from '../../public-page-metadata';
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const title = 'Free Invoice Generator – Create Online Invoices Instantly';
-  const description =
-    'Online bill generator, invoice maker, free invoice generator';
-  return {
-    ...DEFAULT_METADATA,
-    title,
-    description,
-    openGraph: {
-      type: 'website',
-      url: process?.env?.NEXT_PUBLIC_APP_URL,
-      title,
-      description,
-      images: [
-        {
-          url: DEFAULT_OG_IMAGE_URL,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-    },
-  };
+  return buildPublicPageMetadata({
+    title: 'About Us | Invomaker',
+    description:
+      'Learn about Invomaker — a simple invoicing tool for freelancers and small businesses. Our mission is to make creating and sending professional invoices fast and accessible.',
+    path: '/free-invoice-maker',
+  });
 };
 
 export default function About() {
@@ -38,45 +22,43 @@ export default function About() {
           <div className="space-y-8">
             <section>
               <p className="text-gray-600">
-                Welcome to our free invoice generator a simple, fast, and
-                hassle-free way to create professional invoices. Whether you're
-                a freelancer, small business owner, or just someone who needs a
-                quick invoice, we've built this tool to save you time and
-                effort.
+                Invomaker is a simple invoicing product for freelancers and
+                small businesses. We built it so you can create, send, and track
+                professional invoices without wrestling with spreadsheets or
+                bloated accounting software.
               </p>
             </section>
 
             <section>
               <p className="text-gray-600 mt-3">
-                You don't need to sign up or create an account to use our
-                service. Just visit the site, fill in your details, and download
-                your invoice within minutes. No hidden fees or catches for basic
-                usage, just straightforward invoicing when you need it.
+                You can start without an account for basic use, or sign up when
+                you want history, clients, and reminders. No catch for getting
+                started: fill in your details, download a PDF, and send it when
+                you are ready.
               </p>
               <p className="text-gray-600 mt-3">
-                Our invoice generator supports custom logos, personalized text,
-                multiple currencies, and adjustable tax and discount options.
-                It’s designed to be flexible so it works for a wide range of
-                business needs and preferences.
+                The product supports custom logos, multiple currencies, tax and
+                discount options, and the extras that come with a paid plan when
+                your volume grows. We keep the interface focused so the job stays
+                quick.
               </p>
               <p className="text-gray-600 mt-3">
-                We're passionate about making invoicing easier and more
-                accessible for everyone. If you have feedback or suggestions,
-                we’re always open to improving. Thanks for using our tool!
+                We care about making invoicing easier and more accessible. If
+                something is unclear or missing, tell us. Feedback shapes what we
+                ship next.
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-gray-800 mb-3">
-                Aiming
+                What we are building toward
               </h2>
               <p className="text-gray-600">
-                We're constantly working behind the scenes to improve our tool
-                and add new features that make invoicing even more seamless.
-                From design enhancements to smarter functionality, our goal is
-                to evolve based on your needs and feedback. This is just the
-                beginning, and with your support, we aim to make this the most
-                user-friendly and reliable invoice generator out there.
+                We keep improving the product based on how people actually
+                invoice: clearer flows, better tracking, and features that remove
+                busywork. This is early, and with your support we aim to stay the
+                straightforward option freelancers reach for when they need to
+                get paid.
               </p>
             </section>
           </div>

@@ -1,32 +1,37 @@
 module.exports = {
-    siteUrl: 'https://invomaker.com',
+    siteUrl: 'https://www.invomaker.com',
     generateRobotsTxt: false,
     sitemapSize: 7000,
 
     exclude: [
-        // Dashboard (all subpaths)
+        // Dashboard (belt-and-suspenders with transform null)
         '/dashboard',
-        '/dashboard/subscription',
-        '/dashboard/profile',
-        '/dashboard/feedback',
-        '/dashboard/my-referrals',
-        '/dashboard/invoices',
-        '/dashboard/my-invoices',
-        '/dashboard/my-usage',
+        '/dashboard/*',
 
         // Auth & admin
         '/admin',
         '/auth',
         '/signup',
+        '/magic-login',
+        '/magic-login/*',
 
         // Utility / no SEO value
         '/thanks',
         '/statss',
         '/releases',
         '/advertise',
+        '/subscription-status',
+        '/invoice-builder',
+        '/edit-invoice',
+        '/edit-invoice/*',
     ],
 
     transform: async (config, path) => {
+        // Drop any dashboard route that slipped past exclude
+        if (path.startsWith('/dashboard')) {
+            return null
+        }
+
         // Priority + changefreq by page type
         const rules = [
             {
@@ -36,12 +41,7 @@ module.exports = {
             },
             {
                 match: (p) =>
-                    [
-                        '/free-invoice-generator',
-                        '/free-invoice-maker',
-                        '/invoice-builder',
-                        '/create-invoice',
-                    ].includes(p),
+                    ['/free-invoice-generator', '/create-invoice'].includes(p),
                 priority: 0.9,
                 changefreq: 'weekly',
             },
@@ -66,7 +66,15 @@ module.exports = {
                 changefreq: 'weekly',
             },
             {
-                match: (p) => ['/faq', '/pricing', '/contact', '/support', '/tools'].includes(p),
+                match: (p) =>
+                    [
+                        '/faq',
+                        '/pricing',
+                        '/contact',
+                        '/support',
+                        '/tools',
+                        '/free-invoice-maker',
+                    ].includes(p),
                 priority: 0.5,
                 changefreq: 'monthly',
             },

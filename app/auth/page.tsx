@@ -11,7 +11,7 @@ import {
   Mail,
 } from 'lucide-react';
 import Link from 'next/link';
-import { useState, type FormEvent } from 'react';
+import { Suspense, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { APP_PATHS } from '../constants';
 import { API_ROUTES } from '../constants/api-routes';
@@ -19,7 +19,7 @@ import { emailValidator, sanitizeError } from '../helpers';
 import { postRequest } from '../helpers/request';
 import { useSearchParams } from 'next/navigation';
 
-export default function MagicLinkLogin() {
+function MagicLinkLogin() {
   const searchParams = useSearchParams();
   const session = searchParams.get('session');
 
@@ -177,5 +177,13 @@ export default function MagicLinkLogin() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={null}>
+      <MagicLinkLogin />
+    </Suspense>
   );
 }

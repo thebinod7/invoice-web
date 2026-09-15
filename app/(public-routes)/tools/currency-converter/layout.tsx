@@ -4,6 +4,7 @@ export const metadata = buildPublicPageMetadata({
   title: 'Currency converter — live exchange rates | Invomaker',
   description:
     'Convert amounts between major world currencies using up-to-date rates. Quick tool for invoices and international clients.',
+  path: '/tools/currency-converter',
 });
 
 export default function CurrencyConverterLayout({

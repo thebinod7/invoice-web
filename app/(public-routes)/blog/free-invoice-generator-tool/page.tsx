@@ -1,54 +1,23 @@
 import AdBanner from '@/app/components/AdBanner';
-import {
-  APP_CATEGORY,
-  DEFAULT_OG_IMAGE_URL,
-  GOOGLE_AD,
-  SEO_KEYWORDS,
-  WEBSITE_URL,
-} from '@/app/constants';
+import { APP_CATEGORY, GOOGLE_AD, SEO_KEYWORDS } from '@/app/constants';
 import { BLOG_ARTICLES } from '@/app/constants/db';
 import { Calendar, Clock, Tag, TagIcon, User } from 'lucide-react';
 import { Metadata } from 'next';
+import { buildPublicPageMetadata } from '../../public-page-metadata';
 
 const article = BLOG_ARTICLES.find(
   (f) => f.slug === 'free-invoice-generator-tool'
 );
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const metaTitle = article?.title;
-  const metaDescription = article?.excerpt;
   return {
-    title: metaTitle,
-    description: metaDescription,
+    ...buildPublicPageMetadata({
+      title: article?.title ?? '',
+      description: article?.excerpt ?? '',
+      path: `/blog/${article?.slug}`,
+    }),
     keywords: SEO_KEYWORDS,
     category: APP_CATEGORY,
-    openGraph: {
-      type: 'website',
-      url: `${WEBSITE_URL}/blog/${article?.slug}`,
-      title: metaTitle,
-      description: metaDescription,
-      images: [
-        {
-          url: DEFAULT_OG_IMAGE_URL,
-          width: 1200,
-          height: 630,
-          alt: metaTitle,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: metaTitle,
-      description: metaDescription,
-      images: [
-        {
-          url: DEFAULT_OG_IMAGE_URL,
-          width: 1200,
-          height: 630,
-          alt: metaTitle,
-        },
-      ],
-    },
   };
 };
 

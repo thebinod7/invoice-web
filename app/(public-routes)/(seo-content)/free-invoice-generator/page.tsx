@@ -1,5 +1,6 @@
 import AdBanner from '@/app/components/AdBanner'
-import { GOOGLE_AD } from '@/app/constants'
+import SeoLanderCta from '@/app/components/SeoLanderCta'
+import { APP_PATHS, GOOGLE_AD } from '@/app/constants'
 
 export default function FreeInvoiceGeneratorPage() {
     return (
@@ -15,6 +16,8 @@ export default function FreeInvoiceGeneratorPage() {
                     line items, and download a clean PDF completely free, with no account needed and
                     no strings attached.
                 </p>
+
+                <SeoLanderCta />
 
                 <div className="mt-8">
                     <AdBanner adSlotId={GOOGLE_AD.HOMEPAGE_SLOT} />
@@ -213,76 +216,108 @@ export default function FreeInvoiceGeneratorPage() {
                 </div>
             </section>
 
+            <SeoLanderCta
+                relatedLinks={[
+                    {
+                        href: APP_PATHS.FREELANCER_INVOICE_GENERATOR,
+                        label: 'Freelancer invoice generator',
+                    },
+                    {
+                        href: APP_PATHS.CONSULTANT_INVOICE_GENERATOR,
+                        label: 'Consultant invoice generator',
+                    },
+                ]}
+            />
+
             {/* FAQ */}
-            <section className="mb-16">
+            <section className="mb-16 mt-16">
                 <h2 className="mb-6 text-3xl font-semibold">Frequently Asked Questions</h2>
 
                 <div className="space-y-6">
                     <div>
                         <h3 className="font-medium">Is this invoice generator really free?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. No subscriptions, no trials, and no credit card required.
+                            Yes. You can create and download professional invoices at no cost.
+                            There are no subscriptions, trials, or credit card prompts to get
+                            started.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Do I need to create an account?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            No. The tool works entirely in your browser.
+                            No. The tool runs entirely in your browser, so you can fill in details
+                            and export a PDF without signing up. An account is optional if you later
+                            want to save invoices or manage clients.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Will my invoice have any watermarks?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            No. Your PDF contains only your branding.
+                            No. Downloaded PDFs show only your branding and invoice content. We do
+                            not stamp free-tier watermarks on the file you send to clients.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Is my data safe?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Your invoice data stays in your browser and is never stored on our
-                            servers.
+                            Invoice details stay in your browser while you work and are not stored
+                            on our servers for the free generator flow. Download your PDF when you
+                            are done if you need a lasting copy.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I add my logo?</h3>
-                        <p className="mt-2 text-muted-foreground">Yes.</p>
+                        <p className="mt-2 text-muted-foreground">
+                            Yes. Upload your logo so it appears on the invoice and in the
+                            downloaded PDF. That helps the document look like it came from your
+                            business, not a generic template.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I add tax?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. GST, VAT, sales tax, and other tax rates are supported.
+                            Yes. You can set GST, VAT, sales tax, or other rates and have totals
+                            calculate automatically. Adjust the rate per invoice when clients or
+                            regions differ.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">What currencies are supported?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            USD, EUR, GBP, NPR, INR, AUD, and more.
+                            Common options include USD, EUR, GBP, NPR, INR, and AUD, along with
+                            other currencies in the selector. Pick the currency that matches how
+                            your client pays.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I save my invoice to edit later?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Download your PDF before leaving the page. For invoice management,
-                            create a free account.
+                            Download your PDF before you leave the page if you need a copy. For
+                            editing history, client lists, and ongoing invoice management, create a
+                            free account.
                         </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">What format is the invoice downloaded in?</h3>
-                        <p className="mt-2 text-muted-foreground">PDF.</p>
+                        <p className="mt-2 text-muted-foreground">
+                            Invoices download as PDF files. PDF is easy to email, print, and share,
+                            and most clients and accounting tools accept it without conversion.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Is it mobile friendly?</h3>
                         <p className="mt-2 text-muted-foreground">
-                            Yes. Works on phones, tablets, and desktops.
+                            Yes. The layout works on phones, tablets, and desktops, so you can
+                            create or adjust an invoice from wherever you are working.
                         </p>
                     </div>
                 </div>

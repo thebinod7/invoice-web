@@ -15,44 +15,18 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import AdBanner from '../components/AdBanner'
 import HomeHero from '../components/HomeHero'
-import { APP, DEFAULT_METADATA, DEFAULT_OG_IMAGE_URL, GOOGLE_AD, SEO_KEYWORDS } from '../constants'
+import { APP, GOOGLE_AD, SEO_KEYWORDS } from '../constants'
 import ZohoInvoiceComparisonTable from '../components/ZohoInvoiceCompare'
+import { buildPublicPageMetadata } from './public-page-metadata'
 
 export const generateMetadata = async (): Promise<Metadata> => {
-    const title = APP.TITLE
-    const description = APP.DESCRIPTION
     return {
-        ...DEFAULT_METADATA,
-        title,
-        description,
+        ...buildPublicPageMetadata({
+            title: APP.TITLE,
+            description: APP.DESCRIPTION,
+            path: '/',
+        }),
         keywords: SEO_KEYWORDS,
-        openGraph: {
-            type: 'website',
-            url: process?.env?.NEXT_PUBLIC_APP_URL,
-            title,
-            description,
-            images: [
-                {
-                    url: DEFAULT_OG_IMAGE_URL,
-                    width: 1200,
-                    height: 630,
-                    alt: title,
-                },
-            ],
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title,
-            description,
-            images: [
-                {
-                    url: DEFAULT_OG_IMAGE_URL,
-                    width: 1200,
-                    height: 630,
-                    alt: title,
-                },
-            ],
-        },
     }
 }
 

@@ -1,5 +1,6 @@
 import AdBanner from '@/app/components/AdBanner'
-import { GOOGLE_AD } from '@/app/constants'
+import SeoLanderCta from '@/app/components/SeoLanderCta'
+import { APP_PATHS, GOOGLE_AD } from '@/app/constants'
 
 export default function ConsultantInvoiceGeneratorPage() {
     return (
@@ -15,6 +16,8 @@ export default function ConsultantInvoiceGeneratorPage() {
                     milestone-based, or on a retainer. Create a clean, professional invoice in under
                     a minute and download it as a PDF. No account, no fees.
                 </p>
+
+                <SeoLanderCta />
 
                 <div className="mt-8">
                     <AdBanner adSlotId={GOOGLE_AD.HOMEPAGE_SLOT} />
@@ -217,39 +220,75 @@ export default function ConsultantInvoiceGeneratorPage() {
                 </div>
             </section>
 
+            <SeoLanderCta
+                relatedLinks={[
+                    {
+                        href: APP_PATHS.FREE_INVOICE_GENERATOR,
+                        label: 'Free invoice generator',
+                    },
+                    {
+                        href: APP_PATHS.FREELANCER_INVOICE_GENERATOR,
+                        label: 'Freelancer invoice generator',
+                    },
+                ]}
+            />
+
             {/* FAQ */}
-            <section>
+            <section className="mt-16">
                 <h2 className="mb-8 text-3xl font-semibold">Frequently Asked Questions</h2>
 
                 <div className="space-y-6 text-muted-foreground">
                     <div>
                         <h3 className="font-medium">Is this consultant invoice generator free?</h3>
-                        <p>Yes. No signup, no subscription, no fees.</p>
+                        <p>
+                            Yes. Create and download consultant invoices with no signup,
+                            subscription, or fees. You can bill clients right away without a paid
+                            plan.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I bill hourly, project, or retainer?</h3>
-                        <p>Yes. All billing models are supported as line items.</p>
+                        <p>
+                            Yes. Add line items for hourly fees, fixed project work, or retainers.
+                            Use one invoice for a single engagement or combine models when the
+                            scope calls for it.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I include a PO number?</h3>
-                        <p>Yes. Add it in the reference or PO field on your invoice.</p>
+                        <p>
+                            Yes. Enter the purchase order or reference number in the PO field so
+                            it appears on the PDF. That helps client AP teams match your invoice to
+                            their internal approval.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Can I add expenses?</h3>
-                        <p>Yes. Expenses can be added as separate line items.</p>
+                        <p>
+                            Yes. List travel, materials, or other billable costs as separate line
+                            items with their own amounts. Clients see a clear breakdown next to
+                            your professional fees.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Is my data stored?</h3>
-                        <p>No. Everything stays in your browser.</p>
+                        <p>
+                            No. Details stay in your browser while you work on the invoice and are
+                            not saved on our servers for the free generator. Download the PDF if
+                            you need a lasting copy.
+                        </p>
                     </div>
 
                     <div>
                         <h3 className="font-medium">Does it work on mobile?</h3>
-                        <p>Yes. Fully responsive on all devices.</p>
+                        <p>
+                            Yes. The page adapts to phones, tablets, and desktops, so you can issue
+                            an invoice from the office or while traveling between client sites.
+                        </p>
                     </div>
                 </div>
             </section>

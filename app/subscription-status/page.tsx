@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { AlertCircle, Check } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -11,10 +12,9 @@ const PAYMENT_STATUS = {
     ACTIVE: 'active',
 }
 
-export default function SubscriptionSuccessPage() {
+function SubscriptionSuccessPage() {
     const searchParams = useSearchParams()
     const status = searchParams.get('status')
-    console.log('searchParams', status)
 
     const router = useRouter()
 
@@ -236,5 +236,13 @@ export default function SubscriptionSuccessPage() {
                 </div>
             </div>
         </main>
+    )
+}
+
+export default function SubscriptionStatusPage() {
+    return (
+        <Suspense fallback={null}>
+            <SubscriptionSuccessPage />
+        </Suspense>
     )
 }
