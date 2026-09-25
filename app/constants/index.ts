@@ -67,6 +67,7 @@ export const SONNER_CONFIG = {
 export const SOCIAL_LINKS = {
     FACEBOOK: 'https://www.facebook.com/profile.php?id=61575665694124',
     YOUTUBE: 'https://www.youtube.com/@invomaker',
+    DEMO_VIDEO_LINK: "https://youtu.be/vVTL-_WfFDU?si=_u2QQ7-c90wmSlCW"
 }
 
 export const TOOLS_LIST = {
@@ -109,4 +110,4 @@ export const DEFAULT_CURRENCY = 'USD'
 
 export const DEF_FIRST_NAME = 'User'
 export const DEF_LAST_NAME = 'Invomaker'
-export const LOGO_PATH = '/images/invomaker.png'
+export const LOGO_PATH = '/images/logo_invomaker.png'

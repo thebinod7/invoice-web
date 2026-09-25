@@ -14,7 +14,7 @@ import {
 import { Metadata } from 'next'
 import Link from 'next/link'
 import AdBanner from '../components/AdBanner'
-import HomeHero from '../components/HomeHero'
+import HomeHeroV2 from '../components/HomeHeroV2'
 import { APP, GOOGLE_AD, SEO_KEYWORDS } from '../constants'
 import ZohoInvoiceComparisonTable from '../components/ZohoInvoiceCompare'
 import { buildPublicPageMetadata } from './public-page-metadata'
@@ -34,7 +34,7 @@ export default function LandingPage() {
     return (
         <div className="min-h-screen bg-white">
             <div className="mx-0 sm:mx-5 md:mx-8 lg:mx-20 xl:mx-24 2xl:mx-28">
-                <HomeHero />
+                <HomeHeroV2 />
 
                 {/* Features Section */}
                 <section
