@@ -149,7 +149,7 @@ export default function InvoiceGeneratorV3({
     <>
       <UpgradePlanModal showModal={showModal} setShowModal={setShowModal} />
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gray-50/80 py-4 sm:py-8 lg:py-10 px-3 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
             {/* Header Section - Fully Responsive */}
@@ -168,30 +168,31 @@ export default function InvoiceGeneratorV3({
                   </h3>
                 </div>
                 <div className="p-6">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+                  <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-3 lg:gap-4">
                     {/* Logo Upload - Full width on mobile */}
-                    <div className="lg:col-span-1">
-                      <label className="text-sm font-medium text-slate-700 mb-3 block">
+                    <div className="flex min-w-0 flex-col gap-1.5 lg:col-span-1">
+                      <label className="flex min-h-6 items-center text-[11px] font-semibold uppercase tracking-wide text-gray-500">
                         Company Logo
                       </label>
-                      <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 sm:p-6 text-center hover:border-blue-400 transition-colors duration-200">
+                      <div className="flex min-h-0 flex-1 flex-col items-center justify-center rounded-lg border border-dashed border-gray-200 bg-gray-50/80 p-3 text-center transition-colors duration-150 hover:border-emerald-300 hover:bg-emerald-50/30 sm:p-4">
                         {currentInvoice?.companyLogoUrl ? (
-                          <div className="relative">
+                          <div className="relative inline-block">
                             <img
                               src={
                                 currentInvoice.companyLogoUrl ||
                                 '/placeholder.svg'
                               }
                               alt="Logo preview"
-                              className="max-h-20 sm:max-h-24 mx-auto rounded-lg"
+                              className="mx-auto max-h-14 rounded-md sm:max-h-16"
                             />
                             <button
-                              className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center"
+                              type="button"
+                              className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-white transition-colors hover:bg-gray-700"
                               onClick={clearUploadedLogo}
                             >
-                              <X className="h-3 w-3" />
+                              <X className="h-2.5 w-2.5" />
                             </button>
-                            <p className="text-xs text-slate-600 mt-2 truncate">
+                            <p className="mt-1.5 max-w-[10rem] truncate text-[11px] text-gray-500">
                               {getFilenameFromS3Url(
                                 currentInvoice?.companyLogoUrl || ''
                               )}
@@ -199,24 +200,29 @@ export default function InvoiceGeneratorV3({
                           </div>
                         ) : (
                           <div className="space-y-2">
-                            <Upload className="h-6 w-6 sm:h-8 sm:w-8 text-slate-400 mx-auto" />
+                            <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-100">
+                              <Upload className="h-3.5 w-3.5 text-gray-500" />
+                            </div>
                             <div>
                               {isProcessing ? (
                                 <MiniLoader />
                               ) : (
-                                <button className="relative bg-transparent border border-slate-300 hover:bg-slate-50 px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-slate-700">
+                                <button
+                                  type="button"
+                                  className="relative rounded-md border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-medium text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
+                                >
                                   <input
                                     max={getMaxFileSizeInBytes(isPremium)}
                                     type="file"
                                     onChange={handleLogoChange}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                     accept="image/png, image/jpeg, image/jpg"
                                   />
                                   Choose File
                                 </button>
                               )}
                             </div>
-                            <p className="text-xs text-slate-500">
+                            <p className="text-[11px] text-gray-500">
                               PNG, JPG up to{' '}
                               {isPremium ? MAX_FILE_SIZE_PRO : MAX_FILE_SIZE} MB
                             </p>
