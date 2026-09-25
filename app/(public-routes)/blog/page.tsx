@@ -49,7 +49,7 @@ export default function page() {
         </header>
 
         {/* Filters Section */}
-        <section className="border-b border-gray-100 bg-gray-50/80 py-8 lg:py-10">
+        <section className="border-b border-gray-100 bg-white py-8 lg:py-10">
           <div className="container mx-auto px-4">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               {/* Search Input */}

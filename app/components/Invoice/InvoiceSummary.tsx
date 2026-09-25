@@ -1,6 +1,9 @@
 import { calculatePercentAmountOfTotal, formatCurrency } from '@/app/helpers'
 import React from 'react'
 
+const inputClass =
+    'w-16 h-8 px-2 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg transition-colors duration-150 hover:border-gray-300 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20'
+
 export default function InvoiceSummary({
     tax,
     discount,
@@ -10,22 +13,20 @@ export default function InvoiceSummary({
     handleInputChange,
 }: any) {
     return (
-        <div className="mt-8">
-            <div className="border-t border-stone-100 pt-5 space-y-1">
-                {/* Subtotal */}
-                <div className="flex justify-between items-center py-2">
-                    <span className="text-[11px] font-medium tracking-widest text-stone-500 uppercase">
+        <div className="mt-6 sm:mt-8">
+            <div className="ml-auto w-full space-y-1 rounded-xl border border-gray-100 bg-gray-50/50 p-4 sm:max-w-sm sm:p-5">
+                <div className="flex items-center justify-between py-2">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                         Subtotal
                     </span>
-                    <span className="text-sm font-medium text-stone-800">
+                    <span className="text-sm font-medium tabular-nums text-gray-900">
                         {formatCurrency(subTotal, currencySymbol)}
                     </span>
                 </div>
 
-                {/* Discount */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
+                <div className="flex flex-col gap-2 border-t border-gray-100 py-2.5 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-2">
-                        <label className="text-[11px] tracking-widest text-stone-400 uppercase">
+                        <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                             Discount %
                         </label>
                         <input
@@ -33,30 +34,24 @@ export default function InvoiceSummary({
                             name="discount"
                             value={discount}
                             onChange={(e) => handleInputChange(e)}
-                            className="w-16 h-8 px-2 text-xs text-stone-800 bg-stone-50 hover:bg-white border border-stone-200 rounded-md transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                            className={inputClass}
                             placeholder="0"
                             min="0"
                             step="0.1"
                         />
                     </div>
-                    <div className="flex justify-between sm:justify-end items-center gap-4">
-                        <span className="text-[11px] font-medium tracking-widest text-stone-500 uppercase">
-                            Discount
-                        </span>
-                        <span className="text-xs font-medium text-emerald-700">
-                            -
-                            {formatCurrency(
-                                calculatePercentAmountOfTotal(subTotal, discount || 0),
-                                currencySymbol,
-                            )}
-                        </span>
-                    </div>
+                    <span className="text-sm font-medium tabular-nums text-emerald-700">
+                        -
+                        {formatCurrency(
+                            calculatePercentAmountOfTotal(subTotal, discount || 0),
+                            currencySymbol,
+                        )}
+                    </span>
                 </div>
 
-                {/* Tax */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 py-2">
+                <div className="flex flex-col gap-2 border-t border-gray-100 py-2.5 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-2">
-                        <label className="text-[11px] tracking-widest text-stone-400 uppercase">
+                        <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                             Tax %
                         </label>
                         <input
@@ -64,32 +59,26 @@ export default function InvoiceSummary({
                             name="tax"
                             value={tax}
                             onChange={(e) => handleInputChange(e)}
-                            className="w-16 h-8 px-2 text-xs text-stone-800 bg-stone-50 hover:bg-white border border-stone-200 rounded-md transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                            className={inputClass}
                             placeholder="0"
                             min="0"
                             step="0.1"
                         />
                     </div>
-                    <div className="flex justify-between sm:justify-end items-center gap-4">
-                        <span className="text-[11px] font-medium tracking-widest text-stone-500 uppercase">
-                            Tax
-                        </span>
-                        <span className="text-xs font-medium text-stone-800">
-                            {formatCurrency(
-                                calculatePercentAmountOfTotal(subTotal, tax || 0),
-                                currencySymbol,
-                            )}
-                        </span>
-                    </div>
+                    <span className="text-sm font-medium tabular-nums text-gray-900">
+                        {formatCurrency(
+                            calculatePercentAmountOfTotal(subTotal, tax || 0),
+                            currencySymbol,
+                        )}
+                    </span>
                 </div>
 
-                {/* Total */}
-                <div className="border-t border-stone-100 pt-4 mt-2">
-                    <div className="flex justify-between items-center">
-                        <span className="text-[11px] font-medium tracking-widest text-stone-500 uppercase">
+                <div className="mt-1 border-t border-gray-200 pt-3">
+                    <div className="flex items-center justify-between gap-4">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                             Total
                         </span>
-                        <span className="text-xl font-medium text-stone-900 tracking-tight">
+                        <span className="text-xl font-semibold tabular-nums tracking-tight text-gray-900">
                             {formatCurrency(grandTotal, currencySymbol)}
                         </span>
                     </div>
