@@ -35,6 +35,9 @@ import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
+const inputClass =
+    'w-full h-9 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-900 placeholder:text-gray-400 transition-colors duration-150 hover:border-gray-300 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/20'
+
 export default function page() {
     //=====================================================
     const { isLoggedIn, isPremium } = useAuthContext()
@@ -127,41 +130,6 @@ export default function page() {
     ) => {
         const { name, value } = e.target
         setCurrentInvoice((prev: any) => ({ ...prev, [name]: value }))
-    }
-
-    const handleFetchByPrompt = async () => {
-        try {
-            if (!isLoggedIn) return toast.error('You must be logged in to use AI feature.')
-            const prompt = aiPrompt.trim()
-            if (!prompt) {
-                return toast.error('Please describe the invoice you want to create')
-            }
-            setFetchingInvoice(true)
-            toast.loading('Preparing your invoice...')
-            const response: any = await postRequest(`${API_ROUTES.INVOICES}/generate-with-ai`, {
-                prompt,
-            })
-            toast.dismiss()
-            setAiPrompt('')
-            const resData = response?.data?.result || null
-            if (resData) {
-                setCurrentInvoice({
-                    ...currentInvoice,
-                    ...resData,
-                })
-                setFetchingInvoice(false)
-                return toast.success('Invoice details filled successfully')
-            } else toast.error('Failed to fill invoice details')
-            setFetchingInvoice(false)
-        } catch (err: any) {
-            toast.dismiss()
-            setFetchingInvoice(false)
-            if (err?.response?.status === 403) {
-                return setShowModal(true)
-            }
-            const errorMsg = sanitizeError(err)
-            toast.error(errorMsg)
-        }
     }
 
     const updateListItem = (index: number, field: string, value: string) => {
@@ -265,86 +233,89 @@ export default function page() {
         <>
             <UpgradePlanModal showModal={showModal} setShowModal={setShowModal} />
 
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
-                <div className="max-w-5xl mx-auto">
-                    <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl border border-slate-200/60 overflow-hidden">
-                        {/* Header Section - Fully Responsive */}
+            <div className="min-h-screen bg-gray-50/80 py-4 sm:py-8 lg:py-10 px-3 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-5xl xl:max-w-6xl">
+                    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm sm:rounded-2xl">
                         <InvoiceHeaderSection
                             currency={currentInvoice?.currency}
                             handleInputChange={handleInputChange}
                         />
 
-                        {/* {isLoggedIn && (
-                            <AiPromptField
-                                fetchingInvoice={fetchingInvoice}
-                                aiPrompt={aiPrompt}
-                                setAiPrompt={setAiPrompt}
-                                handleFetchByPrompt={handleFetchByPrompt}
-                            />
-                        )} */}
-
-                        <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
-                            {/* Company Information Section - Responsive Grid */}
-                            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-                                <div className="px-6 py-4 border-b border-slate-200">
-                                    <h3 className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
-                                        <Building className="h-5 w-5 text-blue-600" />
-                                        Basic Information
-                                    </h3>
+                        <div className="space-y-5 p-4 sm:space-y-6 sm:p-6 lg:space-y-8 lg:p-8">
+                            {/* Basic Information */}
+                            <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                                <div className="flex items-center gap-3 border-b border-gray-100 bg-gray-50/50 px-4 py-3.5 sm:px-6">
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
+                                        <Building className="h-4 w-4 text-emerald-600" />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <h2 className="text-sm font-semibold tracking-tight text-gray-900 sm:text-base">
+                                            Basic Information
+                                        </h2>
+                                        <p className="mt-0.5 hidden text-xs text-gray-500 sm:block">
+                                            Logo and party details for this invoice
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="p-6">
-                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-                                        {/* Logo Upload - Full width on mobile */}
+
+                                <div className="p-4 sm:p-6">
+                                    <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-3 lg:gap-4">
                                         {/* Logo Upload */}
-                                        <div className="lg:col-span-1">
-                                            <label className="text-[11px] font-medium tracking-widest text-black-500 uppercase mb-3 block">
+                                        <div className="flex min-w-0 flex-col gap-1.5 lg:col-span-1">
+                                            <label className="flex min-h-6 items-center text-[11px] font-semibold uppercase tracking-wide text-gray-500">
                                                 Company Logo
                                             </label>
-                                            <div className="border border-dashed border-stone-200 rounded-xl p-5 sm:p-7 text-center bg-stone-50 hover:bg-white hover:border-stone-300 transition-colors duration-150">
+                                            <div className="flex min-h-0 flex-1 flex-col items-center justify-center rounded-lg border border-dashed border-gray-200 bg-gray-50/80 p-3 text-center transition-colors duration-150 hover:border-emerald-300 hover:bg-emerald-50/30 sm:p-4">
                                                 {logoPreview ? (
-                                                    <div className="relative">
+                                                    <div className="relative inline-block">
                                                         <img
                                                             src={logoPreview || '/placeholder.svg'}
                                                             alt="Logo preview"
-                                                            className="max-h-20 sm:max-h-24 mx-auto rounded-lg"
+                                                            className="mx-auto max-h-14 rounded-md sm:max-h-16"
                                                         />
                                                         <button
-                                                            className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-stone-800 hover:bg-stone-900 text-white flex items-center justify-center transition-colors duration-150"
+                                                            type="button"
+                                                            className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-white transition-colors hover:bg-gray-700"
                                                             onClick={clearUploadedLogo}
                                                         >
                                                             <X className="h-2.5 w-2.5" />
                                                         </button>
-                                                        <p className="text-[11px] text-stone-400 mt-2 truncate">
+                                                        <p className="mt-1.5 max-w-[10rem] truncate text-[11px] text-gray-500">
                                                             {isLoggedIn
                                                                 ? getFilenameFromS3Url(
-                                                                      currentInvoice?.companyLogoUrl ||
-                                                                          '',
-                                                                  )
+                                                                    currentInvoice?.companyLogoUrl ||
+                                                                    '',
+                                                                )
                                                                 : fileName}
                                                         </p>
                                                     </div>
                                                 ) : (
-                                                    <div className="space-y-3">
-                                                        <Upload className="h-5 w-5 sm:h-6 sm:w-6 text-stone-500 mx-auto" />
+                                                    <div className="space-y-2">
+                                                        <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-gray-100">
+                                                            <Upload className="h-3.5 w-3.5 text-gray-500" />
+                                                        </div>
                                                         <div>
                                                             {isProcessing ? (
                                                                 <MiniLoader />
                                                             ) : (
-                                                                <button className="relative bg-transparent border border-stone-200 hover:bg-stone-100 px-4 py-1.5 rounded-md text-xs font-medium text-stone-700 transition-colors duration-150">
+                                                                <button
+                                                                    type="button"
+                                                                    className="relative rounded-md border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-medium text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
+                                                                >
                                                                     <input
                                                                         max={getMaxFileSizeInBytes(
                                                                             isPremium,
                                                                         )}
                                                                         type="file"
                                                                         onChange={handleLogoChange}
-                                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                                                        className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
                                                                         accept="image/png, image/jpeg, image/jpg"
                                                                     />
                                                                     Choose File
                                                                 </button>
                                                             )}
                                                         </div>
-                                                        <p className="text-[11px] text-stone-400 tracking-wide">
+                                                        <p className="text-[11px] text-gray-500">
                                                             PNG, JPG up to{' '}
                                                             {isPremium
                                                                 ? MAX_FILE_SIZE_PRO
@@ -363,53 +334,59 @@ export default function page() {
                                         />
                                     </div>
                                 </div>
-                            </div>
+                            </section>
 
                             <InvoiceDetailsBox
                                 currentInvoice={currentInvoice}
                                 handleInputChange={handleInputChange}
                             />
 
-                            {/* Line Items Section - Fully Responsive Table */}
-                            <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
-                                <div className="px-6 py-4 border-b border-slate-200">
-                                    <h3 className="flex items-center justify-between">
-                                        <span className="flex items-center gap-2 text-slate-800 text-lg sm:text-xl font-semibold">
-                                            <FileText className="h-5 w-5 text-emerald-600" />
-                                            Invoice Items{' '}
-                                        </span>
-                                    </h3>
+                            {/* Line Items */}
+                            <section className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+                                <div className="flex items-center gap-3 border-b border-gray-100 bg-gray-50/50 px-4 py-3.5 sm:px-6">
+                                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-50">
+                                        <FileText className="h-4 w-4 text-emerald-600" />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <h2 className="text-sm font-semibold tracking-tight text-gray-900 sm:text-base">
+                                            Invoice Items
+                                        </h2>
+                                        <p className="mt-0.5 hidden text-xs text-gray-500 sm:block">
+                                            Add products or services billed on this invoice
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="p-6">
-                                    {/* Desktop Table View */}
-                                    <div className="hidden lg:block overflow-x-auto">
+
+                                <div className="p-4 sm:p-6">
+                                    {/* Desktop Table */}
+                                    <div className="hidden overflow-x-auto lg:block">
                                         <table className="w-full">
                                             <thead>
-                                                <tr className="border-b border-stone-100">
-                                                    <th className="text-left py-2.5 px-2 pl-1 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                <tr className="border-b border-gray-100">
+                                                    <th className="py-2.5 pl-1 pr-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                         Description
                                                     </th>
-                                                    <th className="text-center py-2.5 px-4 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                    <th className="px-4 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                         Qty
                                                     </th>
-                                                    <th className="text-center py-2.5 px-2 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                    <th className="px-2 py-2.5 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                         Rate
                                                     </th>
-                                                    <th className="text-right py-2.5 px-6 text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                    <th className="px-6 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                         Amount
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y divide-stone-100">
+                                            <tbody className="divide-y divide-gray-100">
                                                 {currentInvoice.invoiceItems.map(
                                                     (item: InvoiceItemInput, index) => (
                                                         <tr
                                                             key={index}
-                                                            className="hover:bg-stone-50/50 transition-colors duration-150"
+                                                            className="transition-colors duration-150 hover:bg-gray-50/80"
                                                         >
                                                             <td
                                                                 width="50%"
-                                                                className="px-2 pl-1 py-3"
+                                                                className="py-3 pl-1 pr-2"
                                                             >
                                                                 <input
                                                                     type="text"
@@ -421,7 +398,7 @@ export default function page() {
                                                                             e.target.value,
                                                                         )
                                                                     }
-                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    className={inputClass}
                                                                     placeholder="Item description"
                                                                 />
                                                             </td>
@@ -436,7 +413,7 @@ export default function page() {
                                                                             e.target.value,
                                                                         )
                                                                     }
-                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    className={`${inputClass} text-center`}
                                                                     placeholder="0"
                                                                     step="1"
                                                                 />
@@ -452,7 +429,7 @@ export default function page() {
                                                                             e.target.value,
                                                                         )
                                                                     }
-                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 text-center transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    className={`${inputClass} text-center`}
                                                                     placeholder="0.00"
                                                                     min="0"
                                                                     step="1"
@@ -460,11 +437,11 @@ export default function page() {
                                                             </td>
                                                             <td
                                                                 width="20%"
-                                                                className="px-6 pr-1 py-3 text-right"
+                                                                className="py-3 pl-6 pr-1 text-right"
                                                             >
-                                                                <div className="flex justify-end gap-3 items-center">
-                                                                    <div className="text-xs font-medium text-stone-800">
-                                                                        <span className="text-[11px] text-stone-400">
+                                                                <div className="flex items-center justify-end gap-2">
+                                                                    <div className="text-sm font-medium tabular-nums text-gray-900">
+                                                                        <span className="mr-0.5 text-xs text-gray-400">
                                                                             {currencySymbol}
                                                                         </span>
                                                                         {(
@@ -473,10 +450,12 @@ export default function page() {
                                                                         ).toFixed(2)}
                                                                     </div>
                                                                     <button
+                                                                        type="button"
                                                                         onClick={() =>
                                                                             removeListItem(index)
                                                                         }
-                                                                        className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
+                                                                        className="rounded-md p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                                                                        aria-label="Remove item"
                                                                     >
                                                                         <Trash2 className="h-3.5 w-3.5" />
                                                                     </button>
@@ -489,31 +468,31 @@ export default function page() {
                                         </table>
                                     </div>
 
-                                    {/* Mobile/Tablet Card View */}
-                                    <div className="lg:hidden space-y-2.5">
+                                    {/* Mobile / Tablet cards */}
+                                    <div className="space-y-3 lg:hidden">
                                         {currentInvoice?.invoiceItems.map(
                                             (item: InvoiceItemInput, index) => (
                                                 <div
                                                     key={index}
-                                                    className="bg-white border border-stone-100 rounded-xl overflow-hidden"
+                                                    className="overflow-hidden rounded-xl border border-gray-200 bg-white"
                                                 >
-                                                    {/* Card Header */}
-                                                    <div className="flex justify-between items-center px-4 py-3 border-b border-stone-100">
-                                                        <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                    <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
+                                                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                             Item #{index + 1}
                                                         </span>
                                                         <button
+                                                            type="button"
                                                             onClick={() => removeListItem(index)}
-                                                            className="text-stone-500 hover:text-red-400 hover:bg-red-50 p-1.5 rounded-md transition-colors duration-150"
+                                                            className="rounded-md p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                                                            aria-label="Remove item"
                                                         >
                                                             <Trash2 className="h-3.5 w-3.5" />
                                                         </button>
                                                     </div>
 
-                                                    {/* Fields */}
-                                                    <div className="p-4 space-y-3">
+                                                    <div className="space-y-3 p-4">
                                                         <div className="flex flex-col gap-1.5">
-                                                            <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                                 Description
                                                             </label>
                                                             <input
@@ -526,14 +505,14 @@ export default function page() {
                                                                         e.target.value,
                                                                     )
                                                                 }
-                                                                className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 placeholder:text-stone-500 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                className={inputClass}
                                                                 placeholder="Item description"
                                                             />
                                                         </div>
 
                                                         <div className="grid grid-cols-2 gap-3">
                                                             <div className="flex flex-col gap-1.5">
-                                                                <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                                     Quantity
                                                                 </label>
                                                                 <input
@@ -546,13 +525,13 @@ export default function page() {
                                                                             e.target.value,
                                                                         )
                                                                     }
-                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    className={inputClass}
                                                                     placeholder="0"
                                                                     step="1"
                                                                 />
                                                             </div>
                                                             <div className="flex flex-col gap-1.5">
-                                                                <label className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                                <label className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                                     Rate
                                                                 </label>
                                                                 <input
@@ -565,7 +544,7 @@ export default function page() {
                                                                             e.target.value,
                                                                         )
                                                                     }
-                                                                    className="w-full px-3 py-2 h-9 bg-stone-50 hover:bg-white border border-stone-200 rounded-md text-xs text-stone-800 transition-colors duration-150 focus:outline-none focus:bg-white focus:border-stone-400"
+                                                                    className={inputClass}
                                                                     placeholder="0.00"
                                                                     min="0"
                                                                     step="1"
@@ -574,12 +553,11 @@ export default function page() {
                                                         </div>
                                                     </div>
 
-                                                    {/* Amount Footer */}
-                                                    <div className="border-t border-stone-100 px-4 py-3 flex justify-between items-center">
-                                                        <span className="text-[10px] font-medium tracking-widest text-stone-400 uppercase">
+                                                    <div className="flex items-center justify-between border-t border-gray-100 bg-gray-50/50 px-4 py-3">
+                                                        <span className="text-xs font-semibold uppercase tracking-wide text-gray-500">
                                                             Amount
                                                         </span>
-                                                        <span className="text-sm font-medium text-stone-900 tracking-tight">
+                                                        <span className="text-sm font-semibold tabular-nums tracking-tight text-gray-900">
                                                             {formatCurrency(
                                                                 item.quantity * item.unitPrice,
                                                                 currencySymbol,
@@ -602,7 +580,7 @@ export default function page() {
                                         handleInputChange={handleInputChange}
                                     />
                                 </div>
-                            </div>
+                            </section>
 
                             <AdditinalNote
                                 value={currentInvoice.additionalNote || ''}
