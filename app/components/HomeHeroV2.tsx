@@ -30,7 +30,7 @@ function DashboardMock() {
                     <aside className="hidden w-24 shrink-0 border-r border-gray-100 bg-gray-50 p-3 sm:block">
                         <div className="mb-4 h-2 w-12 rounded bg-emerald-200" />
                         <div className="space-y-2.5">
-                            {['Overview', 'Invoices', 'Clients', 'Settings'].map((label) => (
+                            {['Dashboard', 'Invoice', 'Clients', 'Settings'].map((label) => (
                                 <div
                                     key={label}
                                     className={`rounded-md px-2 py-1.5 text-[10px] font-medium ${label === 'Overview'
@@ -53,10 +53,10 @@ function DashboardMock() {
                         {/* Mini stat chips */}
                         <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                             {[
-                                { label: 'Paid', value: '$12.4k' },
-                                { label: 'Pending', value: '$2.1k' },
-                                { label: 'Clients', value: '48' },
-                                { label: 'Sent', value: '126' },
+                                { label: 'Invoices', value: '150' },
+                                { label: 'Paid', value: '130' },
+                                { label: 'Sent', value: '125' },
+                                { label: 'Pending', value: '12' },
                             ].map((stat) => (
                                 <div
                                     key={stat.label}

@@ -39,7 +39,7 @@ export default function LandingPage() {
                 {/* Features Section */}
                 <section
                     id="features"
-                    className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20"
+                    className="border-t border-gray-100 bg-white py-16 lg:py-20"
                 >
                     <div className="container mx-auto px-4">
                         <div className="mb-10 space-y-3 text-center lg:mb-12">
@@ -174,7 +174,7 @@ export default function LandingPage() {
 
                 <section
                     id="zoho-comparison"
-                    className="border-t border-gray-100 bg-gray-50/80 py-16 lg:py-20"
+                    className="border-t border-gray-100 bg-white py-16 lg:py-20"
                 >
                     <ZohoInvoiceComparisonTable />
                 </section>
@@ -263,7 +263,7 @@ export default function LandingPage() {
             </div>
 
             {/* CTA Section */}
-            <section className="border-t border-gray-200 bg-gray-50/80 py-16 lg:py-20">
+            <section className="border-t border-gray-200 bg-white py-16 lg:py-20">
                 <div className="container mx-auto px-4">
                     <div className="mx-auto max-w-xl space-y-4 text-center">
                         <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
@@ -279,7 +279,7 @@ export default function LandingPage() {
                         <div className="pt-1">
                             <Link
                                 href="/create-invoice"
-                                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                                className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white"
                             >
                                 Ready to send your first invoice? It's free.
                                 {/* <FileText className="h-4 w-4" strokeWidth={2.5} aria-hidden /> */}
