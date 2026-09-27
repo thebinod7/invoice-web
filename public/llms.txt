@@ -1,0 +1,36 @@
+# Invomaker
+> Create, send & track professional invoices free. A free invoice generator trusted by freelancers and small businesses worldwide. Invomaker (invomaker.com) helps you build branded PDF invoices in seconds and get paid faster.
+
+## Products
+
+- [Create, Send & Track Invoices](https://www.invomaker.com): Invomaker homepage — free invoice generator. Build an invoice, send it to clients, and track payment status all in one place.
+- [Free Invoice Generator](https://www.invomaker.com/free-invoice-generator): Generate a professional invoice online free of charge with a clean, ready-to-download PDF layout.
+- [Free Invoice Maker](https://www.invomaker.com/free-invoice-maker): Fast, free online invoice maker for freelancers and small businesses — pick a style, fill it in, and export.
+- [Create Invoice](https://www.invomaker.com/create-invoice): The live invoice builder — add company details, line items, notes and totals, then download or send the invoice.
+- [Freelancer Invoice Generator](https://www.invomaker.com/freelancer-invoice-generator): Invoice template tailored to freelancers — per-project line items, hourly work, and clean client billing.
+- [Consultant Invoice Generator](https://www.invomaker.com/consultant-invoice-generator): Invoice generator designed for consultants — professional layouts for engagements, retainers and single invoices.
+- [Invoice Generator USA & Canada](https://www.invomaker.com/invoice-generator-usa-canada): US and Canada friendly invoices — USD/CAD formatting and tax-ready line items.
+
+## Plans & Help
+
+- [Pricing](https://www.invomaker.com/pricing): Free to get started; paid plan for advanced features. Save time and get paid faster.
+- [FAQ](https://www.invomaker.com/faq): Frequently asked questions about creating, sending and tracking invoices with Invomaker.
+- [Support](https://www.invomaker.com/support): Get help with your invoices, account and billing.
+- [Contact](https://www.invomaker.com/contact): Get in touch with the Invomaker team.
+- [Tool Hub](https://www.invomaker.com/tools): Free companion tools for invoicing — currency converter and timezone converter.
+- [Currency Converter](https://www.invomaker.com/tools/currency-converter): Currency exchange rates and conversions made easy.
+- [Timezone Converter](https://www.invomaker.com/tools/timezone-converter): Convert time between different timezones instantly.
+
+## Blog — invoicing tips & tutorials
+
+- [How to Create a Professional Invoice](https://www.invomaker.com/blog/how-to-create-professional-invoice): Step-by-step guide to building a professional invoice that gets paid.
+- [How to Create Invoices for Freelancers](https://www.invomaker.com/blog/how-to-create-invoice-for-freelancers): Invoicing best practices for freelancers and solo businesses.
+- [Mistakes to Avoid When Creating an Invoice](https://www.invomaker.com/blog/mistakes-to-avoid-when-creating-invoice): Common invoicing mistakes and how to avoid them.
+- [Create Invoices for International Clients (PDF Guide)](https://www.invomaker.com/blog/create-invoice-for-international-clients-pdf-guide): Guide to invoicing international clients, including currency and PDF export.
+- [Free Invoice Generator Tool](https://www.invomaker.com/blog/free-invoice-generator-tool): Overview of the free invoice generator tool and how to use it.
+- [All Blog Posts](https://www.invomaker.com/blog): Invoice tips, tutorials and free invoicing guides.
+
+## Legal
+
+- [Privacy Policy](https://www.invomaker.com/privacy): How Invomaker collects, uses and protects your data.
+- [Terms of Service](https://www.invomaker.com/terms): Terms and conditions for using Invomaker.

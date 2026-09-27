@@ -12,3 +12,6 @@ Host: https://www.invomaker.com
 
 # Sitemaps
 Sitemap: https://www.invomaker.com/sitemap.xml
+
+# LLM discovery
+# https://www.invomaker.com/llms.txt
