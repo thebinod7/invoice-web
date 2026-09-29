@@ -77,7 +77,7 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
                         <button
                             type="button"
                             title={collapsed ? ADMIN_SIDEBAR_GROUP.label : undefined}
-                            onClick={() => !collapsed && setAdminOpen((o) => !o)}
+                            onClick={() => setAdminOpen((o) => !o)}
                             className={`
                 relative flex items-center gap-3 px-3 py-2 rounded-lg w-full
                 text-gray-700 hover:bg-gray-100 transition
@@ -97,17 +97,24 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
                             )}
                         </button>
 
-                        {!collapsed &&
-                            adminOpen &&
+                        {adminOpen &&
                             ADMIN_SIDEBAR_GROUP.children.map((child) => {
+                                const ChildIcon = child.icon
+                                const itemClass = `
+                relative flex items-center gap-3 px-3 py-2 rounded-lg
+                ${collapsed ? 'justify-center' : ''}
+              `
+
                                 if (child.disabled || !child.href) {
                                     return (
                                         <span
                                             key={child.key}
+                                            title={collapsed ? child.label : undefined}
                                             aria-disabled="true"
-                                            className="flex items-center gap-3 pl-11 pr-3 py-2 rounded-lg text-gray-400 cursor-not-allowed"
+                                            className={`${itemClass} text-gray-400 cursor-not-allowed`}
                                         >
-                                            {child.label}
+                                            <ChildIcon className="w-5 h-5 shrink-0" />
+                                            {!collapsed && child.label}
                                         </span>
                                     )
                                 }
@@ -117,13 +124,15 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
                                     <Link
                                         key={child.key}
                                         href={child.href}
+                                        title={collapsed ? child.label : undefined}
                                         className={`
-                      flex items-center gap-3 pl-11 pr-3 py-2 rounded-lg
+                      ${itemClass}
                       text-gray-700 hover:bg-gray-100 transition
                       ${isActive ? 'bg-gray-100' : ''}
                     `}
                                     >
-                                        {child.label}
+                                        <ChildIcon className="w-5 h-5 shrink-0" />
+                                        {!collapsed && <span className="flex-1">{child.label}</span>}
                                     </Link>
                                 )
                             })}

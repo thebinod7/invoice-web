@@ -1,9 +1,11 @@
 import {
+  BadgeDollarSign,
   ChartNoAxesColumn,
   FileStack,
   Lightbulb,
   LucideIcon,
   Plus,
+  ScrollText,
   Shield,
   Users,
 } from 'lucide-react';
@@ -32,6 +34,7 @@ interface SidebarItemConfig {
 interface AdminSidebarChildConfig {
   key: string;
   label: string;
+  icon: LucideIcon;
   href?: string;
   disabled?: boolean;
 }
@@ -86,10 +89,12 @@ export const ADMIN_SIDEBAR_GROUP: AdminSidebarGroupConfig = {
       key: 'batman',
       label: 'Paid Users',
       href: APP_PATHS.DASHBOARD.BATMAN,
+      icon: BadgeDollarSign,
     },
     {
       key: 'logs',
       label: 'Logs',
+      icon: ScrollText,
       disabled: true,
     },
   ],
