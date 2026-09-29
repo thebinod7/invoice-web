@@ -27,6 +27,11 @@ export const DEFAULT_METADATA = {
     metadataBase: new URL(SITE_ORIGIN),
 }
 
+export enum USER_ROLES {
+    ADMIN = 'ADMIN',
+    USER = 'USER',
+}
+
 export const APP_PATHS = {
     AUTH: '/auth',
     SIGNUP: '/signup',
@@ -51,6 +56,7 @@ export const APP_PATHS = {
         PROFILE: '/dashboard/profile',
         MY_REFERRALS: '/dashboard/my-referrals',
         SUBSCRIPTION: '/dashboard/subscription',
+        BATMAN: '/dashboard/batman',
     },
 }
 

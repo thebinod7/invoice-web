@@ -1,9 +1,12 @@
-import { APP_NAME, APP_PATHS } from '@/app/constants'
-import { DASHBOARD_SIDEBAR_ITEMS } from '@/app/constants/api-routes'
+'use client'
+
+import { APP_NAME, APP_PATHS, USER_ROLES } from '@/app/constants'
+import { ADMIN_SIDEBAR_GROUP, DASHBOARD_SIDEBAR_ITEMS } from '@/app/constants/api-routes'
 import { useAuthContext } from '@/app/context/useAuthContext'
 import { ICurrentUser } from '@/app/types'
-import { ExternalLink, Flame } from 'lucide-react'
+import { ChevronDown, ChevronRight, ExternalLink, Flame } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
 import { ProfileDropdown } from './ProfileDropdown'
 
 interface SidebarProps {
@@ -14,6 +17,9 @@ interface SidebarProps {
 export default function Sidebar({ pathname, collapsed }: SidebarProps) {
     const { currentUser } = useAuthContext()
     const activePath = pathname.split('/').pop()
+    const [adminOpen, setAdminOpen] = useState(true)
+    const isAdmin = currentUser?.role === USER_ROLES.ADMIN
+    const AdminIcon = ADMIN_SIDEBAR_GROUP.icon
 
     return (
         <aside
@@ -52,7 +58,7 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
                             key={item.key}
                             href={item.href}
                             target={item.external ? '_blank' : undefined}
-                            title={collapsed ? (item.label) : undefined}
+                            title={collapsed ? item.label : undefined}
                             className={`
                 relative flex items-center gap-3 px-3 py-2 rounded-lg
                 text-gray-700 hover:bg-gray-100 transition
@@ -65,6 +71,73 @@ export default function Sidebar({ pathname, collapsed }: SidebarProps) {
                         </Link>
                     )
                 })}
+
+                {isAdmin && (
+                    <div className="space-y-1">
+                        <button
+                            type="button"
+                            title={collapsed ? ADMIN_SIDEBAR_GROUP.label : undefined}
+                            onClick={() => setAdminOpen((o) => !o)}
+                            className={`
+                relative flex items-center gap-3 px-3 py-2 rounded-lg w-full
+                text-gray-700 hover:bg-gray-100 transition
+                ${collapsed ? 'justify-center' : ''}
+              `}
+                        >
+                            <AdminIcon className="w-5 h-5 shrink-0" />
+                            {!collapsed && (
+                                <>
+                                    <span className="flex-1 text-left">{ADMIN_SIDEBAR_GROUP.label}</span>
+                                    {adminOpen ? (
+                                        <ChevronDown className="w-4 h-4 shrink-0" />
+                                    ) : (
+                                        <ChevronRight className="w-4 h-4 shrink-0" />
+                                    )}
+                                </>
+                            )}
+                        </button>
+
+                        {adminOpen &&
+                            ADMIN_SIDEBAR_GROUP.children.map((child) => {
+                                const ChildIcon = child.icon
+                                const itemClass = `
+                relative flex items-center gap-3 px-3 py-2 rounded-lg
+                ${collapsed ? 'justify-center' : ''}
+              `
+
+                                if (child.disabled || !child.href) {
+                                    return (
+                                        <span
+                                            key={child.key}
+                                            title={collapsed ? child.label : undefined}
+                                            aria-disabled="true"
+                                            className={`${itemClass} text-gray-400 cursor-not-allowed`}
+                                        >
+                                            <ChildIcon className="w-5 h-5 shrink-0" />
+                                            {!collapsed && child.label}
+                                        </span>
+                                    )
+                                }
+
+                                const isActive = activePath === child.key
+                                return (
+                                    <Link
+                                        key={child.key}
+                                        href={child.href}
+                                        title={collapsed ? child.label : undefined}
+                                        className={`
+                      ${itemClass}
+                      text-gray-700 hover:bg-gray-100 transition
+                      ${isActive ? 'bg-gray-100' : ''}
+                    `}
+                                    >
+                                        <ChildIcon className="w-5 h-5 shrink-0" />
+                                        {!collapsed && <span className="flex-1">{child.label}</span>}
+                                    </Link>
+                                )
+                            })}
+                    </div>
+                )}
             </nav>
             {/* User Profile */}
             {collapsed ? (

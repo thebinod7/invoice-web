@@ -1,9 +1,12 @@
 import {
+  BadgeDollarSign,
   ChartNoAxesColumn,
   FileStack,
   Lightbulb,
   LucideIcon,
   Plus,
+  ScrollText,
+  Shield,
   Users,
 } from 'lucide-react';
 import { APP_PATHS } from '.';
@@ -26,6 +29,21 @@ interface SidebarItemConfig {
   icon: LucideIcon;
   external?: boolean;
   isNew?: boolean;
+}
+
+interface AdminSidebarChildConfig {
+  key: string;
+  label: string;
+  icon: LucideIcon;
+  href?: string;
+  disabled?: boolean;
+}
+
+interface AdminSidebarGroupConfig {
+  key: string;
+  label: string;
+  icon: LucideIcon;
+  children: AdminSidebarChildConfig[];
 }
 
 export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
@@ -61,3 +79,23 @@ export const DASHBOARD_SIDEBAR_ITEMS: SidebarItemConfig[] = [
     icon: Lightbulb,
   },
 ];
+
+export const ADMIN_SIDEBAR_GROUP: AdminSidebarGroupConfig = {
+  key: 'admin',
+  label: 'Admin',
+  icon: Shield,
+  children: [
+    {
+      key: 'batman',
+      label: 'Paid Users',
+      href: APP_PATHS.DASHBOARD.BATMAN,
+      icon: BadgeDollarSign,
+    },
+    {
+      key: 'logs',
+      label: 'Logs',
+      icon: ScrollText,
+      disabled: true,
+    },
+  ],
+};
