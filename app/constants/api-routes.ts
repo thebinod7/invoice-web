@@ -87,7 +87,7 @@ export const ADMIN_SIDEBAR_GROUP: AdminSidebarGroupConfig = {
   children: [
     {
       key: 'batman',
-      label: 'Paid Users',
+      label: 'Subscriptions',
       href: APP_PATHS.DASHBOARD.BATMAN,
       icon: BadgeDollarSign,
     },
