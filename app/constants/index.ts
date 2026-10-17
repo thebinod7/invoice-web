@@ -56,6 +56,7 @@ export const APP_PATHS = {
         MY_REFERRALS: '/dashboard/my-referrals',
         SUBSCRIPTION: '/dashboard/subscription',
         SUBSCRIPTIONS: '/dashboard/subscriptions',
+        USERS: '/dashboard/users',
     },
 }
 
@@ -105,6 +106,7 @@ export const GENDER = {
 }
 
 export const PAZE_SIZE = 10
+export const USERS_PER_PAGE = 8
 export const INVOICE_STATUS = {
     CREATED: 'CREATED',
     SENT: 'SENT',

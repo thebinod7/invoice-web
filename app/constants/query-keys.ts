@@ -12,6 +12,7 @@ export const QUERY_KEYS = {
         MY_FEATURE_USAGE: 'MY_FEATURE_USAGE',
         MY_PROMPTS_LIST: 'MY_PROMPTS_LIST',
         HOMEPAGE_PUBLIC_DATA: 'HOMEPAGE_PUBLIC_DATA',
+        LIST: 'LIST',
     },
     INVOICE: {
         MY_LIST: 'MY_LIST',

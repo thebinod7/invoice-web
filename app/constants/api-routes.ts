@@ -92,6 +92,12 @@ export const ADMIN_SIDEBAR_GROUP: AdminSidebarGroupConfig = {
             icon: BadgeDollarSign,
         },
         {
+            key: 'users',
+            label: 'Users',
+            href: APP_PATHS.DASHBOARD.USERS,
+            icon: Users,
+        },
+        {
             key: 'logs',
             label: 'Logs',
             icon: ScrollText,
