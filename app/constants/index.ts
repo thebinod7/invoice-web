@@ -9,8 +9,7 @@ export const APP_NAME = 'invomaker'
 export const MAX_FILE_SIZE = 1
 export const MAX_FILE_SIZE_PRO = 5
 
-export const SITE_ORIGIN =
-    process.env.NEXT_PUBLIC_APP_URL || 'https://www.invomaker.com'
+export const SITE_ORIGIN = process.env.NEXT_PUBLIC_APP_URL || 'https://www.invomaker.com'
 export const DEFAULT_OG_IMAGE_URL = `${SITE_ORIGIN}/images/invomaker.png`
 export const WEBSITE_URL = SITE_ORIGIN
 export const APP_CATEGORY = 'Finance'
@@ -56,7 +55,8 @@ export const APP_PATHS = {
         PROFILE: '/dashboard/profile',
         MY_REFERRALS: '/dashboard/my-referrals',
         SUBSCRIPTION: '/dashboard/subscription',
-        BATMAN: '/dashboard/batman',
+        SUBSCRIPTIONS: '/dashboard/subscriptions',
+        USERS: '/dashboard/users',
     },
 }
 
@@ -73,7 +73,7 @@ export const SONNER_CONFIG = {
 export const SOCIAL_LINKS = {
     FACEBOOK: 'https://www.facebook.com/profile.php?id=61575665694124',
     YOUTUBE: 'https://www.youtube.com/@invomaker',
-    DEMO_VIDEO_LINK: "https://youtu.be/vVTL-_WfFDU?si=_u2QQ7-c90wmSlCW"
+    DEMO_VIDEO_LINK: 'https://youtu.be/vVTL-_WfFDU?si=_u2QQ7-c90wmSlCW',
 }
 
 export const TOOLS_LIST = {
@@ -106,6 +106,7 @@ export const GENDER = {
 }
 
 export const PAZE_SIZE = 10
+export const USERS_PER_PAGE = 8
 export const INVOICE_STATUS = {
     CREATED: 'CREATED',
     SENT: 'SENT',
