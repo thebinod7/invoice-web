@@ -1,9 +1,12 @@
 'use client'
 
+import Link from 'next/link'
+import { Lock } from 'lucide-react'
 import { capitalizeFirstLetter, formatCurrency, formatDate } from '@/app/helpers'
 import InvoiceActionMenu from './InvoiceActionMenu'
 import { Invoice, getStatusStyles } from './invoices'
-import { INVOICE_STATUS } from '@/app/constants'
+import { APP_PATHS, INVOICE_STATUS } from '@/app/constants'
+import { useAuthContext } from '@/app/context/useAuthContext'
 import { ICurrentUser } from '@/app/types'
 import EmailDrawer from '@/ui/EmailDrawer'
 
@@ -13,6 +16,7 @@ interface InvoiceCardProps {
 }
 
 export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
+    const { isPremium } = useAuthContext()
     const statusKey = invoice.status
     const styles = getStatusStyles(
         statusKey as 'PAID' | 'SENT' | 'CREATED' | 'OVERDUE' | 'CANCELLED',
@@ -35,9 +39,8 @@ export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
                         {formatCurrency(invoice.grandTotal, invoice.currency)}
                     </div>
                     <div
-                        className={`text-xs mt-1 ${
-                            invoice.grandTotal ? 'text-red-500' : 'text-slate-400'
-                        }`}
+                        className={`text-xs mt-1 ${invoice.grandTotal ? 'text-red-500' : 'text-slate-400'
+                            }`}
                     >
                         {invoice.dueDate ? formatDate(invoice.dueDate) : 'No due date'}
                     </div>
@@ -70,7 +73,18 @@ export default function InvoiceCard({ invoice, cu }: InvoiceCardProps) {
                     )
                 )}
 
-                <InvoiceActionMenu rowId={invoice._id} status={invoice.status} />
+                {isPremium ? (
+                    <InvoiceActionMenu rowId={invoice._id} status={invoice.status} />
+                ) : (
+                    <Link
+                        title='Upgrade to unlock invoice actions'
+                        href={APP_PATHS.DASHBOARD.SUBSCRIPTION}
+                        className="p-1.5 text-slate-400 hover:bg-slate-100 rounded-lg transition-colors"
+                        aria-label="Upgrade to unlock more invoice actions"
+                    >
+                        <Lock size={16} />
+                    </Link>
+                )}
             </div>
         </div>
     )
