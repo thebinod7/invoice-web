@@ -54,7 +54,7 @@ export default function MagicLoginForm() {
                     {/* <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto mb-4" /> */}
                     <h2 className="text-xl font-semibold text-black mb-2">Check your email</h2>
                     <p className="text-neutral-700 leading-relaxed">
-                        We've sent a magic link to {}
+                        We've sent a magic link to { }
                         <span className="font-medium text-black">{email}</span>
                     </p>
                     <p className="text-sm text-neutral-600 mt-4 leading-relaxed">

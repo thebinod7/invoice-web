@@ -12,8 +12,8 @@ const freeFeatures = [
     'Invoice history',
     'Upload logo up to 1MB',
     'Send up to 6 invoices via email',
-    'Edit & download up to 12 invoices',
-    'Up to 6 payment status tracking',
+    'Dashboard visualization',
+    'Manage a client',
     'Ad-supported experience',
 ] as const
 
